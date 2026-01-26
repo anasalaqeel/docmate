@@ -1,0 +1,113 @@
+.operationBlock {
+  border: var(--grud-border);
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.operationHeader {
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+  border-bottom: var(--grud-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.methodChip {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.methodGet {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.methodPost {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.methodPut {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.methodPatch {
+  background-color: #e9d5ff;
+  color: #7c2d12;
+}
+
+.methodDelete {
+  background-color: #fecaca;
+  color: #dc2626;
+}
+
+.endpoint {
+  font-size: 0.875rem;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  color: #374151;
+  font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', 'Roboto Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.operationRef {
+  border: 2px dashed #93c5fd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
+  color: #2563eb;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .operationBlock {
+    border-color: #374151;
+  }
+
+  .operationHeader {
+    background-color: #111827;
+    border-color: #374151;
+  }
+
+  .methodGet {
+    background-color: #14532d;
+    color: #bbf7d0;
+  }
+
+  .methodPost {
+    background-color: #1e3a8a;
+    color: #bfdbfe;
+  }
+
+  .methodPut {
+    background-color: #92400e;
+    color: #fcd34d;
+  }
+
+  .methodPatch {
+    background-color: #581c87;
+    color: #c4b5fd;
+  }
+
+  .methodDelete {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+  }
+
+  .endpoint {
+    background-color: #1f2937;
+    color: #d1d5db;
+  }
+
+  .operationRef {
+    border-color: #1d4ed8;
+    color: #60a5fa;
+  }
+}

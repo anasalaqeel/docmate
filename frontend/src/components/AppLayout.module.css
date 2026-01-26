@@ -1,0 +1,163 @@
+.root {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--grud-bg-gradient);
+  color: var(--grud-text);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.mounted {
+  opacity: 1;
+}
+
+.navbar {
+  background: var(--grud-nav-bg);
+  backdrop-filter: var(--grud-blur);
+  border-bottom: var(--grud-border);
+  z-index: 50;
+  height: 64px;
+}
+
+.brandLink {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s;
+}
+
+.brandLink:hover {
+  opacity: 0.8;
+}
+
+.brandContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+.brandTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+  background: var(--grud-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.adminBadge {
+    background: var(--grud-gradient-subtle);
+    border: 1px solid rgba(var(--grud-primary-rgb), 0.2);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--grud-primary);
+}
+
+.versionBadge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--grud-gradient);
+  color: white;
+}
+
+.gradientButton {
+    background: var(--grud-gradient) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(var(--grud-primary-rgb), 0.2);
+}
+
+.sidebarToggle {
+    margin-right: 12px;
+    color: var(--grud-text-secondary);
+}
+
+.layoutBody {
+  flex: 1;
+  display: flex;
+  height: calc(100% - 64px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebarWrapper {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  background: var(--grud-content-bg);
+  border-radius: 20px 0 0 0;
+  margin-top: -1px; /* Overlap navbar border slightly for seamless join */
+  box-shadow: -10px 0 20px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem; /* Base padding for children */
+}
+
+:global(.dark) .main {
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background: var(--grud-nav-bg);
+  border-top: var(--grud-border);
+  padding: 1.5rem 0;
+  z-index: 10;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.footerContent p {
+  color: var(--grud-text-secondary);
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* Scrollbar integration */
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: rgba(var(--grud-primary-rgb), 0.1);
+  border-radius: 10px;
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--grud-primary-rgb), 0.2);
+}
+
+@media (max-width: 768px) {
+  .sidebarWrapper {
+    position: absolute;
+  }
+  
+  .main {
+    border-radius: 0;
+    padding: 1rem; /* Smaller padding on mobile */
+  }
+}

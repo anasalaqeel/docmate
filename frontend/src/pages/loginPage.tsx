@@ -1,0 +1,164 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router";
+import { Card, CardBody, Link, Divider } from "@heroui/react";
+import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
+import { useAuth } from "../hooks/useAuth";
+import { ThemeToggle } from "../components/ui/themeToggle";
+import { EnhancedInput } from "../components/ui/enhancedInput";
+import { EnhancedButton } from "../components/ui/enhancedButton";
+import styles from "../styles/loginPage.module.css";
+
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
+
+  const { login, isAuthenticated, isLoading: authLoading, hasAnyRole } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/admin";
+
+  // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && hasAnyRole(['admin', 'superadmin', 'moderator'])) {
+      navigate("/admin", { replace: true });
+    }
+  }, [isAuthenticated, authLoading, hasAnyRole, navigate]);
+
+  const validateForm = () => {
+    const newErrors: { email?: string; password?: string } = {};
+    
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const loginSuccess = await login(email, password);
+
+      if (loginSuccess) {
+        toast.success("Welcome back!", {
+          description: "You have been successfully logged in."
+        });
+        navigate(from, { replace: true });
+      } else {
+        toast.error("Login failed", {
+          description: "Invalid email or password. Please try again."
+        });
+      }
+    } catch (error: unknown) {
+      console.error("Login error:", error);
+      toast.error("Login error", {
+        description: "An unexpected error occurred. Please try again."
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle size="sm" showLabel />
+      </div>
+
+      <Card className={styles.loginCard}>
+        <div className={styles.header}>
+          <div className={styles.logo}>📚</div>
+          <h1 className={styles.title}>Welcome Back</h1>
+          <p className={styles.subtitle}>Login to your admin dashboard</p>
+        </div>
+
+        <CardBody>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <EnhancedInput
+              type="email"
+              label="Email Address"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              isDisabled={isLoading}
+              error={errors.email}
+              icon={<EnvelopeIcon className="w-4 h-4" />}
+              autoComplete="email"
+            />
+
+            <EnhancedInput
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              isDisabled={isLoading}
+              error={errors.password}
+              icon={<LockClosedIcon className="w-4 h-4" />}
+              endContent={
+                <button
+                  type="button"
+                  className="focus:outline-none"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-4 h-4 pointer-events-none" style={{ color: 'var(--grud-text-secondary)' }} />
+                  ) : (
+                    <EyeIcon className="w-4 h-4 pointer-events-none" style={{ color: 'var(--grud-text-secondary)' }} />
+                  )}
+                </button>
+              }
+              autoComplete="current-password"
+            />
+
+            <EnhancedButton
+              type="submit"
+              color="primary"
+              className={styles.submitButton}
+              isLoading={isLoading}
+              loadingText="Signing you in..."
+              isDisabled={!email.trim() || !password.trim()}
+              animate
+            >
+              Login
+            </EnhancedButton>
+          </form>
+
+          <Divider className={styles.divider} />
+
+          <div className={styles.footer}>
+            <p className={styles.footerText}>
+              Don't have an account?{" "}
+              <Link href="mailto:admin@example.com" className={styles.link}>
+                Contact your administrator
+              </Link>
+            </p>
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
+};
+
+export default LoginPage;

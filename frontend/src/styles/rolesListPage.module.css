@@ -1,0 +1,140 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.card {
+  margin: 24px 0;
+  background: var(--grud-surface) !important;
+  border-radius: 16px;
+  box-shadow: var(--grud-card-shadow);
+}
+
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 24px;
+  background: var(--grud-surface);
+  border: var(--grud-border);
+  border-radius: 12px;
+  box-shadow: var(--grud-card-shadow);
+}
+
+.filterControls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchContainer {
+  flex: 1;
+}
+
+.sortSelect {
+  min-width: 120px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: var(--grud-surface-alt);
+  border-radius: 16px;
+  border: var(--grud-border);
+  gap: 16px;
+}
+
+.empty {
+  text-align: center;
+  padding: 64px 32px;
+  background: var(--grud-surface-alt);
+  border-radius: 16px;
+  border: 2px dashed var(--grud-border-color);
+  margin: 24px;
+  position: relative;
+}
+
+.empty::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--grud-gradient);
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0.05;
+}
+
+.empty h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 16px 0 8px 0;
+  color: var(--grud-text);
+}
+
+.empty p {
+  color: var(--grud-text-secondary);
+  margin: 0 0 24px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.resultsSummary {
+  padding: 16px 0;
+  border-bottom: var(--grud-border);
+  margin-bottom: 16px;
+}
+
+.tableContainer {
+  background: var(--grud-surface);
+  border: var(--grud-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--grud-card-shadow);
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .filters {
+    padding: 16px;
+  }
+
+  .filterControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .paginationContainer {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sortSelect {
+    width: 100%;
+  }
+}

@@ -1,0 +1,145 @@
+.viewContainer {
+  padding: 16px 0;
+}
+
+.editingContainer {
+  padding: 16px 0;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  background-color: var(--grud-surface-alt);
+}
+
+.editHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 16px 16px;
+  border-bottom: 1px solid var(--grud-border-color);
+  margin-bottom: 16px;
+}
+
+.editHeader h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--grud-text);
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editForm {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.basicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schemaTabs {
+  margin-top: 8px;
+}
+
+.operationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.operationInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.operationMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.endpoint {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  background-color: var(--grud-surface-alt);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--grud-text-secondary);
+}
+
+.operationTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--grud-text);
+}
+
+.operationDescription {
+  color: var(--grud-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.operationActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.operationDetails {
+  border-top: 1px solid var(--grud-border-color);
+  padding-top: 16px;
+}
+
+.detailTabs {
+  width: 100%;
+}
+
+.schemaDisplay {
+  background-color: var(--grud-surface-alt);
+  padding: 16px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--grud-text);
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .operationHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .operationMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .operationActions {
+    justify-content: flex-end;
+  }
+
+  .editHeader {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .editActions {
+    justify-content: flex-end;
+  }
+}

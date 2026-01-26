@@ -1,0 +1,19 @@
+{
+  "port": "PORT",
+  "appUrl": "APP_URL",
+  "corsOrigins": "CORS_ORIGINS",
+  "database": {
+    "url": "DATABASE_URL"
+  },
+  "authTokenSecret": "AUTH_JWT_SECRET",
+  "seedAdmin": {
+    "user": "SEED_ADMIN_USER",
+    "password": "SEED_ADMIN_PASSWORD"
+  },
+  "aws": {
+    "region": "AWS_REGION",
+    "accessKeyId": "AWS_ACCESS_KEY_ID",
+    "secretAccessKey": "AWS_SECRET_ACCESS_KEY",
+    "bucketName": "AWS_BUCKET_NAME"
+  }
+}

@@ -1,0 +1,277 @@
+.container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.selectorCard {
+  border: none;
+  box-shadow: none;
+}
+
+.modalContent {
+  padding: 1rem 0;
+}
+
+.modalContent .header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--grud-border-color);
+}
+
+.header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--grud-text);
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--grud-text-secondary);
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+
+.typeCardBody {
+  padding: 0.75rem;
+}
+
+.radio {
+  width: 100%;
+}
+
+.typeContent {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.typeHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.typeIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--grud-primary);
+  flex-shrink: 0;
+}
+
+.typeTitle {
+  font-weight: 600;
+  color: var(--grud-text);
+  font-size: 1rem;
+}
+
+.typeDescription {
+  color: var(--grud-text-secondary);
+  font-size: 0.875rem;
+}
+
+.features {
+  list-style-type: disc;
+  list-style-position: inside;
+  margin-left: 1.75rem;
+  color: var(--grud-text-secondary);
+  font-size: 0.75rem;
+}
+
+.features li {
+  margin-bottom: 0.125rem;
+}
+
+.divider {
+  margin: 1rem 0;
+}
+
+.apiSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settingsTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--grud-text);
+  margin-bottom: 1rem;
+}
+
+.settingsIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--grud-primary);
+}
+
+/* Edit mode styles */
+.editCard {
+  border: 1px solid var(--grud-border-color);
+  background: var(--grud-card-bg);
+  border-radius: 20px;
+  box-shadow: var(--grud-card-shadow);
+  overflow: hidden;
+}
+
+.editBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.basicSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.typeSelection h4 {
+  font-weight: 600;
+  color: var(--grud-text);
+  margin-bottom: 1rem;
+}
+
+.compactRadioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.compactTypeCard {
+  padding: 0.75rem;
+  border: 1px solid var(--grud-border-color);
+  border-radius: 0.5rem;
+  transition: border-color 0.2s;
+  background: var(--grud-surface);
+}
+
+.compactTypeCard:hover {
+  border-color: var(--grud-text-secondary);
+}
+
+.compactTypeContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 2rem;
+}
+
+.compactTypeIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--grud-primary);
+  flex-shrink: 0;
+}
+
+.compactTypeTitle {
+  font-weight: 500;
+  color: var(--grud-text);
+  display: block;
+}
+
+.compactTypeDescription {
+  color: var(--grud-text-secondary);
+  font-size: 0.875rem;
+  display: block;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Themed Input Styling */
+.input :global([data-slot="input-wrapper"]) {
+  background: var(--grud-surface-alt);
+  border-color: var(--grud-border-color);
+}
+
+.input :global([data-slot="input-wrapper"]:hover) {
+  border-color: var(--grud-text-secondary);
+}
+
+.input :global([data-slot="input-wrapper"]:focus-within) {
+  border-color: var(--grud-primary);
+}
+
+.input :global([data-slot="input"]) {
+  color: var(--grud-text);
+}
+
+.input :global([data-slot="label"]) {
+  color: var(--grud-text);
+}
+
+/* Themed Button Styling */
+.buttonPrimary {
+  background: var(--grud-gradient) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.buttonPrimary:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Themed Switch Styling */
+.switch :global([data-slot="label"]) {
+  color: var(--grud-text);
+}
+
+.switch :global([data-slot="wrapper"]) {
+  background: var(--grud-border-color);
+}
+
+.switch :global([data-slot="wrapper"][data-selected="true"]) {
+  background: var(--grud-primary);
+}
+
+/* Radio Card Styling */
+.typeCard {
+  border: 1px solid var(--grud-border-color);
+  background: var(--grud-surface);
+  transition: all 0.2s ease;
+}
+
+.typeCardSelected {
+  border-color: var(--grud-primary) !important;
+  background: var(--grud-surface-alt) !important;
+  box-shadow: var(--grud-card-shadow);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .typeHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .typeIcon {
+    align-self: center;
+  }
+  
+  .features {
+    margin-left: 0;
+  }
+  
+  .typeContent {
+    margin-left: 1.5rem;
+  }
+  
+  .compactTypeContent {
+    margin-left: 1.5rem;
+  }
+}

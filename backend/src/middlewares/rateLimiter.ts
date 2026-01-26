@@ -1,0 +1,54 @@
+import { Context, Next } from 'hono';
+
+// Simple in-memory rate limiting
+const store = new Map<string, { count: number; resetTime: number }>();
+
+export function createRateLimiter(windowMs: number, requestCount: number, message: string) {
+  return async (c: Context, next: Next) => {
+    const key = c.req.header('x-forwarded-for') ||
+                c.req.header('x-real-ip') ||
+                'unknown';
+
+    const now = Date.now();
+    const record = store.get(key);
+
+    if (!record || now > record.resetTime) {
+      // First request or window expired
+      store.set(key, {
+        count: 1,
+        resetTime: now + windowMs
+      });
+      await next();
+      return;
+    }
+
+    if (record.count >= requestCount) {
+      return c.json({
+        success: false,
+        message
+      }, 429);
+    }
+
+    record.count++;
+    await next();
+  };
+}
+
+// Rate limiting configurations
+export const authRateLimit = createRateLimiter(
+  15 * 60 * 1000, // 15 minutes
+  5, // Limit each IP to 5 requests per windowMs
+  'Too many requests from this IP, please try again after 15 minutes'
+);
+
+export const generalRateLimit = createRateLimiter(
+  15 * 60 * 1000, // 15 minutes
+  100, // Limit each IP to 100 requests per windowMs
+  'Too many requests from this IP, please try again after 15 minutes'
+);
+
+export const strictRateLimit = createRateLimiter(
+  60 * 60 * 1000, // 1 hour
+  3, // Limit each IP to 3 requests per hour
+  'Too many sensitive requests from this IP, please try again after an hour'
+);

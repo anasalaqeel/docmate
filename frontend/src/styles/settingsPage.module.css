@@ -1,0 +1,21 @@
+.container {
+  margin: 0 auto;
+  position: relative;
+}
+
+.card {
+  background: var(--grud-surface) !important;
+  border: var(--grud-border);
+  border-radius: 16px;
+  box-shadow: var(--grud-card-shadow);
+  overflow: hidden;
+}
+
+
+@media (max-width: 768px) {
+  .cardHeader {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+}

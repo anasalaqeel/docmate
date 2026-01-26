@@ -1,0 +1,318 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--grud-surface);
+}
+
+.itemsList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--grud-border-color) transparent;
+  scroll-behavior: smooth;
+}
+
+.itemsList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.itemsList::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.itemsList::-webkit-scrollbar-thumb {
+  background: var(--grud-surface-alt);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.itemsList::-webkit-scrollbar-thumb:hover {
+  background: var(--grud-border-color);
+  background-clip: content-box;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 320px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.itemContainer {
+  border-bottom: 1px solid transparent;
+}
+
+.sidebarItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 3px 6px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+.sidebarItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 4px;
+  height: 70%;
+  background: var(--grud-primary);
+  border-radius: 0 3px 3px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.sidebarItem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grud-surface-alt);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+}
+
+.sidebarItem:hover {
+  transform: translateX(4px);
+  box-shadow: var(--grud-card-shadow);
+  background: var(--grud-surface-alt);
+}
+
+.sidebarItem:hover::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.sidebarItem:hover::after {
+  opacity: 1;
+}
+
+.sidebarItem.selected {
+  background: var(--grud-surface-alt);
+  color: var(--grud-primary);
+  box-shadow: var(--grud-card-shadow);
+  transform: translateX(6px);
+  border: 1px solid var(--grud-border-color);
+}
+
+.sidebarItem.selected::before {
+  transform: translateY(-50%) scaleY(1);
+  background: var(--grud-primary);
+}
+
+.sidebarItem.selected::after {
+  opacity: 0.8;
+  background: var(--grud-surface-alt);
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.expandButton {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.expandButton:hover {
+  background-color: var(--grud-surface-alt);
+  border-color: var(--grud-border-color);
+  transform: scale(1.05);
+}
+
+.itemButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 10px;
+  margin: 0;
+  height: auto;
+  min-height: 40px;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.itemButton:hover {
+  background: transparent;
+  transform: translateX(2px);
+}
+
+.itemIcon {
+  font-size: 1.2rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 1px 2px var(--grud-shadow-color));
+}
+
+.sidebarItem:hover .itemIcon {
+  transform: scale(1.15) rotate(2deg);
+  filter: drop-shadow(0 2px 4px var(--grud-shadow-color));
+}
+
+.itemTitle {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.01em;
+}
+
+.actionButton {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  border-radius: 8px;
+  transform: scale(0.9) translateX(-4px);
+  position: relative;
+  z-index: 3;
+}
+
+.sidebarItem:hover .actionButton {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+}
+
+.actionButton:hover {
+  background-color: var(--grud-surface-alt) !important;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px var(--grud-shadow-color);
+}
+
+.children {
+  border-left: 3px solid var(--grud-border-color);
+  margin-left: 20px;
+  padding-left: 12px;
+  position: relative;
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.children::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--grud-primary);
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 3px 3px 0;
+}
+
+.children:hover::before {
+  opacity: 1;
+}
+
+.buttonPrimary {
+  background: var(--grud-gradient);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--grud-shadow-color);
+}
+
+.buttonPrimary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.buttonWarning {
+  background: var(--grud-warning);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.buttonWarning:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--grud-warning), transparent 70%);
+}
+
+.buttonWarning:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

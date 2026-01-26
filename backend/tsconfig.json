@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true
+  }
+}

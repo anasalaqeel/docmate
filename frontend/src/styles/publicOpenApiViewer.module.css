@@ -1,0 +1,450 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.headerInfo h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.description {
+  color: #6b7280;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.headerMeta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tabs {
+  width: 100%;
+}
+
+.operations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pathCard {
+  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
+  border: var(--grud-border);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.pathHeader {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pathHeader:hover {
+  background-color: #f8fafc;
+}
+
+.pathHeaderContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.expandButton {
+  min-width: 32px !important;
+  padding: 0 !important;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.pathTitle {
+  font-size: 1.125rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+  color: #374151;
+  background-color: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.operation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.operation:not(:last-child) {
+  border-bottom: var(--grud-border);
+}
+
+.operationHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.operationActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.operationMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.operationSummary {
+  font-weight: 500;
+  color: #111827;
+}
+
+.operationDescription {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.operationDetails {
+  margin-top: 1rem;
+}
+
+.parameters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.parameter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.paramHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.paramType {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-family: 'Courier New', monospace;
+}
+
+.paramDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.paramSchema {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-family: 'Courier New', monospace;
+}
+
+.schemaType {
+  background-color: #dbeafe;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.schemaFormat {
+  background-color: #dcfce7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.requestDescription {
+  margin-bottom: 1rem;
+  color: #6b7280;
+}
+
+.codeBlock {
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.responses {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.responseHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.responseDescription {
+  color: #6b7280;
+}
+
+.schemas {
+  display: grid;
+  gap: 1rem;
+}
+
+.schemaCard {
+  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
+  border: var(--grud-border);
+  border-radius: 0.5rem;
+}
+
+.schemaTitle {
+  font-size: 1.125rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+  color: #374151;
+}
+
+.servers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.serverCard {
+  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
+  border: var(--grud-border);
+  border-radius: 0.5rem;
+}
+
+.serverInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.serverUrl {
+  font-size: 1.125rem;
+  font-family: 'Courier New', monospace;
+}
+
+.serverDescription {
+  color: #6b7280;
+}
+
+/* Dark mode styles */
+:global(.dark) .headerInfo h2 {
+  color: #f9fafb;
+}
+
+:global(.dark) .description {
+  color: #9ca3af;
+}
+
+:global(.dark) .pathCard,
+:global(.dark) .schemaCard,
+:global(.dark) .serverCard {
+  border-color: #374151;
+  background-color: #1f2937;
+}
+
+:global(.dark) .pathCard:hover {
+  border-color: #4b5563;
+}
+
+:global(.dark) .pathTitle,
+:global(.dark) .schemaTitle {
+  color: var(--grud-text);
+  background-color: #111827;
+}
+
+:global(.dark) .operation:not(:last-child) {
+  border-bottom-color: #374151;
+}
+
+:global(.dark) .operationSummary {
+  color: #f9fafb;
+}
+
+:global(.dark) .operationDescription,
+:global(.dark) .paramDescription,
+:global(.dark) .responseDescription,
+:global(.dark) .requestDescription,
+:global(.dark) .serverDescription {
+  color: #9ca3af;
+}
+
+:global(.dark) .parameter {
+  background-color: #111827;
+}
+
+:global(.dark) .paramType {
+  color: #9ca3af;
+}
+
+:global(.dark) .schemaType {
+  background-color: #1e3a8a;
+  color: #bfdbfe;
+}
+
+:global(.dark) .schemaFormat {
+  background-color: #14532d;
+  color: #bbf7d0;
+}
+
+:global(.dark) .loading {
+  color: #9ca3af;
+}
+
+/* Try It Modal Styles */
+.tryItHeader {
+  border-bottom: var(--grud-border);
+  padding-bottom: 1rem;
+}
+
+.tryItTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tryItPath {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.tryItContent {
+  min-height: 400px;
+}
+
+.tryItTabs {
+  width: 100%;
+}
+
+.requestSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.serverSelection {
+  margin-bottom: 1rem;
+}
+
+.paramSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.paramSection h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #374151;
+  border-bottom: var(--grud-border);
+  padding-bottom: 0.5rem;
+}
+
+.responseSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.responseStatus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.responseHeaders,
+.responseBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.responseHeaders h4,
+.responseBody h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  color: #374151;
+}
+
+.emptyResponse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.codeExamples {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.codeExamples h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #374151;
+  border-bottom: var(--grud-border);
+  padding-bottom: 0.5rem;
+}
+
+/* Dark mode for Try It Modal */
+:global(.dark) .pathHeader:hover {
+  background-color: #1f2937;
+}
+
+:global(.dark) .tryItHeader {
+  border-bottom-color: #374151;
+}
+
+:global(.dark) .paramSection h4,
+:global(.dark) .responseHeaders h4,
+:global(.dark) .responseBody h4,
+:global(.dark) .codeExamples h4 {
+  color: var(--grud-text);
+  border-bottom-color: #374151;
+}
+
+:global(.dark) .emptyResponse {
+  color: #9ca3af;
+}

@@ -1,0 +1,365 @@
+/**
+ * Settings Definitions using shared validation package
+ */
+
+import { registerSetting } from "./settings.registry";
+
+// Branding Settings
+registerSetting({
+  key: "branding.organizationName",
+  category: "branding",
+  description: "The name of your organization that will be displayed throughout the platform",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.websiteUrl",
+  category: "branding",
+  description: "Your organization's main website",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.contactEmail",
+  category: "branding",
+  description: "Contact email for support and inquiries",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.description",
+  category: "branding",
+  description: "A short description of your organization",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.logoLight",
+  category: "branding",
+  description: "URL to the light version of your organization logo",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.logoDark",
+  category: "branding",
+  description: "URL to the dark version of your organization logo",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "branding.favicon",
+  category: "branding",
+  description: "URL to your organization's favicon",
+  isPublic: true,
+});
+
+// Theme Settings
+registerSetting({
+  key: "theme.colors.primary",
+  category: "theme",
+  description: "Primary color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.secondary",
+  category: "theme",
+  description: "Secondary color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.success",
+  category: "theme",
+  description: "Success color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.warning",
+  category: "theme",
+  description: "Warning color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.danger",
+  category: "theme",
+  description: "Danger color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.background",
+  category: "theme",
+  description: "Background color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.text",
+  category: "theme",
+  description: "Text color for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.gradient",
+  category: "theme",
+  description: "Primary gradient for the light theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.colors.gradientSubtle",
+  category: "theme",
+  description: "Secondary gradient for the light theme",
+  isPublic: true,
+});
+
+// Theme Dark Mode Overrides
+registerSetting({
+  key: "theme.dark.colors.primary",
+  category: "theme",
+  description: "Primary color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.secondary",
+  category: "theme",
+  description: "Secondary color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.success",
+  category: "theme",
+  description: "Success color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.warning",
+  category: "theme",
+  description: "Warning color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.danger",
+  category: "theme",
+  description: "Danger color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.background",
+  category: "theme",
+  description: "Background color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.text",
+  category: "theme",
+  description: "Text color for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.gradient",
+  category: "theme",
+  description: "Primary gradient for the dark theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.dark.colors.gradientSubtle",
+  category: "theme",
+  description: "Secondary gradient for the dark theme",
+  isPublic: true,
+});
+
+// Theme Options
+registerSetting({
+  key: "theme.options.usePrimaryGradient",
+  category: "theme",
+  description: "Whether to use primary gradient",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.options.useSecondaryGradient",
+  category: "theme",
+  description: "Whether to use secondary gradient",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.typography.fontFamily",
+  category: "theme",
+  description: "Font family for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.typography.headingFont",
+  category: "theme",
+  description: "Font family for headings",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.typography.bodyFont",
+  category: "theme",
+  description: "Font family for body text",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.typography.codeFont",
+  category: "theme",
+  description: "Font family for code blocks",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.borderRadius.small",
+  category: "theme",
+  description: "Small border radius for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.borderRadius.medium",
+  category: "theme",
+  description: "Medium border radius for the theme",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "theme.borderRadius.large",
+  category: "theme",
+  description: "Large border radius for the theme",
+  isPublic: true,
+});
+
+// Security Settings
+registerSetting({
+  key: "security.registrationEnabled",
+  category: "security",
+  description: "Whether user registration is enabled",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "security.requireEmailVerification",
+  category: "security",
+  description: "Whether email verification is required for new users",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "security.adminApprovalRequired",
+  category: "security",
+  description: "Whether admin approval is required for new users",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "security.defaultUserRole",
+  category: "security",
+  description: "Default role for new users",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "security.sessionTimeout",
+  category: "security",
+  description: "Session timeout in minutes (0 for no timeout)",
+  isPublic: false,
+  transform: (value) => typeof value === "string" ? Number(value) : value,
+});
+
+registerSetting({
+  key: "security.maxSessionsPerUser",
+  category: "security",
+  description: "Maximum number of active sessions per user",
+  isPublic: false,
+  transform: (value) => typeof value === "string" ? Number(value) : value,
+});
+
+// General Settings
+registerSetting({
+  key: "general.defaultDocumentationType",
+  category: "general",
+  description: "Default documentation type",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "general.defaultDocumentationIsPublic",
+  category: "general",
+  description: "Whether new documentation is public by default",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "general.defaultShowApiEndpoints",
+  category: "general",
+  description: "Whether to show API endpoints by default",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "general.autoSaveInterval",
+  category: "general",
+  description: "Auto-save interval in seconds",
+  isPublic: false,
+  transform: (value) => typeof value === "string" ? Number(value) : value,
+});
+
+registerSetting({
+  key: "general.maintenanceMode",
+  category: "general",
+  description: "Whether the application is in maintenance mode",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "general.maintenanceMessage",
+  category: "general",
+  description: "Message to display during maintenance",
+  isPublic: true,
+});
+
+// Advanced Settings
+registerSetting({
+  key: "advanced.customCSS",
+  category: "advanced",
+  description: "Custom CSS to inject into the application",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "advanced.customJavaScript",
+  category: "advanced",
+  description: "Custom JavaScript to inject into the application",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "advanced.enableAnalytics",
+  category: "advanced",
+  description: "Whether to enable analytics tracking",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "advanced.enableTracking",
+  category: "advanced",
+  description: "Whether to enable user tracking",
+  isPublic: false,
+});

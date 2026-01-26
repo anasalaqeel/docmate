@@ -1,0 +1,201 @@
+.container {
+  position: relative;
+}
+
+.node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.5rem 0.375rem 0; /* py-1.5 pr-2 */
+  border-radius: 0.5rem; /* rounded-lg */
+  cursor: pointer;
+  transition: color 200ms, background-color 200ms, border-color 200ms, opacity 200ms;
+}
+
+/* State modifiers */
+.node[data-dragging="true"] {
+  opacity: 0.3;
+}
+
+.nodeContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  gap: 0.5rem; /* gap-2 */
+}
+
+.expandButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem; /* w-5 */
+  height: 1.25rem; /* h-5 */
+  border-radius: 0.25rem; /* rounded */
+  color: currentColor;
+  opacity: 0.5;
+  transition: opacity 200ms;
+}
+
+.expandButton:hover {
+  opacity: 1;
+  background-color: var(--grud-surface-alt);
+}
+
+/* Dark mode adjustment for hover if needed, relying on 'currentColor' mostly */
+
+.label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem; /* text-sm */
+  user-select: none;
+}
+
+.actions {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.node:hover .actions,
+.node:focus-within .actions {
+  opacity: 1;
+}
+
+/* Drag Ghost */
+.dragGhost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 9999;
+  width: 16rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  backdrop-filter: var(--grud-blur);
+  -webkit-backdrop-filter: var(--grud-blur);
+  background-color: var(--grud-surface);
+  border: 1px solid var(--grud-border-color);
+  box-shadow: var(--grud-card-shadow);
+  display: flex;
+  flex-direction: column;
+  transform: rotate(-2deg) scale(1.02);
+  transition: transform 100ms ease-out;
+}
+
+/* Drop Indicator */
+.dropIndicator {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  border-radius: 9999px; /* rounded-full */
+  transition: top 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+              left 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+              width 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+              height 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 100ms ease-out,
+              background-color 150ms;
+}
+
+.dropIndicator[data-zone="top"],
+.dropIndicator[data-zone="bottom"] {
+  height: 2px;
+  background-color: var(--grud-primary);
+  box-shadow: 0 0 8px var(--grud-primary);
+}
+
+.dropIndicator[data-zone="middle"] {
+  background-color: transparent;
+  border: 2px solid var(--grud-primary);
+  opacity: 1;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 4px var(--grud-primary);
+}
+
+/* Drag Ghost Internals */
+.dragGhostContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+}
+
+.dragGhostIcon {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+}
+
+.dragGhostLabel {
+  font-weight: 600;
+  color: var(--grud-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dragGhostTarget {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--grud-border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--grud-primary);
+  font-weight: 600;
+}
+
+/* Dark mode fixes - we use global theme variables so we can remove most of these */
+@media (prefers-color-scheme: dark) {
+  .dragGhostIcon {
+    opacity: 1;
+  }
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Drop Indicator Circle (Lollipop) */
+.dropIndicatorCircle {
+  position: absolute;
+  left: -0.25rem;
+  top: -0.225rem;
+  width: 0.6rem; 
+  height: 0.6rem;
+  background-color: var(--grud-primary);
+  border-radius: 50%;
+  border: 2px solid var(--grud-surface);
+  box-shadow: 0 0 0 2px var(--grud-primary);
+  transition: border-color 200ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dropIndicatorCircle {
+    border-color: var(--grud-surface);
+  }
+}
+
+/* Accordion Animation (CSS Grid Trick) */
+.accordionWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms ease-out, opacity 200ms ease-out;
+  opacity: 0;
+}
+
+.accordionWrapper[data-expanded="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordionInner {
+  overflow: hidden;
+}
+
+/* Utilities for strict zero-dependency usage */
+.hidden {
+  display: none;
+}
