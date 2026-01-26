@@ -1,51 +1,47 @@
 # Contributing to Grud
 
-First off, thank you for considering contributing to Grud! It's people like you that make Grud such a great tool.
+Thank you for considering contributing to Grud! We welcome contributions of all kinds.
 
-## 🌈 Code of Conduct
+## Code of Conduct
 
-By participating in this project, you agree to abide by our [Code of Conduct](./CODE_OF_CONDUCT.md).
+By participating in this project, you agree to abide by the [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## 🚀 How Can I Contribute?
+## How to Contribute
 
 ### Reporting Bugs
--   **Check for existing issues:** Before opening a new issue, please search the [Issue Tracker](https://github.com/your-username/grud/issues) to see if the bug has already been reported.
--   **Be specific:** Include details about your environment, steps to reproduce the bug, and the expected vs. actual behavior.
+-   Search [existing issues](https://github.com/your-username/grud/issues) first.
+-   If none exist, open a new issue with a clear description, steps to reproduce, and expected behavior.
 
-### Suggesting Enhancements
--   Open a new issue and describe the feature you'd like to see, why it would be useful, and how it might work.
+### Suggesting Features
+-   Open a new issue and describe the feature, its use case, and potential implementation.
 
 ### Pull Requests
-1.  Fork the repo and create your branch from `main`.
-2.  If you've added code that should be tested, add tests.
-3.  If you've changed APIs, update the documentation.
-4.  Ensure the test suite passes.
-5.  Make sure your code lints.
-6.  Issue that pull request!
+1.  Fork the repo and create a branch from `main`.
+2.  Make your changes.
+3.  Ensure tests pass and linting is clean.
+4.  Submit your pull request.
 
-## 💻 Development Workflow
+## Development Workflow
 
 ### Tech Stack
 -   **Frontend:** React 19, Vite, Tailwind CSS, HeroUI.
--   **Backend:** Bun, Hono, Drizzle ORM, PostgreSQL.
+-   **Backend:** Bun.js, Hono, Drizzle ORM, PostgreSQL.
 
-### Scripts
-#### Backend
--   `bun run dev`: Start development server with watch mode.
--   `bun run drizzle:generate`: Generate migrations.
--   `bun run drizzle:push`: Push local schema changes to the database.
+### Backend Scripts
+```bash
+bun run dev              # Start dev server
+bun run drizzle:push     # Push schema to database
+bun run test             # Run tests
+```
 
-#### Frontend
--   `bun run dev`: Start Vite development server.
--   `bun run build`: Build for production.
+### Frontend Scripts
+```bash
+bun run dev              # Start Vite dev server
+bun run build            # Build for production
+bun run lint             # Run ESLint
+```
 
-## 🎨 Coding Standards
--   Use Prettier for code formatting.
+## Coding Standards
+-   Use Prettier for formatting.
 -   Follow ESLint rules.
--   Write clean, modular, and well-documented code.
--   Use [Conventional Commits](https://www.conventionalcommits.org/) for your commit messages.
-
-## ❓ Questions?
-If you have any questions, feel free to open an issue or reach out to the maintainers.
-
-Happy coding! 🚀
+-   Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.

@@ -1,5 +1,5 @@
 {
-  "name": "new-spoguide-backend",
+  "name": "grud-backend",
   "scripts": {
     "start": "bun run server.ts",
     "dev": "bun run --watch index.ts",
