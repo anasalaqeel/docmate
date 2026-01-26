@@ -54,7 +54,8 @@ bun run drizzle:migrate
 ```bash
 bun run dev
 ```
-The server will be running at `http://localhost:3000`.
+The server will be running at `http://localhost:8000`.
+You can access the API documentation at `http://localhost:8000/docs`.
 
 ## Scripts
 | Script | Description |

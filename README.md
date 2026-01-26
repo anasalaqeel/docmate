@@ -64,7 +64,7 @@ bun install
 bun run drizzle:push  # Push the schema to your database
 bun run dev
 ```
-The API will be running at `http://localhost:3000`.
+The API will be running at `http://localhost:8000`.
 
 ### 3. Setup Frontend
 ```bash
@@ -73,6 +73,28 @@ bun install
 bun run dev
 ```
 Open `http://localhost:5173` in your browser.
+
+---
+
+## 🐳 Running with Docker
+
+The easiest way to get Grud up and running is using Docker Compose.
+
+### Quick Start
+```bash
+docker compose up -d
+```
+
+This will start:
+- **PostgreSQL**: Accessible on port `5432`
+- **Backend (Bun)**: Accessible on port `8000`
+- **Frontend (Nginx)**: Accessible on port `5173`
+
+### Build Arguments
+To use a custom API URL for the frontend build:
+```bash
+docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
+```
 
 ---
 
