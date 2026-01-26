@@ -1,7 +1,7 @@
 {
   "name": "grud-backend",
   "scripts": {
-    "start": "bun run server.ts",
+    "start": "bun run index.ts",
     "dev": "bun run --watch index.ts",
     "test": "bun run src/tests/run-tests.ts",
     "test:security": "bun test src/tests/security.test.ts",
