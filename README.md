@@ -76,19 +76,30 @@ Open `http://localhost:5173` in your browser.
 
 ---
 
-## 🐳 Running with Docker
+## 🐳 Running with Docker (Recommended)
 
 The easiest way to get Grud up and running is using Docker Compose.
 
-### Quick Start
+### 1. Set up Environment Variables
+Copy the example environment file and fill in your secrets:
+```bash
+cp .env.docker.example .env.docker
+```
+> [!IMPORTANT]
+> Make sure to set `SEED_ADMIN_USER` and `SEED_ADMIN_PASSWORD` in your `.env.docker` file. These are required for the initial admin account creation on first startup.
+
+### 2. Start the Containers
 ```bash
 docker compose up -d
 ```
 
-This will start:
-- **PostgreSQL**: Accessible on port `5432`
-- **Backend (Bun)**: Accessible on port `8000`
-- **Frontend (Nginx)**: Accessible on port `5173`
+### 3. Access the Application
+- **Frontend**: `http://localhost:5173`
+- **Backend API**: `http://localhost:8000/v1`
+- **Swagger UI**: `http://localhost:8000/v1/docs`
+
+> [!NOTE]
+> On the first run, the Docker container automatically handles database schema synchronization and initial seeding.
 
 ### Build Arguments
 To use a custom API URL for the frontend build:

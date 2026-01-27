@@ -21,8 +21,12 @@ COPY . .
 # Expose the API port
 EXPOSE 8000
 
+# Copy and set up the entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Set environment to production
 ENV NODE_ENV=production
 
-# Run the app
-CMD [ "bun", "run", "index.ts" ]
+# Run the app via entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]

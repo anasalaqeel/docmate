@@ -14,9 +14,16 @@ async function seedAdminUser() {
       throw new Error("Admin role not found. Please run seedRolesPermissions first.");
     }
 
+    const adminEmail = config.has("seedAdmin.user") ? config.get<string>("seedAdmin.user") : undefined;
+    const adminPassword = config.has("seedAdmin.password") ? config.get<string>("seedAdmin.password") : undefined;
+
+    if (!adminEmail || !adminPassword) {
+      throw new Error("SEED_ADMIN_USER and SEED_ADMIN_PASSWORD environment variables are required for initial seeding.");
+    }
+
     // Check if admin user already exists
     const existingAdmin = await db.query.users.findFirst({
-      where: eq(users.email, config.get<string>("seedAdmin.user")),
+      where: eq(users.email, adminEmail),
     });
 
     let adminUserId: number;
@@ -26,12 +33,12 @@ async function seedAdminUser() {
       adminUserId = existingAdmin.id;
     } else {
       // Create admin user with hashed password using Bun
-      const hashedPassword = await Bun.password.hash(config.get<string>("seedAdmin.password"));
+      const hashedPassword = await Bun.password.hash(adminPassword);
       const [adminUser] = await db
         .insert(users)
         .values({
           name: "Admin",
-          email: config.get<string>("seedAdmin.user"),
+          email: adminEmail,
           password: hashedPassword,
         })
         .returning();

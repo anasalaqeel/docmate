@@ -3,9 +3,9 @@ services:
     image: postgres:18-alpine
     container_name: grud-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: grud
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-grud}
     ports:
       - "5432:5432"
     volumes:
@@ -21,12 +21,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: grud-backend
+    env_file: .env.docker
     environment:
-      PORT: 8000
-      DATABASE_URL: postgres://postgres:password@database:5432/grud
-      AUTH_JWT_SECRET: your_jwt_secret_here
-      CORS_ORIGINS: http://localhost:5173,http://localhost
-      NODE_ENV: production
+      - PORT=${PORT:-8000}
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:password@database:5432/grud}
+      - NODE_ENV=production
     ports:
       - "8000:8000"
     depends_on:
