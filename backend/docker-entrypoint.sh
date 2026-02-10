@@ -8,8 +8,12 @@ echo "Waiting for database to be ready..."
 echo "Running database push (syncing schema)..."
 bun run drizzle:push
 
-echo "Running database seeding..."
-bun run drizzle:seed
+if [ "$SEED_DATABASE" = "true" ]; then
+  echo "Running database seeding..."
+  bun run drizzle:seed
+else
+  echo "Skipping database seeding (SEED_DATABASE != true)..."
+fi
 
 echo "Starting Grud Backend..."
 exec bun run start
