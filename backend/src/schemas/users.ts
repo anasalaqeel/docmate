@@ -12,7 +12,7 @@ const strongPasswordSchema = z
   .refine((val) => !val.toLowerCase().includes("password"), "Password cannot contain common words")
   .refine(
     (val) => !val.includes("<") && !val.includes(">"),
-    "Password contains invalid characters"
+    "Password contains invalid characters",
   );
 
 // Enhanced email validation
@@ -21,6 +21,14 @@ const emailSchema = z
   .max(254, "Email must be less than 254 characters")
   .transform((val) => val.toLowerCase().trim())
   .refine((val) => !val.includes("<") && !val.includes(">"), "Email contains invalid characters");
+
+// Enhanced username validation
+const usernameSchema = z
+  .string()
+  .min(3, "Username must be at least 3 characters long")
+  .max(50, "Username must be less than 50 characters")
+  .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores")
+  .refine((val) => !/<script|javascript:/i.test(val), "Username contains invalid content");
 
 // Enhanced name validation
 const nameSchema = z
@@ -41,6 +49,7 @@ const phoneSchema = z
 // User creation schema
 export const adminCreateUserSchema = z.object({
   name: nameSchema,
+  username: usernameSchema,
   email: emailSchema,
   password: strongPasswordSchema,
   phone: phoneSchema,
@@ -51,6 +60,7 @@ export const adminCreateUserSchema = z.object({
 // User update schema
 export const adminUpdateUserSchema = z.object({
   name: nameSchema.optional(),
+  username: usernameSchema.optional(),
   email: emailSchema.optional(),
   password: strongPasswordSchema.optional(),
   phone: phoneSchema.optional(),
@@ -68,7 +78,7 @@ export const usersQuerySchema = z.object({
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(100).default(10),
   search: z.string().max(100).trim().optional(),
-  sortBy: z.enum(["name", "email", "createdAt", "updatedAt"]).default("createdAt"),
+  sortBy: z.enum(["name", "username", "email", "createdAt", "updatedAt"]).default("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
   roleIds: z
     .string()

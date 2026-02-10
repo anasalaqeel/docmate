@@ -2,9 +2,10 @@
 export interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
   phone?: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   createdAt: string;
   updatedAt: string;
   userRoles: UserRole[];
@@ -41,19 +42,21 @@ export interface Permission {
 // API request/response types
 export interface CreateUserData {
   name: string;
+  username: string;
   email: string;
   password: string;
   phone?: string;
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
   roleIds?: number[];
 }
 
 export interface UpdateUserData {
   name?: string;
+  username?: string;
   email?: string;
   password?: string;
   phone?: string;
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
   roleIds?: number[];
 }
 
@@ -61,10 +64,10 @@ export interface UserListOptions {
   page?: number;
   limit?: number;
   search?: string;
-  sortBy?: 'name' | 'email' | 'createdAt' | 'updatedAt';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?: "name" | "username" | "email" | "createdAt" | "updatedAt";
+  sortOrder?: "asc" | "desc";
   roleIds?: number[];
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
 }
 
 export interface CreateRoleData {
@@ -81,8 +84,8 @@ export interface RoleListOptions {
   page?: number;
   limit?: number;
   search?: string;
-  sortBy?: 'name' | 'id' | 'createdAt';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?: "name" | "id" | "createdAt";
+  sortOrder?: "asc" | "desc";
 }
 
 export interface PermissionListOptions {
@@ -110,6 +113,7 @@ export interface AdminResetPasswordData {
 // Additional UI-specific types
 export interface UserFormData {
   name: string;
+  username: string;
   email: string;
   password?: string;
   phone?: string;
@@ -145,16 +149,16 @@ export interface RoleTableActions {
 export interface UsersFilterState {
   search: string;
   roleIds: number[];
-  sortBy: 'name' | 'email' | 'createdAt' | 'updatedAt';
-  sortOrder: 'asc' | 'desc';
+  sortBy: "name" | "username" | "email" | "createdAt" | "updatedAt";
+  sortOrder: "asc" | "desc";
   page: number;
   limit: number;
 }
 
 export interface RolesFilterState {
   search: string;
-  sortBy: 'name' | 'id' | 'createdAt';
-  sortOrder: 'asc' | 'desc';
+  sortBy: "name" | "id" | "createdAt";
+  sortOrder: "asc" | "desc";
   page: number;
   limit: number;
 }
@@ -235,9 +239,19 @@ export interface RoleFormValidation {
 }
 
 // Modal and UI state types
-export type ModalType = 'create-user' | 'edit-user' | 'delete-user' | 'manage-roles' |
-                      'create-role' | 'edit-role' | 'delete-role' | 'manage-permissions' |
-                      'change-password' | 'view-user' | 'view-role' | null;
+export type ModalType =
+  | "create-user"
+  | "edit-user"
+  | "delete-user"
+  | "manage-roles"
+  | "create-role"
+  | "edit-role"
+  | "delete-role"
+  | "manage-permissions"
+  | "change-password"
+  | "view-user"
+  | "view-role"
+  | null;
 
 export interface ModalState {
   type: ModalType;
@@ -247,7 +261,7 @@ export interface ModalState {
 
 export interface NotificationState {
   message: string;
-  type: 'success' | 'error' | 'warning' | 'info';
+  type: "success" | "error" | "warning" | "info";
   visible: boolean;
   duration?: number;
 }
@@ -255,47 +269,47 @@ export interface NotificationState {
 // Permission constants
 export const PERMISSIONS = {
   // User management
-  USERS_CREATE: 'users:create',
-  USERS_READ: 'users:read',
-  USERS_UPDATE: 'users:update',
-  USERS_DELETE: 'users:delete',
+  USERS_CREATE: "users:create",
+  USERS_READ: "users:read",
+  USERS_UPDATE: "users:update",
+  USERS_DELETE: "users:delete",
 
   // Role management
-  ROLES_CREATE: 'roles:create',
-  ROLES_READ: 'roles:read',
-  ROLES_UPDATE: 'roles:update',
-  ROLES_DELETE: 'roles:delete',
+  ROLES_CREATE: "roles:create",
+  ROLES_READ: "roles:read",
+  ROLES_UPDATE: "roles:update",
+  ROLES_DELETE: "roles:delete",
 
   // Profile management
-  PROFILE_MANAGE: 'profile:manage',
+  PROFILE_MANAGE: "profile:manage",
 
   // Content management
-  CONTENT_CREATE: 'content:create',
-  CONTENT_READ: 'content:read',
-  CONTENT_UPDATE: 'content:update',
-  CONTENT_DELETE: 'content:delete',
+  CONTENT_CREATE: "content:create",
+  CONTENT_READ: "content:read",
+  CONTENT_UPDATE: "content:update",
+  CONTENT_DELETE: "content:delete",
 
   // Documentation management
-  DOCS_CREATE: 'docs:create',
-  DOCS_READ: 'docs:read',
-  DOCS_UPDATE: 'docs:update',
-  DOCS_DELETE: 'docs:delete',
+  DOCS_CREATE: "docs:create",
+  DOCS_READ: "docs:read",
+  DOCS_UPDATE: "docs:update",
+  DOCS_DELETE: "docs:delete",
 
   // System permissions
-  SYSTEM_ALL: 'system:all'
+  SYSTEM_ALL: "system:all",
 } as const;
 
-export type PermissionName = typeof PERMISSIONS[keyof typeof PERMISSIONS];
+export type PermissionName = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
 
 // Role constants
 export const DEFAULT_ROLES = {
-  SUPERADMIN: 'superadmin',
-  ADMIN: 'admin',
-  MODERATOR: 'moderator',
-  USER: 'user'
+  SUPERADMIN: "superadmin",
+  ADMIN: "admin",
+  MODERATOR: "moderator",
+  USER: "user",
 } as const;
 
-export type DefaultRoleName = typeof DEFAULT_ROLES[keyof typeof DEFAULT_ROLES];
+export type DefaultRoleName = (typeof DEFAULT_ROLES)[keyof typeof DEFAULT_ROLES];
 
 // Helper type for permission checking
 export type PermissionCheck = (permission: PermissionName) => boolean;
@@ -312,30 +326,31 @@ export interface TableConfig {
 
 export const DEFAULT_USERS_TABLE_CONFIG: TableConfig = {
   columns: [
-    { key: 'name', label: 'Name', sortable: true, width: '200px' },
-    { key: 'email', label: 'Email', sortable: true, width: '250px' },
-    { key: 'phone', label: 'Phone', sortable: false, width: '150px' },
-    { key: 'roles', label: 'Roles', sortable: false, width: '200px' },
-    { key: 'createdAt', label: 'Created', sortable: true, width: '120px' },
-    { key: 'actions', label: 'Actions', sortable: false, width: '150px' }
+    { key: "name", label: "Name", sortable: true, width: "200px" },
+    { key: "username", label: "Username", sortable: true, width: "200px" },
+    { key: "email", label: "Email", sortable: true, width: "250px" },
+    { key: "phone", label: "Phone", sortable: false, width: "150px" },
+    { key: "roles", label: "Roles", sortable: false, width: "200px" },
+    { key: "createdAt", label: "Created", sortable: true, width: "120px" },
+    { key: "actions", label: "Actions", sortable: false, width: "150px" },
   ],
   pageSize: 10,
   showPagination: true,
   showSearch: true,
   showFilters: true,
-  sortable: true
+  sortable: true,
 };
 
 export const DEFAULT_ROLES_TABLE_CONFIG: TableConfig = {
   columns: [
-    { key: 'name', label: 'Role Name', sortable: true, width: '200px' },
-    { key: 'permissions', label: 'Permissions', sortable: false, width: '300px' },
-    { key: 'userCount', label: 'Users', sortable: false, width: '100px' },
-    { key: 'actions', label: 'Actions', sortable: false, width: '150px' }
+    { key: "name", label: "Role Name", sortable: true, width: "200px" },
+    { key: "permissions", label: "Permissions", sortable: false, width: "300px" },
+    { key: "userCount", label: "Users", sortable: false, width: "100px" },
+    { key: "actions", label: "Actions", sortable: false, width: "150px" },
   ],
   pageSize: 10,
   showPagination: true,
   showSearch: true,
   showFilters: false,
-  sortable: true
+  sortable: true,
 };

@@ -19,7 +19,7 @@ import { DataTable } from "../../../components/ui/DataTable";
 import type { DataTableColumn } from "../../../components/ui/DataTable";
 import type { User } from "../../../types/users";
 
-type UserColumnKey = "name" | "email" | "status" | "roles" | "createdAt" | "actions";
+type UserColumnKey = "name" | "username" | "email" | "status" | "roles" | "createdAt" | "actions";
 
 interface UsersTableProps {
   users: User[];
@@ -58,6 +58,7 @@ export const UsersTable = ({
 }: UsersTableProps) => {
   const columns: DataTableColumn<UserColumnKey>[] = [
     { key: "name", label: "User", sortable: true },
+    { key: "username", label: "Username", sortable: true },
     { key: "email", label: "Contact", sortable: true },
     { key: "status", label: "Status", sortable: false },
     { key: "roles", label: "Roles", sortable: false },
@@ -66,27 +67,34 @@ export const UsersTable = ({
   ];
 
   // Status color mapping
-  const statusColorMap: Record<string, { bg: string, text: string }> = {
-    active: { bg: 'rgba(var(--grud-success-rgb, 16, 185, 129), 0.1)', text: 'var(--grud-success)' },
-    inactive: { bg: 'rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)', text: 'var(--grud-error)' },
+  const statusColorMap: Record<string, { bg: string; text: string }> = {
+    active: { bg: "rgba(var(--grud-success-rgb, 16, 185, 129), 0.1)", text: "var(--grud-success)" },
+    inactive: { bg: "rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)", text: "var(--grud-error)" },
   };
 
   const getUserRoleNames = (user: User): string[] => {
     return user.userRoles?.map((ur: any) => ur.role.name) || [];
   };
 
-  const getRoleStyle = (
-    roleName: string
-  ): { bg: string, text: string } => {
+  const getRoleStyle = (roleName: string): { bg: string; text: string } => {
     switch (roleName.toLowerCase()) {
       case "superadmin":
-        return { bg: 'rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)', text: 'var(--grud-error)' };
+        return { bg: "rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)", text: "var(--grud-error)" };
       case "admin":
-        return { bg: 'rgba(var(--grud-warning-rgb, 245, 158, 11), 0.1)', text: 'var(--grud-warning)' };
+        return {
+          bg: "rgba(var(--grud-warning-rgb, 245, 158, 11), 0.1)",
+          text: "var(--grud-warning)",
+        };
       case "moderator":
-        return { bg: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)', text: 'var(--grud-primary)' };
+        return {
+          bg: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)",
+          text: "var(--grud-primary)",
+        };
       default:
-        return { bg: 'rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)', text: 'var(--grud-text-secondary)' };
+        return {
+          bg: "rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)",
+          text: "var(--grud-text-secondary)",
+        };
     }
   };
 
@@ -104,31 +112,44 @@ export const UsersTable = ({
       case "name":
         return (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--grud-primary-rgb), 0.1)' }}>
-              <span className="font-medium text-sm" style={{ color: 'var(--grud-primary)' }}>
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center"
+              style={{ background: "rgba(var(--grud-primary-rgb), 0.1)" }}
+            >
+              <span className="font-medium text-sm" style={{ color: "var(--grud-primary)" }}>
                 {user.name?.charAt(0).toUpperCase() || "U"}
               </span>
             </div>
             <div>
               <p className="font-medium">{user.name || "Unknown"}</p>
-              <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>ID: {user.id}</p>
+              <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
+                ID: {user.id}
+              </p>
             </div>
           </div>
+        );
+      case "username":
+        return (
+          <p className="text-sm font-medium" style={{ color: "var(--grud-primary)" }}>
+            @{user.username || "no-username"}
+          </p>
         );
       case "email":
         return (
           <div>
             <p className="text-sm">{user.email || "No email"}</p>
-            <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>{user.phone || "No phone"}</p>
+            <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
+              {user.phone || "No phone"}
+            </p>
           </div>
         );
       case "status":
         return (
           <Chip
             className="capitalize"
-            style={{ 
-              background: statusColorMap[user.status]?.bg || 'var(--grud-surface-alt)',
-              color: statusColorMap[user.status]?.text || 'var(--grud-text-secondary)'
+            style={{
+              background: statusColorMap[user.status]?.bg || "var(--grud-surface-alt)",
+              color: statusColorMap[user.status]?.text || "var(--grud-text-secondary)",
             }}
             size="sm"
             variant="flat"
@@ -144,9 +165,9 @@ export const UsersTable = ({
                 <Chip
                   key={roleName}
                   size="sm"
-                  style={{ 
+                  style={{
                     background: getRoleStyle(roleName).bg,
-                    color: getRoleStyle(roleName).text
+                    color: getRoleStyle(roleName).text,
                   }}
                   variant="flat"
                 >
@@ -162,7 +183,7 @@ export const UsersTable = ({
         return (
           <div>
             <p className="text-sm">{formatDate(user.createdAt)}</p>
-            <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
               Member for {getMemberDays(user.createdAt)}
             </p>
           </div>
@@ -222,15 +243,20 @@ export const UsersTable = ({
   };
 
   const emptyContent = (
-    <div 
+    <div
       className="flex flex-col items-center justify-center py-12 px-4 rounded-lg border-2 border-dashed"
-      style={{ background: 'var(--grud-surface-alt)', borderColor: 'var(--grud-border-color)' }}
+      style={{ background: "var(--grud-surface-alt)", borderColor: "var(--grud-border-color)" }}
     >
-      <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)' }}>
+      <div
+        className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+        style={{ background: "rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)" }}
+      >
         <ShieldCheckIcon className="w-8 h-8 opacity-40" />
       </div>
-      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--grud-text)' }}>No users found</h3>
-      <p className="text-center mb-6 max-w-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+      <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--grud-text)" }}>
+        No users found
+      </h3>
+      <p className="text-center mb-6 max-w-sm" style={{ color: "var(--grud-text-secondary)" }}>
         {hasActiveFilters
           ? "Try adjusting your filters or search terms to find users."
           : "Create your first user to get started with user management."}
@@ -257,9 +283,9 @@ export const UsersTable = ({
 
       {totalPages > 1 && (
         <div className="flex justify-between items-center">
-          <div className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
-            Showing {(currentPage - 1) * 10 + 1} to{" "}
-            {Math.min(currentPage * 10, total)} of {total} users
+          <div className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+            Showing {(currentPage - 1) * 10 + 1} to {Math.min(currentPage * 10, total)} of {total}{" "}
+            users
           </div>
           <Pagination
             total={totalPages}

@@ -102,8 +102,9 @@ Copy the example environment file and fill in your secrets:
 cp .env.docker.example .env.docker
 ```
 
-> [!IMPORTANT] Make sure to set `SEED_ADMIN_USER` and `SEED_ADMIN_PASSWORD` in your `.env.docker`
-> file. These are required for the initial admin account creation on first startup.
+> [!IMPORTANT] Make sure to set `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME` and `SEED_ADMIN_PASSWORD`
+> in your `.env.docker` file. These are required for the initial admin account creation on first
+> startup.
 
 ### 2. Start the Containers
 

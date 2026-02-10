@@ -16,6 +16,7 @@ import { relations, sql } from "drizzle-orm";
 export const users = pgTable("users", {
   id: serial().primaryKey(),
   name: varchar({ length: 255 }).notNull(),
+  username: varchar({ length: 255 }).notNull().unique(),
   email: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }).notNull(),
   phone: varchar({ length: 20 }),
@@ -64,7 +65,7 @@ export const rolePermissions = pgTable(
   },
   (table) => ({
     rolePermissionUnique: unique().on(table.roleId, table.permissionId),
-  })
+  }),
 );
 
 export const userRoles = pgTable("user_roles", {
@@ -138,7 +139,9 @@ export const documentations = pgTable("documentations", {
   showApiEndpointsInSidebar: boolean().default(true), // Control whether to show API endpoints in sidebar
   ingestionToken: varchar({ length: 255 }), // Token required for ingesting external API documentation
   ingestionEnabled: boolean().default(false).notNull(), // Control whether external ingestion is allowed
-  createdBy: integer().references(() => users.id).notNull(),
+  createdBy: integer()
+    .references(() => users.id)
+    .notNull(),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()
@@ -146,32 +149,46 @@ export const documentations = pgTable("documentations", {
     .notNull(),
 });
 
-export const sidebarItems: any = pgTable("sidebar_items", {
-  id: serial().primaryKey(),
-  documentationId: integer().references(() => documentations.id, { onDelete: "cascade" }).notNull(),
-  title: varchar({ length: 255 }).notNull(),
-  type: varchar({ length: 50 }).notNull(), // 'folder', 'page', 'divider'
-  parentId: integer().references(() => sidebarItems.id, { onDelete: "cascade" }),
-  order: integer().notNull().default(0),
-  icon: varchar({ length: 100 }),
-  isExpanded: boolean().default(true),
-  deletedAt: timestamp(), // Soft delete: NULL = active, timestamp = deleted
-  deletedBy: integer().references(() => users.id), // Who deleted this item
-  createdAt: timestamp().defaultNow().notNull(),
-  // Performance optimization fields
-  materializedPath: text().default(""), // Store full path for fast queries
-  level: integer().default(0), // Store depth level for queries
-  isActive: boolean().default(true), // Active flag for filtering
-}, (table) => ({
-  // Prevent item from referencing itself as parent
-  checkParentNotSelf: check('parent_not_self', sql`${table.parentId} IS NULL OR ${table.parentId} != ${table.id}`),
-  // Ensure materialized path is not null for root items
-  checkMaterializedPath: check('materialized_path_not_null', sql`${table.parentId} IS NULL OR ${table.materializedPath} IS NOT NULL`),
-}));
+export const sidebarItems: any = pgTable(
+  "sidebar_items",
+  {
+    id: serial().primaryKey(),
+    documentationId: integer()
+      .references(() => documentations.id, { onDelete: "cascade" })
+      .notNull(),
+    title: varchar({ length: 255 }).notNull(),
+    type: varchar({ length: 50 }).notNull(), // 'folder', 'page', 'divider'
+    parentId: integer().references(() => sidebarItems.id, { onDelete: "cascade" }),
+    order: integer().notNull().default(0),
+    icon: varchar({ length: 100 }),
+    isExpanded: boolean().default(true),
+    deletedAt: timestamp(), // Soft delete: NULL = active, timestamp = deleted
+    deletedBy: integer().references(() => users.id), // Who deleted this item
+    createdAt: timestamp().defaultNow().notNull(),
+    // Performance optimization fields
+    materializedPath: text().default(""), // Store full path for fast queries
+    level: integer().default(0), // Store depth level for queries
+    isActive: boolean().default(true), // Active flag for filtering
+  },
+  (table) => ({
+    // Prevent item from referencing itself as parent
+    checkParentNotSelf: check(
+      "parent_not_self",
+      sql`${table.parentId} IS NULL OR ${table.parentId} != ${table.id}`,
+    ),
+    // Ensure materialized path is not null for root items
+    checkMaterializedPath: check(
+      "materialized_path_not_null",
+      sql`${table.parentId} IS NULL OR ${table.materializedPath} IS NOT NULL`,
+    ),
+  }),
+);
 
 export const pages = pgTable("pages", {
   id: serial().primaryKey(),
-  sidebarItemId: integer().references(() => sidebarItems.id, { onDelete: "cascade" }).notNull(),
+  sidebarItemId: integer()
+    .references(() => sidebarItems.id, { onDelete: "cascade" })
+    .notNull(),
   slug: varchar({ length: 255 }).notNull(),
   content: jsonb(),
   metadata: jsonb(), // For storing page-specific metadata
@@ -187,7 +204,9 @@ export const pages = pgTable("pages", {
 // OpenAPI Specifications table
 export const openApiSpecs = pgTable("openapi_specs", {
   id: serial().primaryKey(),
-  documentationId: integer().references(() => documentations.id, { onDelete: "cascade" }).notNull(),
+  documentationId: integer()
+    .references(() => documentations.id, { onDelete: "cascade" })
+    .notNull(),
   specVersion: varchar({ length: 10 }).default("3.1.0").notNull(), // OpenAPI version
   info: jsonb().notNull(), // Title, description, version, contact, etc.
   servers: jsonb(), // Server definitions
@@ -287,11 +306,11 @@ export const uploads = pgTable("uploads", {
   path: varchar({ length: 500 }).notNull(), // File path in storage
   uploadedAt: timestamp().defaultNow().notNull(),
   // Security enhancement fields
-  checksum: varchar({ length: 64 }).notNull().default(''), // SHA-256 hash
-  fileSignature: varchar({ length: 32 }).notNull().default(''), // Magic bytes signature
+  checksum: varchar({ length: 64 }).notNull().default(""), // SHA-256 hash
+  fileSignature: varchar({ length: 32 }).notNull().default(""), // Magic bytes signature
   isQuarantined: boolean().default(false).notNull(), // Quarantine flag
   lastAccessedAt: timestamp().defaultNow().notNull(), // Access tracking
-  storagePath: varchar({ length: 500 }).default(''), // Secure storage path
+  storagePath: varchar({ length: 500 }).default(""), // Secure storage path
   uploadedBy: integer().references(() => users.id), // User who uploaded
   createdAt: timestamp().defaultNow().notNull(),
 });

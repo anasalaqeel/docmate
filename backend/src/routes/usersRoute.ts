@@ -26,7 +26,7 @@ router.get(
   async (c) => {
     try {
       const { page, limit, search, sortBy, sortOrder, roleIds, status } = c.req.valid("query");
-      const sanitizedSearch = search ? sanitizeInput(search, 'search') : undefined;
+      const sanitizedSearch = search ? sanitizeInput(search, "search") : undefined;
       const offset = (page - 1) * limit;
 
       // Build the query following Drizzle documentation patterns
@@ -39,9 +39,10 @@ router.get(
             conditions.push(
               or(
                 ilike(users.name, `%${sanitizedSearch}%`),
+                ilike(users.username, `%${sanitizedSearch}%`),
                 ilike(users.email, `%${sanitizedSearch}%`),
-                ilike(users.phone, `%${sanitizedSearch}%`)
-              )
+                ilike(users.phone, `%${sanitizedSearch}%`),
+              ),
             );
           }
 
@@ -64,15 +65,19 @@ router.get(
             ? sortOrder === "asc"
               ? asc(users.name)
               : desc(users.name)
-            : sortBy === "email"
-            ? sortOrder === "asc"
-              ? asc(users.email)
-              : desc(users.email)
-            : sortBy === "updatedAt"
-            ? sortOrder === "asc"
-              ? asc(users.updatedAt)
-              : desc(users.updatedAt)
-            : desc(users.createdAt),
+            : sortBy === "username"
+              ? sortOrder === "asc"
+                ? asc(users.username)
+                : desc(users.username)
+              : sortBy === "email"
+                ? sortOrder === "asc"
+                  ? asc(users.email)
+                  : desc(users.email)
+                : sortBy === "updatedAt"
+                  ? sortOrder === "asc"
+                    ? asc(users.updatedAt)
+                    : desc(users.updatedAt)
+                  : desc(users.createdAt),
         ],
         limit,
         offset,
@@ -81,8 +86,8 @@ router.get(
       // Apply role filter if provided (post-filter)
       let filteredUsers = usersResult;
       if (roleIds && roleIds.length > 0) {
-        filteredUsers = usersResult.filter(user =>
-          user.userRoles.some(userRole => roleIds.includes(userRole.roleId))
+        filteredUsers = usersResult.filter((user) =>
+          user.userRoles.some((userRole) => roleIds.includes(userRole.roleId)),
         );
       }
 
@@ -104,7 +109,7 @@ router.get(
       console.error("Error getting users:", error);
       return c.json({ message: "Internal server error" }, 500);
     }
-  }
+  },
 );
 
 // Get user by ID (admin only)
@@ -152,11 +157,14 @@ router.post(
 
       // Check if user already exists
       const existingUser = await db.query.users.findFirst({
-        where: eq(users.email, userData.email),
+        where: or(eq(users.email, userData.email), eq(users.username, userData.username)),
       });
 
       if (existingUser) {
-        return c.json({ message: "User with this email already exists" }, 409);
+        if (existingUser.email === userData.email) {
+          return c.json({ message: "User with this email already exists" }, 409);
+        }
+        return c.json({ message: "User with this username already exists" }, 409);
       }
 
       // Hash password
@@ -168,6 +176,7 @@ router.post(
           .insert(users)
           .values({
             name: userData.name,
+            username: userData.username,
             email: userData.email,
             password: hashedPassword,
             phone: userData.phone || null,
@@ -181,7 +190,7 @@ router.post(
             userData.roleIds.map((roleId: number) => ({
               userId: user.id,
               roleId,
-            }))
+            })),
           );
         }
 
@@ -212,7 +221,7 @@ router.post(
       }
       return c.json({ message: "Failed to create user" }, 500);
     }
-  }
+  },
 );
 
 // Update user (admin only)
@@ -249,10 +258,22 @@ router.put(
         }
       }
 
+      // Check username uniqueness if updating username
+      if (userData.username && userData.username !== existingUser.username) {
+        const usernameUser = await db.query.users.findFirst({
+          where: eq(users.username, userData.username),
+        });
+
+        if (usernameUser) {
+          return c.json({ message: "Username already exists" }, 409);
+        }
+      }
+
       // Update user with roles
       await db.transaction(async (tx) => {
         const updateData: any = {};
         if (userData.name !== undefined) updateData.name = userData.name;
+        if (userData.username !== undefined) updateData.username = userData.username;
         if (userData.email !== undefined) updateData.email = userData.email;
         if (userData.phone !== undefined) updateData.phone = userData.phone || null;
         if (userData.status !== undefined) updateData.status = userData.status;
@@ -275,7 +296,7 @@ router.put(
               userData.roleIds.map((roleId: number) => ({
                 userId,
                 roleId,
-              }))
+              })),
             );
           }
         }
@@ -305,7 +326,7 @@ router.put(
       }
       return c.json({ message: "Failed to update user" }, 500);
     }
-  }
+  },
 );
 
 // Delete user (admin only)
@@ -372,7 +393,7 @@ router.post(
           roleIds.map((roleId: number) => ({
             userId,
             roleId,
-          }))
+          })),
         );
       });
 
@@ -400,7 +421,7 @@ router.post(
       }
       return c.json({ message: "Failed to assign roles" }, 500);
     }
-  }
+  },
 );
 
 // Remove role from user (admin only)
@@ -474,8 +495,7 @@ router.post(
       }
       return c.json({ message: "Failed to change password" }, 500);
     }
-  }
+  },
 );
-
 
 export default router;

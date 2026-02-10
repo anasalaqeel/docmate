@@ -10,11 +10,15 @@ import { EnhancedButton } from "../components/ui/enhancedButton";
 import styles from "../styles/loginPage.module.css";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
+  const [errors, setErrors] = useState<{
+    identifier?: string;
+    password?: string;
+    general?: string;
+  }>({});
 
   const { login, isAuthenticated, isLoading: authLoading, hasAnyRole } = useAuth();
   const navigate = useNavigate();
@@ -24,24 +28,22 @@ const LoginPage = () => {
 
   // Redirect authenticated users away from login page
   useEffect(() => {
-    if (!authLoading && isAuthenticated && hasAnyRole(['admin', 'superadmin', 'moderator'])) {
+    if (!authLoading && isAuthenticated && hasAnyRole(["admin", "superadmin", "moderator"])) {
       navigate("/admin", { replace: true });
     }
   }, [isAuthenticated, authLoading, hasAnyRole, navigate]);
 
   const validateForm = () => {
-    const newErrors: { email?: string; password?: string } = {};
-    
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Please enter a valid email address";
+    const newErrors: { identifier?: string; password?: string } = {};
+
+    if (!identifier.trim()) {
+      newErrors.identifier = "Username or Email is required";
     }
-    
+
     if (!password.trim()) {
       newErrors.password = "Password is required";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -57,22 +59,22 @@ const LoginPage = () => {
     setErrors({});
 
     try {
-      const loginSuccess = await login(email, password);
+      const loginSuccess = await login(identifier, password);
 
       if (loginSuccess) {
         toast.success("Welcome back!", {
-          description: "You have been successfully logged in."
+          description: "You have been successfully logged in.",
         });
         navigate(from, { replace: true });
       } else {
         toast.error("Login failed", {
-          description: "Invalid email or password. Please try again."
+          description: "Invalid credentials. Please try again.",
         });
       }
     } catch (error: unknown) {
       console.error("Login error:", error);
       toast.error("Login error", {
-        description: "An unexpected error occurred. Please try again."
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -96,15 +98,15 @@ const LoginPage = () => {
         <CardBody>
           <form onSubmit={handleSubmit} className={styles.form}>
             <EnhancedInput
-              type="email"
-              label="Email Address"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              label="Username or Email"
+              placeholder="Enter your username or email"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               isDisabled={isLoading}
-              error={errors.email}
+              error={errors.identifier}
               icon={<EnvelopeIcon className="w-4 h-4" />}
-              autoComplete="email"
+              autoComplete="username"
             />
 
             <EnhancedInput
@@ -123,9 +125,15 @@ const LoginPage = () => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeSlashIcon className="w-4 h-4 pointer-events-none" style={{ color: 'var(--grud-text-secondary)' }} />
+                    <EyeSlashIcon
+                      className="w-4 h-4 pointer-events-none"
+                      style={{ color: "var(--grud-text-secondary)" }}
+                    />
                   ) : (
-                    <EyeIcon className="w-4 h-4 pointer-events-none" style={{ color: 'var(--grud-text-secondary)' }} />
+                    <EyeIcon
+                      className="w-4 h-4 pointer-events-none"
+                      style={{ color: "var(--grud-text-secondary)" }}
+                    />
                   )}
                 </button>
               }
@@ -138,7 +146,7 @@ const LoginPage = () => {
               className={styles.submitButton}
               isLoading={isLoading}
               loadingText="Signing you in..."
-              isDisabled={!email.trim() || !password.trim()}
+              isDisabled={!identifier.trim() || !password.trim()}
               animate
             >
               Login

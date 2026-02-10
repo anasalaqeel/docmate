@@ -5,7 +5,7 @@
 // Sanitize input values
 export function sanitizeInput(
   input: string,
-  type: "param" | "search" | "general" = "general"
+  type: "param" | "search" | "general" = "general",
 ): string {
   if (!input) return input;
 
@@ -26,30 +26,22 @@ export function sanitizeInput(
 }
 
 // Sanitize object recursively
-export function sanitizeObject(obj: Record<string, unknown>): Record<string, unknown> {
-  const sanitized: Record<string, unknown> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    const sanitizedKey = sanitizeInput(key, "param");
-
-    if (typeof value === "string") {
-      sanitized[sanitizedKey] = sanitizeInput(value, "general");
-    } else if (Array.isArray(value)) {
-      // Handle arrays by sanitizing each element
-      sanitized[sanitizedKey] = value.map(item => {
-        if (typeof item === "string") {
-          return sanitizeInput(item, "general");
-        } else if (typeof item === "object" && item !== null) {
-          return sanitizeObject(item as Record<string, unknown>);
-        }
-        return item;
-      });
-    } else if (typeof value === "object" && value !== null) {
-      sanitized[sanitizedKey] = sanitizeObject(value as Record<string, unknown>);
-    } else {
-      sanitized[sanitizedKey] = value;
-    }
+export function sanitizeObject<T>(obj: T): T {
+  if (obj === null || typeof obj !== "object") {
+    return (typeof obj === "string" ? sanitizeInput(obj, "general") : obj) as T;
   }
 
-  return sanitized;
+  if (Array.isArray(obj)) {
+    return obj.map((item) => sanitizeObject(item)) as T;
+  }
+
+  const sanitized: any = {};
+  const record = obj as Record<string, unknown>;
+
+  for (const [key, value] of Object.entries(record)) {
+    const sanitizedKey = sanitizeInput(key, "param");
+    sanitized[sanitizedKey] = sanitizeObject(value);
+  }
+
+  return sanitized as T;
 }

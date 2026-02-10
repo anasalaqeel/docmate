@@ -12,19 +12,19 @@ import { authorize } from "../middlewares/authorize";
 import config from "config";
 import db from "../db";
 import { users, sessions, roles, userRoles } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 
 const router = new Hono();
 
 // Register endpoint
 router.post("/register", authRateLimit, zValidator("json", registerSchema), async (c) => {
   try {
-    const { name, email, password, redirectUrl } = sanitizeObject(c.req.valid("json"));
+    const { name, username, email, password, redirectUrl } = sanitizeObject(c.req.valid("json"));
 
-    // Check if the user already exists
+    // Check if the user already exists (by email or username)
     const existingUser = await db.query.users
       .findFirst({
-        where: eq(users.email, email),
+        where: or(eq(users.email, email), eq(users.username, username)),
       })
       .catch((error) => {
         console.error("Error finding existing user:", error);
@@ -60,6 +60,7 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
       .insert(users)
       .values({
         name,
+        username,
         email,
         password: hashedPassword,
       })
@@ -124,10 +125,10 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
 // Login endpoint
 router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) => {
   try {
-    const { email, password } = sanitizeObject(c.req.valid("json"));
+    const { identifier, password } = sanitizeObject(c.req.valid("json"));
     const user = await db.query.users
       .findFirst({
-        where: eq(users.email, email),
+        where: or(eq(users.email, identifier), eq(users.username, identifier)),
         columns: { id: true, password: true },
       })
       .catch((error) => {
@@ -172,7 +173,7 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
       // Fetch user with roles for the response
       const userWithRoles = await db.query.users.findFirst({
         where: eq(users.id, user.id),
-        columns: { id: true, name: true, email: true },
+        columns: { id: true, name: true, username: true, email: true },
         with: {
           userRoles: {
             with: {
@@ -222,7 +223,7 @@ router.get("/me", async (c) => {
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, session.userId),
-      columns: { id: true, name: true, email: true },
+      columns: { id: true, name: true, username: true, email: true },
       with: {
         userRoles: {
           with: {
@@ -292,10 +293,9 @@ router.post(
       }
 
       // Verify current password
-      const isPasswordValid = await Bun.password.verify(
-        currentPassword,
-        user.password
-      ).catch(() => false);
+      const isPasswordValid = await Bun.password
+        .verify(currentPassword, user.password)
+        .catch(() => false);
 
       if (!isPasswordValid) {
         return c.json({ message: "Current password is incorrect" }, 401);
@@ -305,10 +305,7 @@ router.post(
       const hashedPassword = await Bun.password.hash(newPassword);
 
       // Update password
-      await db
-        .update(users)
-        .set({ password: hashedPassword })
-        .where(eq(users.id, user.id));
+      await db.update(users).set({ password: hashedPassword }).where(eq(users.id, user.id));
 
       return c.json({
         success: true,
@@ -321,7 +318,7 @@ router.post(
       }
       return c.json({ message: "Failed to change password" }, 500);
     }
-  }
+  },
 );
 
 export default router;

@@ -24,6 +24,7 @@ interface EditUserModalProps {
 export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUserModalProps) {
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
     email: "",
     phone: "",
   });
@@ -35,6 +36,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
     if (user) {
       setFormData({
         name: user.name || "",
+        username: user.username || "",
         email: user.email || "",
         phone: user.phone || "",
       });
@@ -52,6 +54,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
       setIsLoading(true);
       const updatedUser = await usersService.updateUser(user.id, {
         name: formData.name,
+        username: formData.username,
         email: formData.email,
         phone: formData.phone || undefined,
       });
@@ -74,22 +77,29 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
   };
 
   const handleClose = () => {
-    setFormData({ name: "", email: "", phone: "" });
+    setFormData({ name: "", username: "", email: "", phone: "" });
     setErrors({});
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="2xl" placement="center">
-      <ModalContent style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}>
+      <ModalContent
+        style={{ background: "var(--grud-surface)", border: "1px solid var(--grud-border-color)" }}
+      >
         <ModalHeader>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)' }}>
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center"
+              style={{ background: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)" }}
+            >
               <UserIcon className="w-6 h-6 text-[var(--grud-primary)]" />
             </div>
             <div>
               <h2 className="text-xl font-semibold text-[var(--grud-text)]">Edit User</h2>
-              <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>Update user information</p>
+              <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+                Update user information
+              </p>
             </div>
           </div>
         </ModalHeader>
@@ -106,7 +116,21 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]"
+                input: "text-[var(--grud-text)]",
+              }}
+            />
+            <Input
+              label="Username"
+              placeholder="Enter username"
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              isRequired
+              errorMessage={errors.username}
+              isInvalid={!!errors.username}
+              size="lg"
+              classNames={{
+                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
+                input: "text-[var(--grud-text)]",
               }}
             />
             <Input
@@ -121,7 +145,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]"
+                input: "text-[var(--grud-text)]",
               }}
             />
             <Input
@@ -135,7 +159,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]"
+                input: "text-[var(--grud-text)]",
               }}
             />
           </form>

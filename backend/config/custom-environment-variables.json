@@ -7,7 +7,8 @@
   },
   "authTokenSecret": "AUTH_JWT_SECRET",
   "seedAdmin": {
-    "user": "SEED_ADMIN_USER",
+    "email": "SEED_ADMIN_EMAIL",
+    "username": "SEED_ADMIN_USERNAME",
     "password": "SEED_ADMIN_PASSWORD"
   }
 }

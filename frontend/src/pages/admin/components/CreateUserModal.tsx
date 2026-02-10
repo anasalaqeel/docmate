@@ -29,6 +29,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set([]));
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
     email: "",
     password: "",
     phone: "",
@@ -98,6 +99,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
     setSelectedKeys(new Set([]));
     setFormData({
       name: "",
+      username: "",
       email: "",
       password: "",
       phone: "",
@@ -125,7 +127,9 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
         body: "max-h-[70vh] overflow-y-auto",
       }}
     >
-      <ModalContent style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}>
+      <ModalContent
+        style={{ background: "var(--grud-surface)", border: "1px solid var(--grud-border-color)" }}
+      >
         <ModalHeader className="text-[var(--grud-text)]">Create New User</ModalHeader>
         <ModalBody>
           <form id="create-user-form" onSubmit={handleSubmit} className="space-y-4">
@@ -140,7 +144,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.name}
                 classNames={{
                   inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]"
+                  input: "text-[var(--grud-text)]",
                 }}
               />
               <Input
@@ -154,7 +158,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.email}
                 classNames={{
                   inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]"
+                  input: "text-[var(--grud-text)]",
                 }}
               />
             </div>
@@ -173,7 +177,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 autoComplete="new-password"
                 classNames={{
                   inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]"
+                  input: "text-[var(--grud-text)]",
                 }}
                 endContent={
                   <div className="flex items-center gap-1">
@@ -209,7 +213,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.phone}
                 classNames={{
                   inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]"
+                  input: "text-[var(--grud-text)]",
                 }}
               />
             </div>
@@ -217,8 +221,9 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
             <Select
               classNames={{
                 base: "max-w-xs",
-                trigger: "min-h-12 py-2 border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                value: "text-[var(--grud-text)]"
+                trigger:
+                  "min-h-12 py-2 border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
+                value: "text-[var(--grud-text)]",
               }}
               isMultiline={true}
               label="Roles"
@@ -233,10 +238,13 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 return (
                   <div className="flex flex-wrap gap-2">
                     {items.map((item) => (
-                      <Chip 
-                        key={item.key} 
-                        variant="flat" 
-                        style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)', color: 'var(--grud-primary)' }}
+                      <Chip
+                        key={item.key}
+                        variant="flat"
+                        style={{
+                          background: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)",
+                          color: "var(--grud-primary)",
+                        }}
                         startContent={<ShieldCheckIcon className="w-3 h-3" />}
                       >
                         {item.textValue}

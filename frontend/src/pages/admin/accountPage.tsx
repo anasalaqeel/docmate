@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Input,
-  Button,
-  Divider,
-  Chip,
-} from "@heroui/react";
+import { Card, CardBody, CardHeader, Input, Button, Divider, Chip } from "@heroui/react";
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -126,27 +118,43 @@ const AccountPage = () => {
       {/* Page Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'var(--grud-gradient)' }}>
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
+            style={{ background: "var(--grud-gradient)" }}
+          >
             <UserIcon className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-[var(--grud-primary)] to-[var(--grud-secondary)] bg-clip-text text-transparent">
               My Account
             </h1>
-            <p className="mt-1" style={{ color: 'var(--grud-text-secondary)' }}>Manage your account settings and preferences</p>
+            <p className="mt-1" style={{ color: "var(--grud-text-secondary)" }}>
+              Manage your account settings and preferences
+            </p>
           </div>
         </div>
       </div>
 
       {/* Profile Information Card */}
-      <Card style={{ background: 'var(--grud-surface)', borderRadius: '16px', boxShadow: 'var(--grud-card-shadow)' }}>
+      <Card
+        style={{
+          background: "var(--grud-surface)",
+          borderRadius: "16px",
+          boxShadow: "var(--grud-card-shadow)",
+        }}
+      >
         <CardHeader className="flex gap-3 px-6 pb-4">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(var(--grud-primary-rgb), 0.1)' }}>
-            <UserIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center"
+            style={{ background: "rgba(var(--grud-primary-rgb), 0.1)" }}
+          >
+            <UserIcon className="w-5 h-5" style={{ color: "var(--grud-primary)" }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold">Profile Information</h2>
-            <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>Your personal account details</p>
+            <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+              Your personal account details
+            </p>
           </div>
         </CardHeader>
         <Divider className="mx-6" />
@@ -154,16 +162,36 @@ const AccountPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Name */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'var(--grud-text-secondary)' }}>
+              <div
+                className="flex items-center gap-2 text-sm font-medium"
+                style={{ color: "var(--grud-text-secondary)" }}
+              >
                 <UserIcon className="w-4 h-4" />
                 <span>Full Name</span>
               </div>
               <p className="text-lg font-semibold pl-6">{user.name}</p>
             </div>
 
+            {/* Username */}
+            <div className="space-y-2">
+              <div
+                className="flex items-center gap-2 text-sm font-medium"
+                style={{ color: "var(--grud-text-secondary)" }}
+              >
+                <UserIcon className="w-4 h-4" />
+                <span>Username</span>
+              </div>
+              <p className="text-lg font-semibold pl-6" style={{ color: "var(--grud-primary)" }}>
+                @{user.username}
+              </p>
+            </div>
+
             {/* Email */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'var(--grud-text-secondary)' }}>
+              <div
+                className="flex items-center gap-2 text-sm font-medium"
+                style={{ color: "var(--grud-text-secondary)" }}
+              >
                 <EnvelopeIcon className="w-4 h-4" />
                 <span>Email Address</span>
               </div>
@@ -172,7 +200,10 @@ const AccountPage = () => {
 
             {/* Roles */}
             <div className="space-y-2 md:col-span-2">
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'var(--grud-text-secondary)' }}>
+              <div
+                className="flex items-center gap-2 text-sm font-medium"
+                style={{ color: "var(--grud-text-secondary)" }}
+              >
                 <ShieldCheckIcon className="w-4 h-4" />
                 <span>Assigned Roles</span>
               </div>
@@ -199,14 +230,25 @@ const AccountPage = () => {
       </Card>
 
       {/* Change Password Card */}
-      <Card style={{ background: 'var(--grud-surface)', borderRadius: '16px', boxShadow: 'var(--grud-card-shadow)' }}>
+      <Card
+        style={{
+          background: "var(--grud-surface)",
+          borderRadius: "16px",
+          boxShadow: "var(--grud-card-shadow)",
+        }}
+      >
         <CardHeader className="flex gap-3 px-6 pb-4">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'rgba(var(--grud-error-rgb), 0.1)' }}>
-            <KeyIcon className="w-5 h-5" style={{ color: 'var(--grud-error)' }} />
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center"
+            style={{ background: "rgba(var(--grud-error-rgb), 0.1)" }}
+          >
+            <KeyIcon className="w-5 h-5" style={{ color: "var(--grud-error)" }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold">Change Password</h2>
-            <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>Update your password to keep your account secure</p>
+            <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+              Update your password to keep your account secure
+            </p>
           </div>
         </CardHeader>
         <Divider className="mx-6" />
@@ -242,9 +284,7 @@ const AccountPage = () => {
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Enter new password"
                 value={passwordForm.newPassword}
-                onChange={(e) =>
-                  setPasswordForm({ ...passwordForm, newPassword: e.target.value })
-                }
+                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
                 isRequired
                 description="Must be at least 12 characters with uppercase, lowercase, number, and special character"
                 errorMessage={errors.newPassword}

@@ -3,6 +3,7 @@ import { get, post } from "./httpService";
 export interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
   userRoles: Array<{
     role: {
@@ -14,7 +15,7 @@ export interface User {
 }
 
 export interface LoginRequest {
-  email: string;
+  identifier: string;
   password: string;
 }
 
@@ -26,6 +27,7 @@ export interface ApiResponse<T> {
 
 export interface RegisterRequest {
   name: string;
+  username: string;
   email: string;
   password: string;
   phone?: string;
@@ -55,7 +57,7 @@ export const register = async (userData: RegisterRequest): Promise<ApiResponse<U
 };
 
 export const changePassword = async (
-  passwordData: ChangePasswordRequest
+  passwordData: ChangePasswordRequest,
 ): Promise<ApiResponse<null>> => {
   return post<ApiResponse<null>>("/auth/change-password", passwordData);
 };

@@ -14,11 +14,20 @@ async function seedAdminUser() {
       throw new Error("Admin role not found. Please run seedRolesPermissions first.");
     }
 
-    const adminEmail = config.has("seedAdmin.user") ? config.get<string>("seedAdmin.user") : undefined;
-    const adminPassword = config.has("seedAdmin.password") ? config.get<string>("seedAdmin.password") : undefined;
+    const adminEmail = config.has("seedAdmin.email")
+      ? config.get<string>("seedAdmin.email")
+      : undefined;
+    const adminUsername = config.has("seedAdmin.username")
+      ? config.get<string>("seedAdmin.username")
+      : undefined;
+    const adminPassword = config.has("seedAdmin.password")
+      ? config.get<string>("seedAdmin.password")
+      : undefined;
 
-    if (!adminEmail || !adminPassword) {
-      throw new Error("SEED_ADMIN_USER and SEED_ADMIN_PASSWORD environment variables are required for initial seeding.");
+    if (!adminEmail || !adminUsername || !adminPassword) {
+      throw new Error(
+        "SEED_ADMIN_EMAIL, SEED_ADMIN_USERNAME and SEED_ADMIN_PASSWORD environment variables are required for initial seeding.",
+      );
     }
 
     // Check if admin user already exists
@@ -38,6 +47,7 @@ async function seedAdminUser() {
         .insert(users)
         .values({
           name: "Admin",
+          username: adminUsername,
           email: adminEmail,
           password: hashedPassword,
         })
