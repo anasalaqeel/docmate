@@ -4,7 +4,7 @@ WORKDIR /app
 # Install all dependencies (including devDependencies for drizzle-kit)
 FROM base AS install
 RUN mkdir -p /temp/prod
-COPY package.json bun.lock /temp/prod/
+COPY package.json bun.lock bunfig.toml /temp/prod/
 RUN cd /temp/prod && bun install --frozen-lockfile
 
 # Build stage — run drizzle push and install production-only deps
