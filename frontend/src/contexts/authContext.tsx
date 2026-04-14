@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await authService.login({ email, password });
+      const response = await authService.login({ identifier: email, password });
 
       if (response.success && response.data) {
         setUser(response.data);

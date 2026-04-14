@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Input, Slider, Button, Popover, PopoverTrigger, PopoverContent, Tabs, Tab, Card, CardBody } from "@heroui/react";
-import { PlusIcon, TrashIcon, AdjustmentsHorizontalIcon, CodeBracketIcon } from "@heroicons/react/24/outline";
+import { Input, Slider, Button } from "@heroui/react";
+import { PlusIcon, TrashIcon, CodeBracketIcon } from "@heroicons/react/24/outline";
 
 export interface GradientInputProps {
   label: string;

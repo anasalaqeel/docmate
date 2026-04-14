@@ -88,7 +88,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
   const [baseUrl, setBaseUrl] = useState<string>("");
 
   // Parse frontmatter and extract clean content
-  const { frontmatter, content: cleanContent } = parseFrontmatter(content);
+  const { content: cleanContent } = parseFrontmatter(content);
 
   // Fetch OpenAPI spec if docId is provided
   useEffect(() => {

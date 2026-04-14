@@ -58,6 +58,9 @@ v1.get("/openapi.json", async (c) => {
 // Add Swagger UI using Hono middleware
 app.get("/swagger", swaggerUI({ url: "/v1/openapi.json" }));
 
+// Health check endpoint (outside /v1 so it's easily accessible)
+app.get("/health", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));
+
 app.route("/v1/", v1);
 
 // Initialize session cleanup job (runs every hour by default)

@@ -5,7 +5,6 @@ import { settingsService } from "../services/settingsService";
 import { useState, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { THEME_DEFAULTS, getThemeFromSettings } from "../config/themeDefaults";
-import type { ThemeSettings } from "../config/themeDefaults";
 import { toast } from "sonner";
 import ModeSettings from "./Theme/ModeSettings";
 import TypographySettings from "./Theme/TypographySettings";

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 interface UserFormData {
   name: string;
+  username: string;
   email: string;
   password: string;
   phone: string;
@@ -15,6 +16,7 @@ interface UserFormData {
 
 interface UserFormErrors {
   name?: string;
+  username?: string;
   email?: string;
   password?: string;
   phone?: string;
@@ -24,6 +26,7 @@ interface UserFormErrors {
 interface UserFormProps {
   user?: {
     name?: string;
+    username?: string;
     email?: string;
     phone?: string;
     userRoles?: Array<{ role: { id: number } }>;
@@ -43,6 +46,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
   const [loadingRoles, setLoadingRoles] = useState<boolean>(true);
   const [formData, setFormData] = useState<UserFormData>({
     name: "",
+    username: "",
     email: "",
     password: "",
     phone: "",
@@ -70,6 +74,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
     if (user) {
       setFormData({
         name: user.name || "",
+        username: user.username || "",
         email: user.email || "",
         password: "",
         phone: user.phone || "",
@@ -123,6 +128,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
       getFormData: (): CreateUserData => {
         return {
           name: formData.name,
+          username: formData.username,
           email: formData.email,
           password: formData.password,
           phone: formData.phone,
@@ -132,6 +138,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
       getUpdateData: () => {
         return {
           name: formData.name,
+          username: formData.username,
           email: formData.email,
           password: formData.password || undefined,
           phone: formData.phone,

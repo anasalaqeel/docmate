@@ -8,9 +8,9 @@ of both, all from a single, elegant interface.
 
 ---
 
-## ✨ Features
+## Features
 
-### 📝 Documentation Management
+### Documentation Management
 
 - **Multi-Type Projects**: Create traditional guides, API references, or mixed documentation.
 - **Hierarchical Sidebar**: Organize content into folders, pages, and dividers with drag-and-drop
@@ -19,21 +19,21 @@ of both, all from a single, elegant interface.
 - **Public & Private**: Control visibility with a single toggle.
 - **Versioning**: Tag documentation projects with versions.
 
-### 🎨 Dynamic Theming
+### Dynamic Theming
 
 - **Light & Dark Mode**: Full support with system preference detection.
 - **Custom Colors**: Personalize primary, secondary, success, warning, and danger colors.
 - **Gradients**: Enable or disable gradient effects globally.
 - **Typography**: Customize heading, body, and code fonts.
 
-### 🔐 Admin & Security
+### Admin & Security
 
 - **Role-Based Access Control (RBAC)**: Manage users, roles, and granular permissions.
 - **Session Management**: Automatic session cleanup and secure token handling.
 - **Enterprise-Grade Security**: Input sanitization (XSS, SQLi), rate limiting, secure file uploads
   with checksum validation.
 
-### 🔌 API
+### API
 
 - **Versioned REST API**: All endpoints are served under `/v1/`.
 - **Auto-Generated OpenAPI Spec**: Access your API docs at `/v1/openapi.json`.
@@ -41,7 +41,7 @@ of both, all from a single, elegant interface.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer          | Technologies                                          |
 | -------------- | ----------------------------------------------------- |
@@ -52,7 +52,7 @@ of both, all from a single, elegant interface.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -90,21 +90,26 @@ Open `http://localhost:5173` in your browser.
 
 ---
 
-## 🐳 Running with Docker (Recommended)
+## Running with Docker (Recommended)
 
 The easiest way to get Grud up and running is using Docker Compose.
 
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) with Docker Compose
+
 ### 1. Set up Environment Variables
 
-Copy the example environment file and fill in your secrets:
+Copy the example environment file and update the values:
 
 ```bash
 cp .env.docker.example .env.docker
 ```
 
-> [!IMPORTANT] Make sure to set `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME` and `SEED_ADMIN_PASSWORD`
-> in your `.env.docker` file. These are required for the initial admin account creation on first
-> startup.
+Edit `.env.docker` and set at minimum:
+- `POSTGRES_PASSWORD` — a strong database password
+- `AUTH_JWT_SECRET` — a secure random string for JWT signing
+- `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME`, `SEED_ADMIN_PASSWORD` — initial admin credentials
 
 ### 2. Start the Containers
 
@@ -114,16 +119,24 @@ docker compose up -d
 
 ### 3. Access the Application
 
-- **Frontend**: `http://localhost:5173`
+- **Frontend**: `http://localhost`
 - **Backend API**: `http://localhost:8000/v1`
 - **Swagger UI**: `http://localhost:8000/v1/docs`
 
-> [!NOTE] On the first run, the Docker container automatically handles database schema
-> synchronization and initial seeding.
+> On the first run, the backend container automatically handles database schema synchronization.
+> To seed an initial admin user, set `SEED_DATABASE=true` in your `.env.docker`.
 
-### Build Arguments
+### Custom Ports
 
-To use a custom API URL for the frontend build:
+By default, the frontend runs on port 80 and the backend on port 8000. You can change these:
+
+```bash
+FRONTEND_PORT=3000 BACKEND_PORT=9000 docker compose up -d
+```
+
+### Custom API URL for Frontend
+
+To use a different backend URL (e.g. for production):
 
 ```bash
 docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
@@ -131,7 +144,7 @@ docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 grud/
@@ -155,76 +168,65 @@ grud/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 🐳 Docker Hub & Deployment
+## Configuration Variables
 
-This project is prepared for Docker Hub.
+| Variable          | Description              | Default  |
+| ----------------- | ------------------------ | -------- |
+| `POSTGRES_USER`   | Database user            | `postgres` |
+| `POSTGRES_PASSWORD` | Database password      | `password` |
+| `POSTGRES_DB`     | Database name            | `grud`   |
+| `AUTH_JWT_SECRET` | JWT signing secret       | —        |
+| `SEED_DATABASE`   | Seed DB on startup       | `false`  |
+| `FRONTEND_PORT`   | Host port for frontend   | `80`     |
+| `BACKEND_PORT`    | Host port for backend    | `8000`   |
+| `VITE_API_BASE_URL` | Backend URL for frontend build | `http://localhost:8000/v1` |
 
-### Building Images
+---
 
-You can build the images using Docker Compose:
+## Publishing to Docker Hub
+
+When you're ready to publish images:
 
 ```bash
-# Build with default tags (anasalaqeel/grud-backend:latest, etc.)
+# Build and tag
 docker compose build
+docker tag grud-backend anasalaqeel/grud-backend:latest
+docker tag grud-frontend anasalaqeel/grud-frontend:latest
 
-# Build with a specific tag
-TAG=v1.0.0 docker compose build
+# Push
+docker login
+docker push anasalaqeel/grud-backend:latest
+docker push anasalaqeel/grud-frontend:latest
 ```
 
-### Pushing to Docker Hub
+---
 
-1. Login to Docker Hub:
+## Remote Deployment (via SSH)
 
-   ```bash
-   docker login
-   ```
+Deploy Grud to any server with Docker installed:
 
-2. Push the images:
+```bash
+SERVER_IP=your_server_ip ./scripts/deploy.sh
+```
 
-   ```bash
-   # Push latest
-   docker compose push
+Optional variables:
 
-   # Push specific version
-   TAG=v1.0.0 docker compose push
-   ```
-
-### Configuration
-
-You can customize the image names and tags using environment variables:
-
-| Variable         | Description         | Default                     |
-| ---------------- | ------------------- | --------------------------- |
-| `BACKEND_IMAGE`  | Backend image name  | `anasalaqeel/grud-backend`  |
-| `FRONTEND_IMAGE` | Frontend image name | `anasalaqeel/grud-frontend` |
-| `TAG`            | Image tag           | `latest`                    |
-| `SEED_DATABASE`  | Seed DB on startup  | `false`                     |
+```bash
+SERVER_USER=root \
+DEPLOY_PATH=/opt/grud \
+FRONTEND_PORT=80 \
+BACKEND_PORT=8000 \
+SERVER_IP=1.2.3.4 ./scripts/deploy.sh
+```
 
 ---
 
-## � Remote Deployment (via SSH)
-
-You can deploy Grud to any server with Docker installed using the provided script or workflow.
-
-### Quick Deploy
-
-1. Ensure your `.env.docker` is configured.
-2. Run the deployment script:
-   ```bash
-   SERVER_IP=your_server_ip ./scripts/deploy.sh
-   ```
-
-For detailed instructions, see the [.agent/workflows/deploy.md](.agent/workflows/deploy.md)
-workflow.
-
----
-
-## �📜 License
+## License
 
 Distributed under the MIT License. See [LICENSE](./LICENSE) for details.

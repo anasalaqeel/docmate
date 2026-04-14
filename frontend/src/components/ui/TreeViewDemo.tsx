@@ -75,7 +75,7 @@ const sampleData: TreeNode[] = [
 ];
 
 export const TreeViewDemo: React.FC = () => {
-  const [data, setData] = useState<TreeNode[]>(sampleData);
+  const [data] = useState<TreeNode[]>(sampleData);
   const [selectedNodeId, setSelectedNodeId] = useState<string | number | null>("1");
   const [log, setLog] = useState<string[]>([]);
 
@@ -84,7 +84,7 @@ export const TreeViewDemo: React.FC = () => {
   };
 
   // Drag and drop configuration
-  const dragDropConfig: DragDropConfig = {
+  const dragDropConfig: DragDropConfig<TreeNode> = {
     // Only folders can accept children (files cannot)
     canAcceptChildren: (node: TreeNode) => {
       const canAccept = node.metadata?.isLeaf !== true && node.metadata?.canHaveChildren !== false;
@@ -99,17 +99,9 @@ export const TreeViewDemo: React.FC = () => {
     },
 
     // Log node moves
-    onNodeMove: (draggedNode, targetNode, position) => {
+    onNodeMove: (draggedNode: TreeNode, targetNode: TreeNode, position: "top" | "middle" | "bottom") => {
       addLog(`Moved "${draggedNode.label}" ${position} "${targetNode.label}"`);
     },
-
-    // Prevent self drops and circular references
-    preventSelfDrop: true,
-    preventCircularDrop: true,
-  };
-
-  const handleDataChange = (newData: TreeNode[]) => {
-    setData(newData);
   };
 
   const handleNodeClick = (node: TreeNode) => {
@@ -140,9 +132,7 @@ export const TreeViewDemo: React.FC = () => {
                 data={data}
                 onNodeClick={handleNodeClick}
                 selectedNodeId={selectedNodeId}
-                onDataChange={handleDataChange}
                 dragDropConfig={dragDropConfig}
-                theme="gradient"
                 className="min-h-[400px]"
               />
             </div>
