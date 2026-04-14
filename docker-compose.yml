@@ -27,7 +27,6 @@ services:
       - PORT=${PORT:-8000}
       - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@database:5432/${POSTGRES_DB:-grud}
       - NODE_ENV=production
-      - SEED_DATABASE=${SEED_DATABASE:-false}
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     depends_on:

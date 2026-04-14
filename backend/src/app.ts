@@ -22,7 +22,12 @@ import "./config/settings.definitions";
 const app = new Hono();
 
 // Dynamic CORS configuration based on environment
-const corsOrigins = config.get<string[]>("corsOrigins");
+const rawCorsOrigins = config.get<string[] | string>("corsOrigins");
+const corsOrigins = typeof rawCorsOrigins === "string"
+  ? rawCorsOrigins.split(",").map((o: string) => o.trim()).filter(Boolean)
+  : Array.isArray(rawCorsOrigins)
+    ? rawCorsOrigins
+    : [];
 app.use(
   cors({
     origin:
