@@ -1,0 +1,3 @@
+[install]
+# Set this to your private npm registry URL
+# registry = "https://your-private-registry.example.com/"
