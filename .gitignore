@@ -40,7 +40,7 @@ desktop.ini
 .env
 .env.local
 .env.*.local
-.env.docker
+!.env.example
 
 # Cache
 .cache/

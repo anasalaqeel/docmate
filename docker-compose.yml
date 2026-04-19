@@ -22,7 +22,7 @@ services:
 
     container_name: grud-backend
     restart: unless-stopped
-    env_file: .env.docker
+    env_file: .env
     environment:
       - PORT=${PORT:-8000}
       - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@database:5432/${POSTGRES_DB:-grud}
