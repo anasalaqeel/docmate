@@ -5,9 +5,9 @@ COPY package.json bun.lock bunfig.toml ./
 RUN bun install --frozen-lockfile
 
 COPY . .
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh
 
 ENV NODE_ENV=production
 USER bun
 EXPOSE 8000
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
