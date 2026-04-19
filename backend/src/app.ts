@@ -21,22 +21,30 @@ import "./config/settings.definitions";
 
 const app = new Hono();
 
-// Dynamic CORS configuration based on environment
+// CORS configuration — must be explicitly set via CORS_ORIGINS env var or config
 const rawCorsOrigins = config.get<string[] | string>("corsOrigins");
+if (!rawCorsOrigins || (Array.isArray(rawCorsOrigins) && rawCorsOrigins.length === 0)) {
+  throw new Error(
+    "CORS_ORIGINS is not configured. Set the CORS_ORIGINS environment variable (e.g. CORS_ORIGINS=http://localhost:3000)."
+  );
+}
 const corsOrigins = typeof rawCorsOrigins === "string"
   ? rawCorsOrigins.split(",").map((o: string) => o.trim()).filter(Boolean)
-  : Array.isArray(rawCorsOrigins)
-    ? rawCorsOrigins
-    : [];
+  : rawCorsOrigins;
+
+if (corsOrigins.length === 0) {
+  throw new Error(
+    "CORS_ORIGINS is empty after parsing. Set the CORS_ORIGINS environment variable (e.g. CORS_ORIGINS=http://localhost:3000)."
+  );
+}
 app.use(
   cors({
-    origin:
-      corsOrigins.length > 0
-        ? corsOrigins
-        : ["http://localhost:5173", "http://localhost:5177", "http://localhost:5174"],
-    credentials: true, // Important for cookies
+    origin: corsOrigins,
+    credentials: true,
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
+    allowHeaders: ["Content-Type", "Authorization", "Accept"],
+    exposeHeaders: ["Content-Length", "X-Request-ID"],
+    maxAge: 86400,
   })
 );
 
