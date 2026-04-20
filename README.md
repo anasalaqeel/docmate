@@ -103,10 +103,10 @@ The easiest way to get Grud up and running is using Docker Compose.
 Copy the example environment file and update the values:
 
 ```bash
-cp .env.docker.example .env.docker
+cp .env.example .env
 ```
 
-Edit `.env.docker` and set at minimum:
+Edit `.env` and set at minimum:
 - `POSTGRES_PASSWORD` — a strong database password
 - `AUTH_JWT_SECRET` — a secure random string for JWT signing
 - `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME`, `SEED_ADMIN_PASSWORD` — initial admin credentials
@@ -124,7 +124,7 @@ docker compose up -d
 - **Swagger UI**: `http://localhost:8000/v1/docs`
 
 > On the first run, the backend container automatically handles database schema synchronization.
-> To seed an initial admin user, set `SEED_DATABASE=true` in your `.env.docker`.
+> To seed an initial admin user, set `SEED_DATABASE=true` in your `.env`.
 
 ### Custom Ports
 
