@@ -10,5 +10,10 @@
     "email": "SEED_ADMIN_EMAIL",
     "username": "SEED_ADMIN_USERNAME",
     "password": "SEED_ADMIN_PASSWORD"
+  },
+  "cookie": {
+    "secure": "COOKIE_SECURE",
+    "sameSite": "COOKIE_SAME_SITE"
   }
 }
+

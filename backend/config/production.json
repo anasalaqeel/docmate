@@ -1,3 +1,7 @@
 {
-  "appUrl": ""
+  "appUrl": "",
+  "cookie": {
+    "secure": true,
+    "sameSite": "Strict"
+  }
 }

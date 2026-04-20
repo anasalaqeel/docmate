@@ -104,8 +104,8 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
     const sessionToken = await sign(payload, config.get("authTokenSecret")!);
     setCookie(c, "sessionToken", sessionToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
+      secure: config.get<boolean>("cookie.secure"),
+      sameSite: config.get<"Strict" | "Lax" | "None">("cookie.sameSite"),
     });
 
     return c.json({
@@ -166,8 +166,8 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
       const sessionToken = await sign(payload, config.get("authTokenSecret")!);
       setCookie(c, "sessionToken", sessionToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: "Strict",
+        secure: config.get<boolean>("cookie.secure"),
+        sameSite: config.get<"Strict" | "Lax" | "None">("cookie.sameSite"),
       });
 
       // Fetch user with roles for the response
