@@ -4,6 +4,11 @@ import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  server: {
+    proxy: {
+      "/v1": "http://localhost:8000",
+    },
+  },
   plugins: [
     react({
       babel: {

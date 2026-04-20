@@ -19,7 +19,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-
     container_name: grud-backend
     restart: unless-stopped
     env_file: .env
@@ -27,8 +26,6 @@ services:
       - PORT=${PORT:-8000}
       - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@database:5432/${POSTGRES_DB:-grud}
       - NODE_ENV=production
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
     depends_on:
       database:
         condition: service_healthy
@@ -45,9 +42,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000/v1}
-
     container_name: grud-frontend
     restart: unless-stopped
     ports:

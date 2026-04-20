@@ -12,7 +12,7 @@ export interface ErrorResponse {
 
 // Create axios instance
 const instance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/v1",
+  baseURL: "/v1",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
