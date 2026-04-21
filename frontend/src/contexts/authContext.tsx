@@ -1,7 +1,7 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import authService from '../services/authService';
-import type { User } from '../services/authService';
-import { AuthContext, type AuthContextType } from '../types/auth';
+import { useState, useEffect, type ReactNode } from "react";
+import authService from "../services/authService";
+import type { User } from "../services/authService";
+import { AuthContext, type AuthContextType } from "../types/auth";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -14,14 +14,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const checkAuth = async () => {
     try {
       const response = await authService.getCurrentUser();
-      
+
       if (response.success && response.data) {
         setUser(response.data);
       } else {
         setUser(null);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error("Auth check failed:", error);
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
       return false;
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       return false;
     }
   };
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       await authService.logout();
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     } finally {
       setUser(null);
     }
@@ -64,9 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const hasAnyRole = (roles: string[]): boolean => {
     if (!user) return false;
-    return user.userRoles.some((userRole) => 
-      roles.includes(userRole.role.name)
-    );
+    return user.userRoles.some((userRole) => roles.includes(userRole.role.name));
   };
 
   const value: AuthContextType = {

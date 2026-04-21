@@ -28,7 +28,7 @@ const setupInterceptors = (): void => {
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   // Response interceptor
@@ -50,7 +50,7 @@ const setupInterceptors = (): void => {
       }
 
       return Promise.reject(error);
-    }
+    },
   );
 };
 
@@ -63,17 +63,29 @@ export const get = async <T = unknown>(url: string, config?: AxiosRequestConfig)
   return response.data;
 };
 
-export const post = async <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+export const post = async <T = unknown>(
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig,
+): Promise<T> => {
   const response: AxiosResponse<T> = await instance.post(url, data, config);
   return response.data;
 };
 
-export const put = async <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+export const put = async <T = unknown>(
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig,
+): Promise<T> => {
   const response: AxiosResponse<T> = await instance.put(url, data, config);
   return response.data;
 };
 
-export const patch = async <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+export const patch = async <T = unknown>(
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig,
+): Promise<T> => {
   const response: AxiosResponse<T> = await instance.patch(url, data, config);
   return response.data;
 };
@@ -84,7 +96,11 @@ export const del = async <T = unknown>(url: string, config?: AxiosRequestConfig)
 };
 
 // Utility function to handle file uploads
-export const uploadFile = async <T = unknown>(url: string, file: File, config?: AxiosRequestConfig): Promise<T> => {
+export const uploadFile = async <T = unknown>(
+  url: string,
+  file: File,
+  config?: AxiosRequestConfig,
+): Promise<T> => {
   const formData = new FormData();
   formData.append("file", file);
 
