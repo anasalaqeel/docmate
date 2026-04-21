@@ -23,7 +23,7 @@ export function authorize(allowedRoles: string[]) {
         return c.json({ message: "Unauthorized: Invalid token format" }, 401);
       }
 
-      const payload = await verify(token, config.get("authTokenSecret")!);
+      const payload = await verify(token, config.get("authTokenSecret")!, "HS256");
       const { sessionId } = payload as { sessionId?: number };
       if (!sessionId) {
         return c.json({ message: "Unauthorized: Missing sessionId" }, 401);

@@ -200,7 +200,7 @@ router.get("/me", async (c) => {
       return c.json({ success: false, message: "No session token" }, 401);
     }
 
-    const payload = await verify(token, config.get("authTokenSecret")!);
+    const payload = await verify(token, config.get("authTokenSecret")!, "HS256");
     const { sessionId } = payload as { sessionId?: number };
     if (!sessionId) {
       return c.json({ success: false, message: "Invalid session token" }, 401);
@@ -244,7 +244,7 @@ router.post("/logout", async (c) => {
   try {
     const token = getCookie(c, "sessionToken");
     if (token) {
-      const payload = await verify(token, config.get("authTokenSecret")!);
+      const payload = await verify(token, config.get("authTokenSecret")!, "HS256");
       const { sessionId } = payload as { sessionId?: number };
       if (sessionId) {
         // Deactivate the session
