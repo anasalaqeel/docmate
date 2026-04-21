@@ -6,7 +6,7 @@ import { zValidator } from "@hono/zod-validator";
 import { registerSchema, loginSchema } from "../schemas/auth";
 import { changePasswordSchema, type ChangePasswordRequest } from "../schemas/users";
 import { formatZodError } from "../utils/errors";
-import { sanitizeObject } from "../utils/sanitize";
+import { isValidSession, cookieOptions } from "../utils/sessionAuth";
 import { authRateLimit } from "../middlewares/rateLimiter";
 import { authorize } from "../middlewares/authorize";
 import config from "config";
@@ -19,7 +19,7 @@ const router = new Hono();
 // Register endpoint
 router.post("/register", authRateLimit, zValidator("json", registerSchema), async (c) => {
   try {
-    const { name, username, email, password, redirectUrl } = sanitizeObject(c.req.valid("json"));
+    const { name, username, email, password, redirectUrl } = c.req.valid("json");
 
     // Check if the user already exists (by email or username)
     const existingUser = await db.query.users
@@ -102,11 +102,7 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
     };
 
     const sessionToken = await sign(payload, config.get("authTokenSecret")!);
-    setCookie(c, "sessionToken", sessionToken, {
-      httpOnly: true,
-      secure: config.get<boolean>("cookie.secure"),
-      sameSite: config.get<"Strict" | "Lax" | "None">("cookie.sameSite"),
-    });
+    setCookie(c, "sessionToken", sessionToken, cookieOptions);
 
     return c.json({
       userId: user[0].id,
@@ -125,7 +121,7 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
 // Login endpoint
 router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) => {
   try {
-    const { identifier, password } = sanitizeObject(c.req.valid("json"));
+    const { identifier, password } = c.req.valid("json");
     const user = await db.query.users
       .findFirst({
         where: or(eq(users.email, identifier), eq(users.username, identifier)),
@@ -164,11 +160,7 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
         exp: Math.floor(expirationDate.getTime() / 1000),
       };
       const sessionToken = await sign(payload, config.get("authTokenSecret")!);
-      setCookie(c, "sessionToken", sessionToken, {
-        httpOnly: true,
-        secure: config.get<boolean>("cookie.secure"),
-        sameSite: config.get<"Strict" | "Lax" | "None">("cookie.sameSite"),
-      });
+      setCookie(c, "sessionToken", sessionToken, cookieOptions);
 
       // Fetch user with roles for the response
       const userWithRoles = await db.query.users.findFirst({
@@ -217,8 +209,8 @@ router.get("/me", async (c) => {
     const session = await db.query.sessions.findFirst({
       where: eq(sessions.id, Number(sessionId)),
     });
-    if (!session || session.userId === null) {
-      return c.json({ success: false, message: "Invalid session" }, 401);
+    if (!isValidSession(session)) {
+      return c.json({ success: false, message: "Invalid or expired session" }, 401);
     }
 
     const user = await db.query.users.findFirst({
@@ -263,14 +255,14 @@ router.post("/logout", async (c) => {
       }
     }
 
-    deleteCookie(c, "sessionToken");
+    deleteCookie(c, "sessionToken", cookieOptions);
     return c.json({
       success: true,
       message: "Logged out successfully",
     });
   } catch (error) {
     console.error("Error in /logout route:", error);
-    deleteCookie(c, "sessionToken");
+    deleteCookie(c, "sessionToken", cookieOptions);
     return c.json({
       success: true,
       message: "Logged out successfully",

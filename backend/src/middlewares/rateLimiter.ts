@@ -1,12 +1,20 @@
 import { Context, Next } from 'hono';
 
-// Simple in-memory rate limiting
 const store = new Map<string, { count: number; resetTime: number }>();
+
+// Cleanup expired entries every 10 minutes to prevent memory leaks
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, record] of store) {
+    if (now > record.resetTime) store.delete(key);
+  }
+}, 10 * 60 * 1000);
 
 export function createRateLimiter(windowMs: number, requestCount: number, message: string) {
   return async (c: Context, next: Next) => {
     const key = c.req.header('x-forwarded-for') ||
                 c.req.header('x-real-ip') ||
+                (c.env as { ip?: string }).ip ||
                 'unknown';
 
     const now = Date.now();

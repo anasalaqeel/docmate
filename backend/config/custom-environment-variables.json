@@ -13,7 +13,8 @@
   },
   "cookie": {
     "secure": "COOKIE_SECURE",
-    "sameSite": "COOKIE_SAME_SITE"
+    "sameSite": "COOKIE_SAME_SITE",
+    "path": "COOKIE_PATH"
   }
 }
 

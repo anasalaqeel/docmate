@@ -5,6 +5,7 @@ import db from "../db";
 import { sessions, users } from "../db/schema";
 import { eq } from "drizzle-orm";
 import config from "config";
+import { isValidSession } from "../utils/sessionAuth";
 
 interface Context extends HonoContext {
   get(key: "user"): typeof users;
@@ -18,7 +19,6 @@ export function authorize(allowedRoles: string[]) {
         return c.json({ message: "Unauthorized: No session token" }, 401);
       }
 
-      // Validate token format before verification
       if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/.test(token)) {
         return c.json({ message: "Unauthorized: Invalid token format" }, 401);
       }
@@ -32,8 +32,8 @@ export function authorize(allowedRoles: string[]) {
       const session = await db.query.sessions.findFirst({
         where: eq(sessions.id, Number(sessionId)),
       });
-      if (!session || session.userId === null) {
-        return c.json({ message: "Unauthorized: Invalid session" }, 401);
+      if (!isValidSession(session)) {
+        return c.json({ message: "Unauthorized: Invalid or expired session" }, 401);
       }
 
       const user = await db.query.users.findFirst({
@@ -59,7 +59,6 @@ export function authorize(allowedRoles: string[]) {
         return c.json({ message: "Forbidden: Insufficient permissions" }, 403);
       }
 
-      // Update session last activity
       await db
         .update(sessions)
         .set({ lastActivityAt: new Date() })
