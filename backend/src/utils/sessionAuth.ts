@@ -15,7 +15,7 @@ export function isValidSession(
 
 export const cookieOptions = {
   httpOnly: true,
-  secure: config.get<boolean>("cookie.secure"),
+  secure: config.get("cookie.secure") === true || config.get("cookie.secure") === "true",
   sameSite: config.get<"Strict" | "Lax" | "None">("cookie.sameSite"),
   path: config.get<string>("cookie.path"),
-} as const;
+};
