@@ -189,6 +189,67 @@ Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for g
 
 ---
 
+## External Ingestion API
+
+External applications can push OpenAPI specifications directly into a documentation project using the ingestion endpoint — no admin login required.
+
+### Setup
+
+1. Open a documentation project in the admin panel.
+2. Enable **Ingestion** and copy the generated **Ingestion Token**.
+
+### Endpoint
+
+```
+POST /v1/external-docs/ingest
+```
+
+### Authentication
+
+Include the ingestion token as a Bearer token:
+
+```
+Authorization: Bearer <ingestion-token>
+```
+
+### Request Body
+
+| Field         | Type     | Required | Description                        |
+| ------------- | -------- | -------- | ---------------------------------- |
+| `spec`        | `object` | Yes      | A valid OpenAPI 3.x specification |
+| `version`     | `string` | No       | Override the documentation version |
+| `isPublic`    | `boolean`| No       | Override the public visibility     |
+| `serviceName` | `string` | No       | Service name identifier            |
+
+### Example
+
+```bash
+curl -X POST http://localhost:8000/v1/external-docs/ingest \
+  -H "Authorization: Bearer your-ingestion-token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "version": "2.1.0",
+    "isPublic": true,
+    "spec": {
+      "openapi": "3.1.0",
+      "info": { "title": "My API", "version": "2.1.0" },
+      "paths": {}
+    }
+  }'
+```
+
+### Responses
+
+| Status | Description                                      |
+| ------ | ------------------------------------------------ |
+| `200`  | Documentation updated successfully                |
+| `400`  | Missing or invalid `spec` field                  |
+| `401`  | Missing or invalid ingestion token               |
+| `403`  | Ingestion is disabled for this documentation     |
+| `500`  | Internal server error                            |
+
+---
+
 ## Publishing to Docker Hub
 
 When you're ready to publish images:
