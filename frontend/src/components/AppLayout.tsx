@@ -13,7 +13,7 @@ import {
   Chip,
 } from "@heroui/react";
 import { Link, useNavigate } from "react-router";
-import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { ThemeToggle } from "./ui/themeToggle";
 import { EnhancedButton } from "./ui/enhancedButton";
 import { useLayout } from "../contexts/layoutContext";
@@ -143,15 +143,39 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     </DropdownItem>
                     <DropdownItem 
                         key="admin" 
-                        startContent={<Cog6ToothIcon className="w-4 h-4" />}
                         onPress={() => navigate("/admin")}
+                        startContent={<Cog6ToothIcon className="w-4 h-4" />}
+                        endContent={
+                          <a 
+                            href="/admin" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                            onPointerDown={(e) => e.stopPropagation()}
+                          >
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4 opacity-50 hover:opacity-100" />
+                          </a>
+                        }
                     >
                       Admin Panel
                     </DropdownItem>
                     <DropdownItem 
                         key="docs" 
-                        startContent={<BookOpenIcon className="w-4 h-4" />}
                         onPress={() => navigate("/docs")}
+                        startContent={<BookOpenIcon className="w-4 h-4" />}
+                        endContent={
+                          <a 
+                            href="/docs" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                            onPointerDown={(e) => e.stopPropagation()}
+                          >
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4 opacity-50 hover:opacity-100" />
+                          </a>
+                        }
                     >
                       Documentation
                     </DropdownItem>
