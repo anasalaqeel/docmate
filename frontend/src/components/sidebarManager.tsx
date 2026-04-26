@@ -277,6 +277,7 @@ const SidebarManager = ({
 
       onDeleteClose();
       setModalState(prev => ({ ...prev, itemToDelete: null }));
+      onRefresh(); // Sync persistent base state with optimistic update
     } catch (error) {
       console.error("Failed to delete sidebar item:", error);
       // Revert on error
@@ -305,6 +306,7 @@ const SidebarManager = ({
 
       onClose();
       setModalState(prev => ({ ...prev, editingItem: null }));
+      onRefresh(); // Sync persistent base state with optimistic update
     } catch (error) {
       console.error("Failed to update sidebar item:", error);
       // Revert on error

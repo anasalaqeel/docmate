@@ -161,7 +161,9 @@ const DocsEditorPage = () => {
       }
     };
 
-    addOptimisticDoc(newDocWithItem(doc));
+    React.startTransition(() => {
+      addOptimisticDoc(newDocWithItem(doc));
+    });
 
     try {
       const response = await createSidebarItem(parseInt(id), {
@@ -172,22 +174,8 @@ const DocsEditorPage = () => {
       });
 
       if (response.success && response.data) {
-        // Update with real data - this commits the optimistic update
-        setDoc((prevDoc) => {
-          if (!prevDoc || !prevDoc.sidebarItems) return prevDoc;
-
-          const replaceTempItem = (items: SidebarItem[]): SidebarItem[] => {
-            return items.map((item) => {
-              if (item.id === tempId) return response.data!;
-              if (item.children) {
-                return { ...item, children: replaceTempItem(item.children) };
-              }
-              return item;
-            });
-          };
-
-          return { ...prevDoc, sidebarItems: replaceTempItem(prevDoc.sidebarItems) };
-        });
+        // Silently refresh from the server to ensure tree structural integrity
+        await fetchDocumentation(true);
 
         onClose();
         setNewItemData({
@@ -198,10 +186,8 @@ const DocsEditorPage = () => {
           icon: "",
         });
       }
-      // If response fails, useOptimistic automatically reverts to the previous doc state
     } catch (error) {
       console.error("Failed to create sidebar item:", error);
-      // useOptimistic automatically reverts on error
     }
   };
 
@@ -287,7 +273,9 @@ const DocsEditorPage = () => {
       sidebarItems: deleteItemRecursive(doc.sidebarItems || []),
     } : null;
 
-    addOptimisticDoc(newDoc);
+    React.startTransition(() => {
+      addOptimisticDoc(newDoc);
+    });
 
     // Clear selected item if it was deleted
     setSelectedItem((prev) => (prev?.id === deletedItemId ? null : prev));
@@ -311,7 +299,9 @@ const DocsEditorPage = () => {
       sidebarItems: updateItemRecursive(doc.sidebarItems || []),
     } : null;
 
-    addOptimisticDoc(newDoc);
+    React.startTransition(() => {
+      addOptimisticDoc(newDoc);
+    });
 
     // Update selected item if it was edited
     setSelectedItem((prev) => (prev?.id === itemId ? { ...prev, ...updates } : prev));
