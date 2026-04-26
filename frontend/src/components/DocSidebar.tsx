@@ -169,11 +169,13 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
               }}
             />
 
-            <ApiEndpointsSidebar
-              doc={doc}
-              apiEndpoints={apiEndpoints}
-              selectedEndpointId={endpointId}
-            />
+            {doc.type !== "traditional" && doc.showApiEndpointsInSidebar !== false && (
+              <ApiEndpointsSidebar
+                doc={doc}
+                apiEndpoints={apiEndpoints}
+                selectedEndpointId={endpointId}
+              />
+            )}
           </>
         )}
       </div>
