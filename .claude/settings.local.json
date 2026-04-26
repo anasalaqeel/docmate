@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xxd c:/Users/Anas/Desktop/grud/backend/docker-entrypoint.sh)",
+      "Bash(npx tsc:*)",
+      "Bash(curl -s http://localhost:8000/v1/health)",
+      "WebSearch",
+      "Bash(bun remove:*)",
+      "Bash(bun --version)",
+      "Bash(bun run:*)",
+      "Bash(docker exec:*)"
+    ]
+  }
+}
