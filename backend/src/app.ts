@@ -11,6 +11,8 @@ import rolesRoute from "./routes/rolesRoute";
 import permissionsRoute from "./routes/permissionsRoute";
 import settingsRoute from "./routes/settingsRoute";
 import externalDocsRoute from "./routes/externalDocsRoute";
+import attachmentsRoute from "./routes/attachmentsRoute";
+import uploadsRoute from "./routes/uploadsRoute";
 import { getSpec } from "./utils/openApiGenerator";
 import { initializeSessionCleanup } from "./utils/sessionCleanup";
 import config from "config";
@@ -53,6 +55,8 @@ app.use("*", productionErrorHandler);
 
 const v1 = new Hono();
 
+v1.route("/uploads", uploadsRoute);
+
 v1.route("/", mainRoute);
 v1.route("/auth", authRoute);
 v1.route("/docs", docsRoute);
@@ -61,6 +65,7 @@ v1.route("/roles", rolesRoute);
 v1.route("/permissions", permissionsRoute);
 v1.route("/settings", settingsRoute);
 v1.route("/external-docs", externalDocsRoute);
+v1.route("/attachments", attachmentsRoute);
 
 // Auto-generated OpenAPI spec endpoint
 v1.get("/openapi.json", async (c) => {

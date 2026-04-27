@@ -15,6 +15,7 @@ import MarkdownRenderer from "../components/ui/markdownRenderer";
 import { useSidebarTree } from "../hooks/useSidebarTree";
 import DocSidebar from "../components/DocSidebar";
 import NavButton from "../components/NavButton";
+import ViewerAttachments from "../components/ViewerAttachments";
 import { useLayout } from "../contexts/layoutContext";
 import styles from "../styles/publicDocViewerPage.module.css";
 
@@ -235,6 +236,10 @@ const PublicDocViewerPage = () => {
                 </div>
               )}
 
+              {currentPage.page && (
+                <ViewerAttachments entityId={currentPage.page.id} entityType="page" />
+              )}
+
               {/* Page navigation */}
               {sidebarTree && (
                 <div className={styles.navFooter}>
@@ -304,6 +309,8 @@ const PublicDocViewerPage = () => {
                   </p>
                 </div>
               )}
+
+              <ViewerAttachments entityId={doc.id!} entityType="documentation" />
             </div>
           )}
         </div>

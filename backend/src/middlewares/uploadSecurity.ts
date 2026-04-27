@@ -1,5 +1,6 @@
 import { Context, Next } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
+import config from "config";
 
 // Simple in-memory rate limiter for uploads
 class SimpleRateLimiter {
@@ -64,8 +65,8 @@ export const uploadSecurityMiddleware = async (c: Context, next: Next) => {
   // Validate content length
   if (contentLength) {
     const size = parseInt(contentLength);
-    if (size > 10 * 1024 * 1024) {
-      // 10MB global limit
+    const maxSize = config.get<number>("uploads.maxSize");
+    if (size > maxSize) {
       return c.json({ success: false, message: "Request too large" }, 413);
     }
   }

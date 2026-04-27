@@ -271,6 +271,37 @@ export function registerAllRoutes(): void {
       }
     ]
   });
+
+  // Attachments routes
+  registerRoute("GET", "/attachments/docs/:docId", undefined, {
+    tags: ["Attachments"],
+    summary: "Get project attachments",
+    description: "Retrieve all project-level attachments for a documentation"
+  });
+
+  registerRoute("GET", "/attachments/pages/:pageId", undefined, {
+    tags: ["Attachments"],
+    summary: "Get page attachments",
+    description: "Retrieve all page-level attachments for a specific page"
+  });
+
+  registerRoute("POST", "/attachments/docs/:docId", undefined, {
+    tags: ["Attachments"],
+    summary: "Upload project attachment",
+    description: "Upload and link a file to a documentation project globally"
+  });
+
+  registerRoute("POST", "/attachments/pages/:pageId", undefined, {
+    tags: ["Attachments"],
+    summary: "Upload page attachment",
+    description: "Upload and link a file to a specific documentation page"
+  });
+
+  registerRoute("DELETE", "/attachments/:id", undefined, {
+    tags: ["Attachments"],
+    summary: "Delete attachment",
+    description: "Permanently delete an attachment and its physical file"
+  });
 }
 
 // Call this function to register all routes

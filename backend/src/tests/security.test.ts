@@ -10,14 +10,14 @@ import { adminCreateUserSchema } from '../schemas/users';
 describe('Input Security', () => {
   test('should sanitize HTML scripts', () => {
     const malicious = '<script>alert("xss")</script>Hello';
-    const clean = sanitizeInput(malicious, 'content');
+    const clean = sanitizeInput(malicious, 'general');
     expect(clean).not.toContain('<script>');
     expect(clean).toContain('Hello');
   });
 
   test('should sanitize email addresses', () => {
     const email = 'TEST@EXAMPLE.COM<script>';
-    const clean = sanitizeInput(email, 'email');
+    const clean = sanitizeInput(email, 'general');
     expect(clean).toBe('test@example.com');
   });
 

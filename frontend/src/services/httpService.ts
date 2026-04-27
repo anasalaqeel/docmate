@@ -99,10 +99,17 @@ export const del = async <T = unknown>(url: string, config?: AxiosRequestConfig)
 export const uploadFile = async <T = unknown>(
   url: string,
   file: File,
+  additionalData?: Record<string, string>,
   config?: AxiosRequestConfig,
 ): Promise<T> => {
   const formData = new FormData();
   formData.append("file", file);
+  
+  if (additionalData) {
+    Object.entries(additionalData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+  }
 
   const response: AxiosResponse<T> = await instance.post(url, formData, {
     ...config,

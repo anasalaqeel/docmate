@@ -60,7 +60,7 @@ export const SETTINGS_KEYS = {
 
 // Type for all possible setting keys
 export type SettingKey =
-  | (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS]
+  | (typeof SETTINGS_KEYS.BRANDING)[keyof typeof SETTINGS_KEYS.BRANDING]
   | (typeof SETTINGS_KEYS.THEME.COLORS)[keyof typeof SETTINGS_KEYS.THEME.COLORS]
   | (typeof SETTINGS_KEYS.THEME.TYPOGRAPHY)[keyof typeof SETTINGS_KEYS.THEME.TYPOGRAPHY]
   | (typeof SETTINGS_KEYS.THEME.BORDER_RADIUS)[keyof typeof SETTINGS_KEYS.THEME.BORDER_RADIUS]

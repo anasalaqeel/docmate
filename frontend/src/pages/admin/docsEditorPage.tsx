@@ -32,6 +32,7 @@ import {
   ArrowPathIcon,
   ClipboardDocumentIcon,
   ClipboardDocumentCheckIcon,
+  PaperClipIcon,
 } from "@heroicons/react/24/outline";
 import { getDocById, createSidebarItem, updateDoc } from "../../services/docsService";
 import SidebarManager from "../../components/sidebarManager";
@@ -39,6 +40,7 @@ import PageEditor from "../../components/pageEditor";
 import DocumentationTypeSelector from "../../components/documentationTypeSelector";
 import OpenApiViewer from "../../components/openApiViewer";
 import TrashManager from "../../components/trashManager";
+import AttachmentManager from "../../components/AttachmentManager";
 import { EmojiPickerInput } from "../../components/ui";
 import { useSidebarTree } from "../../hooks/useSidebarTree";
 import styles from "../../styles/docsEditorPage.module.css";
@@ -669,6 +671,30 @@ const DocsEditorPage = () => {
               }
             >
               <TrashManager docId={parseInt(id!)} onRestore={fetchDocumentation} />
+            </Tab>
+
+            <Tab
+              key="attachments"
+              title={
+                <div className="flex items-center gap-2">
+                  <PaperClipIcon className="w-4 h-4" />
+                  Attachments
+                </div>
+              }
+            >
+              <Card className={styles.card}>
+                <CardBody className="p-6">
+                  <AttachmentManager
+                    entityId={(selectedItem && selectedItem.page) ? selectedItem.page.id : parseInt(id!)}
+                    entityType={(selectedItem && selectedItem.page) ? "page" : "documentation"}
+                    title={(selectedItem && selectedItem.page) ? `Page Attachments: ${selectedItem.title}` : `Project Attachments: ${doc?.title || ""}`}
+                    description={(selectedItem && selectedItem.page) 
+                      ? "Files specifically attached to this page." 
+                      : "Global files available to the entire documentation project."
+                    }
+                  />
+                </CardBody>
+              </Card>
             </Tab>
           </Tabs>
         </div>

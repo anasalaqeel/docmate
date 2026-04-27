@@ -1,8 +1,8 @@
 import { createHash, randomUUID } from 'crypto';
 import { fileTypeFromBuffer } from 'file-type';
 import { join } from 'path';
-import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
-import { BunFile } from 'bun';
+import { existsSync, mkdirSync } from 'fs';
+import config from 'config';
 
 // Bun.js native file interface
 export interface BunFileUpload {
@@ -58,7 +58,7 @@ export class BunFileUploader {
 
       // Validate MIME type
       if (!this.options.allowedMimeTypes.includes(file.type)) {
-        throw new Error(`Invalid file type. Allowed types: ${this.options.allowedMimeTypes.join(', ')}`);
+        throw new Error(`Invalid file type: ${file.type}. Allowed types: ${this.options.allowedMimeTypes.join(', ')}`);
       }
 
       // Get file buffer using Bun's native method
@@ -82,13 +82,13 @@ export class BunFileUploader {
 
       // Write file using Bun's optimized file system
       const filePath = join(this.uploadDir, secureFilename);
-      writeFileSync(filePath, uint8Array);
+      await Bun.write(filePath, uint8Array);
 
       // Generate checksum for integrity
       const checksum = createHash('sha256').update(uint8Array).digest('hex');
 
       // Generate web path (never expose file system path)
-      const webPath = `/uploads/${uploadType}/${secureFilename}`;
+      const webPath = `/v1/uploads/${uploadType}/${secureFilename}`;
 
       // Get file signature for additional verification
       const fileSignature = this.getFileSignature(uint8Array);
@@ -105,7 +105,7 @@ export class BunFileUploader {
         fileSignature
       };
 
-    } catch (error) {
+    } catch (error: unknown) {
       throw new Error(`File upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
@@ -187,17 +187,30 @@ export class BunFileUploader {
       'image/vnd.microsoft.icon': 'ico',
       'text/css': 'css',
       'application/javascript': 'js',
-      'text/javascript': 'js'
+      'text/javascript': 'js',
+      'application/pdf': 'pdf',
+      'application/zip': 'zip',
+      'application/x-zip-compressed': 'zip',
+      'application/msword': 'doc',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+      'application/vnd.ms-powerpoint': 'ppt',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
+      'text/plain': 'txt',
+      'text/csv': 'csv',
+      'application/json': 'json'
     };
 
     return extensions[mimeType] || 'bin';
   }
 
   // Cleanup method for removing files
-  deleteFile(filename: string): void {
+  async deleteFile(filename: string): Promise<void> {
     const filePath = join(this.uploadDir, filename);
-    if (existsSync(filePath)) {
-      unlinkSync(filePath);
+    const file = Bun.file(filePath);
+    if (await file.exists()) {
+      await file.delete();
     }
   }
 
@@ -217,21 +230,53 @@ export class BunFileUploader {
 // Whitelist and configurations optimized for Bun
 export const UPLOAD_CONFIGS = {
   logo: {
-    maxSize: 2 * 1024 * 1024, // 2MB
+    maxSize: config.get<number>('uploads.configs.logo.maxSize'),
     allowedMimeTypes: ['image/svg+xml', 'image/png', 'image/jpeg', 'image/webp'],
     uploadDir: join(process.cwd(), 'uploads', 'logo')
   },
   favicon: {
-    maxSize: 512 * 1024, // 512KB
+    maxSize: config.get<number>('uploads.configs.favicon.maxSize'),
     allowedMimeTypes: ['image/x-icon', 'image/png', 'image/vnd.microsoft.icon', 'image/svg+xml'],
     uploadDir: join(process.cwd(), 'uploads', 'favicon')
   },
   custom_asset: {
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: config.get<number>('uploads.configs.custom_asset.maxSize'),
     allowedMimeTypes: ['image/svg+xml', 'image/png', 'image/jpeg', 'image/webp', 'text/css', 'application/javascript'],
     uploadDir: join(process.cwd(), 'uploads', 'custom_asset')
+  },
+  attachment: {
+    maxSize: config.get<number>('uploads.configs.attachment.maxSize'),
+    allowedMimeTypes: [
+      'application/pdf',
+      'application/zip',
+      'application/x-zip-compressed',
+      'application/x-7z-compressed',
+      'application/x-rar-compressed',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/vnd.oasis.opendocument.text',
+      'application/vnd.oasis.opendocument.spreadsheet',
+      'application/vnd.oasis.opendocument.presentation',
+      'text/plain',
+      'text/csv',
+      'text/markdown',
+      'text/x-markdown',
+      'text/rtf',
+      'application/rtf',
+      'application/json',
+      'image/svg+xml',
+      'image/png',
+      'image/jpeg',
+      'image/webp',
+      'image/gif'
+    ],
+    uploadDir: join(process.cwd(), 'uploads', 'attachment')
   }
-} as const;
+};
 
 // Singleton instance
 export const fileUploadService = {
@@ -246,11 +291,19 @@ export const fileUploadService = {
   },
 
   async validateFileIntegrity(filePath: string, expectedChecksum: string): Promise<boolean> {
+    // Need to find which config has this file or use a generic one
     const uploader = new BunFileUploader({
       maxSize: 0,
       allowedMimeTypes: [],
       uploadDir: ''
     });
     return await uploader.validateFileIntegrity(filePath, expectedChecksum);
+  },
+
+  async deleteFile(filename: string, uploadType: string = 'attachment'): Promise<void> {
+    const config = UPLOAD_CONFIGS[uploadType as keyof typeof UPLOAD_CONFIGS];
+    if (!config) return;
+    const uploader = new BunFileUploader(config);
+    await uploader.deleteFile(filename);
   }
 };

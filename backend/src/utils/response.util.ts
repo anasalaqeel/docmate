@@ -130,8 +130,8 @@ export function handleError(error: unknown): { json: ApiResponse; status: number
     // Handle known error types
     if ("status" in error && typeof error.status === "number") {
       return createErrorResponse(
-        error.message || "Error occurred",
-        "errors" in error ? error.errors as Record<string, string> : undefined,
+        (error as any).message || "Error occurred",
+        "errors" in error ? (error as any).errors as Record<string, string> : undefined,
         error.status
       );
     }
@@ -139,7 +139,7 @@ export function handleError(error: unknown): { json: ApiResponse; status: number
     // Handle validation errors
     if ("name" in error && error.name === "ValidationError") {
       return createValidationErrorResponse(
-        "errors" in error ? error.errors as Record<string, string> : { _: error.message || "Validation failed" }
+        "errors" in error ? (error as any).errors as Record<string, string> : { _: (error as any).message || "Validation failed" }
       );
     }
   }

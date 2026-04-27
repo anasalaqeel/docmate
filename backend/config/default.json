@@ -4,6 +4,22 @@
     "secure": false,
     "sameSite": "Lax",
     "path": "/v1"
+  },
+  "uploads": {
+    "maxSize": 26214400,
+    "configs": {
+      "logo": {
+        "maxSize": 2097152
+      },
+      "favicon": {
+        "maxSize": 524288
+      },
+      "custom_asset": {
+        "maxSize": 5242880
+      },
+      "attachment": {
+        "maxSize": 26214400
+      }
+    }
   }
 }
-

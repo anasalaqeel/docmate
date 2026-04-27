@@ -63,9 +63,9 @@ export const rolePermissions = pgTable(
     roleId: integer().references(() => roles.id),
     permissionId: integer().references(() => permissions.id),
   },
-  (table) => ({
-    rolePermissionUnique: unique().on(table.roleId, table.permissionId),
-  }),
+  (table) => [
+    unique().on(table.roleId, table.permissionId),
+  ],
 );
 
 export const userRoles = pgTable("user_roles", {
@@ -170,18 +170,18 @@ export const sidebarItems: any = pgTable(
     level: integer().default(0), // Store depth level for queries
     isActive: boolean().default(true), // Active flag for filtering
   },
-  (table) => ({
+  (table) => [
     // Prevent item from referencing itself as parent
-    checkParentNotSelf: check(
+    check(
       "parent_not_self",
       sql`${table.parentId} IS NULL OR ${table.parentId} != ${table.id}`,
     ),
     // Ensure materialized path is not null for root items
-    checkMaterializedPath: check(
+    check(
       "materialized_path_not_null",
       sql`${table.parentId} IS NULL OR ${table.materializedPath} IS NOT NULL`,
     ),
-  }),
+  ],
 );
 
 export const pages = pgTable("pages", {
@@ -237,6 +237,7 @@ export const documentationsRelations = relations(documentations, ({ one, many })
   }),
   sidebarItems: many(sidebarItems),
   openApiSpecs: many(openApiSpecs),
+  attachments: many(uploads),
 }));
 
 // Type definitions for new schema fields
@@ -267,11 +268,12 @@ export const sidebarItemsRelations = relations(sidebarItems, ({ one, many }) => 
   }),
 }));
 
-export const pagesRelations = relations(pages, ({ one }) => ({
+export const pagesRelations = relations(pages, ({ one, many }) => ({
   sidebarItem: one(sidebarItems, {
     fields: [pages.sidebarItemId],
     references: [sidebarItems.id],
   }),
+  attachments: many(uploads),
 }));
 
 export const openApiSpecsRelations = relations(openApiSpecs, ({ one }) => ({
@@ -312,8 +314,24 @@ export const uploads = pgTable("uploads", {
   lastAccessedAt: timestamp().defaultNow().notNull(), // Access tracking
   storagePath: varchar({ length: 500 }).default(""), // Secure storage path
   uploadedBy: integer().references(() => users.id), // User who uploaded
+  documentationId: integer().references(() => documentations.id, { onDelete: "cascade" }),
+  pageId: integer().references(() => pages.id, { onDelete: "cascade" }),
+  description: text(),
   createdAt: timestamp().defaultNow().notNull(),
 });
 
 // Relations for uploads
-export const uploadsRelations = relations(uploads, ({ one }) => ({}));
+export const uploadsRelations = relations(uploads, ({ one }) => ({
+  user: one(users, {
+    fields: [uploads.uploadedBy],
+    references: [users.id],
+  }),
+  documentation: one(documentations, {
+    fields: [uploads.documentationId],
+    references: [documentations.id],
+  }),
+  page: one(pages, {
+    fields: [uploads.pageId],
+    references: [pages.id],
+  }),
+}));

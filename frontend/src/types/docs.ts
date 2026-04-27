@@ -223,3 +223,19 @@ export interface Documentation {
   sidebarItems?: SidebarItem[];
   openApiSpecs?: OpenApiSpec[];
 }
+
+export interface Attachment {
+  id: number;
+  type: string;
+  filename: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  path: string;
+  uploadedAt: string;
+  checksum: string;
+  description?: string | null;
+  documentationId?: number | null;
+  pageId?: number | null;
+  uploadedBy?: number | null;
+}

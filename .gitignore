@@ -21,6 +21,7 @@ target/
 .vscode/
 .idea/
 *.swp
+*.swp
 *.swo
 .project
 .classpath
@@ -47,3 +48,6 @@ desktop.ini
 .npm/
 .eslintcache
 __pycache__/
+
+# User Uploads
+backend/uploads/
