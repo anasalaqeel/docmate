@@ -402,7 +402,7 @@ const DocsEditorPage = () => {
             v{doc.version}
           </Chip>
           <ExportButton 
-            documentId={doc.id} 
+            documentId={doc.id!} 
             documentTitle={doc.title} 
             size="sm" 
             variant="flat" 

@@ -224,7 +224,7 @@ const PublicDocViewerPage = () => {
                     <BreadcrumbItem>{currentPage.title}</BreadcrumbItem>
                   </Breadcrumbs>
                   <ExportButton 
-                    documentId={doc.id} 
+                    documentId={doc.id!} 
                     documentTitle={doc.title} 
                     size="sm" 
                     variant="flat" 
@@ -300,7 +300,7 @@ const PublicDocViewerPage = () => {
                   Version {doc.version}
                 </Chip>
                 <ExportButton 
-                  documentId={doc.id} 
+                  documentId={doc.id!} 
                   documentTitle={doc.title} 
                   size="md" 
                   variant="flat" 
