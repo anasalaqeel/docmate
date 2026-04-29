@@ -68,24 +68,29 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
         : `/docs/import`;
 
       const result = await httpService.uploadFile<any>(importUrl, file);
+      
+      // The backend wraps the response data in a 'data' property
+      const importData = result.data || result;
 
       // Debug log to see what we got back
-      console.log("ImportButton: Import result", { result, hasCallback: !!onImportSuccess });
+      console.log("ImportButton: Import result", { result, importData, hasCallback: !!onImportSuccess });
 
       // Show success message with details
-      if (result.createdItems) {
-        toast.success(`Document imported successfully! ${result.createdItems} items created.`);
+      if (importData.createdItems) {
+        toast.success(`Document imported successfully! ${importData.createdItems} items created.`);
       } else {
         toast.success("Document imported successfully!");
       }
 
-      // Call success callback if provided - just need successful import, not necessarily document data
-      if (onImportSuccess) {
+      // Call success callback if provided
+      if (onImportSuccess && importData.document) {
         console.log("ImportButton: Calling onImportSuccess", {
-          document: result.document,
+          document: importData.document,
           callback: !!onImportSuccess,
         });
-        onImportSuccess(result.document);
+        onImportSuccess(importData.document);
+      } else if (onImportSuccess) {
+        console.warn("ImportButton: No document data found in response for onImportSuccess");
       }
 
       // Reset file input

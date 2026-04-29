@@ -220,8 +220,13 @@ const DocsListPage = () => {
 
   const handleImportSuccess = (document: Documentation) => {
     console.log("handleImportSuccess called!", { document });
-    // Optimistic update - add immediately
-    addOptimisticDoc([...docs, document]);
+    if (!document || !document.id) {
+      console.warn("handleImportSuccess: received invalid document payload, fetching docs...");
+      fetchDocs();
+      return;
+    }
+    // Update source of truth state so it persists across renders
+    setDocs((prevDocs) => [...prevDocs, document]);
   };
 
 

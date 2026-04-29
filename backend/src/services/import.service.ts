@@ -310,7 +310,8 @@ class ImportService {
    * Build sidebar structure from markdown files
    */
   private buildSidebarFromMarkdown(files: { [key: string]: Buffer }): ImportSidebarItem[] {
-    const sidebarItems: ImportSidebarItem[] = [];
+    const rootSidebarItems: ImportSidebarItem[] = [];
+    const folderMap = new Map<string, ImportSidebarItem>();
     let order = 0;
 
     // Find all page files
@@ -318,15 +319,13 @@ class ImportService {
       (filename) => filename.startsWith("pages/") && filename.endsWith(".md")
     );
 
-    // Group pages by folder structure
-    const folderStructure: { [key: string]: ImportSidebarItem } = {};
-
     pageFiles.forEach((filename) => {
       const content = files[filename].toString();
-      const pathParts = filename.replace("pages/", "").replace(".md", "").split("/");
+      const relativePath = filename.replace("pages/", "").replace(".md", "");
+      const pathParts = relativePath.split("/");
       const pageData = this.parseMarkdownFile(content);
 
-      let currentFolder = folderStructure;
+      let currentChildren = rootSidebarItems;
       let currentPath = "";
 
       // Build folder structure
@@ -334,22 +333,25 @@ class ImportService {
         const folderName = pathParts[i];
         currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
 
-        if (!currentFolder[folderName]) {
-          currentFolder[folderName] = {
+        if (!folderMap.has(currentPath)) {
+          const folderItem: ImportSidebarItem = {
             id: -1, // Temporary ID
             title: folderName.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
             type: "folder",
             order: order++,
             children: [],
           };
+          folderMap.set(currentPath, folderItem);
+          currentChildren.push(folderItem);
         }
-        currentFolder = currentFolder[folderName].children as any;
+
+        currentChildren = folderMap.get(currentPath)!.children;
       }
 
       // Add page
-      const pageTitle = pathParts[pathParts.length - 1]
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
+      const rawPageTitle = pathParts[pathParts.length - 1];
+      const pageTitle = rawPageTitle.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+      
       const pageItem: ImportSidebarItem = {
         id: -1, // Temporary ID
         title: pageData.title || pageTitle,
@@ -358,27 +360,18 @@ class ImportService {
         children: [],
         page: {
           title: pageData.title || pageTitle,
-          slug: pageData.slug || pathParts[pathParts.length - 1],
-          content: content,
+          slug: pageData.slug || rawPageTitle,
+          content: { description: content },
           metadata: pageData.metadata,
           created_at: pageData.created_at,
           updated_at: pageData.updated_at,
         },
       };
 
-      if (currentFolder === folderStructure) {
-        // Root level page
-        sidebarItems.push(pageItem);
-      } else {
-        // Page in folder
-        currentFolder[Object.keys(currentFolder).length - 1] = pageItem;
-      }
+      currentChildren.push(pageItem);
     });
 
-    // Convert folder structure to array
-    return Object.values(folderStructure)
-      .concat(sidebarItems)
-      .sort((a, b) => a.order - b.order);
+    return rootSidebarItems.sort((a, b) => a.order - b.order);
   }
 
   /**
