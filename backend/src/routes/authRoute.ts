@@ -235,6 +235,11 @@ router.get("/me", async (c) => {
     });
   } catch (error) {
     console.error("Error in /me route:", error);
+    const isAuthError = error instanceof Error && 
+      (error.name.startsWith("Jwt") || error.message.includes("expired") || error.message.includes("token"));
+    if (isAuthError) {
+      return c.json({ success: false, message: error.message }, 401);
+    }
     return c.json({ success: false, message: "Failed to get user" }, 500);
   }
 });

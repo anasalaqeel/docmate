@@ -17,6 +17,7 @@ import DocSidebar from "../components/DocSidebar";
 import NavButton from "../components/NavButton";
 import ViewerAttachments from "../components/ViewerAttachments";
 import { useLayout } from "../contexts/layoutContext";
+import ExportButton from "../components/ExportButton";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 const PublicDocViewerPage = () => {
@@ -212,15 +213,24 @@ const PublicDocViewerPage = () => {
           {pageId && currentPage && !endpointId && (
             <div className={styles.pageContent}>
               <div className={styles.pageHeader}>
-                <Breadcrumbs
-                  variant="light"
-                  classNames={{
-                    list: "gap-2",
-                  }}
-                >
-                  <BreadcrumbItem>{doc.title}</BreadcrumbItem>
-                  <BreadcrumbItem>{currentPage.title}</BreadcrumbItem>
-                </Breadcrumbs>
+                <div className="flex justify-between items-center mb-2">
+                  <Breadcrumbs
+                    variant="light"
+                    classNames={{
+                      list: "gap-2",
+                    }}
+                  >
+                    <BreadcrumbItem>{doc.title}</BreadcrumbItem>
+                    <BreadcrumbItem>{currentPage.title}</BreadcrumbItem>
+                  </Breadcrumbs>
+                  <ExportButton 
+                    documentId={doc.id} 
+                    documentTitle={doc.title} 
+                    size="sm" 
+                    variant="flat" 
+                    className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                  />
+                </div>
                 <h1 className={styles.pageTitle}>{currentPage.title}</h1>
               </div>
 
@@ -289,6 +299,13 @@ const PublicDocViewerPage = () => {
                 >
                   Version {doc.version}
                 </Chip>
+                <ExportButton 
+                  documentId={doc.id} 
+                  documentTitle={doc.title} 
+                  size="md" 
+                  variant="flat" 
+                  className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                />
                 <span className={styles.author}>Created by {doc.creator?.name || "Unknown"}</span>
               </div>
               <p className={styles.welcomeText}>

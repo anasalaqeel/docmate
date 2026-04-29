@@ -46,13 +46,13 @@ let config: OpenAPIConfig = {
   title: "GRUD Backend API",
   version: "1.0.0",
   description: "API documentation for GRUD backend services",
-  serverUrl: "http://localhost:8002/v1",
-  serverDescription: "Development server",
+  serverUrl: "/v1", // Default to relative path
+  serverDescription: "API Server",
 };
 
 // Initialize configuration
-export function initializeOpenAPI(openApiConfig: OpenAPIConfig): void {
-  config = openApiConfig;
+export function initializeOpenAPI(openApiConfig: Partial<OpenAPIConfig>): void {
+  config = { ...config, ...openApiConfig };
 }
 
 // Register a route with its schema

@@ -19,6 +19,12 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
+let onUnauthorizedCallback: (() => void) | null = null;
+
+export const setUnauthorizedCallback = (callback: (() => void) | null): void => {
+  onUnauthorizedCallback = callback;
+};
+
 // Setup interceptors
 const setupInterceptors = (): void => {
   // Request interceptor
@@ -39,8 +45,12 @@ const setupInterceptors = (): void => {
     (error) => {
       // Handle common errors
       if (error.response?.status === 401) {
-        // Unauthorized - could trigger logout
         console.warn("Unauthorized request");
+        if (!error.config?.url?.includes("/auth/login") && !error.config?.url?.includes("/auth/me")) {
+          if (onUnauthorizedCallback) {
+            onUnauthorizedCallback();
+          }
+        }
       } else if (error.response?.status === 403) {
         // Forbidden
         console.warn("Forbidden request");

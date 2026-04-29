@@ -3,6 +3,7 @@ import { DocumentArrowUpIcon, ArchiveBoxIcon, CloudArrowUpIcon } from "@heroicon
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { EnhancedButton } from "./ui/enhancedButton";
+import httpService from "../services/httpService";
 
 interface ImportButtonProps {
   documentId?: number;
@@ -36,7 +37,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
   const importOptions: ImportOption[] = [
     {
       key: "zip",
-      label: "Markdown Export",
+      label: "Markdown ZIP",
       description: "Import from a previously exported Markdown ZIP file",
       icon: <ArchiveBoxIcon className="w-4 h-4" />,
       accept: ".zip,application/zip",
@@ -62,26 +63,11 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
     setIsImporting(true);
 
     try {
-      const baseUrl = "http://localhost:8002/v1";
       const importUrl = documentId
-        ? `${baseUrl}/docs/${documentId}/import`
-        : `${baseUrl}/docs/import`;
+        ? `/docs/${documentId}/import`
+        : `/docs/import`;
 
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch(importUrl, {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `Import failed with status: ${response.status}`);
-      }
-
-      const result = await response.json();
+      const result = await httpService.uploadFile<any>(importUrl, file);
 
       // Debug log to see what we got back
       console.log("ImportButton: Import result", { result, hasCallback: !!onImportSuccess });

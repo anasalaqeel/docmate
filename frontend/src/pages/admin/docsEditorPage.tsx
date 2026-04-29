@@ -43,6 +43,8 @@ import TrashManager from "../../components/trashManager";
 import AttachmentManager from "../../components/AttachmentManager";
 import { EmojiPickerInput } from "../../components/ui";
 import { useSidebarTree } from "../../hooks/useSidebarTree";
+import ExportButton from "../../components/ExportButton";
+import ImportButton from "../../components/ImportButton";
 import styles from "../../styles/docsEditorPage.module.css";
 
 import { useLayout } from "../../contexts/layoutContext";
@@ -399,6 +401,20 @@ const DocsEditorPage = () => {
           <Chip variant="flat" size="sm" className="font-medium shadow-sm">
             v{doc.version}
           </Chip>
+          <ExportButton 
+            documentId={doc.id} 
+            documentTitle={doc.title} 
+            size="sm" 
+            variant="flat" 
+            className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all" 
+          />
+          <ImportButton
+            documentId={doc.id}
+            onImportSuccess={() => fetchDocumentation()}
+            size="sm"
+            variant="flat"
+            className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+          />
           <Button
             onPress={() => openCreateModal()}
             className={`${styles.buttonPrimary} font-medium px-4`}

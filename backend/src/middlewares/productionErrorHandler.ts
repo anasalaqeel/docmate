@@ -13,7 +13,7 @@ export async function productionErrorHandler(c: Context, next: Next) {
     let type = 'general';
     const errorObj = error as any;
     if (error instanceof ZodError) type = 'validation';
-    else if (errorObj?.status === 401 || errorObj?.message?.toLowerCase().includes('auth')) type = 'auth';
+    else if (errorObj?.status === 401 || errorObj?.message?.toLowerCase().includes('auth') || errorObj?.name?.startsWith('JwtToken')) type = 'auth';
     else if (errorObj?.status === 403) type = 'authorization';
     else if (errorObj?.status === 429) type = 'rate_limit';
     else if (errorObj?.message?.toLowerCase().includes('database')) type = 'database';

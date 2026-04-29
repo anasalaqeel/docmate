@@ -13,13 +13,20 @@ import settingsRoute from "./routes/settingsRoute";
 import externalDocsRoute from "./routes/externalDocsRoute";
 import attachmentsRoute from "./routes/attachmentsRoute";
 import uploadsRoute from "./routes/uploadsRoute";
-import { getSpec } from "./utils/openApiGenerator";
+import { getSpec, initializeOpenAPI } from "./utils/openApiGenerator";
 import { initializeSessionCleanup } from "./utils/sessionCleanup";
 import config from "config";
 // Explicitly register OpenAPI documentation
 import "./utils/registerRoutes";
 // Import settings definitions to register them
 import "./config/settings.definitions";
+
+// Initialize OpenAPI with dynamic server URL
+const appUrl = config.get<string>("appUrl") || "";
+initializeOpenAPI({
+  serverUrl: appUrl ? `${appUrl.replace(/\/$/, "")}/v1` : "/v1",
+  serverDescription: process.env.NODE_ENV === "production" ? "Production Server" : "Development Server",
+});
 
 const app = new Hono();
 

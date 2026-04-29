@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import authService from "../services/authService";
 import type { User } from "../services/authService";
 import { AuthContext, type AuthContextType } from "../types/auth";
+import { setUnauthorizedCallback } from "../services/httpService";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -30,6 +31,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     checkAuth();
+
+    setUnauthorizedCallback(() => {
+      logout();
+    });
+
+    return () => {
+      setUnauthorizedCallback(null);
+    };
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
