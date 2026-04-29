@@ -51,3 +51,6 @@ __pycache__/
 
 # User Uploads
 backend/uploads/
+
+# Certificates
+certs/
