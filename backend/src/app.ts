@@ -88,7 +88,7 @@ app.get("/swagger", swaggerUI({ url: "/v1/openapi.json" }));
 // Health check endpoint (outside /v1 so it's easily accessible)
 app.get("/health", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));
 
-app.route("/v1/", v1);
+app.route("/v1", v1);
 
 // Initialize session cleanup job (runs every hour by default)
 initializeSessionCleanup();
