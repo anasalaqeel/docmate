@@ -13,6 +13,7 @@ import settingsRoute from "./routes/settingsRoute";
 import externalDocsRoute from "./routes/externalDocsRoute";
 import attachmentsRoute from "./routes/attachmentsRoute";
 import uploadsRoute from "./routes/uploadsRoute";
+import proxyRoute from "./routes/proxyRoute";
 import { getSpec, initializeOpenAPI } from "./utils/openApiGenerator";
 import { initializeSessionCleanup } from "./utils/sessionCleanup";
 import config from "config";
@@ -73,6 +74,7 @@ v1.route("/permissions", permissionsRoute);
 v1.route("/settings", settingsRoute);
 v1.route("/external-docs", externalDocsRoute);
 v1.route("/attachments", attachmentsRoute);
+v1.route("/proxy", proxyRoute);
 
 // Auto-generated OpenAPI spec endpoint
 v1.get("/openapi.json", async (c) => {

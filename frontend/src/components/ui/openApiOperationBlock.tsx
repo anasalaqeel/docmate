@@ -254,40 +254,75 @@ const OpenApiOperationBlock = ({
         testUrl += `?${queryParams.toString()}`;
       }
 
-      // Build request
-      const requestOptions: RequestInit = {
-        method: operation.method,
-        headers: {
-          'Content-Type': 'application/json',
-          ...testHeaders
-        }
-      };
+      const isExternalUrl = testUrl.startsWith('http') && !testUrl.startsWith(window.location.origin);
+      
+      let result;
 
-      // Add request body for non-GET requests
-      if (operation.method !== 'GET' && testRequestBody) {
+      if (isExternalUrl) {
+        // Use proxy for external URLs to avoid CORS issues
+        const proxyResponse = await httpService.post<{
+          status: number;
+          statusText: string;
+          headers: Record<string, string>;
+          data: unknown;
+        }>('/proxy', {
+          url: testUrl,
+          method: operation.method,
+          headers: {
+            'Content-Type': 'application/json',
+            ...testHeaders
+          },
+          body: operation.method !== 'GET' ? (function() {
+            try {
+              return JSON.parse(testRequestBody);
+            } catch {
+              return testRequestBody;
+            }
+          })() : undefined
+        });
+
+        result = {
+          status: proxyResponse.status,
+          statusText: proxyResponse.statusText,
+          headers: proxyResponse.headers,
+          body: proxyResponse.data
+        };
+      } else {
+        // Build request for local URL
+        const requestOptions: RequestInit = {
+          method: operation.method,
+          headers: {
+            'Content-Type': 'application/json',
+            ...testHeaders
+          }
+        };
+
+        // Add request body for non-GET requests
+        if (operation.method !== 'GET' && testRequestBody) {
+          try {
+            requestOptions.body = JSON.stringify(JSON.parse(testRequestBody));
+          } catch {
+            requestOptions.body = testRequestBody;
+          }
+        }
+
+        const response = await fetch(testUrl, requestOptions);
+        const responseText = await response.text();
+
+        let responseJson;
         try {
-          requestOptions.body = JSON.stringify(JSON.parse(testRequestBody));
+          responseJson = JSON.parse(responseText);
         } catch {
-          requestOptions.body = testRequestBody;
+          responseJson = responseText;
         }
+
+        result = {
+          status: response.status,
+          statusText: response.statusText,
+          headers: Object.fromEntries(response.headers.entries()),
+          body: responseJson
+        };
       }
-
-      const response = await fetch(testUrl, requestOptions);
-      const responseText = await response.text();
-
-      let responseJson;
-      try {
-        responseJson = JSON.parse(responseText);
-      } catch {
-        responseJson = responseText;
-      }
-
-      const result = {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        body: responseJson
-      };
 
       setTestResult(JSON.stringify(result, null, 2));
     } catch (error) {
