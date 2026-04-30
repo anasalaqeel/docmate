@@ -23,6 +23,7 @@ import {
   SelectItem,
 } from '@heroui/react';
 import EnhancedCodeEditor from './ui/enhancedCodeEditor';
+import MarkdownRenderer from './ui/markdownRenderer';
 import type { OpenApiSpec, Documentation, OpenApiOperation } from '../types/docs';
 import { getPublicOpenApiSpec } from '../services/docsService';
 import styles from '../styles/publicOpenApiViewer.module.css';
@@ -335,7 +336,9 @@ print(response.json())`;
                         </div>
                       
                       {operation.description && (
-                        <p className={styles.operationDescription}>{operation.description}</p>
+                        <div className={styles.operationDescription}>
+                          <MarkdownRenderer content={operation.description} docId={documentation.id} />
+                        </div>
                       )}
                       
                       <Accordion className={styles.operationDetails} variant="splitted">

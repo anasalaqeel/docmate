@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader, Button, Textarea } from "@heroui/react";
 import { toast } from "sonner";
 import httpService from "../services/httpService";
 import RichDocumentEditor from "./ui/richDocumentEditor";
+import MarkdownRenderer from "./ui/markdownRenderer";
 import styles from "../styles/pageEditor.module.css";
 
 interface Page {
@@ -150,11 +151,7 @@ const PageEditor = ({ page, onSave, documentationType = "mixed", docId }: PageEd
                     <div className={styles.contentBox}>
                       {content ? (
                         <div className={styles.contentText}>
-                          {content.split("\n").map((line, index) => (
-                            <p key={index} className="mb-2 last:mb-0">
-                              {line || "\u00A0"}
-                            </p>
-                          ))}
+                          <MarkdownRenderer content={content} pageId={page.id} docId={docId} />
                         </div>
                       ) : (
                         <p className={styles.contentEmpty}>No content yet. Click "Edit Content" to add a description.</p>
