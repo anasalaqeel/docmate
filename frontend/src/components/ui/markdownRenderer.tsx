@@ -115,25 +115,25 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         components={{
-          p: ({ ...props }) => <p className="mb-4 leading-relaxed text-gray-800 dark:text-gray-200" {...props} />,
-          h1: ({ ...props }) => <h1 className="text-3xl font-bold mb-6 mt-8 border-b pb-2 text-gray-900 dark:text-gray-100" {...props} />,
-          h2: ({ ...props }) => <h2 className="text-2xl font-bold mb-4 mt-6 border-b pb-1 text-gray-900 dark:text-gray-100" {...props} />,
-          h3: ({ ...props }) => <h3 className="text-xl font-bold mb-3 mt-4 text-gray-900 dark:text-gray-100" {...props} />,
-          ul: ({ ...props }) => <ul className="list-disc list-inside mb-4 space-y-2" {...props} />,
-          ol: ({ ...props }) => <ol className="list-decimal list-inside mb-4 space-y-2" {...props} />,
-          li: ({ ...props }) => <li className="ml-4" {...props} />,
-          blockquote: ({ ...props }) => (
+          p: (props: React.ComponentPropsWithoutRef<'p'>) => <p className="mb-4 leading-relaxed text-gray-800 dark:text-gray-200" {...props} />,
+          h1: (props: React.ComponentPropsWithoutRef<'h1'>) => <h1 className="text-3xl font-bold mb-6 mt-8 border-b pb-2 text-gray-900 dark:text-gray-100" {...props} />,
+          h2: (props: React.ComponentPropsWithoutRef<'h2'>) => <h2 className="text-2xl font-bold mb-4 mt-6 border-b pb-1 text-gray-900 dark:text-gray-100" {...props} />,
+          h3: (props: React.ComponentPropsWithoutRef<'h3'>) => <h3 className="text-xl font-bold mb-3 mt-4 text-gray-900 dark:text-gray-100" {...props} />,
+          ul: (props: React.ComponentPropsWithoutRef<'ul'>) => <ul className="list-disc list-inside mb-4 space-y-2" {...props} />,
+          ol: (props: React.ComponentPropsWithoutRef<'ol'>) => <ol className="list-decimal list-inside mb-4 space-y-2" {...props} />,
+          li: (props: React.ComponentPropsWithoutRef<'li'>) => <li className="ml-4" {...props} />,
+          blockquote: (props: React.ComponentPropsWithoutRef<'blockquote'>) => (
             <blockquote className="border-l-4 border-primary-500 pl-4 py-2 my-4 italic bg-gray-50 dark:bg-gray-800/50 rounded-r-lg" {...props} />
           ),
-          table: ({ ...props }) => (
+          table: (props: React.ComponentPropsWithoutRef<'table'>) => (
             <div className="overflow-x-auto my-6 border rounded-lg">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props} />
             </div>
           ),
-          thead: ({ ...props }) => <thead className="bg-gray-50 dark:bg-gray-800" {...props} />,
-          th: ({ ...props }) => <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" {...props} />,
-          td: ({ ...props }) => <td className="px-4 py-2 whitespace-nowrap text-sm border-t border-gray-100 dark:border-gray-800" {...props} />,
-          a: ({ ...props }) => {
+          thead: (props: React.ComponentPropsWithoutRef<'thead'>) => <thead className="bg-gray-50 dark:bg-gray-800" {...props} />,
+          th: (props: React.ComponentPropsWithoutRef<'th'>) => <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" {...props} />,
+          td: (props: React.ComponentPropsWithoutRef<'td'>) => <td className="px-4 py-2 whitespace-nowrap text-sm border-t border-gray-100 dark:border-gray-800" {...props} />,
+          a: ({ ...props }: React.ComponentPropsWithoutRef<'a'>) => {
             const isExternal = props.href?.startsWith("http");
             return (
               <a
@@ -144,7 +144,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
               />
             );
           },
-          img: ({ ...props }) => (
+          img: (props: React.ComponentPropsWithoutRef<'img'>) => (
             <img className="max-w-full h-auto rounded-lg shadow-md my-6 mx-auto block" {...props} />
           ),
           code: ({
@@ -152,11 +152,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
             className,
             children,
             ...props
-          }: {
-            inline?: boolean;
-            className?: string;
-            children?: React.ReactNode;
-          }) => {
+          }: any) => {
             const isBlock = className?.includes("language-") || className?.includes("hljs");
             
             if (!isBlock) {
@@ -175,7 +171,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
               </code>
             );
           },
-          pre: ({ children, ...props }: { children?: React.ReactNode }) => {
+          pre: ({ children, ...props }: React.ComponentPropsWithoutRef<'pre'>) => {
             const extractTextFromChildren = (children: React.ReactNode): string => {
               if (typeof children === "string") return children;
               if (Array.isArray(children)) return children.map(extractTextFromChildren).join("");
