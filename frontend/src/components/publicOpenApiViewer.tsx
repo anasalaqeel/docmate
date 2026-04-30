@@ -27,6 +27,7 @@ import MarkdownRenderer from './ui/markdownRenderer';
 import type { OpenApiSpec, Documentation, OpenApiOperation } from '../types/docs';
 import { getPublicOpenApiSpec } from '../services/docsService';
 import styles from '../styles/publicOpenApiViewer.module.css';
+import { performApiTest } from '../utils/proxyRequest';
 
 interface PublicOpenApiViewerProps {
   documentation: Documentation;
@@ -148,35 +149,29 @@ const PublicOpenApiViewer = ({ documentation }: PublicOpenApiViewerProps) => {
         url += '?' + queryParams.toString();
       }
       
-      const options: RequestInit = {
-        method: (selectedOperation.method || 'GET').toUpperCase(),
-        headers: testRequest.headers || {},
-      };
-      
+      let requestBody = testRequest.body;
       if (['POST', 'PUT', 'PATCH'].includes((selectedOperation.method || 'GET').toUpperCase())) {
         try {
-          options.body = JSON.stringify(JSON.parse(testRequest.body || '{}'));
+          requestBody = JSON.stringify(JSON.parse(testRequest.body || '{}'));
         } catch {
-          options.body = testRequest.body;
+          requestBody = testRequest.body;
         }
       }
-      
-      const response = await fetch(url, options);
-      const responseText = await response.text();
-      
-      let responseData;
-      try {
-        responseData = JSON.parse(responseText);
-      } catch {
-        responseData = responseText;
-      }
+
+      const response = await performApiTest(
+        url,
+        selectedOperation.method || 'GET',
+        testRequest.headers || {},
+        requestBody
+      );
       
       setTestResponse({
         status: response.status,
         statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        data: responseData,
-        url
+        headers: response.headers,
+        data: response.data,
+        url: response.url,
+        error: response.error
       });
     } catch (error) {
       setTestResponse({

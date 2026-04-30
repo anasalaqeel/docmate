@@ -26,6 +26,7 @@ import { PlayIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, TrashIcon } from 
 import type { OpenApiSpec, Documentation, OpenApiOperation } from "../types/docs";
 import { getOpenApiSpec, importOpenApiSpec, exportOpenApiSpec, deleteOpenApiSpec } from "../services/docsService";
 import styles from "../styles/openApiViewer.module.css";
+import { performApiTest } from "../utils/proxyRequest";
 
 interface OpenApiViewerProps {
   documentation: Documentation;
@@ -230,33 +231,18 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
         }
       }
 
-      const requestOptions: RequestInit = {
-        method: selectedOperation.method.toUpperCase(),
-        headers: {
-          "Content-Type": "application/json",
-          ...(testData.headers && typeof testData.headers === 'object' ? testData.headers as Record<string, string> : {}),
-        },
-      };
-
-      const body = testData.body;
-      if (body && ["POST", "PUT", "PATCH"].includes(selectedOperation.method.toUpperCase())) {
-        requestOptions.body = JSON.stringify(body);
-      }
-
-      const response = await fetch(url, requestOptions);
-      const responseData = await response.text();
-
-      let parsedResponse;
-      try {
-        parsedResponse = JSON.parse(responseData);
-      } catch {
-        parsedResponse = responseData;
-      }
+      const response = await performApiTest(
+        url,
+        selectedOperation.method,
+        (testData.headers && typeof testData.headers === 'object' ? testData.headers as Record<string, string> : {}),
+        testData.body
+      );
 
       setTestResult({
         status: response.status,
         statusText: response.statusText,
-        data: parsedResponse,
+        data: response.data,
+        error: response.error
       });
     } catch (error) {
       setTestResult({

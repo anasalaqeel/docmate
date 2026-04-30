@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, type JSX } from 'react';
 import { Card, CardBody, Chip, Button, Input, Tabs, Tab, Divider } from '@heroui/react';
 import EnhancedCodeEditor from './enhancedCodeEditor';
 import type { OpenApiSpec, OpenApiOperation, JsonSchema } from '../../types/docs';
+import { performApiTest } from '../../utils/proxyRequest';
 
 interface EmbeddedOperationViewerProps {
   operationId: string; // OpenAPI operation ID like "GET_root" or "get-/"
@@ -204,35 +205,20 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
         url += '?' + queryParams.toString();
       }
 
-      const options: RequestInit = {
-        method: method,
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          ...testRequest.headers,
-        },
-      };
-
-      if (['POST', 'PUT', 'PATCH'].includes(method) && testRequest.body) {
-        options.body = testRequest.body;
-      }
-
-      const response = await fetch(url, options);
-      const responseText = await response.text();
-
-      let responseData;
-      try {
-        responseData = JSON.parse(responseText);
-      } catch {
-        responseData = responseText;
-      }
+      const response = await performApiTest(
+        url,
+        method,
+        { 'Content-Type': 'application/json', ...testRequest.headers },
+        testRequest.body
+      );
 
       setTestResponse({
         status: response.status,
         statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        data: responseData,
-        url,
+        headers: response.headers,
+        data: response.data,
+        url: response.url,
+        error: response.error,
       });
     } catch (error) {
       setTestResponse({

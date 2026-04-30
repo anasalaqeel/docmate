@@ -4,6 +4,7 @@ import EnhancedCodeEditor from './ui/enhancedCodeEditor';
 import type { OpenApiSpec, Documentation, OpenApiOperation, JsonSchema } from "../types/docs";
 import { getPublicOpenApiSpec } from "../services/docsService";
 import styles from "../styles/integratedApiViewer.module.css";
+import { performApiTest } from "../utils/proxyRequest";
 
 interface IntegratedApiViewerProps {
   documentation: Documentation;
@@ -195,35 +196,20 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
         url += "?" + queryParams.toString();
       }
 
-      const options: RequestInit = {
-        method: selectedOperation.method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...testRequest.headers,
-        },
-      };
-
-      if (["POST", "PUT", "PATCH"].includes(selectedOperation.method) && testRequest.body) {
-        options.body = testRequest.body;
-      }
-
-      const response = await fetch(url, options);
-      const responseText = await response.text();
-
-      let responseData;
-      try {
-        responseData = JSON.parse(responseText);
-      } catch {
-        responseData = responseText;
-      }
+      const response = await performApiTest(
+        url,
+        selectedOperation.method,
+        { "Content-Type": "application/json", ...testRequest.headers },
+        testRequest.body
+      );
 
       setTestResponse({
         status: response.status,
         statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        data: responseData,
-        url,
+        headers: response.headers,
+        data: response.data,
+        url: response.url,
+        error: response.error,
       });
     } catch (error) {
       setTestResponse({
