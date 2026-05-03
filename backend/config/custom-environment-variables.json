@@ -15,6 +15,32 @@
     "secure": "COOKIE_SECURE",
     "sameSite": "COOKIE_SAME_SITE",
     "path": "COOKIE_PATH"
+  },
+  "ldap": {
+    "enabled": "LDAP_ENABLED",
+    "url": "LDAP_URL",
+    "bindDn": "LDAP_BIND_DN",
+    "bindPassword": "LDAP_BIND_PASSWORD",
+    "searchBase": "LDAP_SEARCH_BASE",
+    "searchFilter": "LDAP_SEARCH_FILTER",
+    "tls": {
+      "enabled": "LDAP_TLS_ENABLED",
+      "rejectUnauthorized": "LDAP_TLS_REJECT_UNAUTHORIZED"
+    },
+    "attributes": {
+      "username": "LDAP_ATTRIBUTES_USERNAME",
+      "email": "LDAP_ATTRIBUTES_EMAIL",
+      "firstName": "LDAP_ATTRIBUTES_FIRST_NAME",
+      "lastName": "LDAP_ATTRIBUTES_LAST_NAME",
+      "displayName": "LDAP_ATTRIBUTES_DISPLAY_NAME"
+    },
+    "group": {
+      "searchBase": "LDAP_GROUP_SEARCH_BASE",
+      "searchFilter": "LDAP_GROUP_SEARCH_FILTER",
+      "attribute": "LDAP_GROUP_ATTRIBUTE",
+      "roleMap": "LDAP_GROUP_ROLE_MAP"
+    },
+    "defaultRole": "LDAP_DEFAULT_ROLE"
   }
 }
 

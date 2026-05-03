@@ -18,7 +18,8 @@ export const users = pgTable("users", {
   name: varchar({ length: 255 }).notNull(),
   username: varchar({ length: 255 }).notNull().unique(),
   email: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({ length: 255 }).notNull(),
+  password: varchar({ length: 255 }),
+  authProvider: varchar({ length: 20 }).default("local").notNull(), // local, ldap
   phone: varchar({ length: 20 }),
   status: varchar({ length: 20 }).default("active").notNull(), // active, inactive
   createdAt: timestamp().defaultNow().notNull(),

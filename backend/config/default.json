@@ -21,5 +21,31 @@
         "maxSize": 26214400
       }
     }
+  },
+  "ldap": {
+    "enabled": false,
+    "url": "ldap://localhost:389",
+    "bindDn": "",
+    "bindPassword": "",
+    "searchBase": "",
+    "searchFilter": "(uid={{username}})",
+    "tls": {
+      "enabled": false,
+      "rejectUnauthorized": true
+    },
+    "attributes": {
+      "username": "uid",
+      "email": "mail",
+      "firstName": "givenName",
+      "lastName": "sn",
+      "displayName": "cn"
+    },
+    "group": {
+      "searchBase": "",
+      "searchFilter": "(member={{dn}})",
+      "attribute": "cn",
+      "roleMap": {}
+    },
+    "defaultRole": "user"
   }
 }

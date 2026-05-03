@@ -13,6 +13,7 @@ import config from "config";
 import db from "../db";
 import { users, sessions, roles, userRoles } from "../db/schema";
 import { eq, or } from "drizzle-orm";
+import { ldapService } from "../services/ldapService";
 
 const router = new Hono();
 
@@ -125,7 +126,7 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
     const user = await db.query.users
       .findFirst({
         where: or(eq(users.email, identifier), eq(users.username, identifier)),
-        columns: { id: true, password: true },
+        columns: { id: true, password: true, authProvider: true },
       })
       .catch((error) => {
         console.error("Error finding user:", error);
@@ -138,48 +139,75 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
     });
 
     if (user && isVerified) {
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 1); // 24 hours from now
+      // Local authentication success
+      if (config.get("ldap.enabled") && user.authProvider === "ldap") {
+        return c.json({ message: "Please log in using your LDAP credentials" }, 401);
+      }
+      return createSessionAndResponse(c, user.id);
+    } else if (config.get("ldap.enabled")) {
+      // Attempt LDAP authentication
+      try {
+        const ldapUser = await ldapService.authenticateUser(identifier, password);
+        if (ldapUser) {
+          // Check if user exists locally
+          let localUser = await db.query.users.findFirst({
+            where: or(eq(users.username, ldapUser.username), eq(users.email, ldapUser.email)),
+          });
 
-      const session = await db
-        .insert(sessions)
-        .values({
-          userId: user.id,
-          expiresAt: expirationDate,
-          userAgent: c.req.header("user-agent") || undefined,
-          ipAddress: c.req.header("x-forwarded-for") || (c.env as { ip?: string }).ip || undefined,
-        })
-        .returning()
-        .catch((error) => {
-          console.error("Error creating session:", error);
-          throw new Error("Error creating session");
-        });
+          if (localUser) {
+            if (localUser.authProvider !== "ldap") {
+              return c.json({ message: "Account exists but is not linked to LDAP" }, 401);
+            }
+            // Update existing LDAP user
+            const roleName = ldapService.getRoleFromGroups(ldapUser.groups);
+            const targetRole = await db.query.roles.findFirst({ where: eq(roles.name, roleName) });
+            
+            await db.transaction(async (tx) => {
+              await tx.update(users).set({
+                name: ldapUser.name,
+                email: ldapUser.email,
+                updatedAt: new Date(),
+              }).where(eq(users.id, localUser!.id));
 
-      const payload = {
-        sessionId: session[0].id,
-        exp: Math.floor(expirationDate.getTime() / 1000),
-      };
-      const sessionToken = await sign(payload, config.get("authTokenSecret")!);
-      setCookie(c, "sessionToken", sessionToken, cookieOptions);
+              if (targetRole) {
+                await tx.delete(userRoles).where(eq(userRoles.userId, localUser!.id));
+                await tx.insert(userRoles).values({
+                  userId: localUser!.id,
+                  roleId: targetRole.id,
+                });
+              }
+            });
+          } else {
+            // Auto-provision new LDAP user
+            const roleName = ldapService.getRoleFromGroups(ldapUser.groups);
+            const targetRole = await db.query.roles.findFirst({ where: eq(roles.name, roleName) });
+            if (!targetRole) throw new Error(`Default role ${roleName} not found`);
 
-      // Fetch user with roles for the response
-      const userWithRoles = await db.query.users.findFirst({
-        where: eq(users.id, user.id),
-        columns: { id: true, name: true, username: true, email: true },
-        with: {
-          userRoles: {
-            with: {
-              role: true,
-            },
-          },
-        },
-      });
+            const [newUser] = await db.transaction(async (tx) => {
+              const [u] = await tx.insert(users).values({
+                name: ldapUser.name,
+                username: ldapUser.username,
+                email: ldapUser.email,
+                authProvider: "ldap",
+              }).returning();
 
-      return c.json({
-        success: true,
-        data: userWithRoles,
-        message: "Login successful",
-      });
+              await tx.insert(userRoles).values({
+                userId: u.id,
+                roleId: targetRole.id,
+              });
+              return [u];
+            });
+            localUser = newUser;
+          }
+
+          return createSessionAndResponse(c, localUser.id);
+        } else {
+          return c.json({ message: "Invalid credentials" }, 401);
+        }
+      } catch (error) {
+        console.error("LDAP login error:", error);
+        return c.json({ message: "Authentication service error" }, 401);
+      }
     } else {
       return c.json({ message: "Invalid credentials" }, 401);
     }
@@ -191,6 +219,51 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
     return c.json({ message: "Failed to login" }, 500);
   }
 });
+
+async function createSessionAndResponse(c: any, userId: number) {
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 1); // 24 hours from now
+
+  const session = await db
+    .insert(sessions)
+    .values({
+      userId: userId,
+      expiresAt: expirationDate,
+      userAgent: c.req.header("user-agent") || undefined,
+      ipAddress: c.req.header("x-forwarded-for") || (c.env as { ip?: string }).ip || undefined,
+    })
+    .returning()
+    .catch((error) => {
+      console.error("Error creating session:", error);
+      throw new Error("Error creating session");
+    });
+
+  const payload = {
+    sessionId: session[0].id,
+    exp: Math.floor(expirationDate.getTime() / 1000),
+  };
+  const sessionToken = await sign(payload, config.get("authTokenSecret")!);
+  setCookie(c, "sessionToken", sessionToken, cookieOptions);
+
+  // Fetch user with roles for the response
+  const userWithRoles = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: { id: true, name: true, username: true, email: true, authProvider: true },
+    with: {
+      userRoles: {
+        with: {
+          role: true,
+        },
+      },
+    },
+  });
+
+  return c.json({
+    success: true,
+    data: userWithRoles,
+    message: "Login successful",
+  });
+}
 
 // Get current user endpoint
 router.get("/me", async (c) => {
