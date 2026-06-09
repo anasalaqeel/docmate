@@ -7,7 +7,7 @@ import { asc, count, ilike, eq } from "drizzle-orm";
 const router = new Hono();
 
 // Get all permissions (admin only)
-router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/all", authorize(["roles:manage"]), async (c) => {
   try {
     const permissionsResult = await db
       .select()
@@ -26,7 +26,7 @@ router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Get permissions with pagination (admin only)
-router.get("/", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/", authorize(["roles:manage"]), async (c) => {
   try {
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "10");
@@ -67,7 +67,7 @@ router.get("/", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Get permission by ID (admin only)
-router.get("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/:id", authorize(["roles:manage"]), async (c) => {
   try {
     const id = parseInt(c.req.param("id"));
 

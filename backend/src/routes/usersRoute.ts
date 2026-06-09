@@ -21,7 +21,7 @@ const router = new Hono();
 // Get all users (admin only)
 router.get(
   "/",
-  authorize(["admin", "superadmin"]),
+  authorize(["users:read"]),
   zValidator("query", usersQuerySchema),
   async (c) => {
     try {
@@ -113,7 +113,7 @@ router.get(
 );
 
 // Get user by ID (admin only)
-router.get("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/:id", authorize(["users:read"]), async (c) => {
   try {
     const userId = parseInt(c.req.param("id"));
     if (isNaN(userId)) {
@@ -149,7 +149,7 @@ router.get("/:id", authorize(["admin", "superadmin"]), async (c) => {
 // Create user (admin only)
 router.post(
   "/",
-  authorize(["admin", "superadmin"]),
+  authorize(["users:create"]),
   zValidator("json", adminCreateUserSchema),
   async (c) => {
     try {
@@ -227,7 +227,7 @@ router.post(
 // Update user (admin only)
 router.put(
   "/:id",
-  authorize(["admin", "superadmin"]),
+  authorize(["users:update"]),
   zValidator("json", adminUpdateUserSchema),
   async (c) => {
     try {
@@ -330,7 +330,7 @@ router.put(
 );
 
 // Delete user (admin only)
-router.delete("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.delete("/:id", authorize(["users:delete"]), async (c) => {
   try {
     const userId = parseInt(c.req.param("id"));
 
@@ -363,7 +363,7 @@ router.delete("/:id", authorize(["admin", "superadmin"]), async (c) => {
 // Assign roles to user (admin only)
 router.post(
   "/:id/roles",
-  authorize(["admin", "superadmin"]),
+  authorize(["roles:manage"]),
   zValidator("json", assignRolesSchema),
   async (c) => {
     try {
@@ -425,7 +425,7 @@ router.post(
 );
 
 // Remove role from user (admin only)
-router.delete("/:id/roles/:roleId", authorize(["admin", "superadmin"]), async (c) => {
+router.delete("/:id/roles/:roleId", authorize(["roles:manage"]), async (c) => {
   try {
     const userId = parseInt(c.req.param("id"));
     const roleId = parseInt(c.req.param("roleId"));
@@ -459,7 +459,7 @@ router.delete("/:id/roles/:roleId", authorize(["admin", "superadmin"]), async (c
 // Change user password (admin only)
 router.post(
   "/:id/change-password",
-  authorize(["admin", "superadmin"]),
+  authorize(["users:update"]),
   zValidator("json", adminResetPasswordSchema),
   async (c) => {
     try {

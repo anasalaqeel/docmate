@@ -75,7 +75,7 @@ router.get("/public", async (c) => {
 // POST /settings/validate - Validate a setting without saving
 router.post(
   "/validate",
-  authorize(["admin", "superadmin"]),
+  authorize(["settings:manage"]),
   zValidator("json", validateSettingSchema),
   async (c) => {
     try {
@@ -106,7 +106,7 @@ router.post(
 );
 
 // GET /settings - Get all settings with pagination
-router.get("/", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/", authorize(["settings:manage"]), async (c) => {
   try {
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "50");
@@ -202,7 +202,7 @@ router.get("/", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // GET /settings/all - Get all settings without pagination (for dropdowns)
-router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/all", authorize(["settings:manage"]), async (c) => {
   try {
     const allSettings = await settingsService.getAllSettings({
       includePrivate: true,
@@ -237,7 +237,7 @@ router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // GET /settings/:key - Get specific setting
-router.get("/:key", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/:key", authorize(["settings:manage"]), async (c) => {
   try {
     const key = sanitizeInput(c.req.param("key"), "param");
 
@@ -270,7 +270,7 @@ router.get("/:key", authorize(["admin", "superadmin"]), async (c) => {
 // PATCH /settings/bulk - Update multiple settings in a transaction (partial update)
 router.patch(
   "/bulk",
-  authorize(["admin", "superadmin"]),
+  authorize(["settings:manage"]),
   zValidator("json", bulkUpdateSchema),
   async (c) => {
     try {
@@ -335,7 +335,7 @@ router.patch(
 // PATCH /settings/:key - Update specific setting (partial update)
 router.patch(
   "/:key",
-  authorize(["admin", "superadmin"]),
+  authorize(["settings:manage"]),
   zValidator("json", updateSettingSchema),
   async (c) => {
     try {
@@ -371,7 +371,7 @@ router.patch(
 );
 
 // DELETE /settings/:key - Reset specific setting
-router.delete("/:key", authorize(["admin", "superadmin"]), async (c) => {
+router.delete("/:key", authorize(["settings:manage"]), async (c) => {
   try {
     const key = sanitizeInput(c.req.param("key"), "param");
 
@@ -389,7 +389,7 @@ router.delete("/:key", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // DELETE /settings/category/:category - Reset entire category
-router.delete("/category/:category", authorize(["admin", "superadmin"]), async (c) => {
+router.delete("/category/:category", authorize(["settings:manage"]), async (c) => {
   try {
     const category = sanitizeInput(c.req.param("category"), "param") as any;
 
@@ -408,7 +408,7 @@ router.delete("/category/:category", authorize(["admin", "superadmin"]), async (
 });
 
 // GET /settings/export - Export all settings
-router.get("/export", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/export", authorize(["settings:manage"]), async (c) => {
   try {
     const settings = await settingsService.exportSettings({
       includePrivate: true,
@@ -429,7 +429,7 @@ router.get("/export", authorize(["admin", "superadmin"]), async (c) => {
 // POST /settings/import - Import settings
 router.post(
   "/import",
-  authorize(["admin", "superadmin"]),
+  authorize(["settings:manage"]),
   zValidator("json", importSettingsSchema),
   async (c) => {
     try {
@@ -479,7 +479,7 @@ router.post(
 // POST /settings/upload - Secure file upload (logo, favicon, etc.)
 router.post(
   "/upload",
-  authorize(["admin", "superadmin"]),
+  authorize(["settings:manage"]),
   uploadRateLimit,
   uploadSecurityMiddleware,
   fileValidationMiddleware,

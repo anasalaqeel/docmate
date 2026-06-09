@@ -39,7 +39,7 @@ attachmentsRoute.get("/pages/:pageId", async (c) => {
 // POST /attachments/docs/:docId - Upload project-level attachment
 attachmentsRoute.post(
   "/docs/:docId",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["content:create"]),
   uploadRateLimit,
   uploadSecurityMiddleware,
   fileValidationMiddleware,
@@ -81,7 +81,7 @@ attachmentsRoute.post(
 // POST /attachments/pages/:pageId - Upload page-level attachment
 attachmentsRoute.post(
   "/pages/:pageId",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["content:create"]),
   uploadRateLimit,
   uploadSecurityMiddleware,
   fileValidationMiddleware,
@@ -121,7 +121,7 @@ attachmentsRoute.post(
 );
 
 // DELETE /attachments/:id - Delete attachment
-attachmentsRoute.delete("/:id", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+attachmentsRoute.delete("/:id", authorize(["content:manage"]), async (c) => {
   try {
     const id = parseInt(c.req.param("id"));
     await attachmentsService.deleteAttachment(id);

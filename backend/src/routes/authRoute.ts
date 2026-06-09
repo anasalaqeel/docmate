@@ -6,7 +6,7 @@ import { zValidator } from "@hono/zod-validator";
 import { registerSchema, loginSchema } from "../schemas/auth";
 import { changePasswordSchema, type ChangePasswordRequest } from "../schemas/users";
 import { formatZodError } from "../utils/errors";
-import { isValidSession, cookieOptions } from "../utils/sessionAuth";
+import { cookieOptions } from "../utils/sessionAuth";
 import { authRateLimit } from "../middlewares/rateLimiter";
 import { authorize } from "../middlewares/authorize";
 import config from "config";
@@ -193,53 +193,31 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
 });
 
 // Get current user endpoint
-router.get("/me", async (c) => {
+router.get("/me", authorize(), async (c) => {
   try {
-    const token = getCookie(c, "sessionToken");
-    if (!token) {
-      return c.json({ success: false, message: "No session token" }, 401);
-    }
+    const user = c.get("user");
 
-    const payload = await verify(token, config.get("authTokenSecret")!, "HS256");
-    const { sessionId } = payload as { sessionId?: number };
-    if (!sessionId) {
-      return c.json({ success: false, message: "Invalid session token" }, 401);
-    }
-
-    const session = await db.query.sessions.findFirst({
-      where: eq(sessions.id, Number(sessionId)),
-    });
-    if (!isValidSession(session)) {
-      return c.json({ success: false, message: "Invalid or expired session" }, 401);
-    }
-
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, session.userId),
-      columns: { id: true, name: true, username: true, email: true },
-      with: {
-        userRoles: {
-          with: {
-            role: true,
-          },
-        },
-      },
-    });
-
-    if (!user) {
-      return c.json({ success: false, message: "User not found" }, 401);
-    }
+    // Clean user object for client response (omit password)
+    const clientUser = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      userRoles: user.userRoles?.map((ur: any) => ({
+        role: ur.role ? {
+          id: ur.role.id,
+          name: ur.role.name,
+          description: ur.role.description,
+        } : null
+      })).filter((ur: any) => ur.role !== null) || [],
+    };
 
     return c.json({
       success: true,
-      data: user,
+      data: clientUser,
     });
   } catch (error) {
     console.error("Error in /me route:", error);
-    const isAuthError = error instanceof Error && 
-      (error.name.startsWith("Jwt") || error.message.includes("expired") || error.message.includes("token"));
-    if (isAuthError) {
-      return c.json({ success: false, message: error.message }, 401);
-    }
     return c.json({ success: false, message: "Failed to get user" }, 500);
   }
 });
@@ -278,7 +256,7 @@ router.post("/logout", async (c) => {
 // Change password (authenticated users)
 router.post(
   "/change-password",
-  authorize(["user", "admin", "superadmin", "moderator"]),
+  authorize(["profile:manage"]),
   zValidator("json", changePasswordSchema),
   async (c) => {
     try {

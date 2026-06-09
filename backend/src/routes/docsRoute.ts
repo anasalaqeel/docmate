@@ -121,7 +121,7 @@ docsRoute.get("/public/:id/openapi", async (c) => {
 });
 
 // Get all documentations (admin only)
-docsRoute.get("/", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.get("/", authorize(["docs:read"]), async (c) => {
   try {
     const docs = await db.query.documentations.findMany({
       with: {
@@ -143,7 +143,7 @@ docsRoute.get("/", authorize(["admin", "superadmin", "moderator"]), async (c) =>
 });
 
 // Create new documentation
-docsRoute.post("/", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.post("/", authorize(["docs:create"]), async (c) => {
   try {
     const user = c.get("user");
     console.log("User from context:", user);
@@ -200,7 +200,7 @@ docsRoute.post("/", authorize(["admin", "superadmin", "moderator"]), async (c) =
 });
 
 // Get documentation by ID with sidebar items
-docsRoute.get("/:id", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.get("/:id", authorize(["docs:read"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
 
@@ -254,7 +254,7 @@ docsRoute.get("/:id", authorize(["admin", "superadmin", "moderator"]), async (c)
 });
 
 // Update documentation (partial updates)
-docsRoute.patch("/:id", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.patch("/:id", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
     const updateData = await c.req.json();
@@ -324,7 +324,7 @@ docsRoute.patch("/:id", authorize(["admin", "superadmin", "moderator"]), async (
 });
 
 // Delete documentation
-docsRoute.delete("/:id", authorize(["admin", "superadmin"]), async (c) => {
+docsRoute.delete("/:id", authorize(["docs:delete"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
 
@@ -345,7 +345,7 @@ docsRoute.delete("/:id", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Sidebar Items Routes
-docsRoute.post("/:id/sidebar-items", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.post("/:id/sidebar-items", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
     const { title, type, parentId, icon, order } = await c.req.json();
@@ -468,7 +468,7 @@ docsRoute.post("/:id/sidebar-items", authorize(["admin", "superadmin", "moderato
 // Update sidebar item
 docsRoute.put(
   "/:docId/sidebar-items/:itemId",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("docId"));
@@ -516,7 +516,7 @@ docsRoute.put(
 // Soft delete sidebar item (move to trash)
 docsRoute.delete(
   "/:docId/sidebar-items/:itemId",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("docId"));
@@ -563,7 +563,7 @@ docsRoute.delete(
 );
 
 // Get trash items for a documentation
-docsRoute.get("/:docId/trash", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.get("/:docId/trash", authorize(["docs:read"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("docId"));
 
@@ -598,7 +598,7 @@ docsRoute.get("/:docId/trash", authorize(["admin", "superadmin", "moderator"]), 
 // Restore item from trash
 docsRoute.post(
   "/:docId/sidebar-items/:itemId/restore",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const itemId = parseInt(c.req.param("itemId"));
@@ -649,7 +649,7 @@ docsRoute.post(
 // Permanent delete from trash
 docsRoute.delete(
   "/:docId/sidebar-items/:itemId/permanent",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:delete"]),
   async (c) => {
     try {
       const itemId = parseInt(c.req.param("itemId"));
@@ -690,7 +690,7 @@ docsRoute.delete(
 // Batch reorder sidebar items (for drag-drop)
 docsRoute.post(
   "/:docId/sidebar-items/reorder",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("docId"));
@@ -754,7 +754,7 @@ docsRoute.post(
 // Pages Routes
 docsRoute.post(
   "/:docId/sidebar-items/:itemId/page",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const itemId = parseInt(c.req.param("itemId"));
@@ -856,7 +856,7 @@ docsRoute.post(
 );
 
 // Update page
-docsRoute.put("/pages/:pageId", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.put("/pages/:pageId", authorize(["docs:update"]), async (c) => {
   try {
     const pageId = parseInt(c.req.param("pageId"));
     const { slug, content, metadata } = await c.req.json();
@@ -883,7 +883,7 @@ docsRoute.put("/pages/:pageId", authorize(["admin", "superadmin", "moderator"]),
 });
 
 // OpenAPI Routes
-docsRoute.post("/:id/openapi", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.post("/:id/openapi", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
     const { specVersion, info, servers, paths, components, security, tags, externalDocs, rawSpec } =
@@ -919,7 +919,7 @@ docsRoute.post("/:id/openapi", authorize(["admin", "superadmin", "moderator"]), 
 // Import OpenAPI specification
 docsRoute.post(
   "/:id/openapi/import",
-  authorize(["admin", "superadmin", "moderator"]),
+  authorize(["docs:update"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("id"));
@@ -1011,7 +1011,7 @@ docsRoute.get("/:id/openapi/export", async (c) => {
 });
 
 // Delete OpenAPI spec
-docsRoute.delete("/:id/openapi", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.delete("/:id/openapi", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
 
@@ -1037,7 +1037,7 @@ docsRoute.delete("/:id/openapi", authorize(["admin", "superadmin", "moderator"])
 // Export document as PDF - allows admins, moderators, and users
 docsRoute.get(
   "/:id/export/pdf",
-  authorize(["admin", "superadmin", "moderator", "user"]),
+  authorize(["docs:export", "docs:export:own"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("id"));
@@ -1077,7 +1077,7 @@ docsRoute.get(
 // Export document as Markdown ZIP - allows admins, moderators, and users
 docsRoute.get(
   "/:id/export/markdown",
-  authorize(["admin", "superadmin", "moderator", "user"]),
+  authorize(["docs:export", "docs:export:own"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("id"));
@@ -1113,7 +1113,7 @@ docsRoute.get(
 // Export document as raw JSON (for developers) - allows admins, moderators, and users
 docsRoute.get(
   "/:id/export/json",
-  authorize(["admin", "superadmin", "moderator", "user"]),
+  authorize(["docs:export", "docs:export:own"]),
   async (c) => {
     try {
       const docId = parseInt(c.req.param("id"));
@@ -1149,7 +1149,7 @@ docsRoute.get(
 // Import Routes
 
 // Import document (create new document)
-docsRoute.post("/import", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.post("/import", authorize(["docs:create"]), async (c) => {
   try {
     const user = c.get("user");
     const userId = user.id;
@@ -1241,7 +1241,7 @@ docsRoute.post("/import", authorize(["admin", "superadmin", "moderator"]), async
 });
 
 // Import into existing document
-docsRoute.post("/:id/import", authorize(["admin", "superadmin", "moderator"]), async (c) => {
+docsRoute.post("/:id/import", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
     const user = c.get("user");

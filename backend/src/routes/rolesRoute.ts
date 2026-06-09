@@ -9,7 +9,7 @@ import { eq, desc, asc, ilike, count, inArray } from "drizzle-orm";
 const router = new Hono();
 
 // Get all roles with pagination (admin only)
-router.get("/", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/", authorize(["roles:manage"]), async (c) => {
   try {
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "10");
@@ -99,7 +99,7 @@ router.get("/", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Get all roles without pagination (admin only) - for dropdowns
-router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/all", authorize(["roles:manage"]), async (c) => {
   try {
     // Get all roles
     const rolesData = await db
@@ -149,7 +149,7 @@ router.get("/all", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Get role by ID (admin only)
-router.get("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.get("/:id", authorize(["roles:manage"]), async (c) => {
   try {
     const id = parseInt(c.req.param("id"));
 
@@ -184,7 +184,7 @@ router.get("/:id", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Create role (admin only)
-router.post("/", authorize(["admin", "superadmin"]), async (c) => {
+router.post("/", authorize(["roles:manage"]), async (c) => {
   try {
     const body = await c.req.json();
     const { name, description, permissionIds } = body;
@@ -230,7 +230,7 @@ router.post("/", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Update role (admin only)
-router.put("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.put("/:id", authorize(["roles:manage"]), async (c) => {
   try {
     const id = parseInt(c.req.param("id"));
     const body = await c.req.json();
@@ -300,7 +300,7 @@ router.put("/:id", authorize(["admin", "superadmin"]), async (c) => {
 });
 
 // Delete role (admin only)
-router.delete("/:id", authorize(["admin", "superadmin"]), async (c) => {
+router.delete("/:id", authorize(["roles:manage"]), async (c) => {
   try {
     const id = parseInt(c.req.param("id"));
 
