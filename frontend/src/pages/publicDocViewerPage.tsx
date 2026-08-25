@@ -1,12 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useSearchParams, Link } from "react-router";
-import {
-  Button,
-  Spinner,
-  Breadcrumbs,
-  BreadcrumbItem,
-  Chip,
-} from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import { getPublicDocById } from "../services/docsService";
 import type { Documentation, SidebarItem } from "../services/docsService";
 import IntegratedApiViewer from "../components/integratedApiViewer";
@@ -37,6 +31,8 @@ const PublicDocViewerPage = () => {
     }>
   >([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<"not-found" | "network" | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   // Get sidebar tree
   const sidebarTree = useSidebarTree(doc?.sidebarItems);
@@ -120,12 +116,14 @@ const PublicDocViewerPage = () => {
     [getAllPages]
   );
 
-  // Load documentation
+  // Load documentation — keyed on id and retryCount only, so page/endpoint
+  // navigation reuses the already-loaded document instead of refetching.
   useEffect(() => {
     async function loadDoc() {
       if (!id) return;
 
       setIsLoading(true);
+      setLoadError(null);
       try {
         const response = await getPublicDocById(parseInt(id));
 
@@ -146,11 +144,11 @@ const PublicDocViewerPage = () => {
             }
           }
         } else {
-          navigate("/docs");
+          setLoadError("not-found");
         }
       } catch (error) {
         console.error("Failed to fetch documentation:", error);
-        navigate("/docs");
+        setLoadError("network");
       } finally {
         setIsLoading(false);
       }
@@ -159,7 +157,8 @@ const PublicDocViewerPage = () => {
     loadDoc();
 
     return () => resetLayoutData();
-  }, [id, navigate, pageId, endpointId, findFirstPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, retryCount]);
 
   useEffect(() => {
     if (doc) {
@@ -184,8 +183,45 @@ const PublicDocViewerPage = () => {
   // Render loading state
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div
+        className="flex items-center justify-center min-h-[60vh]"
+        role="status"
+        aria-live="polite"
+      >
         <Spinner size="lg" label="Loading documentation..." />
+      </div>
+    );
+  }
+
+  // Render error state with recovery
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 px-4 text-center" role="alert">
+        {loadError === "not-found" ? (
+          <>
+            <h2 className="text-2xl font-bold">Documentation not found</h2>
+            <p className="text-[var(--grud-text-secondary)]">
+              This documentation doesn’t exist or isn’t public.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold">Couldn’t load this documentation</h2>
+            <p className="text-[var(--grud-text-secondary)]">
+              The request failed — check your connection and try again.
+            </p>
+          </>
+        )}
+        <div className="flex gap-3">
+          {loadError === "network" && (
+            <Button color="primary" onPress={() => setRetryCount((n) => n + 1)}>
+              Try again
+            </Button>
+          )}
+          <Button as={Link} to="/docs" variant="flat">
+            Back to all docs
+          </Button>
+        </div>
       </div>
     );
   }
@@ -205,34 +241,40 @@ const PublicDocViewerPage = () => {
   // Render main content
   return (
     <div className={styles.container}>
+      <a href="#docs-main" className={styles.skipLink}>
+        Skip to content
+      </a>
       {/* Content wrapper */}
       <div className={styles.content}>
         {/* Main section */}
-        <div className={styles.main}>
+        <main id="docs-main" className={styles.main}>
           {/* Page content with title and breadcrumbs */}
           {pageId && currentPage && !endpointId && (
             <div className={styles.pageContent}>
               <div className={styles.pageHeader}>
-                <div className="flex justify-between items-center mb-2">
-                  <Breadcrumbs
-                    variant="light"
-                    classNames={{
-                      list: "gap-2",
-                    }}
+                <div className={styles.pageToolbar}>
+                  <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+                    <Link to="/docs" className={styles.breadcrumbLink}>docs</Link>
+                    <span className={styles.breadcrumbSep}>/</span>
+                    <Link to={`/docs/${doc.id}`} className={styles.breadcrumbLink}>{doc.title}</Link>
+                    <span className={styles.breadcrumbSep}>/</span>
+                    <span className={styles.breadcrumbCurrent} aria-current="page">{currentPage.title}</span>
+                  </nav>
+                    <ExportButton
+                      documentId={doc.id!}
+                      documentTitle={doc.title}
+                      size="sm"
+                      variant="flat"
+                      className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                    />
+                  </div>
+                  <h1
+                    className={styles.pageTitle}
+                    style={{ viewTransitionName: `doc-title-${doc.id}` } as React.CSSProperties}
                   >
-                    <BreadcrumbItem>{doc.title}</BreadcrumbItem>
-                    <BreadcrumbItem>{currentPage.title}</BreadcrumbItem>
-                  </Breadcrumbs>
-                  <ExportButton 
-                    documentId={doc.id!} 
-                    documentTitle={doc.title} 
-                    size="sm" 
-                    variant="flat" 
-                    className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
-                  />
+                    {currentPage.title}
+                  </h1>
                 </div>
-                <h1 className={styles.pageTitle}>{currentPage.title}</h1>
-              </div>
 
               {currentPage.page?.content?.description ? (
                 <MarkdownRenderer
@@ -275,6 +317,11 @@ const PublicDocViewerPage = () => {
                       />
                     )}
                   </div>
+                  {!findNextPage(sidebarTree, pageId) && sidebarTree.length > 0 && (
+                    <p className={styles.endNote}>
+                      You’ve reached the end of this documentation.
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -293,36 +340,35 @@ const PublicDocViewerPage = () => {
               <h1>{doc.title}</h1>
               {doc.description && <p className={styles.docDescription}>{doc.description}</p>}
               <div className={styles.docMeta}>
-                <Chip
+                <span className={styles.welcomeVersion}>Version {doc.version}</span>
+                <span className={styles.author}>
+                  {doc.creator?.name}
+                </span>
+                <ExportButton
+                  documentId={doc.id!}
+                  documentTitle={doc.title}
+                  size="md"
                   variant="flat"
-                  style={{ background: "var(--grud-gradient)", color: "white" }}
-                >
-                  Version {doc.version}
-                </Chip>
-                <ExportButton 
-                  documentId={doc.id!} 
-                  documentTitle={doc.title} 
-                  size="md" 
-                  variant="flat" 
                   className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
                 />
-                <span className={styles.author}>Created by {doc.creator?.name || "Unknown"}</span>
               </div>
               <p className={styles.welcomeText}>
-                Select a page from the sidebar to view its content.
+                {sidebarTree.length === 0
+                  ? "This documentation doesn’t have any pages yet."
+                  : "Select a page from the sidebar to start reading."}
               </p>
 
               {/* API spec section */}
               {(doc.type === "api" || doc.type === "mixed") && apiEndpoints.length > 0 && (
                 <div className={styles.apiSpecSection}>
-                  <h2 className={styles.sectionTitle}>API Documentation</h2>
+                  <h2 className={styles.sectionTitle}>API Reference</h2>
                   <p>
                     This documentation contains{" "}
                     <strong>
-                      {apiEndpoints.length} API endpoint{apiEndpoints.length !== 1 ? "s" : ""}
+                      {apiEndpoints.length} endpoint{apiEndpoints.length !== 1 ? "s" : ""}
                     </strong>
-                    . Select an endpoint from the "🚀 API Endpoints" section in the sidebar to view
-                    detailed information, parameters, and try it out interactively.
+                    . Open an entry under API ENDPOINTS in the sidebar to view
+                    parameters, responses, and try it out interactively.
                   </p>
                 </div>
               )}
@@ -330,7 +376,7 @@ const PublicDocViewerPage = () => {
               <ViewerAttachments entityId={doc.id!} entityType="documentation" />
             </div>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );

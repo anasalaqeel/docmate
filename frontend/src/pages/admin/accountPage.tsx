@@ -120,12 +120,12 @@ const AccountPage = () => {
         <div className="flex items-center gap-3 mb-2">
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
-            style={{ background: "var(--grud-gradient)" }}
+            style={{ background: "var(--grud-primary)" }}
           >
             <UserIcon className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-[var(--grud-primary)] to-[var(--grud-secondary)] bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold" style={{ color: "var(--grud-text)" }}>
               My Account
             </h1>
             <p className="mt-1" style={{ color: "var(--grud-text-secondary)" }}>

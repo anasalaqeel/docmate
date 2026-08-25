@@ -18,6 +18,24 @@ interface DocSidebarProps {
   pageId?: string;
 }
 
+const FolderIcon = ({ open }: { open?: boolean }) => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path
+      d="M1.5 4A1.5 1.5 0 0 1 3 2.5h3l1.5 2H13A1.5 1.5 0 0 1 14.5 6v6A1.5 1.5 0 0 1 13 13.5H3A1.5 1.5 0 0 1 1.5 12V4z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill={open ? "color-mix(in srgb, currentColor 15%, transparent)" : "none"}
+    />
+  </svg>
+);
+
+const FileIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M3.5 1.5h6l3 3v10h-9v-13z" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M9.5 1.5v3h3" stroke="currentColor" strokeWidth="1.5" />
+  </svg>
+);
+
 const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -34,9 +52,8 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
           icon: (
             <span
               style={{
-                fontSize: "0.75rem",
+                fontSize: "0.8125rem",
                 fontWeight: 600,
-                textTransform: "uppercase",
                 color: "var(--grud-text-secondary)",
               }}
             >
@@ -46,13 +63,14 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
         };
       }
 
-      const icon = item.type === "folder" ? "📁" : item.icon || "📄";
+      const icon =
+        item.type === "folder" ? <FolderIcon open /> : <FileIcon />;
 
       return {
         id: item.id,
         label: item.title,
         children: item.children ? convertToTreeNodes(item.children) : undefined,
-        icon: <span>{icon}</span>,
+        icon,
       };
     });
   };
@@ -144,10 +162,15 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   };
 
   return (
-    <Sidebar collapsed={false} width={320}>
+    <Sidebar collapsed={false} width={300}>
       <div className={styles.sidebarHeader}>
-        <h3>Contents</h3>
-        <p className={styles.docInfo}>By {doc.creator?.name || "Unknown"}</p>
+        <p className={styles.sidebarLabel}>Overview</p>
+        <h3 className={styles.sidebarDocTitle} title={doc.title}>
+          {doc.title}
+        </h3>
+        <p className={styles.docInfo}>
+          v{doc.version} · {doc.creator?.name || "Unknown"}
+        </p>
       </div>
 
       <div className={styles.sidebarItems}>
@@ -163,9 +186,9 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
               defaultExpandedIds={getExpandedNodeIds()}
               selectedNodeId={getSelectedNodeId()}
               classNames={{
-                node: "group data-[selected=false]:hover:bg-surface-alt data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-[rgba(var(--grud-primary-rgb),0.1)] data-[selected=true]:to-[rgba(var(--grud-secondary-rgb),0.1)] data-[selected=true]:border-[rgba(var(--grud-primary-rgb),0.2)] border border-transparent",
+                node: "group data-[selected=false]:hover:bg-[color-mix(in_srgb,var(--grud-primary)_7%,transparent)] rounded-lg",
                 nodeLabel:
-                  "data-[selected=false]:text-foreground-secondary group-hover:text-foreground group-data-[selected=true]:font-semibold group-data-[selected=true]:bg-gradient-to-r group-data-[selected=true]:from-[var(--grud-primary)] group-data-[selected=true]:to-[var(--grud-secondary)] group-data-[selected=true]:bg-clip-text group-data-[selected=true]:!text-transparent",
+                  "data-[selected=false]:text-foreground-secondary group-hover:text-foreground group-data-[selected=true]:font-semibold group-data-[selected=true]:text-[var(--grud-primary)]",
               }}
             />
 

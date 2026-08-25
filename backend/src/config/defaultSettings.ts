@@ -63,77 +63,77 @@ export const defaultSettings: Record<string, {
   // Theme
   "theme.colors.primary": {
     type: "string",
-    defaultValue: "#007bff",
+    defaultValue: "#6d28d9",
     category: "theme",
     isPublic: true,
     description: "Primary color for the theme"
   },
   "theme.colors.secondary": {
     type: "string",
-    defaultValue: "#6c757d",
+    defaultValue: "#4c1d95",
     category: "theme",
     isPublic: true,
     description: "Secondary color for the theme"
   },
   "theme.colors.success": {
     type: "string",
-    defaultValue: "#28a745",
+    defaultValue: "#12805c",
     category: "theme",
     isPublic: true,
     description: "Success color for the theme"
   },
   "theme.colors.warning": {
     type: "string",
-    defaultValue: "#ffc107",
+    defaultValue: "#b45309",
     category: "theme",
     isPublic: true,
     description: "Warning color for the theme"
   },
   "theme.colors.danger": {
     type: "string",
-    defaultValue: "#dc3545",
+    defaultValue: "#b91c1c",
     category: "theme",
     isPublic: true,
     description: "Danger color for the theme"
   },
   "theme.colors.background": {
     type: "string",
-    defaultValue: "#ffffff",
+    defaultValue: "#f8f7fb",
     category: "theme",
     isPublic: true,
     description: "Background color for the theme"
   },
   "theme.colors.text": {
     type: "string",
-    defaultValue: "#212529",
+    defaultValue: "#1f1832",
     category: "theme",
     isPublic: true,
     description: "Text color for the theme"
   },
   "theme.colors.gradient": {
     type: "string",
-    defaultValue: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    defaultValue: "linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%)",
     category: "theme",
     isPublic: true,
     description: "Primary gradient for the light theme"
   },
   "theme.colors.gradientSubtle": {
     type: "string",
-    defaultValue: "linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)",
+    defaultValue: "linear-gradient(135deg, rgba(109, 40, 217, 0.08) 0%, rgba(76, 29, 149, 0.08) 100%)",
     category: "theme",
     isPublic: true,
     description: "Secondary gradient for the light theme"
   },
   "theme.dark.colors.primary": {
     type: "string",
-    defaultValue: "#667eea",
+    defaultValue: "#8b5cf6",
     category: "theme",
     isPublic: true,
     description: "Primary color for the dark theme"
   },
   "theme.dark.colors.secondary": {
     type: "string",
-    defaultValue: "#764ba2",
+    defaultValue: "#a78bfa",
     category: "theme",
     isPublic: true,
     description: "Secondary color for the dark theme"
@@ -161,28 +161,28 @@ export const defaultSettings: Record<string, {
   },
   "theme.dark.colors.background": {
     type: "string",
-    defaultValue: "#0f172a",
+    defaultValue: "#131022",
     category: "theme",
     isPublic: true,
     description: "Background color for the dark theme"
   },
   "theme.dark.colors.text": {
     type: "string",
-    defaultValue: "#f1f5f9",
+    defaultValue: "#f1eef9",
     category: "theme",
     isPublic: true,
     description: "Text color for the dark theme"
   },
   "theme.dark.colors.gradient": {
     type: "string",
-    defaultValue: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    defaultValue: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
     category: "theme",
     isPublic: true,
     description: "Primary gradient for the dark theme"
   },
   "theme.dark.colors.gradientSubtle": {
     type: "string",
-    defaultValue: "linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)",
+    defaultValue: "linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%)",
     category: "theme",
     isPublic: true,
     description: "Secondary gradient for the dark theme"

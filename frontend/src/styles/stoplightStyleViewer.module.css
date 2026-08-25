@@ -91,7 +91,7 @@
 
 .operationItem.active {
   background: rgba(var(--grud-primary-rgb), 0.1);
-  border-right: 3px solid var(--grud-primary);
+  border-right: 1px solid var(--grud-primary);
 }
 
 .methodBadge {
@@ -181,7 +181,7 @@
   padding: 0.75rem 1rem;
   border-radius: 6px;
   margin-bottom: 1rem;
-  border-left: 4px solid var(--grud-border-color);
+  border-left: 1px solid var(--grud-border-color);
 }
 
 .operationDescription {

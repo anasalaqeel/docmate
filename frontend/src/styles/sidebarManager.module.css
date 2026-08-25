@@ -244,7 +244,7 @@
 }
 
 .children {
-  border-left: 3px solid var(--grud-border-color);
+  border-left: 1px solid var(--grud-border-color);
   margin-left: 20px;
   padding-left: 12px;
   position: relative;

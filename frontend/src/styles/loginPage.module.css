@@ -37,8 +37,8 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--grud-gradient);
-}
+  color: var(--grud-primary);
+  }
 
 .logo {
   font-size: 3.5rem;
@@ -50,10 +50,7 @@
   font-size: 2.25rem;
   font-weight: 800;
   margin: 0 0 0.5rem 0;
-  background: var(--grud-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--grud-primary);
   letter-spacing: -0.02em;
 }
 
@@ -89,7 +86,7 @@
   font-weight: 700;
   font-size: 1rem;
   border-radius: 14px;
-  background: var(--grud-gradient);
+  color: var(--grud-primary);
   color: white;
   box-shadow: 0 8px 24px rgba(var(--grud-primary-rgb), 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

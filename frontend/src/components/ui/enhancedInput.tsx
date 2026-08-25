@@ -198,7 +198,7 @@ const styles = {
       content: '';
       position: absolute;
       inset: -2px;
-      background: linear-gradient(45deg, var(--heroui-primary), var(--heroui-secondary));
+      background: var(--heroui-primary);
       border-radius: inherit;
       opacity: 0;
       transition: opacity 0.2s ease-in-out;

@@ -10,6 +10,14 @@
 @import "@fontsource/lato/700.css";
 @import "@fontsource/ubuntu/index.css";
 @import "@fontsource/ubuntu/700.css";
+@import "@fontsource/outfit/index.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/space-grotesk/index.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/jetbrains-mono/index.css";
+@import "@fontsource/jetbrains-mono/600.css";
 @import "tailwindcss";
 @import "./styles/theme.css";
 @plugin '../hero.ts';
@@ -36,6 +44,10 @@
   --font-sans: var(--grud-font-sans, "Inter", system-ui, -apple-system, sans-serif);
   --font-heading: var(--grud-font-heading, var(--font-sans));
   --font-body: var(--grud-font-body, var(--font-sans));
+
+  /* Documentation Display & Technical Fonts */
+  --font-docs-display: "Outfit", var(--font-sans);
+  --font-docs-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 
   /* Brand Colors (Standardized) */
   --color-primary: var(--grud-primary, #667eea);
@@ -84,8 +96,8 @@
   --spacing-88: 22rem;
 
   /* Shadows (Improved with variable colors) */
-  --shadow-glow: 0 0 20px rgba(var(--grud-primary-rgb, 102, 126, 234), 0.3);
-  --shadow-glow-lg: 0 0 40px rgba(var(--grud-primary-rgb, 102, 126, 234), 0.4);
+  --shadow-glow: 0 0 20px rgba(var(--grud-primary-rgb, 109, 40, 217), 0.3);
+  --shadow-glow-lg: 0 0 40px rgba(var(--grud-primary-rgb, 109, 40, 217), 0.4);
 
   /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
@@ -134,8 +146,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-docs-display, var(--font-heading));
   font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 img, picture, video, canvas, svg {
@@ -204,41 +217,10 @@ html,
 }
 
 /* Improved Typography */
-.text-gradient {
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
 /* Global HeroUI Overrides */
 @layer components {
-  /* Apply dynamic gradients to solid variant components */
-  [data-color="primary"][data-variant="solid"]:not([data-slot="input-wrapper"]):not([data-slot="track"]):not([data-slot="filler"]),
-  [data-slot="base"][data-selected="true"][data-color="primary"] [data-slot="wrapper"],
-  .bg-primary,
-  .bg-primary-500 {
-    background-image: var(--grud-gradient) !important;
-    background-color: transparent !important;
-  }
-  
-
-  /* Override pseudo-elements that might obscure the gradient */
-  [data-color="primary"][data-variant="solid"]:not([data-slot="input-wrapper"]):not([data-slot="track"]):not([data-slot="filler"])::before,
-  [data-color="primary"][data-variant="solid"]:not([data-slot="input-wrapper"]):not([data-slot="track"]):not([data-slot="filler"])::after,
-  [data-slot="base"][data-selected="true"][data-color="primary"] [data-slot="wrapper"]::before,
-  [data-slot="base"][data-selected="true"][data-color="primary"] [data-slot="wrapper"]::after {
-    background-image: none !important;
-    background-color: transparent !important;
-  }
-
-  .bg-secondary::before,
-  .bg-secondary::after {
-    background-image: none !important;
-    background-color: transparent !important;
-  }
-
-  /* Hover effects */
+  /* Hover lift for solid primary buttons */
   [data-color="primary"][data-variant="solid"][type="button"]:hover,
   [data-color="primary"][data-variant="solid"]a:hover {
     @apply opacity-90 -translate-y-px;

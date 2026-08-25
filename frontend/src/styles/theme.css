@@ -1,56 +1,60 @@
 :root {
-  /* Brand Fallbacks */
-  --grud-primary: #667eea;
-  --grud-secondary: #764ba2;
-  --grud-gradient: linear-gradient(0deg, var(--grud-primary), var(--grud-primary));
-  --grud-gradient-subtle: linear-gradient(0deg, rgba(var(--grud-secondary-rgb, 118, 75, 162), 0.1), rgba(var(--grud-secondary-rgb, 118, 75, 162), 0.1));
+  /* Brand Fallbacks — Refined Violet (default unbranded palette) */
+  --grud-primary: #6d28d9;
+  --grud-secondary: #4c1d95;
+  --grud-gradient: var(--grud-primary);
+  --grud-gradient-subtle: rgba(var(--grud-secondary-rgb, 76, 29, 149), 0.08);
 
   /* Light Fallbacks */
-  --grud-bg: #f8fafc;
-  --grud-bg-alt: #f1f5f9;
+  --grud-bg: #f8f7fb;
+  --grud-bg-alt: #f1eff8;
   --grud-surface: #ffffff;
-  --grud-surface-alt: #f8fafc;
-  --grud-text: #1e293b;
-  --grud-text-secondary: #64748b;
-  --grud-border-color: rgba(0, 0, 0, 0.08);
-  --grud-shadow-color: rgba(30, 41, 59, 0.1);
+  --grud-surface-alt: #f5f3fa;
+  --grud-text: #1f1832;
+  --grud-text-secondary: #5d5573;
+  --grud-border-color: rgba(30, 20, 50, 0.1);
+  --grud-shadow-color: rgba(31, 24, 50, 0.1);
   --grud-indicator: var(--grud-primary);
-  --grud-error: #ef4444;
-  --grud-warning: #f59e0b;
-  --grud-success: #10b981;
-  
+  --grud-error: #b91c1c;
+  --grud-warning: #b45309;
+  --grud-success: #12805c;
+
   /* Derived Surfaces (Static) */
-  --grud-bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --grud-bg-gradient: var(--grud-bg);
   --grud-card-bg: rgba(255, 255, 255, 0.9);
   --grud-nav-bg: rgba(255, 255, 255, 0.95);
   --grud-blur: blur(12px);
   --grud-border: 1px solid var(--grud-border-color);
   --grud-card-shadow: 0 4px 20px var(--grud-shadow-color);
   --grud-card-shadow-hover: 0 12px 40px var(--grud-shadow-color);
-  
+
   /* Border Radius Defaults */
   --grud-radius-sm: 0.25rem;
   --grud-radius-md: 0.375rem;
   --grud-radius-lg: 0.5rem;
+
+  /* Code Block Surfaces (intentionally dark in both modes, GitHub-like) */
+  --grud-code-bg: #161b22;
+  --grud-code-border: #30363d;
 }
 
 .dark {
-  /* Dark Fallbacks */
-  --grud-bg: #0f172a;
-  --grud-bg-alt: #1e293b;
-  --grud-surface: #1e293b;
-  --grud-surface-alt: #334155;
-  --grud-text: #f1f5f9;
-  --grud-text-secondary: #94a3b8;
+  /* Dark Fallbacks — violet-tinted */
+  --grud-bg: #131022;
+  --grud-bg-alt: #1c1730;
+  --grud-surface: #191430;
+  --grud-surface-alt: #241e3d;
+  --grud-text: #f1eef9;
+  --grud-text-secondary: #a49bc2;
   --grud-border-color: rgba(255, 255, 255, 0.1);
-  --grud-shadow-color: rgba(0, 0, 0, 0.4);
-  --grud-indicator: #a5bfff;
+  --grud-shadow-color: rgba(0, 0, 0, 0.45);
+  --grud-indicator: #c4b0f5;
   --grud-error: #f87171;
   --grud-warning: #fbbf24;
   --grud-success: #34d399;
-  
+
   /* Dark Derived Surfaces (Static) */
-  --grud-bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --grud-card-bg: rgba(30, 41, 59, 0.85);
-  --grud-nav-bg: rgba(15, 23, 42, 0.95);
+  --grud-bg-gradient: var(--grud-bg);
+  --grud-card-bg: rgba(25, 20, 48, 0.85);
+  --grud-nav-bg: rgba(19, 16, 34, 0.95);
 }

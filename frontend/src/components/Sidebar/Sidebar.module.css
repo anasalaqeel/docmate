@@ -76,7 +76,7 @@
   top: 15%;
   bottom: 15%;
   width: 4px;
-  background: var(--grud-gradient);
+  color: var(--grud-primary);
   border-radius: 0 4px 4px 0;
 }
 
@@ -119,10 +119,7 @@
 }
 
 .item[data-active="true"] .label {
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--grud-primary);
   font-weight: 800;
 }
 

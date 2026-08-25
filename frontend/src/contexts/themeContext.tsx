@@ -77,18 +77,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         css += `  ${name}: ${value};\n`;
       };
 
-      const extractGradientColors = (gradient: string, defaultStart: string, defaultEnd: string) => {
-        try {
-          const match = gradient.match(/linear-gradient\([^,]+,\s*(#[a-fA-F0-9]{3,8}|rgba?\([^)]+\)|[a-z]+)\s*.*?,\s*(#[a-fA-F0-9]{3,8}|rgba?\([^)]+\)|[a-z]+)/);
-          if (match && match.length >= 3) {
-            return { start: match[1], end: match[2] };
-          }
-        } catch (e) {
-          console.warn('Failed to parse gradient:', gradient);
-        }
-        return { start: defaultStart, end: defaultEnd };
-      };
-
       // 1. Light Mode
       const l = themeSettings.light;
       addVar('--grud-primary', l.primary);
@@ -115,28 +103,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       addVar('--grud-content-bg', l.background);
       addVar('--grud-nav-bg', colorToRgba(l.background, 0.95));
       addVar('--grud-card-bg', colorToRgba(lightSurface, 0.9));
-      addVar('--grud-bg-gradient', `linear-gradient(135deg, ${l.background} 0%, ${colorMix(l.background, '#000000', 3)} 100%)`);
-      addVar('--grud-gradient', themeSettings.options.usePrimaryGradient ? l.gradient : `linear-gradient(0deg, var(--grud-primary), var(--grud-primary))`);
-      
-      const lightGradientColors = extractGradientColors(l.gradient, l.primary, l.secondary);
-      addVar('--grud-gradient-start', themeSettings.options.usePrimaryGradient ? lightGradientColors.start : l.primary);
-      addVar('--grud-gradient-end', themeSettings.options.usePrimaryGradient ? lightGradientColors.end : l.primary);
-      addVar('--grud-gradient-subtle', themeSettings.options.useSecondaryGradient ? l.gradientSubtle : `linear-gradient(0deg, var(--grud-secondary), var(--grud-secondary))`);
-      
-      const usePrimary = themeSettings.options.usePrimaryGradient;
-      const useSecondary = themeSettings.options.useSecondaryGradient;
-      
-      addVar('--grud-gradient-mixed-subtle', usePrimary && useSecondary ? 
-        `linear-gradient(135deg, rgba(var(--grud-primary-rgb), 0.08) 0%, rgba(var(--grud-secondary-rgb), 0.08) 50%, rgba(var(--grud-primary-rgb), 0.04) 100%)` : 
-        `var(--grud-surface-alt)`);
-      
-      addVar('--grud-gradient-primary-soft', usePrimary ? 
-        `linear-gradient(135deg, rgba(var(--grud-primary-rgb), 0.1) 0%, rgba(var(--grud-primary-rgb), 0.05) 100%)` : 
-        `rgba(var(--grud-primary-rgb), 0.08)`);
-
-      addVar('--grud-bg-effect', usePrimary ? 
-        `radial-gradient(circle at 10% 20%, rgba(var(--grud-primary-rgb), 0.15) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(var(--grud-secondary-rgb), 0.15) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(var(--grud-primary-rgb), 0.05) 0%, transparent 60%)` : 
-        `none`);
+      addVar('--grud-bg-gradient', l.background);
+      addVar('--grud-gradient', l.primary);
+      addVar('--grud-gradient-start', l.primary);
+      addVar('--grud-gradient-end', l.primary);
+      addVar('--grud-gradient-subtle', `rgba(var(--grud-secondary-rgb), 0.08)`);
+      addVar('--grud-gradient-mixed-subtle', 'var(--grud-surface-alt)');
+      addVar('--grud-gradient-primary-soft', `rgba(var(--grud-primary-rgb), 0.08)`);
+      addVar('--grud-bg-effect', 'none');
 
       addVar('--grud-font-sans', quoteFont(themeSettings.typography.fontFamily) + systemStack);
       addVar('--grud-font-heading', quoteFont(themeSettings.typography.headingFont) + systemStack);
@@ -174,25 +148,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       addVar('--grud-content-bg', d.background);
       addVar('--grud-nav-bg', colorToRgba(d.background, 0.95));
       addVar('--grud-card-bg', colorToRgba(darkSurface, 0.85));
-      addVar('--grud-bg-gradient', `linear-gradient(135deg, ${d.background} 0%, ${colorMix(d.background, '#000000', 8)} 100%)`);
-      addVar('--grud-gradient', themeSettings.options.usePrimaryGradient ? d.gradient : `linear-gradient(0deg, var(--grud-primary), var(--grud-primary))`);
-      
-      const darkGradientColors = extractGradientColors(d.gradient, d.primary, d.secondary);
-      addVar('--grud-gradient-start', themeSettings.options.usePrimaryGradient ? darkGradientColors.start : d.primary);
-      addVar('--grud-gradient-end', themeSettings.options.usePrimaryGradient ? darkGradientColors.end : d.primary);
-      addVar('--grud-gradient-subtle', themeSettings.options.useSecondaryGradient ? d.gradientSubtle : `linear-gradient(0deg, var(--grud-secondary), var(--grud-secondary))`);
-      
-      addVar('--grud-gradient-mixed-subtle', themeSettings.options.usePrimaryGradient && themeSettings.options.useSecondaryGradient ? 
-        `linear-gradient(135deg, rgba(var(--grud-primary-rgb), 0.12) 0%, rgba(var(--grud-secondary-rgb), 0.12) 50%, rgba(var(--grud-primary-rgb), 0.06) 100%)` : 
-        `var(--grud-surface-alt)`);
-      
-      addVar('--grud-gradient-primary-soft', themeSettings.options.usePrimaryGradient ? 
-        `linear-gradient(135deg, rgba(var(--grud-primary-rgb), 0.15) 0%, rgba(var(--grud-primary-rgb), 0.08) 100%)` : 
-        `rgba(var(--grud-primary-rgb), 0.12)`);
-      
-      addVar('--grud-bg-effect', themeSettings.options.usePrimaryGradient ? 
-        `radial-gradient(circle at 10% 20%, rgba(var(--grud-primary-rgb), 0.12) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(var(--grud-secondary-rgb), 0.12) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(var(--grud-primary-rgb), 0.06) 100%)` : 
-        `none`);
+      addVar('--grud-bg-gradient', d.background);
+      addVar('--grud-gradient', d.primary);
+      addVar('--grud-gradient-start', d.primary);
+      addVar('--grud-gradient-end', d.primary);
+      addVar('--grud-gradient-subtle', `rgba(var(--grud-secondary-rgb), 0.1)`);
+      addVar('--grud-gradient-mixed-subtle', 'var(--grud-surface-alt)');
+      addVar('--grud-gradient-primary-soft', `rgba(var(--grud-primary-rgb), 0.1)`);
+      addVar('--grud-bg-effect', 'none');
       css += '}\n';
 
       const styleId = 'grud-dynamic-theme';

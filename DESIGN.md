@@ -1,318 +1,126 @@
-# Technical Blueprint Design System
+# Grud Design System
+
+> Recorded from the shipped implementation (public docs view) via `/impeccable document`.
+> Previous "Technical Blueprint" spec described an identity that was never implemented;
+> it has been replaced by this record of the committed system.
 
 ## Design Principles
 
-**Documentation as Technical Specifications**: The documentation interface treats content like architectural blueprints - precise, structured, and functional. Every element serves a purpose and communicates technical authority.
+**Quiet authority**: the content is the interface. Structure comes from typographic
+hierarchy and hairline borders, not decorative accents. No gradient text, no thick
+one-sided accent borders, no offset block shadows, no monospace-as-costume.
 
-**Precision Over Decoration**: No decorative elements exist without function. Every border, spacing unit, and color choice serves the technical communication goal.
+**Runtime-token theming**: every color flows through `--grud-*` CSS custom properties
+set by the admin theme system (`themeContext.tsx`) with fallbacks in
+`frontend/src/styles/theme.css`. No hard-coded palette colors in components.
 
-**Modern Developer Experience**: Bold, contemporary aesthetics that developers expect from modern tools like Linear, Vercel, and developer platforms, but with a distinctive technical blueprint identity.
+**Read mode**: docs surfaces are built for comprehension — generous whitespace,
+bounded decision points, real navigation (breadcrumbs that link, prev/next with
+destination titles).
 
-## Color Palette
+## Color System
 
-### Primary Colors
-```css
---color-primary: #0066cc;        /* Blueprint blue - primary actions, links */
---color-secondary: #004080;      /* Deep blue - secondary states */
---color-accent: #ff6b00;         /* Technical orange - measurements, warnings */
-```
+All colors are tokens (light defaults in `theme.css`, remapped by `.dark` and by
+admin branding):
 
-### Technical Colors
-```css
---color-technical: #2d3748;     /* Dark gray - technical labels */
---color-measure: #718096;        /* Medium gray - measurements, metadata */
-```
+| Role | Token | Light fallback |
+|---|---|---|
+| Page background | `--grud-bg` | `#f8f7fb` |
+| Surface | `--grud-surface` | `#ffffff` |
+| Surface alt | `--grud-surface-alt` | `#f5f3fa` |
+| Text | `--grud-text` | `#1f1832` |
+| Text secondary | `--grud-text-secondary` | `#5d5573` |
+| Border | `--grud-border-color` | `rgba(30,20,50,0.1)` |
+| Primary / brand | `--grud-primary` | `#6d28d9` (refined violet) |
+| Secondary | `--grud-secondary` | `#4c1d95` |
+| Semantic | `--grud-success` / `--grud-warning` / `--grud-error` | `#12805c` / `#b45309` / `#b91c1c` |
 
-### Surface Colors
-```css
---color-background: #f8f9fa;     /* Technical white - main background */
---color-surface: #ffffff;        /* Pure white - cards, content areas */
---color-surface-alt: #e9ecef;    /* Light gray - headers, alternating backgrounds */
-```
+The default (unbranded) palette is **Refined Violet**: violet primary on
+violet-tinted neutrals — premium developer-brand register. Dark mode uses a
+violet-tinted near-black (`#131022` family), not mechanically inverted slate.
 
-### Text Colors
-```css
---color-foreground: #1a202c;     /* Near black - primary text */
---color-foreground-secondary: #4a5568;  /* Medium gray - secondary text */
-```
+Code blocks are intentionally dark in both modes: `--grud-code-bg: #161b22`,
+`--grud-code-border: #30363d`, text `#e6edf3`, with the `github-dark` highlight theme.
 
-### Border & Structural
-```css
---color-border: #dee2e6;         /* Light gray - borders, dividers */
-```
+Tints derive via `color-mix(in srgb, var(--grud-primary) N%, transparent)` so custom
+branding flows through hover/active states automatically.
 
-### Semantic Colors
-```css
---color-success: #28a745;        /* Green - success states */
---color-warning: #ffc107;        /* Yellow - warnings */
---color-danger: #dc3545;         /* Red - errors, destructive actions */
-```
+## Typography
 
-## Typography System
+| Role | Font | Notes |
+|---|---|---|
+| Display / headings | `--font-docs-display` → Outfit | weights 600–800, tracking −0.015 to −0.035em, `text-wrap: balance` |
+| Body | `--font-body` → Inter | 1.05–1.125rem, line-height 1.6–1.7 |
+| Data / code | `--font-docs-mono` → JetBrains Mono | HTTP methods, endpoint paths, code blocks only |
 
-### Font Families
-```css
---font-heading: "Space Grotesk", sans-serif;  /* Bold, modern headings */
---font-body: "Inter", system-ui, sans-serif;  /* Clean, readable body text */
---font-mono: "JetBrains Mono", monospace;    /* Technical elements */
-```
+Page titles use `clamp()` (e.g. `clamp(1.875rem, 3.5vw, 2.625rem)`). Mono is reserved
+for real data — never for decorative "technical" labels.
 
-### Typography Scale
-```css
-/* Headings (Space Grotesk) */
-h1: 2.5rem / 3rem (40-48px) - 700 weight
-h2: 2rem / 2.5rem (32-40px) - 700 weight  
-h3: 1.25rem / 1.5rem (20-24px) - 600 weight
+## Spacing & Layout
 
-/* Body (Inter) */
-Body: 1rem / 1.5 (16px) - 400 weight
-Small: 0.875rem / 1.4 (14px) - 400 weight
-Tiny: 0.75rem / 1.3 (12px) - 400 weight
+- Docs listing: max-width 1120px, card grid `repeat(auto-fill, minmax(320px, 1fr))`, gap 1.25rem
+- Reading content: max-width 1080px outer, comfortable measure inside
+- Docs sidebar: 300px, 1px right border, thin tinted scrollbar
+- Mobile (≤768px): single-column grid, sidebar becomes top pane, search kbd hint hidden
 
-/* Technical (JetBrains Mono) */
-Code: 0.875rem / 1.4 (14px) - 400 weight
-Labels: 0.75rem / 1.3 (12px) - 400 weight
-Measurements: 0.625rem / 1.2 (10px) - 400 weight
-```
+## Border Radius & Depth
 
-### Typography Usage
-- **Headings**: Use Space Grotesk for all h1-h3, uppercase for technical headers
-- **Body Text**: Inter for readable paragraphs, descriptions
-- **Technical Elements**: JetBrains Mono for code, measurements, labels
-- **Navigation**: Inter for UI elements, monospace for technical labels
-
-## Spacing & Grid System
-
-### Base Unit
-```css
---grud-grid-size: 4px;  /* Base measurement unit */
-```
-
-### Spacing Scale
-```css
---spacing-1: 4px    /* Minor adjustments */
---spacing-2: 8px    /* Tight spacing */
---spacing-3: 12px   /* Compact spacing */
---spacing-4: 16px   /* Standard spacing */
---spacing-6: 24px   /* Comfortable spacing */
---spacing-8: 32px   /* Generous spacing */
---spacing-12: 48px  /* Section spacing */
---spacing-16: 64px  /* Major sections */
-```
-
-### Layout Containers
-```css
-/* Main content max-width */
-max-width: 1400px;  /* Documentation listing */
-max-width: 900px;   /* Content reading */
-```
-
-## Border Radius & Structural Elements
-
-### Technical Precision
-```css
---radius-sm: 0px;   /* Sharp corners - default */
---radius-md: 0px;   /* Sharp corners - standard */
---radius-lg: 2px;   /* Minimal rounding - special cases */
-```
-
-### Border Weights
-```css
---grud-measure-light: 1px;  /* Standard borders */
---grud-measure-medium: 2px; /* Structural dividers */
---grud-measure-heavy: 3px;  /* Major sections */
-```
+- Radius scale: 8px (controls/sidebar items) to 12px (cards/panels); pills (99px) for filter chips
+- Depth: soft offset shadows only (`0 1px 2px` resting → `0 4px 16px` hover) plus a
+  2px `translateY` lift. No zero-blur block shadows.
 
 ## Component Patterns
 
-### Documentation Cards
-- **Layout**: 4px grid, 400px minimum width
-- **Borders**: 1px solid borders with 4px left accent strip
-- **Shadows**: Subtle 1-2px shadows, hover state 2-4px
-- **Header**: Technical gray background with version badge
-- **Content**: Icon + title hierarchy, monospace metadata
-- **Footer**: Technical measurements and bracket notation buttons
+### Documentation cards (listing)
+Surface + 1px border + 12px radius; doc-type SVG icon in a 36px tinted tile
+(becomes solid primary on hover); `h2` title in Outfit 700; author + "Updated {date}"
+footer. Entrance: staggered `@starting-style` rise (inline `transitionDelay`,
+capped at 8×40ms). Whole card is one `<Link>`; middle-click/Cmd+Click pass through,
+plain clicks navigate inside a View Transition (`viewTransitionName: doc-title-{id}`)
+that morphs the card title into the page title.
 
-### Sidebar Navigation
-- **Width**: 320px fixed
-- **Header**: Technical labels "// CONTENTS" with monospace author info
-- **Items**: Minimal borders, monospace text, 2px hover states
-- **Active State**: Primary blue background with white text
-- **Scrollbars**: 4px width, measure color with primary hover
+### Search
+Bordered 10px-radius field with soft resting shadow; focus = primary border + 3px
+tinted ring; `/` focuses globally, Escape clears; live result count and `<mark>`
+match highlighting.
 
-### Page Content Areas
-- **Max Width**: 900px for optimal reading
-- **Borders**: Left border for content anchoring
-- **Headers**: 2px bottom borders with 60-80px accent lines
-- **Spacing**: Generous vertical rhythm (16px base unit)
+### Type filter
+Pill chips (All / Guides / API / Mixed), `aria-pressed`, tinted active state.
 
-### Technical Measurements
-- **Version Badges**: Top-right corner, monospace, bordered
-- **Metadata Icons**: Clock, user, document icons (3-4px)
-- **Status Messages**: Code comment style, monospace
-- **Navigation**: Bracket notation [VIEW_DOCS], [CLEAR_SEARCH]
+### Sidebar
+Header shows doc title + version · author. Tree items: 44px min-height, 8px radius,
+tinted hover, selected = 12% primary tint + primary text (no accent bars).
+Endpoint groups: collapsible with chevron; text filter appears above 8 endpoints;
+method badges in mono with per-verb colors; deprecated gets an explicit text tag
+(never opacity alone).
+
+### Page content
+Ruled header (1px bottom border) with linked breadcrumb (`docs / {doc} / {page}`,
+current crumb `aria-current="page"`); prev/next cards with destination titles;
+"You've reached the end" closure note on the last page.
+
+### Markdown content
+All renderer classes use `--grud-*` tokens (text, borders, table headers, inline
+code, blockquote with 2px primary left rule). Skip link to `<main id="docs-main">`.
 
 ## Interaction States
 
-### Hover States
-- **Cards**: Subtle lift (1px), shadow increase, border color change
-- **Buttons**: Monospace text maintains during hover
-- **Navigation Items**: Background color change, no decorative effects
+- Hover: border tint toward primary + shadow step + 2px lift (cards/links)
+- Focus: 2px primary outline, 2px offset, on every interactive element
+- Selected (sidebar/endpoints): primary-tinted background + primary text
+- Motion: one authored moment per surface (card entrance stagger, view-transition
+  morph); everything else 0.15–0.2s ease; `prefers-reduced-motion` disables the morph
 
-### Active States
-- **Primary Selection**: Blueprint blue background, white text
-- **Borders**: 2px solid primary blue
-- **Indicators**: Left accent strips or measurement lines
+## Accessibility Floor
 
-### Focus States
-- **Outline**: 2px primary blue outline, 2px offset
-- **Input Fields**: Border color change to primary blue
+- Contrast ≥4.5:1 body text, placeholders ≥0.7 opacity secondary
+- Breadcrumbs are real links; skip link on the viewer; `role="status"`/`role="alert"`
+  on loading and error states; error recovery offers Retry (network) vs Not Found copy
+- Dates use `toLocaleDateString(undefined, …)` (locale-aware)
+- Touch targets ≥44px on sidebar items and endpoint rows
 
-## Animation & Motion
+## Icons
 
-### Timing Functions
-```css
-/* Fast, technical transitions */
-0.2s ease - Standard interactions
-0.3s cubic-bezier(0.4, 0, 0.2, 1) - Smooth transitions
-```
-
-### Animation Patterns
-- **Fade In**: 8px vertical translation + opacity (0.3s)
-- **Hover Effects**: 1px lift + shadow increase (0.2s)
-- **Border Color**: Smooth transitions (0.2s ease)
-
-### Motion Principles
-- Minimal, purposeful animations only
-- No decorative or playful motion
-- Technical precision in all transitions
-- Support reduced-motion preferences
-
-## Icon System
-
-### Icon Library
-- **Primary**: Heroicons React (outline style)
-- **Usage**: 16-20px for UI elements, 12px for metadata
-
-### Icon Applications
-- **Document Icons**: DocumentTextIcon (16px, measure color)
-- **User Indicators**: UserIcon (12px, measure color)
-- **Time References**: ClockIcon (12px, measure color)
-- **Search**: MagnifyingGlassIcon (16px, measure color)
-- **Navigation**: ChevronRightIcon, ChevronDownIcon (16px)
-
-### Icon Guidelines
-- Use outline style only (no filled icons)
-- Consistent sizing within component types
-- Measure color for metadata, primary for actions
-- No emoji or decorative icons
-
-## Responsive Design
-
-### Breakpoints
-```css
-/* Mobile */
-@media (max-width: 768px) {
-  /* Single column layouts */
-  /* Reduced spacing (8px base) */
-  /* Full-width cards */
-}
-
-/* Tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Optimized reading widths */
-  /* Adjusted grid columns */
-}
-
-/* Desktop */
-@media (min-width: 1025px) {
-  /* Full grid layouts */
-  /* Maximum content widths */
-}
-```
-
-### Mobile Considerations
-- Sidebar becomes full-width drawer (320px height)
-- Documentation cards stack vertically
-- Search bar uses full width
-- Technical measurements scale appropriately
-
-## Accessibility
-
-### Color Contrast
-- **Primary Text**: 4.5:1 minimum contrast ratio
-- **Large Text**: 3:1 minimum contrast ratio  
-- **Interactive Elements**: 3:1 minimum contrast ratio
-- **Technical Labels**: Enhanced contrast for readability
-
-### Focus Indicators
-- 2px solid outline, primary blue color
-- 2px offset from element
-- Visible on all interactive elements
-
-### Screen Reader Support
-- Semantic HTML structure
-- ARIA labels for technical elements
-- Logical heading hierarchy
-- Descriptive link text
-
-## Dark Mode
-
-### Dark Color Palette
-```css
---color-background: #0a0e27;     /* Deep blue-black */
---color-surface: #12183a;        /* Blue-gray surfaces */
---color-surface-alt: #1a1f3a;    /* Lighter blue-gray */
---color-foreground: #e2e8f0;     /* Light gray text */
---color-measure: #58a6ff;        /* Bright blue measurements */
---color-technical: #94a3b8;      /* Medium gray labels */
-```
-
-### Dark Mode Principles
-- Maintain technical blueprint feel
-- Blue-based dark theme (not pure black)
-- Enhanced contrast for measurements
-- Preserve monospace readability
-
-## File Structure
-
-### Design Files
-- `frontend/src/styles/theme.css` - Core color system and CSS variables
-- `frontend/src/index.css` - Typography, spacing, global styles
-- `frontend/src/styles/publicDocsPage.module.css` - Documentation listing
-- `frontend/src/styles/publicDocViewerPage.module.css` - Documentation viewer
-- `frontend/src/components/DocSidebar.tsx` - Navigation sidebar
-
-### Component Styles
-- Use CSS modules for component-specific styles
-- Leverage design tokens for consistency
-- Maintain technical precision in all styles
-
-## Implementation Guidelines
-
-### New Components
-1. Start with 4px grid measurements
-2. Use sharp corners (0px radius) by default
-3. Apply monospace for technical labels
-4. Include proper borders (1-2px)
-5. Use minimal shadows (1-2px)
-6. Test both light and dark modes
-
-### Color Usage
-- Reserve primary blue for actions and active states
-- Use measure color for metadata and technical labels
-- Apply accent color sparingly for measurements/warnings
-- Maintain high contrast for readability
-
-### Typography Rules
-- Space Grotesk for headings and display
-- Inter for body text and UI elements
-- JetBrains Mono for technical content
-- Maintain proper hierarchy and sizing
-
----
-
-**Design System Version**: 1.0.0  
-**Last Updated**: 2024-08-25  
-**Maintained By**: Development Team  
-**Design Philosophy**: Technical precision, modern developer experience, blueprint aesthetics
+Authored inline SVG, 1.5–1.75 stroke, consistent 14–18px sizing: doc-type marks
+(api = plug/brackets, mixed = file+lines, traditional = file), folder/file sidebar
+marks, lightning for API reference, chevrons for group toggles. No emoji.

@@ -690,7 +690,7 @@ id: ${insertData.operationId}
           onSelectionChange={(key) => setActiveTab(key as string)}
           className="w-full"
           classNames={{
-            cursor: "group-data-[selected=true]:bg-gradient-to-r from-primary to-secondary",
+            cursor: "group-data-[selected=true]:bg-primary",
             tabContent: "group-data-[selected=true]:text-white font-medium"
           }}
         >

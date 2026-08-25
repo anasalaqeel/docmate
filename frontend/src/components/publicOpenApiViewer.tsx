@@ -595,7 +595,7 @@ print(response.json())`;
                               <h4 className="text-danger">Error</h4>
                               <Code color="danger" className="block mt-2">{testResponse.error}</Code>
                               {testResponse.url && (
-                                <p className="text-sm text-gray-500 mt-2">URL: {testResponse.url}</p>
+                                <p className="text-sm text-[var(--grud-text-secondary)] mt-2">URL: {testResponse.url}</p>
                               )}
                             </CardBody>
                           </Card>

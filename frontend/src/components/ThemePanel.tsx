@@ -1,6 +1,5 @@
 import { Card, CardBody, Button, Tabs, Tab } from "@heroui/react";
-import Switch from "./ui/Switch";
-import { PaintBrushIcon, SunIcon, MoonIcon, SwatchIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { PaintBrushIcon, SunIcon, MoonIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { settingsService } from "../services/settingsService";
 import { useState, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
@@ -58,8 +57,6 @@ export default function ThemePanel() {
     settings["theme.colors.danger"] = formData.light.danger;
     settings["theme.colors.background"] = formData.light.background;
     settings["theme.colors.text"] = formData.light.text;
-    settings["theme.colors.gradient"] = formData.light.gradient;
-    settings["theme.colors.gradientSubtle"] = formData.light.gradientSubtle;
 
     // Dark
     settings["theme.dark.colors.primary"] = formData.dark.primary;
@@ -69,12 +66,6 @@ export default function ThemePanel() {
     settings["theme.dark.colors.danger"] = formData.dark.danger;
     settings["theme.dark.colors.background"] = formData.dark.background;
     settings["theme.dark.colors.text"] = formData.dark.text;
-    settings["theme.dark.colors.gradient"] = formData.dark.gradient;
-    settings["theme.dark.colors.gradientSubtle"] = formData.dark.gradientSubtle;
-
-    // Options
-    settings["theme.options.usePrimaryGradient"] = formData.options.usePrimaryGradient;
-    settings["theme.options.useSecondaryGradient"] = formData.options.useSecondaryGradient;
 
     // Shared
     settings["theme.typography.fontFamily"] = formData.typography.fontFamily;
@@ -107,9 +98,6 @@ export default function ThemePanel() {
 
   const updateDark = (key: keyof typeof THEME_DEFAULTS.dark, val: string) => 
     setFormData(prev => ({ ...prev, dark: { ...prev.dark, [key]: val } }));
-
-  const updateOption = (key: keyof typeof formData.options, val: boolean) =>
-    setFormData(prev => ({ ...prev, options: { ...prev.options, [key]: val } }));
 
   if (loading) {
     return (
@@ -171,44 +159,6 @@ export default function ThemePanel() {
         </CardBody>
       </Card>
 
-      {/* Gradients & Brand Options */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
-        <CardBody className="space-y-4 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <SwatchIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
-              <h3 className="text-lg font-semibold">Gradients & Brand Options</h3>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-xl bg-[var(--grud-surface-alt)] border border-[var(--grud-border-color)]">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Use Primary Gradient</span>
-                <Switch 
-                  isSelected={formData.options.usePrimaryGradient} 
-                  onValueChange={(v: boolean) => updateOption("usePrimaryGradient", v)} 
-                  size="sm"
-                />
-              </div>
-              <p className="text-xs text-[var(--grud-text-secondary)]">Toggle between solid primary color and the gradient configured in each mode.</p>
-            </div>
-            
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Use Secondary Gradient</span>
-                <Switch 
-                  isSelected={formData.options.useSecondaryGradient} 
-                  onValueChange={(v: boolean) => updateOption("useSecondaryGradient", v)} 
-                  size="sm"
-                />
-              </div>
-              <p className="text-xs text-[var(--grud-text-secondary)]">Toggle between solid secondary color and the secondary gradient in each mode.</p>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
-      
       {/* Typography Settings */}
       <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">

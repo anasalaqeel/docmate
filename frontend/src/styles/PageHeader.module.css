@@ -3,83 +3,61 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 32px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.header::after {
-  content: '';
-  position: absolute;
-  /* Variants will override position and background */
+  transition: background 0.2s ease;
 }
 
 /* Card variant (default) - used inside HeroUI Card */
 .card {
-  border-radius: 20px 20px 0 0;
+  border-radius: 16px 16px 0 0;
   border-bottom: var(--grud-border);
   background: transparent;
 }
 
-.card::after {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--grud-gradient);
-}
-
 /* Standalone variant - used as a top-level page header (e.g. Dashboard) */
 .standalone {
-  background: var(--grud-card-bg);
-  border-radius: 20px;
+  background: var(--grud-surface);
+  border-radius: 16px;
   border: var(--grud-border);
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: 0 1px 2px var(--grud-shadow-color);
   margin-bottom: 24px;
-}
-
-.standalone::after {
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--grud-gradient);
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 800;
+  font-family: var(--font-docs-display, var(--font-heading));
+  font-size: 1.75rem;
+  font-weight: 700;
   margin: 0;
-  background: var(--grud-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--grud-text);
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .standalone .title {
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 .subtitle {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   color: var(--grud-text-secondary);
   margin: 8px 0 0 0;
-  font-weight: 500;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 .standalone .subtitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .actions {
   display: flex;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {

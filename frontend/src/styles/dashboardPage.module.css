@@ -37,16 +37,13 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--grud-gradient);
-}
+  color: var(--grud-primary);
+  }
 
 .statNumber {
   font-size: 3rem;
   font-weight: 800;
-  background: var(--grud-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--grud-primary);
   margin-bottom: 4px;
   line-height: 1;
 }
@@ -94,7 +91,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: var(--grud-gradient);
+  color: var(--grud-primary);
   border-radius: 16px;
   z-index: -1;
   opacity: 0.05;

@@ -45,10 +45,7 @@
   font-size: 1.25rem;
   font-weight: 800;
   margin: 0;
-  background: var(--grud-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--grud-primary);
 }
 
 .adminBadge {
@@ -66,7 +63,7 @@
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: var(--grud-gradient);
+  color: var(--grud-primary);
   color: white;
 }
 

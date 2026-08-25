@@ -495,7 +495,7 @@ const SidebarManager = ({
               dragDropConfig={dragDropConfig}
               classNames={{
                 node: "data-[selected=false]:hover:bg-[var(--grud-surface-alt)] data-[selected=true]:bg-[var(--grud-surface-alt)] data-[selected=true]:border-[var(--grud-primary)]/30 border border-transparent transition-all duration-200",
-                nodeLabel: "group-data-[selected=true]:font-bold group-data-[selected=true]:bg-[var(--grud-gradient)] group-data-[selected=true]:bg-clip-text group-data-[selected=true]:text-transparent text-[var(--grud-text)]",
+                nodeLabel: "group-data-[selected=true]:font-bold group-data-[selected=true]:text-[var(--grud-primary)] text-[var(--grud-text)]",
                 nodeIcon: "group-data-[selected=true]:text-[var(--grud-primary)]"
               }}
             />

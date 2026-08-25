@@ -174,7 +174,7 @@ const TestTreeViewPage: React.FC = () => {
         {/* Tree View */}
         <div>
           <Card className="shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+            <CardHeader className="bg-blue-600 text-white">
               <h2 className="text-xl font-bold">Drag & Drop Tree</h2>
             </CardHeader>
             <CardBody className="p-6">
@@ -184,7 +184,7 @@ const TestTreeViewPage: React.FC = () => {
                   dragDropConfig={dragDropConfig}
                   className="min-h-[300px]"
                   classNames={{
-                    node: "data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-blue-500/10 data-[selected=true]:to-purple-500/10 data-[selected=true]:border-blue-500/20 border border-transparent hover:bg-default-100",
+                    node: "data-[selected=true]:bg-blue-500/10 data-[selected=true]:border-blue-500/20 border border-transparent hover:bg-default-100",
                     nodeLabel: "group-data-[selected=true]:font-semibold group-data-[selected=true]:text-blue-600 dark:group-data-[selected=true]:text-blue-400"
                   }}
                 />
@@ -193,7 +193,7 @@ const TestTreeViewPage: React.FC = () => {
           </Card>
 
           <Card className="shadow-lg mt-6">
-            <CardHeader className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+            <CardHeader className="bg-amber-500 text-white">
               <h3 className="text-lg font-semibold">Instructions</h3>
             </CardHeader>
             <CardBody className="p-4">
@@ -222,7 +222,7 @@ const TestTreeViewPage: React.FC = () => {
         {/* Logs */}
         <div>
           <Card className="shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-green-500 to-teal-600 text-white">
+            <CardHeader className="bg-emerald-600 text-white">
               <h2 className="text-xl font-bold">Event Logs</h2>
             </CardHeader>
             <CardBody className="p-4 h-96 overflow-y-auto">
@@ -248,7 +248,7 @@ const TestTreeViewPage: React.FC = () => {
           </Card>
 
           <Card className="shadow-lg mt-6">
-            <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-600 text-white">
+            <CardHeader className="bg-purple-600 text-white">
               <h3 className="text-lg font-semibold">Current Data</h3>
             </CardHeader>
             <CardBody className="p-4">

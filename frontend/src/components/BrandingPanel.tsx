@@ -203,7 +203,7 @@ export default function BrandingPanel() {
                     alt="Dark logo"
                     width="100%"
                     height={120}
-                    className="object-contain border rounded-lg bg-gray-100"
+                    className="object-contain border rounded-lg bg-[var(--grud-surface-alt)]"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                     <Button size="sm" variant="light" onPress={() => handleImageUpload("logoDark")}>

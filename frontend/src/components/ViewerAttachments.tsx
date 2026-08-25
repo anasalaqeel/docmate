@@ -50,13 +50,13 @@ const ViewerAttachments = ({ entityId, entityType }: ViewerAttachmentsProps) => 
   }, [entityId, entityType]);
 
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.includes("pdf")) return <FileText className="w-5 h-5 text-red-500" />;
+    if (mimeType.includes("pdf")) return <FileText className="w-5 h-5 text-[var(--grud-error)]" />;
     if (mimeType.includes("zip") || mimeType.includes("archive")) return <FileArchive className="w-5 h-5 text-orange-500" />;
     if (mimeType.includes("image")) return <FileImage className="w-5 h-5 text-blue-500" />;
     if (mimeType.includes("word") || mimeType.includes("officedocument.wordprocessingml")) 
       return <FileText className="w-5 h-5 text-blue-600" />;
     if (mimeType.includes("spreadsheet") || mimeType.includes("excel") || mimeType.includes("csv") || mimeType.includes("sheet")) 
-      return <FileSpreadsheet className="w-5 h-5 text-green-500" />;
+      return <FileSpreadsheet className="w-5 h-5 text-[var(--grud-success)]" />;
     return <FileIcon className="w-5 h-5 text-slate-400" />;
   };
 

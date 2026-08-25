@@ -5,7 +5,7 @@ const UnauthorizedPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--grud-bg)]">
       <Card className="max-w-md">
         <CardBody className="text-center p-8">
           <div className="text-6xl mb-4">🚫</div>

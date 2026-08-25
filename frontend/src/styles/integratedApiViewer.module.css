@@ -53,11 +53,8 @@
   font-weight: 700;
   margin: 0 0 0.5rem 0;
   color: var(--grud-text);
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  color: var(--grud-primary);
+  }
 
 .path {
   font-size: 1rem;
@@ -66,7 +63,7 @@
   background: var(--grud-surface-alt);
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  border-left: 4px solid var(--grud-border-color);
+  border-left: 1px solid var(--grud-border-color);
 }
 
 .description {
@@ -91,8 +88,8 @@
 }
 
 .tabCursor {
-  background: var(--grud-gradient);
-}
+  color: var(--grud-primary);
+  }
 
 .tabContentWrapper {
   flex: 1;
@@ -108,11 +105,8 @@
   font-weight: 700;
   margin: 0 0 1.5rem 0;
   color: var(--grud-text);
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  color: var(--grud-primary);
+  }
 
 .sectionDescription {
   margin: 0 0 1.5rem 0;
@@ -342,11 +336,8 @@
   font-weight: 700;
   color: #374151;
   margin: 0 0 1rem 0;
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  color: var(--grud-primary);
+  }
 
 .formSection {
   display: flex;
@@ -376,7 +367,7 @@
 
 .sendButton {
   align-self: flex-start;
-  background: var(--grud-gradient);
+  color: var(--grud-primary);
   border: none;
 }
 
@@ -397,11 +388,8 @@
   font-weight: 700;
   color: var(--grud-text);
   margin: 0 0 1rem 0;
-  background: var(--grud-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  color: var(--grud-primary);
+  }
 
 .responseStatus {
   margin-bottom: 1rem;
