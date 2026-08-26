@@ -4,6 +4,8 @@ export interface LayoutData {
   showAdminButton: boolean;
   sidebar?: React.ReactNode;
   navbarType: "public" | "admin";
+  navbarTitle?: string;
+  navbarSubtitle?: string;
 }
 
 export interface LayoutContextType {

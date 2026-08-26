@@ -72,15 +72,27 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             <Navbar className={styles.navbar} maxWidth="full">
               <NavbarBrand>
                 {layoutData.sidebar ? (
-                  <Button
-                    isIconOnly
-                    variant="light"
-                    onPress={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                    className={styles.sidebarToggle}
-                    aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-                  >
-                    <Bars3Icon className="w-5 h-5" />
-                  </Button>
+                  <>
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      onPress={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                      className={styles.sidebarToggle}
+                      aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    >
+                      <Bars3Icon className="w-5 h-5" />
+                    </Button>
+                    {layoutData.navbarTitle && (
+                      <div className={styles.navTitleBlock}>
+                        <span className={styles.navTitle} title={layoutData.navbarTitle}>
+                          {layoutData.navbarTitle}
+                        </span>
+                        {layoutData.navbarSubtitle && (
+                          <span className={styles.navSubtitle}>{layoutData.navbarSubtitle}</span>
+                        )}
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <Link to="/docs" className={styles.brandLink}>
                     <div className={styles.brandContent}>

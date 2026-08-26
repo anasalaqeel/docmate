@@ -178,23 +178,12 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
             <span className={styles.sidebarBrandName}>{organizationName}</span>
           </Link>
         )}
-        {!isSidebarCollapsed && (
-          <>
-            <p className={styles.sidebarLabel}>Overview</p>
-            <div className={styles.docTitleRow}>
-              <h3 className={styles.sidebarDocTitle} title={doc.title}>
-                {doc.title}
-              </h3>
-              <span className={styles.docVersionBadge}>v{doc.version}</span>
-            </div>
-            <p className={styles.docInfo}>
-              {doc.creator?.name || "Unknown"}
-            </p>
-          </>
-        )}
       </div>
 
       <div className={styles.sidebarItems}>
+        {!isSidebarCollapsed && sidebarTree.length > 0 && (
+          <p className={styles.sidebarSectionLabel}>Pages</p>
+        )}
         {sidebarTree.length === 0 ? (
           <div className={styles.emptySidebar}>
             <p>No content available</p>

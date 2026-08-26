@@ -162,6 +162,8 @@ const PublicDocViewerPage = () => {
     if (doc) {
       setLayoutData({
         showAdminButton: false,
+        navbarTitle: doc.title,
+        navbarSubtitle: doc.version ? `v${doc.version}` : undefined,
         sidebar: (
             <DocSidebar
               doc={doc}

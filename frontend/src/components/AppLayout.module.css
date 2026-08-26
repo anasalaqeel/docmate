@@ -64,6 +64,33 @@
     color: var(--docmate-text-secondary);
 }
 
+.navTitleBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  max-width: 40vw;
+  line-height: 1.2;
+}
+
+.navTitle {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--docmate-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navSubtitle {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--docmate-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .shell {
   flex: 1;
   display: flex;
