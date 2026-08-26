@@ -88,13 +88,27 @@
   scrollbar-color: color-mix(in srgb, var(--docmate-primary) 35%, transparent) transparent;
 }
 
+.sidebarSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.625rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.sidebarSectionIcon {
+  display: flex;
+  align-items: center;
+  color: var(--docmate-primary);
+}
+
 .sidebarSectionLabel {
   font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--docmate-text-secondary);
-  margin: 0 0 0.5rem 0.625rem;
+  margin: 0;
 }
 
 .sidebarItems::-webkit-scrollbar {
@@ -519,40 +533,39 @@
 
 .apiEndpointsSection {
   margin-top: 2rem;
-  padding: 0 0.25rem;
+  /* no horizontal padding: children (header, groups, endpoints) carry their own,
+     keeping the section header aligned with the Pages header above */
 }
 
-.sectionHeader {
+.apiSectionHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.75rem 0.75rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid var(--docmate-border-color);
+  gap: 0.5rem;
+  padding: 0 0.625rem;
+  margin: 0 0 0.5rem 0;
 }
 
-.sectionIcon {
+.apiSectionIcon {
   display: flex;
   align-items: center;
   color: var(--docmate-primary);
 }
 
-.sectionTitle {
+.apiSectionTitle {
   flex: 1;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--docmate-text);
-  margin-left: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--docmate-text-secondary);
 }
 
-.endpointCount {
-  font-size: 0.75rem;
-  font-weight: 600;
+.apiEndpointCount {
+  font-size: 0.6875rem;
+  font-weight: 700;
   color: var(--docmate-primary);
   background: color-mix(in srgb, var(--docmate-primary) 8%, transparent);
-  padding: 0.1875rem 0.5rem;
+  padding: 0.125rem 0.5rem;
   border-radius: 99px;
 }
 

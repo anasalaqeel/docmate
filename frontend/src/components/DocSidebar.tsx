@@ -174,7 +174,16 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
 
       <div className={styles.sidebarItems}>
         {sidebarTree.length > 0 && (
-          <p className={styles.sidebarSectionLabel}>Pages</p>
+          <div className={styles.sidebarSectionHeader}>
+            <span className={styles.sidebarSectionIcon}>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M5.5 1.5h4l3 3v9a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M9.5 1.5v3h3" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M3.5 3.5v10a1 1 0 0 0 1 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </span>
+            <p className={styles.sidebarSectionLabel}>Pages</p>
+          </div>
         )}
         {sidebarTree.length === 0 ? (
           <div className={styles.emptySidebar}>

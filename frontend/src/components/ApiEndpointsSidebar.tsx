@@ -74,14 +74,14 @@ const ApiEndpointsSidebar: React.FC<ApiEndpointsSidebarProps> = ({
 
   return (
     <div className={styles.apiEndpointsSection}>
-      <div className={styles.sectionHeader}>
-        <span className={styles.sectionIcon}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <div className={styles.apiSectionHeader}>
+        <span className={styles.apiSectionIcon}>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M9 1.5 3 9h4l-1 5.5L12 7H8l1-5.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="miter" />
           </svg>
         </span>
-        <span className={styles.sectionTitle}>API Reference</span>
-        <span className={styles.endpointCount}>
+        <span className={styles.apiSectionTitle}>API Reference</span>
+        <span className={styles.apiEndpointCount}>
           {visibleEndpoints.length} endpoint{visibleEndpoints.length === 1 ? '' : 's'}
         </span>
       </div>
