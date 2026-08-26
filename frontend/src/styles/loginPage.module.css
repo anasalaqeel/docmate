@@ -7,16 +7,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--grud-bg-gradient);
+  background: var(--docmate-bg-gradient);
 }
 
 .loginCard {
   width: 100%;
   max-width: 420px;
-  background: var(--grud-card-bg);
-  backdrop-filter: var(--grud-blur);
-  border: var(--grud-border);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-card-bg);
+  backdrop-filter: var(--docmate-blur);
+  border: var(--docmate-border);
+  box-shadow: var(--docmate-card-shadow);
   border-radius: 24px;
   overflow: hidden;
   animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,8 +25,8 @@
 .header {
   text-align: center;
   padding: 3rem 2rem 2rem 2rem;
-  background: rgba(var(--grud-primary-rgb), 0.05);
-  border-bottom: var(--grud-border);
+  background: rgba(var(--docmate-primary-rgb), 0.05);
+  border-bottom: var(--docmate-border);
   position: relative;
 }
 
@@ -37,26 +37,26 @@
   left: 0;
   right: 0;
   height: 2px;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   }
 
 .logo {
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  filter: drop-shadow(0 4px 12px rgba(var(--grud-primary-rgb), 0.3));
+  filter: drop-shadow(0 4px 12px rgba(var(--docmate-primary-rgb), 0.3));
 }
 
 .title {
   font-size: 2.25rem;
   font-weight: 800;
   margin: 0 0 0.5rem 0;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   letter-spacing: -0.02em;
 }
 
 .subtitle {
   font-size: 1rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
   font-weight: 500;
 }
@@ -70,9 +70,9 @@
 
 .error {
   padding: 1rem;
-  background: rgba(var(--grud-error-rgb), 0.1);
-  border: 1px solid rgba(var(--grud-error-rgb), 0.3);
-  color: var(--grud-error);
+  background: rgba(var(--docmate-error-rgb), 0.1);
+  border: 1px solid rgba(var(--docmate-error-rgb), 0.3);
+  color: var(--docmate-error);
   border-radius: 12px;
   font-size: 0.875rem;
   text-align: center;
@@ -86,9 +86,9 @@
   font-weight: 700;
   font-size: 1rem;
   border-radius: 14px;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   color: white;
-  box-shadow: 0 8px 24px rgba(var(--grud-primary-rgb), 0.3);
+  box-shadow: 0 8px 24px rgba(var(--docmate-primary-rgb), 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   cursor: pointer;
@@ -96,7 +96,7 @@
 
 .submitButton:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(var(--grud-primary-rgb), 0.4);
+  box-shadow: 0 12px 32px rgba(var(--docmate-primary-rgb), 0.4);
 }
 
 .submitButton:active {
@@ -105,7 +105,7 @@
 
 .divider {
   margin: 2rem 0;
-  background: linear-gradient(90deg, transparent, var(--grud-border-color), transparent);
+  background: linear-gradient(90deg, transparent, var(--docmate-border-color), transparent);
   height: 1px;
   border: none;
 }
@@ -117,13 +117,13 @@
 
 .footerText {
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
   font-weight: 500;
 }
 
 .link {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;

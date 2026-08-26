@@ -68,8 +68,8 @@ export const UsersTable = ({
 
   // Status color mapping
   const statusColorMap: Record<string, { bg: string; text: string }> = {
-    active: { bg: "rgba(var(--grud-success-rgb, 16, 185, 129), 0.1)", text: "var(--grud-success)" },
-    inactive: { bg: "rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)", text: "var(--grud-error)" },
+    active: { bg: "rgba(var(--docmate-success-rgb, 16, 185, 129), 0.1)", text: "var(--docmate-success)" },
+    inactive: { bg: "rgba(var(--docmate-error-rgb, 239, 68, 68), 0.1)", text: "var(--docmate-error)" },
   };
 
   const getUserRoleNames = (user: User): string[] => {
@@ -79,21 +79,21 @@ export const UsersTable = ({
   const getRoleStyle = (roleName: string): { bg: string; text: string } => {
     switch (roleName.toLowerCase()) {
       case "superadmin":
-        return { bg: "rgba(var(--grud-error-rgb, 239, 68, 68), 0.1)", text: "var(--grud-error)" };
+        return { bg: "rgba(var(--docmate-error-rgb, 239, 68, 68), 0.1)", text: "var(--docmate-error)" };
       case "admin":
         return {
-          bg: "rgba(var(--grud-warning-rgb, 245, 158, 11), 0.1)",
-          text: "var(--grud-warning)",
+          bg: "rgba(var(--docmate-warning-rgb, 245, 158, 11), 0.1)",
+          text: "var(--docmate-warning)",
         };
       case "moderator":
         return {
-          bg: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)",
-          text: "var(--grud-primary)",
+          bg: "rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)",
+          text: "var(--docmate-primary)",
         };
       default:
         return {
-          bg: "rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)",
-          text: "var(--grud-text-secondary)",
+          bg: "rgba(var(--docmate-text-secondary-rgb, 100, 116, 139), 0.1)",
+          text: "var(--docmate-text-secondary)",
         };
     }
   };
@@ -114,15 +114,15 @@ export const UsersTable = ({
           <div className="flex items-center gap-3">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(var(--grud-primary-rgb), 0.1)" }}
+              style={{ background: "rgba(var(--docmate-primary-rgb), 0.1)" }}
             >
-              <span className="font-medium text-sm" style={{ color: "var(--grud-primary)" }}>
+              <span className="font-medium text-sm" style={{ color: "var(--docmate-primary)" }}>
                 {user.name?.charAt(0).toUpperCase() || "U"}
               </span>
             </div>
             <div>
               <p className="font-medium">{user.name || "Unknown"}</p>
-              <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
+              <p className="text-xs" style={{ color: "var(--docmate-text-secondary)" }}>
                 ID: {user.id}
               </p>
             </div>
@@ -130,7 +130,7 @@ export const UsersTable = ({
         );
       case "username":
         return (
-          <p className="text-sm font-medium" style={{ color: "var(--grud-primary)" }}>
+          <p className="text-sm font-medium" style={{ color: "var(--docmate-primary)" }}>
             @{user.username || "no-username"}
           </p>
         );
@@ -138,7 +138,7 @@ export const UsersTable = ({
         return (
           <div>
             <p className="text-sm">{user.email || "No email"}</p>
-            <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
+            <p className="text-xs" style={{ color: "var(--docmate-text-secondary)" }}>
               {user.phone || "No phone"}
             </p>
           </div>
@@ -148,8 +148,8 @@ export const UsersTable = ({
           <Chip
             className="capitalize"
             style={{
-              background: statusColorMap[user.status]?.bg || "var(--grud-surface-alt)",
-              color: statusColorMap[user.status]?.text || "var(--grud-text-secondary)",
+              background: statusColorMap[user.status]?.bg || "var(--docmate-surface-alt)",
+              color: statusColorMap[user.status]?.text || "var(--docmate-text-secondary)",
             }}
             size="sm"
             variant="flat"
@@ -183,7 +183,7 @@ export const UsersTable = ({
         return (
           <div>
             <p className="text-sm">{formatDate(user.createdAt)}</p>
-            <p className="text-xs" style={{ color: "var(--grud-text-secondary)" }}>
+            <p className="text-xs" style={{ color: "var(--docmate-text-secondary)" }}>
               Member for {getMemberDays(user.createdAt)}
             </p>
           </div>
@@ -227,8 +227,8 @@ export const UsersTable = ({
               </DropdownItem>
               <DropdownItem
                 key="delete"
-                startContent={<TrashIcon className="w-4 h-4 text-[var(--grud-error)]" />}
-                className="text-[var(--grud-error)]"
+                startContent={<TrashIcon className="w-4 h-4 text-[var(--docmate-error)]" />}
+                className="text-[var(--docmate-error)]"
                 color="danger"
                 onPress={() => onDeleteUser(user)}
               >
@@ -245,18 +245,18 @@ export const UsersTable = ({
   const emptyContent = (
     <div
       className="flex flex-col items-center justify-center py-12 px-4 rounded-lg border-2 border-dashed"
-      style={{ background: "var(--grud-surface-alt)", borderColor: "var(--grud-border-color)" }}
+      style={{ background: "var(--docmate-surface-alt)", borderColor: "var(--docmate-border-color)" }}
     >
       <div
         className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-        style={{ background: "rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)" }}
+        style={{ background: "rgba(var(--docmate-text-secondary-rgb, 100, 116, 139), 0.1)" }}
       >
         <ShieldCheckIcon className="w-8 h-8 opacity-40" />
       </div>
-      <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--grud-text)" }}>
+      <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--docmate-text)" }}>
         No users found
       </h3>
-      <p className="text-center mb-6 max-w-sm" style={{ color: "var(--grud-text-secondary)" }}>
+      <p className="text-center mb-6 max-w-sm" style={{ color: "var(--docmate-text-secondary)" }}>
         {hasActiveFilters
           ? "Try adjusting your filters or search terms to find users."
           : "Create your first user to get started with user management."}
@@ -283,7 +283,7 @@ export const UsersTable = ({
 
       {totalPages > 1 && (
         <div className="flex justify-between items-center">
-          <div className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+          <div className="text-sm" style={{ color: "var(--docmate-text-secondary)" }}>
             Showing {(currentPage - 1) * 10 + 1} to {Math.min(currentPage * 10, total)} of {total}{" "}
             users
           </div>

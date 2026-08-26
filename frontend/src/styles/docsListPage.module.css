@@ -8,18 +8,18 @@
   justify-content: center;
   align-items: center;
   min-height: 400px;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 16px;
-  border: var(--grud-border);
+  border: var(--docmate-border);
 }
 
 
 .empty {
   text-align: center;
   padding: 64px 32px;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 16px;
-  border: 2px dashed var(--grud-border-color);
+  border: 2px dashed var(--docmate-border-color);
   margin: 24px;
   position: relative;
 }
@@ -31,7 +31,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: var(--grud-gradient);
+  background: var(--docmate-gradient);
   border-radius: 16px;
   z-index: -1;
   opacity: 0.05;
@@ -41,11 +41,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 12px 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .empty p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 32px 0;
   font-size: 1.1rem;
   font-weight: 500;
@@ -53,36 +53,36 @@
 
 /* Brand Button Utilities */
 .buttonPrimary {
-  background: var(--grud-gradient) !important;
+  background: var(--docmate-gradient) !important;
   color: white !important;
   font-weight: 600 !important;
-  box-shadow: 0 4px 15px rgba(var(--grud-primary-rgb), 0.4) !important;
+  box-shadow: 0 4px 15px rgba(var(--docmate-primary-rgb), 0.4) !important;
   transition: all 0.2s ease !important;
 }
 
 .buttonPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(var(--grud-primary-rgb), 0.5) !important;
+  box-shadow: 0 6px 20px rgba(var(--docmate-primary-rgb), 0.5) !important;
   opacity: 0.9;
 }
 
 .buttonWarning {
-  background: color-mix(in srgb, var(--grud-error), transparent 90%) !important;
-  color: var(--grud-error) !important;
+  background: color-mix(in srgb, var(--docmate-error), transparent 90%) !important;
+  color: var(--docmate-error) !important;
   font-weight: 600 !important;
 }
 
 .buttonWarning:hover {
-  background: var(--grud-error) !important;
+  background: var(--docmate-error) !important;
   color: white !important;
 }
 
 .buttonSecondary {
-  background: var(--grud-surface-alt) !important;
-  color: var(--grud-text) !important;
-  border: 1px solid var(--grud-border-color) !important;
+  background: var(--docmate-surface-alt) !important;
+  color: var(--docmate-text) !important;
+  border: 1px solid var(--docmate-border-color) !important;
 }
 
 .buttonSecondary:hover {
-  background: var(--grud-border-color) !important;
+  background: var(--docmate-border-color) !important;
 }

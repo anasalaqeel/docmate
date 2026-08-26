@@ -62,10 +62,10 @@ export default function GeneralPanel() {
   return (
     <div className="space-y-6">
       {/* Documentation Settings */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <DocumentTextIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <DocumentTextIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Documentation Defaults</h3>
           </div>
 
@@ -85,10 +85,10 @@ export default function GeneralPanel() {
               description="Default format for new documentation"
               variant="bordered"
               classNames={{
-                trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                value: "text-[var(--grud-text)]",
-                label: "text-[var(--grud-text)]",
-                description: "text-[var(--grud-text-secondary)]"
+                trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                value: "text-[var(--docmate-text)]",
+                label: "text-[var(--docmate-text)]",
+                description: "text-[var(--docmate-text-secondary)]"
               }}
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
@@ -100,14 +100,14 @@ export default function GeneralPanel() {
             >
               Default to Public Documentation
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               New documentation will be publicly visible by default
             </p>
 
             <Switch isSelected={!!(defaultShowApi ?? true)} onValueChange={updateDefaultShowApi}>
               Show API Endpoints by Default
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Show API endpoints in documentation by default
             </p>
           </div>
@@ -115,16 +115,16 @@ export default function GeneralPanel() {
       </Card>
 
       {/* System Settings */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <CogIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <CogIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">System Configuration</h3>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Auto-save Interval (seconds)</label>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Auto-save Interval (seconds)</label>
               <Input
                 type="number"
                 value={autoSaveInterval?.toString() ?? ""}
@@ -135,9 +135,9 @@ export default function GeneralPanel() {
                 min={10}
                 max={300}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  description: "text-[var(--grud-text-secondary)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  description: "text-[var(--docmate-text-secondary)]"
                 }}
               />
             </div>
@@ -146,10 +146,10 @@ export default function GeneralPanel() {
       </Card>
 
       {/* Maintenance Mode */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <ClockIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <ClockIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Maintenance Mode</h3>
           </div>
 
@@ -157,7 +157,7 @@ export default function GeneralPanel() {
             <Switch isSelected={!!(maintenanceMode ?? false)} onValueChange={updateMaintenanceMode}>
               Enable Maintenance Mode
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Enable maintenance mode to temporarily disable access for non-admin users
             </p>
 
@@ -172,10 +172,10 @@ export default function GeneralPanel() {
               maxRows={6}
               isDisabled={!maintenanceMode}
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                label: "text-[var(--grud-text)]",
-                description: "text-[var(--grud-text-secondary)]"
+                inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                label: "text-[var(--docmate-text)]",
+                description: "text-[var(--docmate-text-secondary)]"
               }}
             />
           </div>

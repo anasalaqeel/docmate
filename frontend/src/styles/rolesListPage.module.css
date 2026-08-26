@@ -6,9 +6,9 @@
 
 .card {
   margin: 24px 0;
-  background: var(--grud-surface) !important;
+  background: var(--docmate-surface) !important;
   border-radius: 16px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 
@@ -18,10 +18,10 @@
   gap: 16px;
   margin-bottom: 24px;
   padding: 24px;
-  background: var(--grud-surface);
-  border: var(--grud-border);
+  background: var(--docmate-surface);
+  border: var(--docmate-border);
   border-radius: 12px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .filterControls {
@@ -44,18 +44,18 @@
   justify-content: center;
   align-items: center;
   min-height: 400px;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 16px;
-  border: var(--grud-border);
+  border: var(--docmate-border);
   gap: 16px;
 }
 
 .empty {
   text-align: center;
   padding: 64px 32px;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 16px;
-  border: 2px dashed var(--grud-border-color);
+  border: 2px dashed var(--docmate-border-color);
   margin: 24px;
   position: relative;
 }
@@ -67,7 +67,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: var(--grud-gradient);
+  background: var(--docmate-gradient);
   border-radius: 16px;
   z-index: -1;
   opacity: 0.05;
@@ -77,11 +77,11 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 16px 0 8px 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .empty p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 24px 0;
   font-size: 1.1rem;
   font-weight: 500;
@@ -89,16 +89,16 @@
 
 .resultsSummary {
   padding: 16px 0;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   margin-bottom: 16px;
 }
 
 .tableContainer {
-  background: var(--grud-surface);
-  border: var(--grud-border);
+  background: var(--docmate-surface);
+  border: var(--docmate-border);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .paginationContainer {

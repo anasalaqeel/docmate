@@ -1,6 +1,6 @@
-# Contributing to Grud
+# Contributing to Docmate
 
-Thank you for considering contributing to Grud! We welcome contributions of all kinds.
+Thank you for considering contributing to Docmate! We welcome contributions of all kinds.
 
 ## Code of Conduct
 
@@ -9,7 +9,7 @@ By participating in this project, you agree to abide by the [Code of Conduct](./
 ## How to Contribute
 
 ### Reporting Bugs
--   Search [existing issues](https://github.com/your-username/grud/issues) first.
+-   Search [existing issues](https://github.com/your-username/docmate/issues) first.
 -   If none exist, open a new issue with a clear description, steps to reproduce, and expected behavior.
 
 ### Suggesting Features

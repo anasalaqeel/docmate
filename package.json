@@ -1,5 +1,5 @@
 {
-  "name": "grud",
+  "name": "docmate",
   "private": true,
   "scripts": {
     "dev": "concurrently -n backend,frontend -c blue,green \"bun run --cwd backend dev\" \"bun run --cwd frontend dev\"",

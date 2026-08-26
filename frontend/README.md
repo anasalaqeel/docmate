@@ -1,6 +1,6 @@
-# Grud Frontend
+# Docmate Frontend
 
-The user interface for Grud, built with **React 19** and **Vite**.
+The user interface for Docmate, built with **React 19** and **Vite**.
 
 ## Tech Stack
 -   **Framework:** [React 19](https://react.dev/)

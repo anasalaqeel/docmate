@@ -19,7 +19,7 @@ const RadiusSettings: React.FC<RadiusSettingsProps> = ({ data, onChange }) => {
       <div key={key}>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium">{label}</label>
-          <Chip size="sm" variant="flat" style={{ background: 'rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)', color: 'var(--grud-text)' }}>
+          <Chip size="sm" variant="flat" style={{ background: 'rgba(var(--docmate-text-secondary-rgb, 100, 116, 139), 0.1)', color: 'var(--docmate-text)' }}>
             {value}
           </Chip>
         </div>

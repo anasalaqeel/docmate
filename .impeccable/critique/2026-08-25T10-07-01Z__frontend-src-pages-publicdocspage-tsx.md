@@ -8,7 +8,7 @@ p1_count: 2
 timestamp: 2026-08-25T10-07-01Z
 slug: frontend-src-pages-publicdocspage-tsx
 ---
-# Design Critique — Grud Public Docs View
+# Design Critique — Docmate Public Docs View
 
 Method: dual-agent (A: design review sub-agent · B: detector sub-agent). Browser visualization skipped: no browser automation available.
 
@@ -16,7 +16,7 @@ Method: dual-agent (A: design review sub-agent · B: detector sub-agent). Browse
 1. Visibility of System Status: 2 — bare spinner in viewer; operation blocks pulse forever on error
 2. Match System / Real World: 3 — non-clickable breadcrumb; "mixed" taxonomy leak
 3. User Control and Freedom: 3 — no in-doc search or on-page TOC
-4. Consistency and Standards: 2 — markdownRenderer hard-codes Tailwind grays, bypasses --grud-* tokens
+4. Consistency and Standards: 2 — markdownRenderer hard-codes Tailwind grays, bypasses --docmate-* tokens
 5. Error Prevention: 2 — silent redirect to /docs on load failure
 6. Recognition Rather than Recall: 3 — no search within doc pages
 7. Flexibility and Efficiency: 2 — no cmd+K, no keyboard paging, middle-click broken

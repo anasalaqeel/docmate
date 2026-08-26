@@ -43,9 +43,9 @@ interface OpenAPIConfig {
 // Store routes in module scope
 let routes: RouteInfo[] = [];
 let config: OpenAPIConfig = {
-  title: "GRUD Backend API",
+  title: "DOCMATE Backend API",
   version: "1.0.0",
-  description: "API documentation for GRUD backend services",
+  description: "API documentation for DOCMATE backend services",
   serverUrl: "/v1", // Default to relative path
   serverDescription: "API Server",
 };

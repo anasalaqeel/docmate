@@ -2,7 +2,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
 }
 
 .itemsList {
@@ -11,7 +11,7 @@
   overflow-x: hidden;
   padding: 12px 8px;
   scrollbar-width: thin;
-  scrollbar-color: var(--grud-border-color) transparent;
+  scrollbar-color: var(--docmate-border-color) transparent;
   scroll-behavior: smooth;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .itemsList::-webkit-scrollbar-thumb {
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 4px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -33,7 +33,7 @@
 }
 
 .itemsList::-webkit-scrollbar-thumb:hover {
-  background: var(--grud-border-color);
+  background: var(--docmate-border-color);
   background-clip: content-box;
 }
 
@@ -98,7 +98,7 @@
   transform: translateY(-50%) scaleY(0);
   width: 4px;
   height: 70%;
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
   border-radius: 0 3px 3px 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
@@ -108,7 +108,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 12px;
@@ -116,8 +116,8 @@
 
 .sidebarItem:hover {
   transform: translateX(4px);
-  box-shadow: var(--grud-card-shadow);
-  background: var(--grud-surface-alt);
+  box-shadow: var(--docmate-card-shadow);
+  background: var(--docmate-surface-alt);
 }
 
 .sidebarItem:hover::before {
@@ -129,21 +129,21 @@
 }
 
 .sidebarItem.selected {
-  background: var(--grud-surface-alt);
-  color: var(--grud-primary);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-surface-alt);
+  color: var(--docmate-primary);
+  box-shadow: var(--docmate-card-shadow);
   transform: translateX(6px);
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
 }
 
 .sidebarItem.selected::before {
   transform: translateY(-50%) scaleY(1);
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
 }
 
 .sidebarItem.selected::after {
   opacity: 0.8;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
 }
 
 .itemContent {
@@ -168,8 +168,8 @@
 }
 
 .expandButton:hover {
-  background-color: var(--grud-surface-alt);
-  border-color: var(--grud-border-color);
+  background-color: var(--docmate-surface-alt);
+  border-color: var(--docmate-border-color);
   transform: scale(1.05);
 }
 
@@ -198,12 +198,12 @@
   margin-right: 12px;
   flex-shrink: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: drop-shadow(0 1px 2px var(--grud-shadow-color));
+  filter: drop-shadow(0 1px 2px var(--docmate-shadow-color));
 }
 
 .sidebarItem:hover .itemIcon {
   transform: scale(1.15) rotate(2deg);
-  filter: drop-shadow(0 2px 4px var(--grud-shadow-color));
+  filter: drop-shadow(0 2px 4px var(--docmate-shadow-color));
 }
 
 .itemTitle {
@@ -238,13 +238,13 @@
 }
 
 .actionButton:hover {
-  background-color: var(--grud-surface-alt) !important;
+  background-color: var(--docmate-surface-alt) !important;
   transform: scale(1.05);
-  box-shadow: 0 2px 8px var(--grud-shadow-color);
+  box-shadow: 0 2px 8px var(--docmate-shadow-color);
 }
 
 .children {
-  border-left: 1px solid var(--grud-border-color);
+  border-left: 1px solid var(--docmate-border-color);
   margin-left: 20px;
   padding-left: 12px;
   position: relative;
@@ -258,7 +258,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
   opacity: 0;
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0 3px 3px 0;
@@ -269,7 +269,7 @@
 }
 
 .buttonPrimary {
-  background: var(--grud-gradient);
+  background: var(--docmate-gradient);
   color: white;
   border-radius: 12px;
   font-weight: 600;
@@ -280,7 +280,7 @@
 .buttonPrimary:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px var(--grud-shadow-color);
+  box-shadow: 0 4px 12px var(--docmate-shadow-color);
 }
 
 .buttonPrimary:active:not(:disabled) {
@@ -288,7 +288,7 @@
 }
 
 .buttonWarning {
-  background: var(--grud-warning);
+  background: var(--docmate-warning);
   color: white;
   border-radius: 12px;
   font-weight: 600;
@@ -299,7 +299,7 @@
 .buttonWarning:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--grud-warning), transparent 70%);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--docmate-warning), transparent 70%);
 }
 
 .buttonWarning:active:not(:disabled) {

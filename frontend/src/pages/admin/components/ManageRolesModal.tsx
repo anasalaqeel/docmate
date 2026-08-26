@@ -81,15 +81,15 @@ export function ManageRolesModal({ isOpen, onClose, onRolesUpdated, user, roles 
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="md" placement="center">
-      <ModalContent style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}>
+      <ModalContent style={{ background: 'var(--docmate-surface)', border: '1px solid var(--docmate-border-color)' }}>
         <ModalHeader>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)' }}>
-              <ShieldCheckIcon className="w-6 h-6 text-[var(--grud-primary)]" />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)' }}>
+              <ShieldCheckIcon className="w-6 h-6 text-[var(--docmate-primary)]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[var(--grud-text)]">Manage Roles</h2>
-              <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+              <h2 className="text-xl font-semibold text-[var(--docmate-text)]">Manage Roles</h2>
+              <p className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                 For: {user?.name} ({user?.email})
               </p>
             </div>
@@ -100,8 +100,8 @@ export function ManageRolesModal({ isOpen, onClose, onRolesUpdated, user, roles 
             <Select
               classNames={{
                 base: "max-w-xs",
-                trigger: "min-h-12 py-2 border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                value: "text-[var(--grud-text)]"
+                trigger: "min-h-12 py-2 border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                value: "text-[var(--docmate-text)]"
               }}
               isMultiline={true}
               label="Assign Roles"
@@ -126,7 +126,7 @@ export function ManageRolesModal({ isOpen, onClose, onRolesUpdated, user, roles 
                       <Chip 
                         key={item.key} 
                         variant="flat" 
-                        style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)', color: 'var(--grud-primary)' }}
+                        style={{ background: 'rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)', color: 'var(--docmate-primary)' }}
                         startContent={<ShieldCheckIcon className="w-3 h-3" />}
                       >
                         {item.textValue}

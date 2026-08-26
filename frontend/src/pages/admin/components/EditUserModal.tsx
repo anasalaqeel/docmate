@@ -85,19 +85,19 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="2xl" placement="center">
       <ModalContent
-        style={{ background: "var(--grud-surface)", border: "1px solid var(--grud-border-color)" }}
+        style={{ background: "var(--docmate-surface)", border: "1px solid var(--docmate-border-color)" }}
       >
         <ModalHeader>
           <div className="flex items-center gap-3">
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)" }}
+              style={{ background: "rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)" }}
             >
-              <UserIcon className="w-6 h-6 text-[var(--grud-primary)]" />
+              <UserIcon className="w-6 h-6 text-[var(--docmate-primary)]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[var(--grud-text)]">Edit User</h2>
-              <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+              <h2 className="text-xl font-semibold text-[var(--docmate-text)]">Edit User</h2>
+              <p className="text-sm" style={{ color: "var(--docmate-text-secondary)" }}>
                 Update user information
               </p>
             </div>
@@ -115,8 +115,8 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               isInvalid={!!errors.name}
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]",
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]",
               }}
             />
             <Input
@@ -129,8 +129,8 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               isInvalid={!!errors.username}
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]",
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]",
               }}
             />
             <Input
@@ -144,8 +144,8 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               isInvalid={!!errors.email}
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]",
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]",
               }}
             />
             <Input
@@ -158,8 +158,8 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               isInvalid={!!errors.phone}
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]",
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]",
               }}
             />
           </form>

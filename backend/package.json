@@ -1,5 +1,5 @@
 {
-  "name": "grud-backend",
+  "name": "docmate-backend",
   "scripts": {
     "start": "bun run index.ts",
     "dev": "bun run --watch index.ts",

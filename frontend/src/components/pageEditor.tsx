@@ -126,16 +126,16 @@ const PageEditor = ({ page, onSave, documentationType = "mixed", docId }: PageEd
                         minRows={8}
                         variant="bordered"
                         classNames={{
-                          inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                          input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                          label: "text-[var(--grud-text)] font-semibold"
+                          inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                          input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                          label: "text-[var(--docmate-text)] font-semibold"
                         }}
                       />
                       <div className="flex gap-3 justify-end items-center">
                         <Button 
                           variant="light" 
                           onPress={() => setIsEditing(false)}
-                          className="hover:bg-[var(--grud-surface-alt)] text-[var(--grud-text-secondary)]"
+                          className="hover:bg-[var(--docmate-surface-alt)] text-[var(--docmate-text-secondary)]"
                         >
                           Cancel
                         </Button>

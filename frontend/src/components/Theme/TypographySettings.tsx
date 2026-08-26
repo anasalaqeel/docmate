@@ -59,10 +59,10 @@ const TypographySettings: React.FC<TypographySettingsProps> = ({ data, onChange 
       description={description}
       variant="bordered"
       classNames={{
-        trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-        value: "text-[var(--grud-text)]",
-        label: "text-[var(--grud-text)]",
-        description: "text-[var(--grud-text-secondary)]"
+        trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+        value: "text-[var(--docmate-text)]",
+        label: "text-[var(--docmate-text)]",
+        description: "text-[var(--docmate-text-secondary)]"
       }}
     >
       {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}

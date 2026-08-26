@@ -258,7 +258,7 @@ const DocsListPage = () => {
 
   return (
     <div className={`${styles.container} container mx-auto px-4`}>
-      <Card className="border-none" style={{ background: 'var(--grud-surface)', borderRadius: '16px', boxShadow: 'var(--grud-card-shadow)' }}>
+      <Card className="border-none" style={{ background: 'var(--docmate-surface)', borderRadius: '16px', boxShadow: 'var(--docmate-card-shadow)' }}>
         <PageHeader 
           title="Documentation Builder"
           subtitle="Manage your API documentations"
@@ -268,7 +268,7 @@ const DocsListPage = () => {
                 onImportSuccess={handleImportSuccess}
                 size="md"
                 variant="flat"
-                className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                className="bg-[var(--docmate-surface-alt)] border-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)] hover:bg-[var(--docmate-border-color)] transition-all"
               />
               <Button
                 onPress={openCreateModal}
@@ -304,21 +304,21 @@ const DocsListPage = () => {
           ) : (
             <Table aria-label="Documentations table" removeWrapper>
               <TableHeader>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]">Title</TableColumn>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]">Version</TableColumn>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]">Status</TableColumn>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]">Created By</TableColumn>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]">Updated</TableColumn>
-                <TableColumn className="bg-transparent border-b border-[var(--grud-border-color)]" align="center">Actions</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]">Title</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]">Version</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]">Status</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]">Created By</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]">Updated</TableColumn>
+                <TableColumn className="bg-transparent border-b border-[var(--docmate-border-color)]" align="center">Actions</TableColumn>
               </TableHeader>
               <TableBody>
                 {optimisticDocs.map((doc) => (
-                  <TableRow key={doc.id} className="border-b border-[var(--grud-border-color)]/50 last:border-0 hover:bg-[var(--grud-surface-alt)]/30 transition-colors">
+                  <TableRow key={doc.id} className="border-b border-[var(--docmate-border-color)]/50 last:border-0 hover:bg-[var(--docmate-surface-alt)]/30 transition-colors">
                     <TableCell>
                       <div className="py-1">
-                        <p className="font-semibold text-[var(--grud-text)]">{doc.title}</p>
+                        <p className="font-semibold text-[var(--docmate-text)]">{doc.title}</p>
                         {doc.description && (
-                          <p className="text-sm line-clamp-1" style={{ color: 'var(--grud-text-secondary)' }}>{doc.description}</p>
+                          <p className="text-sm line-clamp-1" style={{ color: 'var(--docmate-text-secondary)' }}>{doc.description}</p>
                         )}
                       </div>
                     </TableCell>
@@ -327,9 +327,9 @@ const DocsListPage = () => {
                         size="sm" 
                         variant="flat"
                         style={{ 
-                          background: 'color-mix(in srgb, var(--grud-primary), transparent 90%)', 
-                          color: 'var(--grud-primary)',
-                          border: '1px solid color-mix(in srgb, var(--grud-primary), transparent 80%)'
+                          background: 'color-mix(in srgb, var(--docmate-primary), transparent 90%)', 
+                          color: 'var(--docmate-primary)',
+                          border: '1px solid color-mix(in srgb, var(--docmate-primary), transparent 80%)'
                         }}
                       >
                         {doc.version}
@@ -339,10 +339,10 @@ const DocsListPage = () => {
                       <Chip
                         style={{ 
                           background: doc.isPublic 
-                            ? 'color-mix(in srgb, var(--grud-success), transparent 90%)' 
-                            : 'color-mix(in srgb, var(--grud-text-secondary), transparent 90%)',
-                          color: doc.isPublic ? 'var(--grud-success)' : 'var(--grud-text-secondary)',
-                          border: `1px solid color-mix(in srgb, ${doc.isPublic ? 'var(--grud-success)' : 'var(--grud-text-secondary)'}, transparent 80%)`
+                            ? 'color-mix(in srgb, var(--docmate-success), transparent 90%)' 
+                            : 'color-mix(in srgb, var(--docmate-text-secondary), transparent 90%)',
+                          color: doc.isPublic ? 'var(--docmate-success)' : 'var(--docmate-text-secondary)',
+                          border: `1px solid color-mix(in srgb, ${doc.isPublic ? 'var(--docmate-success)' : 'var(--docmate-text-secondary)'}, transparent 80%)`
                         }}
                         size="sm"
                         variant="flat"
@@ -352,11 +352,11 @@ const DocsListPage = () => {
                     </TableCell>
                     <TableCell>
                       <div>
-                        <p className="font-medium text-[var(--grud-text)]">{doc.creator?.name || 'Unknown'}</p>
-                        <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>{doc.creator?.email || ''}</p>
+                        <p className="font-medium text-[var(--docmate-text)]">{doc.creator?.name || 'Unknown'}</p>
+                        <p className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>{doc.creator?.email || ''}</p>
                       </div>
                     </TableCell>
-                    <TableCell className="text-sm text-[var(--grud-text-secondary)]">
+                    <TableCell className="text-sm text-[var(--docmate-text-secondary)]">
                       {doc.updatedAt ? new Date(doc.updatedAt).toLocaleDateString() : 'N/A'}
                     </TableCell>
                     <TableCell>
@@ -365,7 +365,7 @@ const DocsListPage = () => {
                           size="sm"
                           variant="light"
                           isIconOnly
-                          className="text-[var(--grud-primary)] hover:bg-[color-mix(in srgb,var(--grud-primary),transparent_90%)]"
+                          className="text-[var(--docmate-primary)] hover:bg-[color-mix(in srgb,var(--docmate-primary),transparent_90%)]"
                           onPress={() => navigate(`/admin/docs/edit/${doc.id}`)}
                           title="Edit Document"
                         >
@@ -374,7 +374,7 @@ const DocsListPage = () => {
                         <Dropdown
                           backdrop="blur"
                           classNames={{
-                            content: "bg-[var(--grud-surface)] border-1 border-[var(--grud-border-color)] shadow-xl min-w-[200px]"
+                            content: "bg-[var(--docmate-surface)] border-1 border-[var(--docmate-border-color)] shadow-xl min-w-[200px]"
                           }}
                         >
                           <DropdownTrigger>
@@ -382,7 +382,7 @@ const DocsListPage = () => {
                               size="sm" 
                               variant="light" 
                               isIconOnly
-                              className="text-[var(--grud-text-secondary)] hover:bg-[var(--grud-surface-alt)]"
+                              className="text-[var(--docmate-text-secondary)] hover:bg-[var(--docmate-surface-alt)]"
                             >
                               <EllipsisVerticalIcon className="w-5 h-5" />
                             </Button>
@@ -390,9 +390,9 @@ const DocsListPage = () => {
                           <DropdownMenu 
                             aria-label="Actions"
                             itemClasses={{
-                              base: "gap-3 px-3 py-2 text-[var(--grud-text)] hover:bg-[var(--grud-surface-alt)] data-[hover=true]:bg-[var(--grud-surface-alt)] rounded-lg transition-colors",
+                              base: "gap-3 px-3 py-2 text-[var(--docmate-text)] hover:bg-[var(--docmate-surface-alt)] data-[hover=true]:bg-[var(--docmate-surface-alt)] rounded-lg transition-colors",
                               title: "font-medium",
-                              description: "text-xs text-[var(--grud-text-secondary)]"
+                              description: "text-xs text-[var(--docmate-text-secondary)]"
                             }}
                           >
                             <DropdownItem 
@@ -438,7 +438,7 @@ const DocsListPage = () => {
 
                             <DropdownItem
                               key="delete"
-                              className="text-[var(--grud-error)] hover:bg-[color-mix(in srgb,var(--grud-error),transparent_90%)] data-[hover=true]:bg-[color-mix(in srgb,var(--grud-error),transparent_90%)] data-[hover=true]:text-[var(--grud-error)]"
+                              className="text-[var(--docmate-error)] hover:bg-[color-mix(in srgb,var(--docmate-error),transparent_90%)] data-[hover=true]:bg-[color-mix(in srgb,var(--docmate-error),transparent_90%)] data-[hover=true]:text-[var(--docmate-error)]"
                               startContent={<TrashIcon className="w-4 h-4" />}
                               onPress={() => openDeleteModal(doc)}
                             >
@@ -465,11 +465,11 @@ const DocsListPage = () => {
         backdrop="blur"
         placement="center"
         classNames={{
-          base: "max-h-[85vh] bg-[var(--grud-surface)] border-1 border-[var(--grud-border-color)] shadow-2xl rounded-2xl",
-          header: "border-b-1 border-[var(--grud-border-color)] px-6 py-4 text-[var(--grud-text)]",
+          base: "max-h-[85vh] bg-[var(--docmate-surface)] border-1 border-[var(--docmate-border-color)] shadow-2xl rounded-2xl",
+          header: "border-b-1 border-[var(--docmate-border-color)] px-6 py-4 text-[var(--docmate-text)]",
           body: "px-6 py-4 overflow-y-auto",
-          footer: "border-t-1 border-[var(--grud-border-color)] px-6 py-4",
-          closeButton: "hover:bg-[var(--grud-surface-alt)] transition-colors"
+          footer: "border-t-1 border-[var(--docmate-border-color)] px-6 py-4",
+          closeButton: "hover:bg-[var(--docmate-surface-alt)] transition-colors"
         }}
       >
         <ModalContent>
@@ -495,7 +495,7 @@ const DocsListPage = () => {
             <Button 
               variant="light" 
               onPress={onClose}
-              className="text-[var(--grud-text-secondary)] font-medium"
+              className="text-[var(--docmate-text-secondary)] font-medium"
             >
               Cancel
             </Button>
@@ -516,18 +516,18 @@ const DocsListPage = () => {
         backdrop="blur"
         placement="center"
         classNames={{
-          base: "bg-[var(--grud-surface)] border-1 border-[var(--grud-border-color)] shadow-2xl rounded-2xl p-2",
-          header: "text-[var(--grud-text)] pb-0 font-bold text-xl",
+          base: "bg-[var(--docmate-surface)] border-1 border-[var(--docmate-border-color)] shadow-2xl rounded-2xl p-2",
+          header: "text-[var(--docmate-text)] pb-0 font-bold text-xl",
           footer: "pt-0"
         }}
       >
         <ModalContent>
           <ModalHeader>Confirm Delete</ModalHeader>
           <ModalBody className="py-4">
-            <p className="text-[var(--grud-text)] text-base">
-              Are you sure you want to delete <span className="font-bold text-[var(--grud-primary)]">"{selectedDoc?.title}"</span>?
+            <p className="text-[var(--docmate-text)] text-base">
+              Are you sure you want to delete <span className="font-bold text-[var(--docmate-primary)]">"{selectedDoc?.title}"</span>?
             </p>
-            <p className="text-sm font-medium text-[var(--grud-error)]/80 bg-[var(--grud-error)]/5 p-3 rounded-lg border-1 border-[var(--grud-error)]/10">
+            <p className="text-sm font-medium text-[var(--docmate-error)]/80 bg-[var(--docmate-error)]/5 p-3 rounded-lg border-1 border-[var(--docmate-error)]/10">
               This action cannot be undone and will permanently remove all associated data.
             </p>
           </ModalBody>
@@ -535,7 +535,7 @@ const DocsListPage = () => {
             <Button 
               variant="light" 
               onPress={onDeleteClose} 
-              className="text-[var(--grud-text-secondary)] font-medium"
+              className="text-[var(--docmate-text-secondary)] font-medium"
             >
               Keep it
             </Button>

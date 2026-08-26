@@ -42,7 +42,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "Grud Admin",
+      headerTitle: "Docmate Admin",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,
@@ -137,12 +137,12 @@ const DashboardPage = () => {
       {isLoading ? (
         <StatsSkeleton />
       ) : error ? (
-        <Card style={{ background: 'rgba(var(--grud-error-rgb), 0.05)', border: '1px solid rgba(var(--grud-error-rgb), 0.2)', borderRadius: '16px' }}>
+        <Card style={{ background: 'rgba(var(--docmate-error-rgb), 0.05)', border: '1px solid rgba(var(--docmate-error-rgb), 0.2)', borderRadius: '16px' }}>
           <CardBody className="text-center p-8">
-            <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--grud-error)' }}>
+            <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--docmate-error)' }}>
               Unable to load dashboard
             </h3>
-            <p className="mb-4" style={{ color: 'var(--grud-error)', opacity: 0.8 }}>{error}</p>
+            <p className="mb-4" style={{ color: 'var(--docmate-error)', opacity: 0.8 }}>{error}</p>
             <Button color="danger" variant="solid" onPress={fetchStats}>
               Try Again
             </Button>
@@ -157,8 +157,8 @@ const DashboardPage = () => {
                   <div className={styles.statNumber}>{stats.totalDocs}</div>
                   <div className={styles.statLabel}>Total Projects</div>
                 </div>
-                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.15)' }}>
-                  <DocumentTextIcon className="w-8 h-8" style={{ color: 'var(--grud-primary)' }} />
+                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.15)' }}>
+                  <DocumentTextIcon className="w-8 h-8" style={{ color: 'var(--docmate-primary)' }} />
                 </div>
               </div>
             </CardBody>
@@ -171,8 +171,8 @@ const DashboardPage = () => {
                   <div className={styles.statNumber}>{stats.publicDocs}</div>
                   <div className={styles.statLabel}>Public Docs</div>
                 </div>
-                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--grud-success-rgb), 0.15)' }}>
-                  <EyeIcon className="w-8 h-8" style={{ color: 'var(--grud-success)' }} />
+                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--docmate-success-rgb), 0.15)' }}>
+                  <EyeIcon className="w-8 h-8" style={{ color: 'var(--docmate-success)' }} />
                 </div>
               </div>
             </CardBody>
@@ -185,8 +185,8 @@ const DashboardPage = () => {
                   <div className={styles.statNumber}>{stats.privateDocs}</div>
                   <div className={styles.statLabel}>Private Docs</div>
                 </div>
-                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--grud-warning-rgb), 0.15)' }}>
-                  <EyeSlashIcon className="w-8 h-8" style={{ color: 'var(--grud-warning)' }} />
+                <div className="p-3 rounded-full" style={{ background: 'rgba(var(--docmate-warning-rgb), 0.15)' }}>
+                  <EyeSlashIcon className="w-8 h-8" style={{ color: 'var(--docmate-warning)' }} />
                 </div>
               </div>
             </CardBody>
@@ -196,7 +196,7 @@ const DashboardPage = () => {
 
       {/* Recent Documentation */}
       <div className={styles.recentSection}>
-        <Card style={{ background: 'var(--grud-surface)', borderRadius: '16px', boxShadow: 'var(--grud-card-shadow)' }}>
+        <Card style={{ background: 'var(--docmate-surface)', borderRadius: '16px', boxShadow: 'var(--docmate-card-shadow)' }}>
           <div className="p-6 pb-0">
             <div className="flex items-center justify-between w-full">
               <h3 className={styles.sectionTitle}>Recent Documentation</h3>
@@ -217,11 +217,11 @@ const DashboardPage = () => {
               <ListSkeleton count={3} />
             ) : stats.recentDocs.length === 0 ? (
               <div className={styles.emptyState}>
-                <DocumentTextIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--grud-text-secondary)', opacity: 0.3 }} />
-                <h4 className="text-lg font-semibold mb-2" style={{ color: 'var(--grud-text)' }}>
+                <DocumentTextIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--docmate-text-secondary)', opacity: 0.3 }} />
+                <h4 className="text-lg font-semibold mb-2" style={{ color: 'var(--docmate-text)' }}>
                   No documentation yet
                 </h4>
-                <p className="mb-4" style={{ color: 'var(--grud-text-secondary)' }}>
+                <p className="mb-4" style={{ color: 'var(--docmate-text-secondary)' }}>
                   Get started by creating your first documentation project
                 </p>
                 <EnhancedButton

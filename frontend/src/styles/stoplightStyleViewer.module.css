@@ -1,7 +1,7 @@
 .container {
   display: flex;
   height: 100vh;
-  background: var(--grud-bg);
+  background: var(--docmate-bg);
 }
 
 .loading,
@@ -12,14 +12,14 @@
   justify-content: center;
   height: 400px;
   gap: 1rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 /* Left Sidebar */
 .sidebar {
   width: 320px;
-  background: var(--grud-surface);
-  border-right: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface);
+  border-right: 1px solid var(--docmate-border-color);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -27,21 +27,21 @@
 
 .sidebarHeader {
   padding: 1.5rem;
-  border-bottom: 1px solid var(--grud-border-color);
-  background: var(--grud-surface-alt);
+  border-bottom: 1px solid var(--docmate-border-color);
+  background: var(--docmate-surface-alt);
 }
 
 .sidebarHeader h2 {
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .version {
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
-  background: var(--grud-surface-alt);
+  color: var(--docmate-text-secondary);
+  background: var(--docmate-surface-alt);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   display: inline-block;
@@ -60,7 +60,7 @@
 .tagTitle {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0 1.5rem 0.5rem 1.5rem;
@@ -86,12 +86,12 @@
 }
 
 .operationItem:hover {
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
 }
 
 .operationItem.active {
-  background: rgba(var(--grud-primary-rgb), 0.1);
-  border-right: 1px solid var(--grud-primary);
+  background: rgba(var(--docmate-primary-rgb), 0.1);
+  border-right: 1px solid var(--docmate-primary);
 }
 
 .methodBadge {
@@ -113,7 +113,7 @@
 .operationSummary {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 0.25rem 0;
   white-space: nowrap;
   overflow: hidden;
@@ -122,7 +122,7 @@
 
 .operationPath {
   font-size: 0.75rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   white-space: nowrap;
   overflow: hidden;
@@ -135,7 +135,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
 }
 
 .operationDetails {
@@ -146,8 +146,8 @@
 
 .operationHeader {
   padding: 2rem;
-  background: var(--grud-surface-alt);
-  border-bottom: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .operationTitle {
@@ -170,23 +170,23 @@
   margin: 0;
   font-size: 1.75rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .operationHeader .operationPath {
   font-size: 1rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   padding: 0.75rem 1rem;
   border-radius: 6px;
   margin-bottom: 1rem;
-  border-left: 1px solid var(--grud-border-color);
+  border-left: 1px solid var(--docmate-border-color);
 }
 
 .operationDescription {
   margin: 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   line-height: 1.6;
 }
 
@@ -209,16 +209,16 @@
 .section h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 1.5rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--grud-border-color);
+  border-bottom: 2px solid var(--docmate-border-color);
 }
 
 /* Parameters Table */
 .parametersTable {
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -229,7 +229,7 @@
 }
 
 .table thead {
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
 }
 
 .table th {
@@ -237,15 +237,15 @@
   text-align: left;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .table td {
   padding: 1rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
   vertical-align: top;
 }
 
@@ -261,27 +261,27 @@
 
 .paramName code {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .required {
-  color: var(--grud-error);
+  color: var(--docmate-error);
   font-weight: 600;
 }
 
 .paramType {
-  color: var(--grud-secondary) !important;
-  background: rgba(var(--grud-secondary-rgb), 0.1) !important;
+  color: var(--docmate-secondary) !important;
+  background: rgba(var(--docmate-secondary-rgb), 0.1) !important;
 }
 
 .paramIn {
   font-size: 0.75rem;
-  color: var(--grud-text-secondary);
-  background: var(--grud-surface-alt);
+  color: var(--docmate-text-secondary);
+  background: var(--docmate-surface-alt);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
@@ -290,8 +290,8 @@
 
 /* Schema Visualization */
 .schemaObject {
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   padding: 1.5rem;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -300,7 +300,7 @@
 
 .schemaTitle {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin-bottom: 1rem;
 }
 
@@ -322,21 +322,21 @@
 }
 
 .propertyName {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 500;
 }
 
 .propertyColon {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .propertyType {
-  color: var(--grud-secondary);
+  color: var(--docmate-secondary);
   font-weight: 500;
 }
 
 .propertyDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.75rem;
   margin-left: 1rem;
   font-style: italic;
@@ -348,7 +348,7 @@
 }
 
 .schemaDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-style: italic;
 }
 
@@ -366,8 +366,8 @@
 }
 
 .contentTypeSection {
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   padding: 1.5rem;
 }
@@ -376,7 +376,7 @@
   margin: 0 0 1rem 0;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .responsesSection {
@@ -386,7 +386,7 @@
 }
 
 .responseItem {
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -396,12 +396,12 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  background: var(--grud-surface-alt);
-  border-bottom: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .responseHeader span {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
 }
 
@@ -413,7 +413,7 @@
   margin: 0 0 1rem 0;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 /* Try It Section */
@@ -432,7 +432,7 @@
 .tryItForm h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 1rem 0;
 }
 
@@ -445,7 +445,7 @@
 .formSection h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
 }
 
@@ -462,8 +462,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   padding: 1.5rem;
 }
@@ -471,7 +471,7 @@
 .responseSection h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 1rem 0;
 }
 
@@ -482,39 +482,39 @@
 .responseBody h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 1rem 0;
 }
 
 .responseCode {
   font-size: 0.875rem;
-  background: var(--grud-bg-alt) !important;
-  color: var(--grud-text) !important;
+  background: var(--docmate-bg-alt) !important;
+  color: var(--docmate-text) !important;
   border-radius: 6px;
   max-height: 400px;
   overflow-y: auto;
 }
 
 .errorResponse {
-  background: rgba(var(--grud-error-rgb), 0.1);
-  border: 1px solid rgba(var(--grud-error-rgb), 0.2);
+  background: rgba(var(--docmate-error-rgb), 0.1);
+  border: 1px solid rgba(var(--docmate-error-rgb), 0.2);
   border-radius: 8px;
   padding: 1rem;
 }
 
 .errorResponse h4 {
   margin: 0 0 0.5rem 0;
-  color: var(--grud-error);
+  color: var(--docmate-error);
 }
 
 /* Dark Mode */
 :global(.dark) .container {
-  background: var(--grud-bg);
+  background: var(--docmate-bg);
 }
 
 :global(.dark) .sidebar {
-  background: var(--grud-surface);
-  border-right-color: var(--grud-border-color);
+  background: var(--docmate-surface);
+  border-right-color: var(--docmate-border-color);
 }
 
 :global(.dark) .sidebarHeader {

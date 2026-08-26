@@ -131,7 +131,7 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
       <div className={styles.container}>
         <Card className={styles.emptyCard}>
           <CardBody className={styles.loading}>
-            <p style={{ color: 'var(--grud-text-secondary)' }}>Loading trash...</p>
+            <p style={{ color: 'var(--docmate-text-secondary)' }}>Loading trash...</p>
           </CardBody>
         </Card>
       </div>
@@ -192,7 +192,7 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 style={{ color: 'var(--grud-text)' }}>Trash</h2>
+        <h2 style={{ color: 'var(--docmate-text)' }}>Trash</h2>
         <p className={styles.subtitle}>
           {trashItems.length} item{trashItems.length !== 1 ? "s" : ""} in trash
         </p>
@@ -210,16 +210,16 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
                   <div className={styles.itemInfo}>
                     <div className={styles.itemHeader}>
                       <span className={styles.itemIcon}>{getItemIcon(item.type)}</span>
-                      <span className={styles.itemTitle} style={{ color: 'var(--grud-text)' }}>{item.title}</span>
+                      <span className={styles.itemTitle} style={{ color: 'var(--docmate-text)' }}>{item.title}</span>
                       <span className={styles.itemType}>{item.type}</span>
                       {hasChildren && (
-                        <Chip size="sm" variant="bordered" style={{ color: 'var(--grud-warning)', borderColor: 'var(--grud-warning)' }}>
+                        <Chip size="sm" variant="bordered" style={{ color: 'var(--docmate-warning)', borderColor: 'var(--docmate-warning)' }}>
                           Contains {item.children.length} item{item.children.length > 1 ? "s" : ""}
                         </Chip>
                       )}
                     </div>
                     <div className={styles.itemMeta}>
-                      <span className={styles.itemDate} style={{ color: 'var(--grud-text-secondary)' }}>
+                      <span className={styles.itemDate} style={{ color: 'var(--docmate-text-secondary)' }}>
                         Deleted {formatDeletedDate(item.deletedAt)}
                       </span>
                     </div>
@@ -230,7 +230,7 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
                       size="sm"
                       variant="solid"
                       onPress={() => handleRestore(item)}
-                      style={{ background: 'var(--grud-gradient)', color: 'white' }}
+                      style={{ background: 'var(--docmate-gradient)', color: 'white' }}
                     >
                       {hasChildren ? "Restore All" : "Restore"}
                     </Button>
@@ -252,15 +252,15 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
                       <div key={child.id} className={styles.childItem}>
                         <div className={styles.childItemContent}>
                           <span className={styles.childIcon}>{getItemIcon(child.type)}</span>
-                          <span className={styles.childTitle} style={{ color: 'var(--grud-text)' }}>{child.title}</span>
-                          <span className={styles.childType} style={{ color: 'var(--grud-text-secondary)' }}>{child.type}</span>
+                          <span className={styles.childTitle} style={{ color: 'var(--docmate-text)' }}>{child.title}</span>
+                          <span className={styles.childType} style={{ color: 'var(--docmate-text-secondary)' }}>{child.type}</span>
                         </div>
                         <div className={styles.childActions}>
                           <Button
                             size="sm"
                             variant="light"
                             onPress={() => handleRestore(child)}
-                            style={{ color: 'var(--grud-primary)' }}
+                            style={{ color: 'var(--docmate-primary)' }}
                           >
                             Restore
                           </Button>
@@ -285,20 +285,20 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
 
       {/* Permanent Delete Confirmation Modal */}
       <Modal isOpen={isDeleteOpen} onClose={onDeleteClose} classNames={{
-        base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-        header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-        footer: "border-t border-[var(--grud-border-color)]",
-        closeButton: "hover:bg-[var(--grud-surface-alt)]"
+        base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+        header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+        footer: "border-t border-[var(--docmate-border-color)]",
+        closeButton: "hover:bg-[var(--docmate-surface-alt)]"
       }}>
         <ModalContent>
           <ModalHeader>Permanently Delete Item</ModalHeader>
           <ModalBody>
             <div className="space-y-4">
-              <p className="font-semibold" style={{ color: 'var(--grud-error)' }}>This action cannot be undone!</p>
-              <p style={{ color: 'var(--grud-text)' }}>
+              <p className="font-semibold" style={{ color: 'var(--docmate-error)' }}>This action cannot be undone!</p>
+              <p style={{ color: 'var(--docmate-text)' }}>
                 You are about to permanently delete "{selectedItem?.title}"
                 {selectedItem?.descendantCount && selectedItem.descendantCount > 0 && (
-                  <span className="font-semibold" style={{ color: 'var(--grud-warning)' }}>
+                  <span className="font-semibold" style={{ color: 'var(--docmate-warning)' }}>
                     {" "}
                     and {selectedItem.descendantCount} child item
                     {selectedItem.descendantCount > 1 ? "s" : ""}
@@ -306,7 +306,7 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
                 )}
                 .
               </p>
-              <p style={{ color: 'var(--grud-text)' }}>
+              <p style={{ color: 'var(--docmate-text)' }}>
                 Type <strong>DELETE</strong> to confirm:
               </p>
               <Input
@@ -316,9 +316,9 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
                 variant="bordered"
                 autoFocus
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  label: "text-[var(--grud-text)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  label: "text-[var(--docmate-text)]"
                 }}
               />
             </div>

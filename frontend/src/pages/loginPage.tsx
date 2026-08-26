@@ -127,12 +127,12 @@ const LoginPage = () => {
                   {showPassword ? (
                     <EyeSlashIcon
                       className="w-4 h-4 pointer-events-none"
-                      style={{ color: "var(--grud-text-secondary)" }}
+                      style={{ color: "var(--docmate-text-secondary)" }}
                     />
                   ) : (
                     <EyeIcon
                       className="w-4 h-4 pointer-events-none"
-                      style={{ color: "var(--grud-text-secondary)" }}
+                      style={{ color: "var(--docmate-text-secondary)" }}
                     />
                   )}
                 </button>

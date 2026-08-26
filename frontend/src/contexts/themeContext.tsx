@@ -79,86 +79,86 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       // 1. Light Mode
       const l = themeSettings.light;
-      addVar('--grud-primary', l.primary);
-      addVar('--grud-primary-rgb', hexToRgb(l.primary));
-      addVar('--grud-secondary', l.secondary);
-      addVar('--grud-secondary-rgb', hexToRgb(l.secondary));
-      addVar('--grud-success', l.success);
-      addVar('--grud-success-rgb', hexToRgb(l.success));
-      addVar('--grud-warning', l.warning);
-      addVar('--grud-warning-rgb', hexToRgb(l.warning));
-      addVar('--grud-error', l.danger);
-      addVar('--grud-error-rgb', hexToRgb(l.danger));
-      addVar('--grud-bg', l.background);
-      addVar('--grud-bg-rgb', hexToRgb(l.background));
-      addVar('--grud-text', l.text);
+      addVar('--docmate-primary', l.primary);
+      addVar('--docmate-primary-rgb', hexToRgb(l.primary));
+      addVar('--docmate-secondary', l.secondary);
+      addVar('--docmate-secondary-rgb', hexToRgb(l.secondary));
+      addVar('--docmate-success', l.success);
+      addVar('--docmate-success-rgb', hexToRgb(l.success));
+      addVar('--docmate-warning', l.warning);
+      addVar('--docmate-warning-rgb', hexToRgb(l.warning));
+      addVar('--docmate-error', l.danger);
+      addVar('--docmate-error-rgb', hexToRgb(l.danger));
+      addVar('--docmate-bg', l.background);
+      addVar('--docmate-bg-rgb', hexToRgb(l.background));
+      addVar('--docmate-text', l.text);
       
       const lightSurface = colorMix(l.background, '#000000', 2);
-      addVar('--grud-surface', lightSurface);
+      addVar('--docmate-surface', lightSurface);
       
       const lightSurfaceAlt = colorMix(l.background, '#000000', 4);
-      addVar('--grud-surface-alt', lightSurfaceAlt);
-      addVar('--grud-surface-alt-rgb', hexToRgb(lightSurfaceAlt));
+      addVar('--docmate-surface-alt', lightSurfaceAlt);
+      addVar('--docmate-surface-alt-rgb', hexToRgb(lightSurfaceAlt));
       
-      addVar('--grud-content-bg', l.background);
-      addVar('--grud-nav-bg', colorToRgba(l.background, 0.95));
-      addVar('--grud-card-bg', colorToRgba(lightSurface, 0.9));
-      addVar('--grud-bg-gradient', l.background);
-      addVar('--grud-gradient', l.primary);
-      addVar('--grud-gradient-start', l.primary);
-      addVar('--grud-gradient-end', l.primary);
-      addVar('--grud-gradient-subtle', `rgba(var(--grud-secondary-rgb), 0.08)`);
-      addVar('--grud-gradient-mixed-subtle', 'var(--grud-surface-alt)');
-      addVar('--grud-gradient-primary-soft', `rgba(var(--grud-primary-rgb), 0.08)`);
-      addVar('--grud-bg-effect', 'none');
+      addVar('--docmate-content-bg', l.background);
+      addVar('--docmate-nav-bg', colorToRgba(l.background, 0.95));
+      addVar('--docmate-card-bg', colorToRgba(lightSurface, 0.9));
+      addVar('--docmate-bg-gradient', l.background);
+      addVar('--docmate-gradient', l.primary);
+      addVar('--docmate-gradient-start', l.primary);
+      addVar('--docmate-gradient-end', l.primary);
+      addVar('--docmate-gradient-subtle', `rgba(var(--docmate-secondary-rgb), 0.08)`);
+      addVar('--docmate-gradient-mixed-subtle', 'var(--docmate-surface-alt)');
+      addVar('--docmate-gradient-primary-soft', `rgba(var(--docmate-primary-rgb), 0.08)`);
+      addVar('--docmate-bg-effect', 'none');
 
-      addVar('--grud-font-sans', quoteFont(themeSettings.typography.fontFamily) + systemStack);
-      addVar('--grud-font-heading', quoteFont(themeSettings.typography.headingFont) + systemStack);
-      addVar('--grud-font-body', quoteFont(themeSettings.typography.bodyFont) + systemStack);
+      addVar('--docmate-font-sans', quoteFont(themeSettings.typography.fontFamily) + systemStack);
+      addVar('--docmate-font-heading', quoteFont(themeSettings.typography.headingFont) + systemStack);
+      addVar('--docmate-font-body', quoteFont(themeSettings.typography.bodyFont) + systemStack);
 
-      addVar('--grud-radius-sm', themeSettings.borderRadius.small);
-      addVar('--grud-radius-md', themeSettings.borderRadius.medium);
-      addVar('--grud-radius-lg', themeSettings.borderRadius.large);
+      addVar('--docmate-radius-sm', themeSettings.borderRadius.small);
+      addVar('--docmate-radius-md', themeSettings.borderRadius.medium);
+      addVar('--docmate-radius-lg', themeSettings.borderRadius.large);
       css += '}\n\n';
 
       // 2. Dark Mode Overrides
       css += '.dark {\n';
       const d = themeSettings.dark;
-      addVar('--grud-primary', d.primary);
-      addVar('--grud-primary-rgb', hexToRgb(d.primary));
-      addVar('--grud-secondary', d.secondary);
-      addVar('--grud-secondary-rgb', hexToRgb(d.secondary));
-      addVar('--grud-success', d.success);
-      addVar('--grud-success-rgb', hexToRgb(d.success));
-      addVar('--grud-warning', d.warning);
-      addVar('--grud-warning-rgb', hexToRgb(d.warning));
-      addVar('--grud-error', d.danger);
-      addVar('--grud-error-rgb', hexToRgb(d.danger));
-      addVar('--grud-bg', d.background);
-      addVar('--grud-bg-rgb', hexToRgb(d.background));
-      addVar('--grud-text', d.text);
+      addVar('--docmate-primary', d.primary);
+      addVar('--docmate-primary-rgb', hexToRgb(d.primary));
+      addVar('--docmate-secondary', d.secondary);
+      addVar('--docmate-secondary-rgb', hexToRgb(d.secondary));
+      addVar('--docmate-success', d.success);
+      addVar('--docmate-success-rgb', hexToRgb(d.success));
+      addVar('--docmate-warning', d.warning);
+      addVar('--docmate-warning-rgb', hexToRgb(d.warning));
+      addVar('--docmate-error', d.danger);
+      addVar('--docmate-error-rgb', hexToRgb(d.danger));
+      addVar('--docmate-bg', d.background);
+      addVar('--docmate-bg-rgb', hexToRgb(d.background));
+      addVar('--docmate-text', d.text);
       
       const darkSurface = colorMix(d.background, '#ffffff', 4);
-      addVar('--grud-surface', darkSurface);
+      addVar('--docmate-surface', darkSurface);
       
       const darkSurfaceAlt = colorMix(d.background, '#ffffff', 8);
-      addVar('--grud-surface-alt', darkSurfaceAlt);
-      addVar('--grud-surface-alt-rgb', hexToRgb(darkSurfaceAlt));
+      addVar('--docmate-surface-alt', darkSurfaceAlt);
+      addVar('--docmate-surface-alt-rgb', hexToRgb(darkSurfaceAlt));
       
-      addVar('--grud-content-bg', d.background);
-      addVar('--grud-nav-bg', colorToRgba(d.background, 0.95));
-      addVar('--grud-card-bg', colorToRgba(darkSurface, 0.85));
-      addVar('--grud-bg-gradient', d.background);
-      addVar('--grud-gradient', d.primary);
-      addVar('--grud-gradient-start', d.primary);
-      addVar('--grud-gradient-end', d.primary);
-      addVar('--grud-gradient-subtle', `rgba(var(--grud-secondary-rgb), 0.1)`);
-      addVar('--grud-gradient-mixed-subtle', 'var(--grud-surface-alt)');
-      addVar('--grud-gradient-primary-soft', `rgba(var(--grud-primary-rgb), 0.1)`);
-      addVar('--grud-bg-effect', 'none');
+      addVar('--docmate-content-bg', d.background);
+      addVar('--docmate-nav-bg', colorToRgba(d.background, 0.95));
+      addVar('--docmate-card-bg', colorToRgba(darkSurface, 0.85));
+      addVar('--docmate-bg-gradient', d.background);
+      addVar('--docmate-gradient', d.primary);
+      addVar('--docmate-gradient-start', d.primary);
+      addVar('--docmate-gradient-end', d.primary);
+      addVar('--docmate-gradient-subtle', `rgba(var(--docmate-secondary-rgb), 0.1)`);
+      addVar('--docmate-gradient-mixed-subtle', 'var(--docmate-surface-alt)');
+      addVar('--docmate-gradient-primary-soft', `rgba(var(--docmate-primary-rgb), 0.1)`);
+      addVar('--docmate-bg-effect', 'none');
       css += '}\n';
 
-      const styleId = 'grud-dynamic-theme';
+      const styleId = 'docmate-dynamic-theme';
       let styleEl = document.getElementById(styleId);
       if (!styleEl) {
         styleEl = document.createElement('style');

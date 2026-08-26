@@ -54,7 +54,7 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
               style={{
                 fontSize: "0.8125rem",
                 fontWeight: 600,
-                color: "var(--grud-text-secondary)",
+                color: "var(--docmate-text-secondary)",
               }}
             >
               {item.title}
@@ -186,9 +186,9 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
               defaultExpandedIds={getExpandedNodeIds()}
               selectedNodeId={getSelectedNodeId()}
               classNames={{
-                node: "group data-[selected=false]:hover:bg-[color-mix(in_srgb,var(--grud-primary)_7%,transparent)] rounded-lg",
+                node: "group data-[selected=false]:hover:bg-[color-mix(in_srgb,var(--docmate-primary)_7%,transparent)] rounded-lg",
                 nodeLabel:
-                  "data-[selected=false]:text-foreground-secondary group-hover:text-foreground group-data-[selected=true]:font-semibold group-data-[selected=true]:text-[var(--grud-primary)]",
+                  "data-[selected=false]:text-foreground-secondary group-hover:text-foreground group-data-[selected=true]:font-semibold group-data-[selected=true]:text-[var(--docmate-primary)]",
               }}
             />
 

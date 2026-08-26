@@ -625,14 +625,14 @@ export default function CustomCodeEditor({
 
   return (
     <div className="relative">
-      <div className="border rounded overflow-hidden relative" style={{ height: height + 'px', borderColor: 'var(--grud-border-color)', background: 'var(--grud-surface)' }}>
+      <div className="border rounded overflow-hidden relative" style={{ height: height + 'px', borderColor: 'var(--docmate-border-color)', background: 'var(--docmate-surface)' }}>
         {/* Beautify Button */}
         {!readOnly && language !== 'plaintext' && (
           <div className="absolute top-2 right-2 z-30">
             <button
               onClick={beautifyCode}
               className="px-3 py-1 text-xs text-white rounded hover:opacity-90 shadow-md"
-              style={{ background: 'var(--grud-primary)' }}
+              style={{ background: 'var(--docmate-primary)' }}
               title={`Beautify ${language.toUpperCase()} (Ctrl+Alt+B)`}
             >
               Beautify
@@ -646,7 +646,7 @@ export default function CustomCodeEditor({
             <button
               onClick={beautifyCode}
               className="px-3 py-1 text-xs text-white rounded hover:opacity-90 shadow-md"
-              style={{ background: 'var(--grud-primary)' }}
+              style={{ background: 'var(--docmate-primary)' }}
               title="Beautify Form Data (Ctrl+Alt+B)"
             >
               Beautify
@@ -658,7 +658,7 @@ export default function CustomCodeEditor({
           {/* Line numbers */}
           <div 
             className="border-r px-2 py-3 text-right text-xs font-mono leading-5 select-none"
-            style={{ background: 'var(--grud-surface-alt)', borderColor: 'var(--grud-border-color)', color: 'var(--grud-text-secondary)' }}
+            style={{ background: 'var(--docmate-surface-alt)', borderColor: 'var(--docmate-border-color)', color: 'var(--docmate-text-secondary)' }}
           >
             <pre className="whitespace-pre">{getLineNumbers(value || ' ')}</pre>
           </div>
@@ -687,14 +687,14 @@ export default function CustomCodeEditor({
               readOnly={readOnly}
               placeholder={placeholder}
               className={`absolute inset-0 w-full h-full p-3 font-mono text-sm leading-5 border-none outline-none resize-none ${
-                language !== 'plaintext' ? 'bg-transparent text-transparent caret-[var(--grud-text)]' : 'bg-[var(--grud-surface)] text-[var(--grud-text)]'
+                language !== 'plaintext' ? 'bg-transparent text-transparent caret-[var(--docmate-text)]' : 'bg-[var(--docmate-surface)] text-[var(--docmate-text)]'
               } ${readOnly ? 'cursor-default' : 'cursor-text'}`}
               style={{
                 whiteSpace: 'pre-wrap',
                 wordWrap: 'break-word',
                 fontFamily: '"JetBrains Mono", "Fira Code", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
                 zIndex: 2,
-                caretColor: 'var(--grud-text)',
+                caretColor: 'var(--docmate-text)',
               }}
               spellCheck={false}
               autoComplete="off"
@@ -706,7 +706,7 @@ export default function CustomCodeEditor({
             {!value && placeholder && !readOnly && (
               <div 
                 className="absolute inset-0 p-3 pointer-events-none text-sm font-mono leading-5"
-                style={{ color: 'rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.4)' }}
+                style={{ color: 'rgba(var(--docmate-text-secondary-rgb, 100, 116, 139), 0.4)' }}
               >
                 {placeholder}
               </div>

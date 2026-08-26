@@ -9,16 +9,16 @@
 /* Card variant (default) - used inside HeroUI Card */
 .card {
   border-radius: 16px 16px 0 0;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   background: transparent;
 }
 
 /* Standalone variant - used as a top-level page header (e.g. Dashboard) */
 .standalone {
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-radius: 16px;
-  border: var(--grud-border);
-  box-shadow: 0 1px 2px var(--grud-shadow-color);
+  border: var(--docmate-border);
+  box-shadow: 0 1px 2px var(--docmate-shadow-color);
   margin-bottom: 24px;
 }
 
@@ -33,7 +33,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
@@ -44,7 +44,7 @@
 
 .subtitle {
   font-size: 0.9375rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 8px 0 0 0;
   font-weight: 400;
   line-height: 1.5;

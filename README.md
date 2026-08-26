@@ -1,8 +1,8 @@
-# Grud
+# Docmate
 
 A modern, self-hosted documentation platform built with **Bun.js** and **React 19**.
 
-Grud is designed for teams who need a powerful, customizable, and efficient way to create and share
+Docmate is designed for teams who need a powerful, customizable, and efficient way to create and share
 internal or public-facing documentation. It supports traditional guides, API documentation, or a mix
 of both, all from a single, elegant interface.
 
@@ -62,8 +62,8 @@ of both, all from a single, elegant interface.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/grud.git
-cd grud
+git clone https://github.com/your-username/docmate.git
+cd docmate
 ```
 
 ### 2. Setup Backend
@@ -92,7 +92,7 @@ Open `http://localhost:5173` in your browser.
 
 ## Running with Docker (Recommended)
 
-The easiest way to get Grud up and running is using Docker Compose.
+The easiest way to get Docmate up and running is using Docker Compose.
 
 ### Prerequisites
 
@@ -147,7 +147,7 @@ docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
 ## Project Structure
 
 ```
-grud/
+docmate/
 ├── backend/             # Bun.js + Hono API
 │   ├── src/
 │   │   ├── routes/      # API endpoints
@@ -180,7 +180,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for g
 | ----------------- | ------------------------ | -------- |
 | `POSTGRES_USER`   | Database user            | `postgres` |
 | `POSTGRES_PASSWORD` | Database password      | `password` |
-| `POSTGRES_DB`     | Database name            | `grud`   |
+| `POSTGRES_DB`     | Database name            | `docmate`   |
 | `AUTH_JWT_SECRET` | JWT signing secret       | —        |
 | `SEED_DATABASE`   | Seed DB on startup       | `false`  |
 | `FRONTEND_PORT`   | Host port for frontend   | `80`     |
@@ -257,20 +257,20 @@ When you're ready to publish images:
 ```bash
 # Build and tag
 docker compose build
-docker tag grud-backend anasalaqeel/grud-backend:latest
-docker tag grud-frontend anasalaqeel/grud-frontend:latest
+docker tag docmate-backend anasalaqeel/docmate-backend:latest
+docker tag docmate-frontend anasalaqeel/docmate-frontend:latest
 
 # Push
 docker login
-docker push anasalaqeel/grud-backend:latest
-docker push anasalaqeel/grud-frontend:latest
+docker push anasalaqeel/docmate-backend:latest
+docker push anasalaqeel/docmate-frontend:latest
 ```
 
 ---
 
 ## Remote Deployment (via SSH)
 
-Deploy Grud to any server with Docker installed:
+Deploy Docmate to any server with Docker installed:
 
 ```bash
 SERVER_IP=your_server_ip ./scripts/deploy.sh
@@ -280,7 +280,7 @@ Optional variables:
 
 ```bash
 SERVER_USER=root \
-DEPLOY_PATH=/opt/grud \
+DEPLOY_PATH=/opt/docmate \
 FRONTEND_PORT=80 \
 BACKEND_PORT=8000 \
 SERVER_IP=1.2.3.4 ./scripts/deploy.sh

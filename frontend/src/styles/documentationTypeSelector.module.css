@@ -16,18 +16,18 @@
 .modalContent .header {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .header h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin-bottom: 0.5rem;
 }
 
 .header p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .radioGroup {
@@ -61,18 +61,18 @@
 .typeIcon {
   width: 1.25rem;
   height: 1.25rem;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   flex-shrink: 0;
 }
 
 .typeTitle {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   font-size: 1rem;
 }
 
 .typeDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
 }
 
@@ -80,7 +80,7 @@
   list-style-type: disc;
   list-style-position: inside;
   margin-left: 1.75rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.75rem;
 }
 
@@ -103,22 +103,22 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin-bottom: 1rem;
 }
 
 .settingsIcon {
   width: 1.25rem;
   height: 1.25rem;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 /* Edit mode styles */
 .editCard {
-  border: 1px solid var(--grud-border-color);
-  background: var(--grud-card-bg);
+  border: 1px solid var(--docmate-border-color);
+  background: var(--docmate-card-bg);
   border-radius: 20px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
   overflow: hidden;
 }
 
@@ -136,7 +136,7 @@
 
 .typeSelection h4 {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin-bottom: 1rem;
 }
 
@@ -148,14 +148,14 @@
 
 .compactTypeCard {
   padding: 0.75rem;
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 0.5rem;
   transition: border-color 0.2s;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
 }
 
 .compactTypeCard:hover {
-  border-color: var(--grud-text-secondary);
+  border-color: var(--docmate-text-secondary);
 }
 
 .compactTypeContent {
@@ -168,18 +168,18 @@
 .compactTypeIcon {
   width: 1.25rem;
   height: 1.25rem;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   flex-shrink: 0;
 }
 
 .compactTypeTitle {
   font-weight: 500;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   display: block;
 }
 
 .compactTypeDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
   display: block;
 }
@@ -191,29 +191,29 @@
 
 /* Themed Input Styling */
 .input :global([data-slot="input-wrapper"]) {
-  background: var(--grud-surface-alt);
-  border-color: var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border-color: var(--docmate-border-color);
 }
 
 .input :global([data-slot="input-wrapper"]:hover) {
-  border-color: var(--grud-text-secondary);
+  border-color: var(--docmate-text-secondary);
 }
 
 .input :global([data-slot="input-wrapper"]:focus-within) {
-  border-color: var(--grud-primary);
+  border-color: var(--docmate-primary);
 }
 
 .input :global([data-slot="input"]) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .input :global([data-slot="label"]) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 /* Themed Button Styling */
 .buttonPrimary {
-  background: var(--grud-gradient) !important;
+  background: var(--docmate-gradient) !important;
   color: white !important;
   border: none !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -228,28 +228,28 @@
 
 /* Themed Switch Styling */
 .switch :global([data-slot="label"]) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .switch :global([data-slot="wrapper"]) {
-  background: var(--grud-border-color);
+  background: var(--docmate-border-color);
 }
 
 .switch :global([data-slot="wrapper"][data-selected="true"]) {
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
 }
 
 /* Radio Card Styling */
 .typeCard {
-  border: 1px solid var(--grud-border-color);
-  background: var(--grud-surface);
+  border: 1px solid var(--docmate-border-color);
+  background: var(--docmate-surface);
   transition: all 0.2s ease;
 }
 
 .typeCardSelected {
-  border-color: var(--grud-primary) !important;
-  background: var(--grud-surface-alt) !important;
-  box-shadow: var(--grud-card-shadow);
+  border-color: var(--docmate-primary) !important;
+  background: var(--docmate-surface-alt) !important;
+  box-shadow: var(--docmate-card-shadow);
 }
 
 /* Responsive adjustments */

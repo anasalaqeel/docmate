@@ -266,7 +266,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
           classNames={{
             base: styles.tabs,
             cursor: styles.tabCursor,
-            tabContent: "group-data-[selected=true]:text-[var(--grud-text)]",
+            tabContent: "group-data-[selected=true]:text-[var(--docmate-text)]",
             tab: styles.tab,
           }}
           variant="bordered"

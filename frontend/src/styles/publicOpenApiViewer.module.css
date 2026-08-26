@@ -46,8 +46,8 @@
 }
 
 .pathCard {
-  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
-  border: var(--grud-border);
+  box-shadow: 0 1px 3px 0 var(--docmate-shadow-color);
+  border: var(--docmate-border);
   border-radius: 0.5rem;
   margin-bottom: 0.75rem;
 }
@@ -93,7 +93,7 @@
 }
 
 .operation:not(:last-child) {
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
 }
 
 .operationHeader {
@@ -220,8 +220,8 @@
 }
 
 .schemaCard {
-  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
-  border: var(--grud-border);
+  box-shadow: 0 1px 3px 0 var(--docmate-shadow-color);
+  border: var(--docmate-border);
   border-radius: 0.5rem;
 }
 
@@ -239,8 +239,8 @@
 }
 
 .serverCard {
-  box-shadow: 0 1px 3px 0 var(--grud-shadow-color);
-  border: var(--grud-border);
+  box-shadow: 0 1px 3px 0 var(--docmate-shadow-color);
+  border: var(--docmate-border);
   border-radius: 0.5rem;
 }
 
@@ -281,7 +281,7 @@
 
 :global(.dark) .pathTitle,
 :global(.dark) .schemaTitle {
-  color: var(--grud-text);
+  color: var(--docmate-text);
   background-color: #111827;
 }
 
@@ -325,7 +325,7 @@
 
 /* Try It Modal Styles */
 .tryItHeader {
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   padding-bottom: 1rem;
 }
 
@@ -370,7 +370,7 @@
   font-weight: 600;
   margin: 0;
   color: #374151;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   padding-bottom: 0.5rem;
 }
 
@@ -424,7 +424,7 @@
   font-weight: 600;
   margin: 0;
   color: #374151;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   padding-bottom: 0.5rem;
 }
 
@@ -441,7 +441,7 @@
 :global(.dark) .responseHeaders h4,
 :global(.dark) .responseBody h4,
 :global(.dark) .codeExamples h4 {
-  color: var(--grud-text);
+  color: var(--docmate-text);
   border-bottom-color: #374151;
 }
 

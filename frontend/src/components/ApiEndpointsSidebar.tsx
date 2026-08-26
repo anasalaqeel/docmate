@@ -29,13 +29,13 @@ const ApiEndpointsSidebar: React.FC<ApiEndpointsSidebarProps> = ({
   // Get method color
   const getMethodColor = (method: string) => {
     const colors = {
-      GET: "var(--grud-success)",
-      POST: "var(--grud-primary)",
-      PUT: "var(--grud-warning)",
-      PATCH: "var(--grud-secondary)",
-      DELETE: "var(--grud-error)"
+      GET: "var(--docmate-success)",
+      POST: "var(--docmate-primary)",
+      PUT: "var(--docmate-warning)",
+      PATCH: "var(--docmate-secondary)",
+      DELETE: "var(--docmate-error)"
     };
-    return colors[method.toUpperCase() as keyof typeof colors] || "var(--grud-text-secondary)";
+    return colors[method.toUpperCase() as keyof typeof colors] || "var(--docmate-text-secondary)";
   };
 
   // Filter endpoints by text, then group by tag

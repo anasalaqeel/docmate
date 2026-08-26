@@ -39,8 +39,8 @@ export const RolesFilters = ({
         onClear={() => handleSearch("")}
         size="md"
         classNames={{
-          inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-          input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50"
+          inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+          input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50"
         }}
       />
 
@@ -48,7 +48,7 @@ export const RolesFilters = ({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div 
             className="flex items-center gap-2 text-sm rounded-lg px-3 py-2"
-            style={{ background: 'rgba(var(--grud-primary-rgb), 0.05)', color: 'var(--grud-primary)', border: '1px solid rgba(var(--grud-primary-rgb), 0.1)' }}
+            style={{ background: 'rgba(var(--docmate-primary-rgb), 0.05)', color: 'var(--docmate-primary)', border: '1px solid rgba(var(--docmate-primary-rgb), 0.1)' }}
           >
             <ShieldCheckIcon className="w-4 h-4" />
             <span className="font-medium">{activeFiltersCount} filter{activeFiltersCount > 1 ? "s" : ""} active</span>
@@ -56,7 +56,7 @@ export const RolesFilters = ({
           <Button
             size="sm"
             variant="light"
-            style={{ color: 'var(--grud-error)' }}
+            style={{ color: 'var(--docmate-error)' }}
             onPress={onResetFilters}
             startContent={<TrashIcon className="w-4 h-4" />}
             className="shrink-0"

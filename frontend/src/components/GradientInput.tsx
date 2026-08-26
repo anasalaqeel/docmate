@@ -32,8 +32,8 @@ const GradientInput: React.FC<GradientInputProps> = ({
   const [internalMode, setInternalMode] = useState<'builder' | 'raw'>('builder');
   const [angle, setAngle] = useState(135);
   const [stops, setStops] = useState<GradientStop[]>([
-    { id: '1', color: 'var(--grud-primary, #667eea)', position: 0 },
-    { id: '2', color: 'var(--grud-secondary, #764ba2)', position: 100 },
+    { id: '1', color: 'var(--docmate-primary, #667eea)', position: 0 },
+    { id: '2', color: 'var(--docmate-secondary, #764ba2)', position: 100 },
   ]);
 
   /* 
@@ -124,7 +124,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
 
   const addStop = () => {
     if (isDisabled) return;
-    const newStop = { id: Math.random().toString(36).substr(2, 9), color: 'var(--grud-surface, #ffffff)', position: 50 };
+    const newStop = { id: Math.random().toString(36).substr(2, 9), color: 'var(--docmate-surface, #ffffff)', position: 50 };
     const newStops = [...stops, newStop];
     setStops(newStops);
     syncToParent(angle, newStops);
@@ -148,7 +148,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
     <div className={`space-y-3 ${className} group`}>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <label className={`text-sm font-medium transition-colors ${isDisabled ? "text-default-400" : "text-[var(--grud-text)]"}`}>
+          <label className={`text-sm font-medium transition-colors ${isDisabled ? "text-default-400" : "text-[var(--docmate-text)]"}`}>
             {label}
           </label>
           {isDisabled && (
@@ -157,14 +157,14 @@ const GradientInput: React.FC<GradientInputProps> = ({
             </div>
           )}
         </div>
-        <div className="flex bg-[var(--grud-surface-alt)] rounded-lg p-0.5 border border-[var(--grud-border-color)]">
+        <div className="flex bg-[var(--docmate-surface-alt)] rounded-lg p-0.5 border border-[var(--docmate-border-color)]">
           <button
             disabled={isDisabled}
             onClick={() => setInternalMode('builder')}
             className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
               internalMode === 'builder' 
-                ? 'bg-[var(--grud-surface)] text-[var(--grud-primary)] shadow-sm' 
-                : 'text-[var(--grud-text-secondary)] hover:text-[var(--grud-text)]'
+                ? 'bg-[var(--docmate-surface)] text-[var(--docmate-primary)] shadow-sm' 
+                : 'text-[var(--docmate-text-secondary)] hover:text-[var(--docmate-text)]'
             } ${isDisabled ? "cursor-default opacity-50" : ""}`}
           >
             Builder
@@ -174,8 +174,8 @@ const GradientInput: React.FC<GradientInputProps> = ({
             onClick={() => setInternalMode('raw')}
             className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
               internalMode === 'raw' 
-                ? 'bg-[var(--grud-surface)] text-[var(--grud-primary)] shadow-sm' 
-                : 'text-[var(--grud-text-secondary)] hover:text-[var(--grud-text)]'
+                ? 'bg-[var(--docmate-surface)] text-[var(--docmate-primary)] shadow-sm' 
+                : 'text-[var(--docmate-text-secondary)] hover:text-[var(--docmate-text)]'
             } ${isDisabled ? "cursor-default opacity-50" : ""}`}
           >
             Raw CSS
@@ -185,7 +185,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
 
       {/* Preview */}
       <div 
-        className={`h-12 w-full rounded-md border border-[var(--grud-border-color)] ${isDisabled ? "opacity-50" : ""}`}
+        className={`h-12 w-full rounded-md border border-[var(--docmate-border-color)] ${isDisabled ? "opacity-50" : ""}`}
         style={{ background: value || 'transparent' }}
       />
       
@@ -207,10 +207,10 @@ const GradientInput: React.FC<GradientInputProps> = ({
           startContent={<CodeBracketIcon className="w-4 h-4 text-default-400" />}
         />
       ) : (
-        <div className={`space-y-4 p-4 rounded-lg bg-[var(--grud-surface-alt)] border border-[var(--grud-border-color)] ${isDisabled ? "pointer-events-none" : ""}`}>
+        <div className={`space-y-4 p-4 rounded-lg bg-[var(--docmate-surface-alt)] border border-[var(--docmate-border-color)] ${isDisabled ? "pointer-events-none" : ""}`}>
           {/* Angle Slider */}
           <div className="flex items-center gap-4">
-             <div className="w-10 text-xs font-medium text-[var(--grud-text-secondary)]">Angle</div>
+             <div className="w-10 text-xs font-medium text-[var(--docmate-text-secondary)]">Angle</div>
              <Slider 
                isDisabled={isDisabled}
                size="sm"
@@ -227,7 +227,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
 
           {/* Stops */}
           <div className="space-y-2">
-            <div className="text-xs font-medium text-[var(--grud-text-secondary)] mb-2">Color Stops</div>
+            <div className="text-xs font-medium text-[var(--docmate-text-secondary)] mb-2">Color Stops</div>
             {stops.map((stop, i) => (
               <div key={stop.id} className="flex items-center gap-3">
                 {/* Color Input */}

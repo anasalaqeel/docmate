@@ -50,13 +50,13 @@ const ViewerAttachments = ({ entityId, entityType }: ViewerAttachmentsProps) => 
   }, [entityId, entityType]);
 
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.includes("pdf")) return <FileText className="w-5 h-5 text-[var(--grud-error)]" />;
+    if (mimeType.includes("pdf")) return <FileText className="w-5 h-5 text-[var(--docmate-error)]" />;
     if (mimeType.includes("zip") || mimeType.includes("archive")) return <FileArchive className="w-5 h-5 text-orange-500" />;
     if (mimeType.includes("image")) return <FileImage className="w-5 h-5 text-blue-500" />;
     if (mimeType.includes("word") || mimeType.includes("officedocument.wordprocessingml")) 
       return <FileText className="w-5 h-5 text-blue-600" />;
     if (mimeType.includes("spreadsheet") || mimeType.includes("excel") || mimeType.includes("csv") || mimeType.includes("sheet")) 
-      return <FileSpreadsheet className="w-5 h-5 text-[var(--grud-success)]" />;
+      return <FileSpreadsheet className="w-5 h-5 text-[var(--docmate-success)]" />;
     return <FileIcon className="w-5 h-5 text-slate-400" />;
   };
 
@@ -71,9 +71,9 @@ const ViewerAttachments = ({ entityId, entityType }: ViewerAttachmentsProps) => 
   if (!loading && attachments.length === 0) return null;
 
   return (
-    <Card className="shadow-none border border-[var(--grud-border-color)] mt-8 bg-[var(--grud-surface)]">
+    <Card className="shadow-none border border-[var(--docmate-border-color)] mt-8 bg-[var(--docmate-surface)]">
       <CardBody className="p-6">
-        <h4 className="text-lg font-bold flex items-center gap-2 mb-4 text-[var(--grud-text)]">
+        <h4 className="text-lg font-bold flex items-center gap-2 mb-4 text-[var(--docmate-text)]">
           <Paperclip className="w-5 h-5 text-primary" />
           Attachments
         </h4>
@@ -81,31 +81,31 @@ const ViewerAttachments = ({ entityId, entityType }: ViewerAttachmentsProps) => 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {loading ? (
             Array(2).fill(0).map((_, i) => (
-              <Skeleton key={i} className="h-20 rounded-xl bg-[var(--grud-surface-alt)]" />
+              <Skeleton key={i} className="h-20 rounded-xl bg-[var(--docmate-surface-alt)]" />
             ))
           ) : (
             attachments.map((attachment) => (
               <div 
                 key={attachment.id} 
-                className="flex items-center justify-between p-3 rounded-xl border border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]/30 hover:bg-[var(--grud-surface-alt)] transition-colors"
+                className="flex items-center justify-between p-3 rounded-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]/30 hover:bg-[var(--docmate-surface-alt)] transition-colors"
               >
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="p-2 rounded-lg bg-[var(--grud-surface)] shadow-sm border border-[var(--grud-border-color)] flex-shrink-0">
+                  <div className="p-2 rounded-lg bg-[var(--docmate-surface)] shadow-sm border border-[var(--docmate-border-color)] flex-shrink-0">
                     {getFileIcon(attachment.mimeType)}
                   </div>
                   <div className="overflow-hidden">
-                    <p className="text-sm font-semibold truncate text-[var(--grud-text)]" title={attachment.originalName}>
+                    <p className="text-sm font-semibold truncate text-[var(--docmate-text)]" title={attachment.originalName}>
                       {attachment.originalName}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] text-[var(--grud-text-alt)] font-medium">
+                      <span className="text-[10px] text-[var(--docmate-text-alt)] font-medium">
                         {formatSize(attachment.size)}
                       </span>
                       {attachment.description && (
-                        <span className="text-[10px] text-[var(--grud-text-alt)]/30">•</span>
+                        <span className="text-[10px] text-[var(--docmate-text-alt)]/30">•</span>
                       )}
                       {attachment.description && (
-                        <span className="text-[10px] text-[var(--grud-text-alt)] truncate max-w-[100px]">
+                        <span className="text-[10px] text-[var(--docmate-text-alt)] truncate max-w-[100px]">
                           {attachment.description}
                         </span>
                       )}

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Grud Deployment Script
-# This script helps deploy Grud to a remote server using SSH and Docker.
+# Docmate Deployment Script
+# This script helps deploy Docmate to a remote server using SSH and Docker.
 
 # --- Configuration ---
 SERVER_USER="${SERVER_USER:-root}"
 SERVER_IP="${SERVER_IP:-}"
-DEPLOY_PATH="${DEPLOY_PATH:-/opt/grud}"
+DEPLOY_PATH="${DEPLOY_PATH:-/opt/docmate}"
 ENV_FILE="${ENV_FILE:-.env.docker}"
 
 # --- Validation ---
@@ -16,7 +16,7 @@ if [ -z "$SERVER_IP" ]; then
   exit 1
 fi
 
-echo "Deploying Grud to ${SERVER_USER}@${SERVER_IP}:${DEPLOY_PATH}..."
+echo "Deploying Docmate to ${SERVER_USER}@${SERVER_IP}:${DEPLOY_PATH}..."
 
 # 1. Create directory on server
 ssh "${SERVER_USER}@${SERVER_IP}" "mkdir -p ${DEPLOY_PATH}"

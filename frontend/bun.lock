@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "grud-frontend",
+      "name": "docmate-frontend",
       "dependencies": {
         "@emotion/css": "^11.13.5",
         "@fontsource/inter": "^5.2.8",

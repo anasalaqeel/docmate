@@ -4,10 +4,10 @@
 }
 
 .card {
-  background: var(--grud-surface) !important;
-  border: var(--grud-border);
+  background: var(--docmate-surface) !important;
+  border: var(--docmate-border);
   border-radius: 16px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
   overflow: hidden;
 }
 

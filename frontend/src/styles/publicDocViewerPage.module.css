@@ -9,7 +9,7 @@
   left: 1rem;
   top: -100%;
   z-index: 100;
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
   color: white;
   padding: 0.625rem 1rem;
   border-radius: 8px;
@@ -28,8 +28,8 @@
 .sidebar {
   width: 300px;
   flex-shrink: 0;
-  border-right: 1px solid var(--grud-border-color);
-  background: var(--grud-surface);
+  border-right: 1px solid var(--docmate-border-color);
+  background: var(--docmate-surface);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,14 +39,14 @@
 
 .sidebarHeader {
   padding: 1.25rem 1.25rem 1rem 1.25rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
   flex-shrink: 0;
 }
 
 .sidebarLabel {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 0.5rem 0;
 }
 
@@ -55,7 +55,7 @@
   font-family: var(--font-docs-display);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: -0.01em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,14 +64,14 @@
 
 .docInfo {
   font-size: 0.8125rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
 }
 
 .emptySidebar {
   padding: 2rem 1.5rem;
   text-align: center;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
 }
 
@@ -80,7 +80,7 @@
   overflow-y: auto;
   padding: 0.75rem 0.625rem 1.5rem 0.625rem;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--grud-primary) 35%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--docmate-primary) 35%, transparent) transparent;
 }
 
 .sidebarItems::-webkit-scrollbar {
@@ -92,12 +92,12 @@
 }
 
 .sidebarItems::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--grud-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 35%, transparent);
   border-radius: 3px;
 }
 
 .sidebarItems::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--grud-primary) 55%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 55%, transparent);
 }
 
 .sidebarItemContainer {
@@ -134,21 +134,21 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--grud-border-color);
+  background: var(--docmate-border-color);
 }
 
 .dividerTitle {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
-  background: var(--grud-surface);
+  color: var(--docmate-text-secondary);
+  background: var(--docmate-surface);
   padding: 0.25rem 0.75rem 0.25rem 0;
   position: relative;
   z-index: 1;
 }
 
 .sidebarItem:hover {
-  background: color-mix(in srgb, var(--grud-primary) 7%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 7%, transparent);
 }
 
 /* Make Link components inherit sidebar item styles completely */
@@ -174,11 +174,11 @@
 }
 
 .sidebarItem.selected {
-  background: color-mix(in srgb, var(--grud-primary) 12%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 12%, transparent);
 }
 
 .sidebarItem.selected .itemTitle {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 600;
 }
 
@@ -186,7 +186,7 @@
   font-size: 1rem;
   margin-right: 12px;
   flex-shrink: 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   display: flex;
   align-items: center;
   transition: color 0.15s ease;
@@ -194,7 +194,7 @@
 
 .sidebarItem.selected .itemIcon,
 .sidebarItem:hover .itemIcon {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .itemTitle {
@@ -203,7 +203,7 @@
   font-size: 0.9375rem;
   line-height: 1.4;
   flex: 1;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   transition: color 0.15s ease;
 }
 
@@ -222,14 +222,14 @@
 
 .main {
   flex: 1;
-  background: var(--grud-content-bg);
+  background: var(--docmate-content-bg);
   position: relative;
   z-index: 1;
   overflow-y: auto;
 }
 
 .main ::selection {
-  background: color-mix(in srgb, var(--grud-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 22%, transparent);
 }
 
 .pageContent {
@@ -253,7 +253,7 @@
 .pageHeader {
   margin-bottom: 2.5rem;
   padding-bottom: 1.75rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .pageToolbar {
@@ -275,7 +275,7 @@
 }
 
 .breadcrumbLink {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
@@ -290,12 +290,12 @@
 }
 
 .breadcrumbSep {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   opacity: 0.6;
 }
 
 .breadcrumbCurrent {
-  color: var(--grud-text);
+  color: var(--docmate-text);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -308,7 +308,7 @@
   font-size: clamp(1.875rem, 3.5vw, 2.625rem);
   font-weight: 800;
   margin: 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: -0.025em;
   line-height: 1.15;
   text-wrap: balance;
@@ -316,7 +316,7 @@
 
 .pageDescription {
   line-height: 1.7;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   font-size: 1.0625rem;
 }
 
@@ -338,7 +338,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 1.25rem 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: -0.015em;
 }
 
@@ -357,21 +357,21 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 0.75rem 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .schemaCode {
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   padding: 1.25rem;
   border-radius: 8px;
   font-family: var(--font-docs-mono);
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   overflow-x: auto;
   margin: 0;
   white-space: pre-wrap;
   word-break: break-all;
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
 }
 
 /* ============ WELCOME SECTION ============ */
@@ -389,7 +389,7 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   margin: 0 0 1rem 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: -0.03em;
   line-height: 1.1;
   text-wrap: balance;
@@ -397,7 +397,7 @@
 
 .docDescription {
   font-size: 1.125rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 2rem 0;
   line-height: 1.65;
 }
@@ -414,17 +414,17 @@
 .welcomeVersion {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .author {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
   font-weight: 500;
 }
 
 .welcomeText {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.9375rem;
   margin: 0;
 }
@@ -444,7 +444,7 @@
 .navFooter {
   margin-top: 4rem;
   padding-top: 2.5rem;
-  border-top: 1px solid var(--grud-border-color);
+  border-top: 1px solid var(--docmate-border-color);
 }
 
 .navFooterContent {
@@ -458,7 +458,7 @@
   margin: 1.5rem 0 0 0;
   text-align: center;
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 @media (max-width: 768px) {
@@ -495,7 +495,7 @@
 }
 
 .footerContent p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
   font-size: 0.875rem;
   font-weight: 500;
@@ -515,13 +515,13 @@
   gap: 0.75rem;
   padding: 0.75rem 0.75rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .sectionIcon {
   display: flex;
   align-items: center;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .sectionTitle {
@@ -529,15 +529,15 @@
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin-left: 0.5rem;
 }
 
 .endpointCount {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--grud-primary);
-  background: color-mix(in srgb, var(--grud-primary) 8%, transparent);
+  color: var(--docmate-primary);
+  background: color-mix(in srgb, var(--docmate-primary) 8%, transparent);
   padding: 0.1875rem 0.5rem;
   border-radius: 99px;
 }
@@ -545,7 +545,7 @@
 .groupLabel {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 1.5rem 0 0.5rem 0.5rem;
@@ -557,10 +557,10 @@
 .endpointFilter {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
-  background: var(--grud-surface);
-  color: var(--grud-text);
+  background: var(--docmate-surface);
+  color: var(--docmate-text);
   font-size: 0.8125rem;
   padding: 0.5rem 0.75rem;
   margin-bottom: 0.75rem;
@@ -569,12 +569,12 @@
 }
 
 .endpointFilter:focus {
-  border-color: color-mix(in srgb, var(--grud-primary) 55%, transparent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--grud-primary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--docmate-primary) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--docmate-primary) 15%, transparent);
 }
 
 .endpointFilter::placeholder {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   opacity: 0.75;
 }
 
@@ -588,7 +588,7 @@
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.625rem 0.5rem;
@@ -598,8 +598,8 @@
 }
 
 .groupToggle:hover {
-  color: var(--grud-text);
-  background: color-mix(in srgb, var(--grud-primary) 6%, transparent);
+  color: var(--docmate-text);
+  background: color-mix(in srgb, var(--docmate-primary) 6%, transparent);
 }
 
 .groupChevron {
@@ -610,7 +610,7 @@
 
 .endpointEmpty {
   font-size: 0.8125rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   padding: 0.75rem 0.5rem;
   margin: 0;
 }
@@ -633,11 +633,11 @@
 }
 
 .endpointItem:hover {
-  background: color-mix(in srgb, var(--grud-primary) 7%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 7%, transparent);
 }
 
 .endpointItem.active {
-  background: color-mix(in srgb, var(--grud-primary) 12%, transparent);
+  background: color-mix(in srgb, var(--docmate-primary) 12%, transparent);
 }
 
 .endpointItem.deprecated {
@@ -658,7 +658,7 @@
   letter-spacing: 0.04em;
   padding: 0.25rem 0.4375rem;
   border-radius: 5px;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border: 1.5px solid currentColor;
   min-width: 3rem;
   text-align: center;
@@ -676,33 +676,33 @@
 .endpointTitle {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   line-height: 1.3;
   transition: color 0.15s ease;
 }
 
 .endpointItem.active .endpointTitle {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .endpointPath {
   font-family: var(--font-docs-mono);
   font-size: 0.75rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .endpointItem.active .endpointPath {
-  color: color-mix(in srgb, var(--grud-primary) 75%, var(--grud-text-secondary));
+  color: color-mix(in srgb, var(--docmate-primary) 75%, var(--docmate-text-secondary));
 }
 
 .deprecatedTag {
   font-size: 0.6875rem;
   font-weight: 600;
-  color: var(--grud-error);
-  background: color-mix(in srgb, var(--grud-error, #ef4444) 10%, transparent);
+  color: var(--docmate-error);
+  background: color-mix(in srgb, var(--docmate-error, #ef4444) 10%, transparent);
   padding: 0.1875rem 0.4375rem;
   border-radius: 5px;
   text-transform: uppercase;
@@ -723,7 +723,7 @@
     height: 40vh;
     max-height: 40vh;
     border-right: none;
-    border-bottom: 1px solid var(--grud-border-color);
+    border-bottom: 1px solid var(--docmate-border-color);
   }
 
   .sidebarItems {

@@ -57,17 +57,17 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     <div className="space-y-2 group">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
-          <label className={`block text-sm font-medium transition-colors ${(isDisabled && !isAccentMode) ? "text-[var(--grud-primary)]" : "text-[var(--grud-text)]"}`}>
+          <label className={`block text-sm font-medium transition-colors ${(isDisabled && !isAccentMode) ? "text-[var(--docmate-primary)]" : "text-[var(--docmate-text)]"}`}>
             {label}
           </label>
           {description && (
             <Tooltip content={description} placement="right" showArrow closeDelay={0}>
-              <InformationCircleIcon className="w-4 h-4 text-[var(--grud-text-secondary)] cursor-help" />
+              <InformationCircleIcon className="w-4 h-4 text-[var(--docmate-text-secondary)] cursor-help" />
             </Tooltip>
           )}
         </div>
         {(isDisabled || isAccentMode) && (
-          <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${isAccentMode ? "bg-[var(--grud-success)]/10 text-[var(--grud-success)] border-[var(--grud-success)]/20" : "bg-[var(--grud-primary)]/10 text-[var(--grud-primary)] border-[var(--grud-primary)]/20"}`}>
+          <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${isAccentMode ? "bg-[var(--docmate-success)]/10 text-[var(--docmate-success)] border-[var(--docmate-success)]/20" : "bg-[var(--docmate-primary)]/10 text-[var(--docmate-primary)] border-[var(--docmate-primary)]/20"}`}>
             <span className="text-[10px] font-bold uppercase tracking-wider">
               {isAccentMode ? "Accent" : "In Use"}
             </span>
@@ -89,8 +89,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           isInvalid={isInvalid}
           errorMessage={isInvalidFormat ? "Please enter a valid hex color (e.g., #ff5733 or #f53)" : error}
           classNames={{
-            inputWrapper: (isDisabled && !isAccentMode) ? "bg-[var(--grud-surface-alt)] border-dashed border-[var(--grud-primary)]/30 cursor-default" : "",
-            input: (isDisabled && !isAccentMode) ? "cursor-default text-[var(--grud-text-secondary)]" : "",
+            inputWrapper: (isDisabled && !isAccentMode) ? "bg-[var(--docmate-surface-alt)] border-dashed border-[var(--docmate-primary)]/30 cursor-default" : "",
+            input: (isDisabled && !isAccentMode) ? "cursor-default text-[var(--docmate-text-secondary)]" : "",
           }}
           startContent={
             <div
@@ -111,7 +111,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         />
       </div>
       {(isDisabled && !isAccentMode) && disabledMessage && (
-        <p className="text-xs text-[var(--grud-primary)] font-medium bg-[var(--grud-primary)]/5 p-2 rounded-lg border border-[var(--grud-primary)]/10">
+        <p className="text-xs text-[var(--docmate-primary)] font-medium bg-[var(--docmate-primary)]/5 p-2 rounded-lg border border-[var(--docmate-primary)]/10">
           ✨ {disabledMessage}
         </p>
       )}

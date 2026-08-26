@@ -76,16 +76,16 @@ export default function AdvancedPanel() {
   return (
     <div className="space-y-6">
       {/* Custom Code */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <CodeBracketIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <CodeBracketIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Custom Code Injection</h3>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Custom CSS</label>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Custom CSS</label>
               <Textarea
                 placeholder="Enter custom CSS code here..."
                 value={customCSS}
@@ -96,15 +96,15 @@ export default function AdvancedPanel() {
                 maxRows={12}
                 className="font-mono text-sm"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  description: "text-[var(--grud-text-secondary)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  description: "text-[var(--docmate-text-secondary)]"
                 }}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Custom JavaScript</label>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Custom JavaScript</label>
               <Textarea
                 placeholder="Enter custom JavaScript code here..."
                 value={customJS}
@@ -115,9 +115,9 @@ export default function AdvancedPanel() {
                 maxRows={12}
                 className="font-mono text-sm"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  description: "text-[var(--grud-text-secondary)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  description: "text-[var(--docmate-text-secondary)]"
                 }}
               />
             </div>
@@ -133,10 +133,10 @@ export default function AdvancedPanel() {
       </Card>
 
       {/* Analytics and Tracking */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <ChartBarIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <ChartBarIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Analytics & Tracking</h3>
           </div>
 
@@ -144,7 +144,7 @@ export default function AdvancedPanel() {
             <Switch isSelected={enableAnalytics} onValueChange={setEnableAnalytics}>
               Enable Analytics
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Enable analytics tracking for usage statistics and insights
             </p>
 
@@ -155,7 +155,7 @@ export default function AdvancedPanel() {
             >
               Enable User Behavior Tracking
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Enable user behavior tracking for optimization
             </p>
           </div>
@@ -170,17 +170,17 @@ export default function AdvancedPanel() {
       </Card>
 
       {/* Additional Advanced Options */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <AdjustmentsHorizontalIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <AdjustmentsHorizontalIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Advanced Options</h3>
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--grud-border-color)' }}>
+            <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--docmate-border-color)' }}>
               <h4 className="font-medium mb-2">Debug Mode</h4>
-              <p className="text-sm mb-3" style={{ color: 'var(--grud-text-secondary)' }}>
+              <p className="text-sm mb-3" style={{ color: 'var(--docmate-text-secondary)' }}>
                 Enable debug mode for development and troubleshooting. This will show additional
                 information in the browser console and may impact performance.
               </p>
@@ -189,9 +189,9 @@ export default function AdvancedPanel() {
               </Switch>
             </div>
 
-            <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--grud-border-color)' }}>
+            <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--docmate-border-color)' }}>
               <h4 className="font-medium mb-2">Performance Monitoring</h4>
-              <p className="text-sm mb-3" style={{ color: 'var(--grud-text-secondary)' }}>
+              <p className="text-sm mb-3" style={{ color: 'var(--docmate-text-secondary)' }}>
                 Monitor application performance and identify bottlenecks. This may slightly impact
                 performance due to monitoring overhead.
               </p>

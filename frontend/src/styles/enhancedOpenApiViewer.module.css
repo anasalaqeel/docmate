@@ -15,7 +15,7 @@
 /* Header */
 .header {
   padding: 2rem 0;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   margin-bottom: 2rem;
 }
 
@@ -49,18 +49,18 @@
 .operationCard {
   border-radius: 0;
   border: none;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
   box-shadow: none;
 }
 
 .operationCard:first-child {
-  border-top: var(--grud-border);
+  border-top: var(--docmate-border);
 }
 
 .operationHeader {
   padding: 1.5rem;
   background: #fafbfc;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
 }
 
 .operationMeta {
@@ -135,7 +135,7 @@
   margin: 0 0 1rem 0;
   color: #374151;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--grud-border-color);
+  border-bottom: 2px solid var(--docmate-border-color);
 }
 
 .parameterTable {
@@ -171,7 +171,7 @@
 }
 
 .contentType {
-  border: var(--grud-border);
+  border: var(--docmate-border);
   border-radius: 8px;
   padding: 1rem;
   background: #fafbfc;
@@ -193,7 +193,7 @@
 }
 
 .responseItem {
-  border: var(--grud-border);
+  border: var(--docmate-border);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -204,7 +204,7 @@
   gap: 1rem;
   padding: 1rem 1.5rem;
   background: #fafbfc;
-  border-bottom: var(--grud-border);
+  border-bottom: var(--docmate-border);
 }
 
 .responseDescription {
@@ -244,7 +244,7 @@
 }
 
 .schemaObject {
-  border: var(--grud-border);
+  border: var(--docmate-border);
   border-radius: 6px;
   padding: 1rem;
   background: #f9fafb;
@@ -268,7 +268,7 @@
 }
 
 .schemaProperty {
-  border-left: 1px solid var(--grud-border-color);
+  border-left: 1px solid var(--docmate-border-color);
   padding-left: 1rem;
 }
 
@@ -309,7 +309,7 @@
 .nestedSchema {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: var(--grud-border);
+  border-top: var(--docmate-border);
 }
 
 .schemaSimple {
@@ -417,7 +417,7 @@
 :global(.dark) .responseContentType h6,
 :global(.dark) .schemaSection h6,
 :global(.dark) .exampleSection h6 {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 :global(.dark) .parameterGroup h4 {

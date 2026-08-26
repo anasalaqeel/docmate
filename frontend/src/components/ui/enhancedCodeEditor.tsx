@@ -506,8 +506,8 @@ export default function EnhancedCodeEditor({
 
   if (collapsible && isCollapsed) {
     return (
-      <div className={`border border-[var(--grud-border-color)] dark:border-gray-600 rounded-lg ${className}`}>
-        <div className="flex items-center justify-between p-3 bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] border-b border-[var(--grud-border-color)] dark:border-gray-600">
+      <div className={`border border-[var(--docmate-border-color)] dark:border-gray-600 rounded-lg ${className}`}>
+        <div className="flex items-center justify-between p-3 bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] border-b border-[var(--docmate-border-color)] dark:border-gray-600">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsCollapsed(false)}
@@ -516,7 +516,7 @@ export default function EnhancedCodeEditor({
               <ChevronRightIcon className="w-4 h-4" />
             </button>
             {title && <span className="text-sm font-medium">{title}</span>}
-            <span className="text-xs text-[var(--grud-text-secondary)]">({language})</span>
+            <span className="text-xs text-[var(--docmate-text-secondary)]">({language})</span>
           </div>
         </div>
       </div>
@@ -524,10 +524,10 @@ export default function EnhancedCodeEditor({
   }
 
   return (
-    <div className={`relative border border-[var(--grud-border-color)] dark:border-gray-600 rounded-lg overflow-hidden ${className}`}>
+    <div className={`relative border border-[var(--docmate-border-color)] dark:border-gray-600 rounded-lg overflow-hidden ${className}`}>
       {/* Header */}
       {(title || collapsible || allowCopy) && (
-        <div className="flex items-center justify-between p-2 bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] border-b border-[var(--grud-border-color)] dark:border-gray-600">
+        <div className="flex items-center justify-between p-2 bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] border-b border-[var(--docmate-border-color)] dark:border-gray-600">
           <div className="flex items-center gap-2">
             {collapsible && (
               <button
@@ -538,7 +538,7 @@ export default function EnhancedCodeEditor({
               </button>
             )}
             {title && <span className="text-sm font-medium">{title}</span>}
-            <span className="text-xs text-[var(--grud-text-secondary)]">({language})</span>
+            <span className="text-xs text-[var(--docmate-text-secondary)]">({language})</span>
           </div>
           <div className="flex items-center gap-2">
             {!readOnly && language !== 'plaintext' && (
@@ -570,7 +570,7 @@ export default function EnhancedCodeEditor({
         <div className="flex h-full">
           {/* Line numbers */}
           {showLineNumbers && (
-            <div className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] border-r border-[var(--grud-border-color)] dark:border-gray-600 text-right text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)] select-none min-w-[3rem] flex-shrink-0">
+            <div className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] border-r border-[var(--docmate-border-color)] dark:border-gray-600 text-right text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)] select-none min-w-[3rem] flex-shrink-0">
               <div
                 ref={lineNumbersRef}
                 className="px-2 h-full overflow-hidden"
@@ -594,7 +594,7 @@ export default function EnhancedCodeEditor({
           )}
           
           {/* Editor area */}
-          <div className="flex-1 relative bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] border-r">
+          <div className="flex-1 relative bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] border-r">
             {/* Syntax highlighting layer */}
             {language !== 'plaintext' && (
               <div
@@ -624,7 +624,7 @@ export default function EnhancedCodeEditor({
               readOnly={readOnly}
               placeholder={placeholder}
               className={`absolute inset-0 w-full h-full border-none outline-none resize-none ${
-                language !== 'plaintext' ? 'bg-transparent text-transparent caret-gray-900 dark:caret-gray-100' : 'bg-white dark:bg-[var(--grud-code-bg)] text-[var(--grud-text)] dark:text-[var(--grud-text)]'
+                language !== 'plaintext' ? 'bg-transparent text-transparent caret-gray-900 dark:caret-gray-100' : 'bg-white dark:bg-[var(--docmate-code-bg)] text-[var(--docmate-text)] dark:text-[var(--docmate-text)]'
               } ${readOnly ? 'cursor-default' : 'cursor-text'}`}
               style={{
                 padding: '12px',
@@ -651,7 +651,7 @@ export default function EnhancedCodeEditor({
             {/* Placeholder when empty and not readonly */}
             {!value && placeholder && !readOnly && (
               <div
-                className="absolute inset-0 pointer-events-none text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)]"
+                className="absolute inset-0 pointer-events-none text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)]"
                 style={{
                   padding: '12px',
                   fontSize: '14px',

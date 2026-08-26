@@ -328,8 +328,8 @@ const RolesListPage = () => {
               onClear={() => setSearchQuery("")}
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50"
+                inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50"
               }}
             />
           </div>
@@ -367,7 +367,7 @@ const RolesListPage = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <div className="px-6 py-4 border-b-1 border-[var(--grud-border-color)] text-xl font-bold">
+              <div className="px-6 py-4 border-b-1 border-[var(--docmate-border-color)] text-xl font-bold">
                 {modalMode === "create" && "Create New Role"}
                 {modalMode === "edit" && "Edit Role"}
                 {modalMode === "view" && "Role Details"}
@@ -406,7 +406,7 @@ const RolesListPage = () => {
                           <SelectItem key={permission.id.toString()}>
                             <div>
                                <div className="font-medium">{permission.name}</div>
-                               <div className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+                               <div className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                                  {permission.description}
                                </div>
                             </div>
@@ -442,17 +442,17 @@ const RolesListPage = () => {
                             <div
                               key={rp.permission.id}
                               className="p-3 border rounded-lg"
-                              style={{ background: 'var(--grud-surface-alt)', borderColor: 'var(--grud-border-color)' }}
+                              style={{ background: 'var(--docmate-surface-alt)', borderColor: 'var(--docmate-border-color)' }}
                             >
-                               <div className="font-medium text-[var(--grud-text)]">{rp.permission.name}</div>
-                              <div className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+                               <div className="font-medium text-[var(--docmate-text)]">{rp.permission.name}</div>
+                              <div className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                                 {rp.permission.description}
                               </div>
                             </div>
                           ))}
                         </div>
                       ) : (
-                         <p style={{ color: 'var(--grud-text-secondary)' }}>No permissions assigned</p>
+                         <p style={{ color: 'var(--docmate-text-secondary)' }}>No permissions assigned</p>
                       )}
                     </div>
                   </div>

@@ -57,10 +57,10 @@ const EmojiPickerInput = ({
       isInvalid={isInvalid}
       errorMessage={errorMessage}
       classNames={{
-        input: `text-sm pr-12 text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50 ${classNames.input || ""}`,
-        inputWrapper: `border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)] ${classNames.inputWrapper || ""}`,
-        label: `text-[var(--grud-text)] ${classNames.label || ""}`,
-        description: `text-[var(--grud-text-secondary)] ${classNames.description || ""}`,
+        input: `text-sm pr-12 text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50 ${classNames.input || ""}`,
+        inputWrapper: `border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)] ${classNames.inputWrapper || ""}`,
+        label: `text-[var(--docmate-text)] ${classNames.label || ""}`,
+        description: `text-[var(--docmate-text-secondary)] ${classNames.description || ""}`,
       }}
       endContent={
         <Popover placement="bottom-end" offset={10}>
@@ -69,13 +69,13 @@ const EmojiPickerInput = ({
               isIconOnly
               size="sm"
               variant="light"
-              className="opacity-40 hover:opacity-100 hover:text-[var(--grud-primary)] transition-colors"
+              className="opacity-40 hover:opacity-100 hover:text-[var(--docmate-primary)] transition-colors"
               isDisabled={disabled}
             >
               <FaceSmileIcon className="w-5 h-5" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="p-0 border border-[var(--grud-border-color)] bg-[var(--grud-surface)] shadow-xl overflow-hidden">
+          <PopoverContent className="p-0 border border-[var(--docmate-border-color)] bg-[var(--docmate-surface)] shadow-xl overflow-hidden">
             <EmojiPicker
               onEmojiClick={onEmojiClick}
               previewConfig={{

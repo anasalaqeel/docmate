@@ -230,8 +230,8 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
                       <Chip 
                         key={item.key} 
                         variant="flat" 
-                        style={{ background: 'rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)', color: 'var(--grud-primary)' }}
-                        startContent={<ShieldCheckIcon className="w-3 h-3" style={{ color: 'var(--grud-primary)' }} />}
+                        style={{ background: 'rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)', color: 'var(--docmate-primary)' }}
+                        startContent={<ShieldCheckIcon className="w-3 h-3" style={{ color: 'var(--docmate-primary)' }} />}
                       >
                         {item.textValue}
                       </Chip>

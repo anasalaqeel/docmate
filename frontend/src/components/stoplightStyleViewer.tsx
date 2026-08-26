@@ -94,12 +94,12 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
 
   const getMethodColor = (method: string) => {
     switch (method.toUpperCase()) {
-      case 'GET': return 'var(--grud-success)';
-      case 'POST': return 'var(--grud-primary)';
-      case 'PUT': return 'var(--grud-warning)';
-      case 'PATCH': return 'var(--grud-secondary)';
-      case 'DELETE': return 'var(--grud-error)';
-      default: return 'var(--grud-text-secondary)';
+      case 'GET': return 'var(--docmate-success)';
+      case 'POST': return 'var(--docmate-primary)';
+      case 'PUT': return 'var(--docmate-warning)';
+      case 'PATCH': return 'var(--docmate-secondary)';
+      case 'DELETE': return 'var(--docmate-error)';
+      default: return 'var(--docmate-text-secondary)';
     }
   };
 
@@ -358,7 +358,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
                               <Chip
                                 size="sm"
                                 style={{
-                                  backgroundColor: status.startsWith('2') ? 'var(--grud-success)' : status.startsWith('4') ? 'var(--grud-warning)' : 'var(--grud-error)',
+                                  backgroundColor: status.startsWith('2') ? 'var(--docmate-success)' : status.startsWith('4') ? 'var(--docmate-warning)' : 'var(--docmate-error)',
                                   color: 'white'
                                 }}
                               >
@@ -467,7 +467,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
                             <div className={styles.responseStatus}>
                               <Chip
                                 style={{
-                                  backgroundColor: (testResponse.status ?? 0) < 400 ? 'var(--grud-success)' : 'var(--grud-error)',
+                                  backgroundColor: (testResponse.status ?? 0) < 400 ? 'var(--docmate-success)' : 'var(--docmate-error)',
                                   color: 'white'
                                 }}
                               >

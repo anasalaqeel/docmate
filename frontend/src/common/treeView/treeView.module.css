@@ -39,7 +39,7 @@
 
 .expandButton:hover {
   opacity: 1;
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
 }
 
 /* Dark mode adjustment for hover if needed, relying on 'currentColor' mostly */
@@ -73,11 +73,11 @@
   width: 16rem;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  backdrop-filter: var(--grud-blur);
-  -webkit-backdrop-filter: var(--grud-blur);
-  background-color: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
-  box-shadow: var(--grud-card-shadow);
+  backdrop-filter: var(--docmate-blur);
+  -webkit-backdrop-filter: var(--docmate-blur);
+  background-color: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
+  box-shadow: var(--docmate-card-shadow);
   display: flex;
   flex-direction: column;
   transform: rotate(-2deg) scale(1.02);
@@ -101,16 +101,16 @@
 .dropIndicator[data-zone="top"],
 .dropIndicator[data-zone="bottom"] {
   height: 2px;
-  background-color: var(--grud-primary);
-  box-shadow: 0 0 8px var(--grud-primary);
+  background-color: var(--docmate-primary);
+  box-shadow: 0 0 8px var(--docmate-primary);
 }
 
 .dropIndicator[data-zone="middle"] {
   background-color: transparent;
-  border: 2px solid var(--grud-primary);
+  border: 2px solid var(--docmate-primary);
   opacity: 1;
   border-radius: 0.5rem;
-  box-shadow: 0 0 0 4px var(--grud-primary);
+  box-shadow: 0 0 0 4px var(--docmate-primary);
 }
 
 /* Drag Ghost Internals */
@@ -127,7 +127,7 @@
 
 .dragGhostLabel {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -136,12 +136,12 @@
 .dragGhostTarget {
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px dashed var(--grud-border-color);
+  border-top: 1px dashed var(--docmate-border-color);
   display: flex;
   align-items: center;
   gap: 0.375rem;
   font-size: 0.75rem;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 600;
 }
 
@@ -165,16 +165,16 @@
   top: -0.225rem;
   width: 0.6rem; 
   height: 0.6rem;
-  background-color: var(--grud-primary);
+  background-color: var(--docmate-primary);
   border-radius: 50%;
-  border: 2px solid var(--grud-surface);
-  box-shadow: 0 0 0 2px var(--grud-primary);
+  border: 2px solid var(--docmate-surface);
+  box-shadow: 0 0 0 2px var(--docmate-primary);
   transition: border-color 200ms;
 }
 
 @media (prefers-color-scheme: dark) {
   .dropIndicatorCircle {
-    border-color: var(--grud-surface);
+    border-color: var(--docmate-surface);
   }
 }
 

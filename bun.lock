@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "grud",
+      "name": "docmate",
       "devDependencies": {
         "concurrently": "^10.0.5",
       },

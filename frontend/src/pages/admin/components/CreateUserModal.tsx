@@ -128,9 +128,9 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
       }}
     >
       <ModalContent
-        style={{ background: "var(--grud-surface)", border: "1px solid var(--grud-border-color)" }}
+        style={{ background: "var(--docmate-surface)", border: "1px solid var(--docmate-border-color)" }}
       >
-        <ModalHeader className="text-[var(--grud-text)]">Create New User</ModalHeader>
+        <ModalHeader className="text-[var(--docmate-text)]">Create New User</ModalHeader>
         <ModalBody>
           <form id="create-user-form" onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -143,8 +143,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 errorMessage={errors.name}
                 isInvalid={!!errors.name}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]",
+                  inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)]",
                 }}
               />
               <Input
@@ -157,8 +157,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 errorMessage={errors.email}
                 isInvalid={!!errors.email}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]",
+                  inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)]",
                 }}
               />
             </div>
@@ -176,8 +176,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.password}
                 autoComplete="new-password"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]",
+                  inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)]",
                 }}
                 endContent={
                   <div className="flex items-center gap-1">
@@ -212,8 +212,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 errorMessage={errors.phone}
                 isInvalid={!!errors.phone}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)]",
+                  inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)]",
                 }}
               />
             </div>
@@ -222,8 +222,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
               classNames={{
                 base: "max-w-xs",
                 trigger:
-                  "min-h-12 py-2 border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                value: "text-[var(--grud-text)]",
+                  "min-h-12 py-2 border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                value: "text-[var(--docmate-text)]",
               }}
               isMultiline={true}
               label="Roles"
@@ -242,8 +242,8 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                         key={item.key}
                         variant="flat"
                         style={{
-                          background: "rgba(var(--grud-primary-rgb, 102, 126, 234), 0.1)",
-                          color: "var(--grud-primary)",
+                          background: "rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)",
+                          color: "var(--docmate-primary)",
                         }}
                         startContent={<ShieldCheckIcon className="w-3 h-3" />}
                       >

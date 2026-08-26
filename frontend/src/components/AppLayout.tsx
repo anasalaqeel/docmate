@@ -51,8 +51,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       <svg width="0" height="0" className="absolute pointer-events-none opacity-0" aria-hidden="true">
         <defs>
           <linearGradient id="sidebar-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--grud-gradient-start)" />
-            <stop offset="100%" stopColor="var(--grud-gradient-end)" />
+            <stop offset="0%" stopColor="var(--docmate-gradient-start)" />
+            <stop offset="100%" stopColor="var(--docmate-gradient-end)" />
           </linearGradient>
         </defs>
       </svg>
@@ -74,7 +74,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             )}
             <Link to="/docs" className={styles.brandLink}>
               <div className={styles.brandContent}>
-                <span className={styles.logo}>📚</span>
+                <img src="/logo.svg" alt="Docmate logo" className={styles.logo} />
                 <h1 className={styles.brandTitle}>{layoutData.headerTitle}</h1>
                 {layoutData.navbarType === "admin" && (
                     <Chip size="sm" variant="flat" className={styles.adminBadge}>Admin</Chip>
@@ -205,7 +205,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       {!layoutData.sidebar && (
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
-            <p>&copy; {new Date().getFullYear()} Grud. Built with ❤️ for documentation enthusiasts.</p>
+            <p>&copy; {new Date().getFullYear()} Docmate. Built with ❤️ for documentation enthusiasts.</p>
           </div>
         </footer>
       )}

@@ -1,60 +1,60 @@
 :root {
   /* Brand Fallbacks — Refined Violet (default unbranded palette) */
-  --grud-primary: #6d28d9;
-  --grud-secondary: #4c1d95;
-  --grud-gradient: var(--grud-primary);
-  --grud-gradient-subtle: rgba(var(--grud-secondary-rgb, 76, 29, 149), 0.08);
+  --docmate-primary: #6d28d9;
+  --docmate-secondary: #4c1d95;
+  --docmate-gradient: var(--docmate-primary);
+  --docmate-gradient-subtle: rgba(var(--docmate-secondary-rgb, 76, 29, 149), 0.08);
 
   /* Light Fallbacks */
-  --grud-bg: #f8f7fb;
-  --grud-bg-alt: #f1eff8;
-  --grud-surface: #ffffff;
-  --grud-surface-alt: #f5f3fa;
-  --grud-text: #1f1832;
-  --grud-text-secondary: #5d5573;
-  --grud-border-color: rgba(30, 20, 50, 0.1);
-  --grud-shadow-color: rgba(31, 24, 50, 0.1);
-  --grud-indicator: var(--grud-primary);
-  --grud-error: #b91c1c;
-  --grud-warning: #b45309;
-  --grud-success: #12805c;
+  --docmate-bg: #f8f7fb;
+  --docmate-bg-alt: #f1eff8;
+  --docmate-surface: #ffffff;
+  --docmate-surface-alt: #f5f3fa;
+  --docmate-text: #1f1832;
+  --docmate-text-secondary: #5d5573;
+  --docmate-border-color: rgba(30, 20, 50, 0.1);
+  --docmate-shadow-color: rgba(31, 24, 50, 0.1);
+  --docmate-indicator: var(--docmate-primary);
+  --docmate-error: #b91c1c;
+  --docmate-warning: #b45309;
+  --docmate-success: #12805c;
 
   /* Derived Surfaces (Static) */
-  --grud-bg-gradient: var(--grud-bg);
-  --grud-card-bg: rgba(255, 255, 255, 0.9);
-  --grud-nav-bg: rgba(255, 255, 255, 0.95);
-  --grud-blur: blur(12px);
-  --grud-border: 1px solid var(--grud-border-color);
-  --grud-card-shadow: 0 4px 20px var(--grud-shadow-color);
-  --grud-card-shadow-hover: 0 12px 40px var(--grud-shadow-color);
+  --docmate-bg-gradient: var(--docmate-bg);
+  --docmate-card-bg: rgba(255, 255, 255, 0.9);
+  --docmate-nav-bg: rgba(255, 255, 255, 0.95);
+  --docmate-blur: blur(12px);
+  --docmate-border: 1px solid var(--docmate-border-color);
+  --docmate-card-shadow: 0 4px 20px var(--docmate-shadow-color);
+  --docmate-card-shadow-hover: 0 12px 40px var(--docmate-shadow-color);
 
   /* Border Radius Defaults */
-  --grud-radius-sm: 0.25rem;
-  --grud-radius-md: 0.375rem;
-  --grud-radius-lg: 0.5rem;
+  --docmate-radius-sm: 0.25rem;
+  --docmate-radius-md: 0.375rem;
+  --docmate-radius-lg: 0.5rem;
 
   /* Code Block Surfaces (intentionally dark in both modes, GitHub-like) */
-  --grud-code-bg: #161b22;
-  --grud-code-border: #30363d;
+  --docmate-code-bg: #161b22;
+  --docmate-code-border: #30363d;
 }
 
 .dark {
-  /* Dark Fallbacks — violet-tinted */
-  --grud-bg: #131022;
-  --grud-bg-alt: #1c1730;
-  --grud-surface: #191430;
-  --grud-surface-alt: #241e3d;
-  --grud-text: #f1eef9;
-  --grud-text-secondary: #a49bc2;
-  --grud-border-color: rgba(255, 255, 255, 0.1);
-  --grud-shadow-color: rgba(0, 0, 0, 0.45);
-  --grud-indicator: #c4b0f5;
-  --grud-error: #f87171;
-  --grud-warning: #fbbf24;
-  --grud-success: #34d399;
+  /* Dark Fallbacks — neutral graphite surfaces, violet only as accent */
+  --docmate-bg: #101014;
+  --docmate-bg-alt: #17181d;
+  --docmate-surface: #16171b;
+  --docmate-surface-alt: #212227;
+  --docmate-text: #f2f2f5;
+  --docmate-text-secondary: #a0a3ad;
+  --docmate-border-color: rgba(255, 255, 255, 0.1);
+  --docmate-shadow-color: rgba(0, 0, 0, 0.45);
+  --docmate-indicator: #b79ff2;
+  --docmate-error: #f87171;
+  --docmate-warning: #fbbf24;
+  --docmate-success: #34d399;
 
   /* Dark Derived Surfaces (Static) */
-  --grud-bg-gradient: var(--grud-bg);
-  --grud-card-bg: rgba(25, 20, 48, 0.85);
-  --grud-nav-bg: rgba(19, 16, 34, 0.95);
+  --docmate-bg-gradient: var(--docmate-bg);
+  --docmate-card-bg: rgba(22, 23, 27, 0.85);
+  --docmate-nav-bg: rgba(16, 16, 20, 0.95);
 }

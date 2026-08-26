@@ -66,7 +66,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({
       >
         {copied || fadingOut ? (
           <Check
-            className={`${iconClassName} text-[var(--grud-success)]`}
+            className={`${iconClassName} text-[var(--docmate-success)]`}
             style={{
               animation: fadingOut ? 'none' : 'checkPop 0.6s ease-in-out'
             }}

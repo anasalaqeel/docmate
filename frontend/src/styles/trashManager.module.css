@@ -15,7 +15,7 @@
 }
 
 .subtitle {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
 }
 
@@ -27,16 +27,16 @@
 }
 
 .emptyCard {
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .emptyIcon {
   width: 5rem;
   height: 5rem;
   margin: 0 auto 1.5rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   opacity: 0.4;
   stroke-width: 1.5;
 }
@@ -45,11 +45,11 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .empty p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.95rem;
 }
 
@@ -61,14 +61,14 @@
 
 .trashCard {
   transition: all 0.2s ease;
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .trashCard:hover {
-  box-shadow: var(--grud-card-shadow);
-  border-color: var(--grud-primary);
+  box-shadow: var(--docmate-card-shadow);
+  border-color: var(--docmate-primary);
 }
 
 .trashCardBody {
@@ -116,7 +116,7 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .itemType {
@@ -124,15 +124,15 @@
   opacity: 0.8;
   text-transform: capitalize;
   padding: 0.125rem 0.5rem;
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 0.25rem;
   flex-shrink: 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .itemDate {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
   opacity: 0.7;
 }
@@ -146,7 +146,7 @@
 
 /* Children list styles */
 .childrenList {
-  border-top: 1px solid var(--grud-border-color);
+  border-top: 1px solid var(--docmate-border-color);
   padding-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -158,16 +158,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem;
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 0.5rem;
   transition: all 0.15s ease;
   gap: 1rem;
 }
 
 .childItem:hover {
-  background: var(--grud-surface);
-  border-color: var(--grud-primary);
+  background: var(--docmate-surface);
+  border-color: var(--docmate-primary);
 }
 
 .childItemContent {
@@ -197,11 +197,11 @@
   opacity: 0.8;
   text-transform: capitalize;
   padding: 0.125rem 0.5rem;
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 0.25rem;
   flex-shrink: 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .childActions {

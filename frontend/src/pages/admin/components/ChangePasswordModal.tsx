@@ -95,15 +95,15 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="md" placement="center">
-      <ModalContent style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}>
+      <ModalContent style={{ background: 'var(--docmate-surface)', border: '1px solid var(--docmate-border-color)' }}>
         <ModalHeader>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--grud-error-rgb), 0.1)' }}>
-              <KeyIcon className="w-6 h-6 text-[var(--grud-error)]" />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(var(--docmate-error-rgb), 0.1)' }}>
+              <KeyIcon className="w-6 h-6 text-[var(--docmate-error)]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[var(--grud-text)]">Change Password</h2>
-              <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+              <h2 className="text-xl font-semibold text-[var(--docmate-text)]">Change Password</h2>
+              <p className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                 For: {user?.name} ({user?.email})
               </p>
             </div>
@@ -124,8 +124,8 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
               autoComplete="new-password"
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]"
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]"
               }}
               endContent={
                 <div className="flex items-center gap-1">
@@ -168,8 +168,8 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
               autoComplete="new-password"
               size="lg"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)]"
+                inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)]"
               }}
             />
           </form>

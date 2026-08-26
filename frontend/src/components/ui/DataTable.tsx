@@ -60,7 +60,7 @@ export function DataTable<T, TKey extends string = string>({
           <TableColumn
             key={column.key}
             align={column.align || "start"}
-            className={`bg-transparent border-b border-[var(--grud-border-color)] ${
+            className={`bg-transparent border-b border-[var(--docmate-border-color)] ${
               column.sortable ? "cursor-pointer hover:opacity-80 transition-opacity" : ""
             }`}
           >
@@ -70,7 +70,7 @@ export function DataTable<T, TKey extends string = string>({
                 onClick={() => onSort(column.key)}
               >
                 <span>{column.label}</span>
-                <span className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>
+                <span className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>
                   {sortBy === column.key ? (
                     sortOrder === "asc" ? "↑" : "↓"
                   ) : (
@@ -90,7 +90,7 @@ export function DataTable<T, TKey extends string = string>({
         {data.map((item) => (
           <TableRow
             key={getRowKey(item)}
-            className="border-b border-[var(--grud-border-color)]/50 last:border-0 hover:bg-[var(--grud-surface-alt)]/30 transition-colors"
+            className="border-b border-[var(--docmate-border-color)]/50 last:border-0 hover:bg-[var(--docmate-surface-alt)]/30 transition-colors"
           >
             {columns.map((column) => (
               <TableCell key={column.key}>{renderCell(item, column.key)}</TableCell>

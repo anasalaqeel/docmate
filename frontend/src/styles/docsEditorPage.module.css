@@ -12,13 +12,13 @@
   flex-direction: column;
   min-height: 400px;
   gap: 24px;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-radius: 16px;
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
 }
 
 .error {
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-color: rgba(239, 68, 68, 0.3);
 }
 
@@ -28,10 +28,10 @@
   align-items: center;
   margin-bottom: 24px;
   padding: 20px 24px;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-radius: 16px;
-  border: var(--grud-border);
-  box-shadow: var(--grud-card-shadow);
+  border: var(--docmate-border);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .headerActions {
@@ -52,11 +52,11 @@
   flex-shrink: 0;
   animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   display: flex;
   flex-direction: column;
 }
@@ -66,15 +66,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background: var(--grud-surface-alt);
-  border-bottom: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .sidebarHeader h3 {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: 0.02em;
 }
 
@@ -90,9 +90,9 @@
 .dividerView {
   text-align: center;
   padding: 80px 40px;
-  background: var(--grud-surface);
+  background: var(--docmate-surface);
   border-radius: 20px;
-  border: 2px dashed var(--grud-border-color);
+  border: 2px dashed var(--docmate-border-color);
   min-height: 400px;
   display: flex;
   flex-direction: column;
@@ -106,14 +106,14 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 12px 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   letter-spacing: 0.01em;
 }
 
 .emptyEditor p,
 .folderView p,
 .dividerView p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 32px 0;
   font-size: 1.125rem;
   line-height: 1.6;
@@ -146,14 +146,14 @@
 
 /* Tab Styling */
 .tabs :global([data-slot="tabList"]) {
-  background: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   padding: 4px;
 }
 
 .tabs :global([data-slot="cursor"]) {
-  background: var(--grud-gradient);
+  background: var(--docmate-gradient);
   border-radius: 8px;
 }
 
@@ -163,12 +163,12 @@
 }
 
 .tabs :global([data-slot="tab"]) {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   transition: color 0.2s ease;
 }
 
 .tabs :global([data-slot="tab"]:hover) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 /* Status Indicator */
@@ -180,32 +180,32 @@
 }
 
 .statusDot.live {
-  background: var(--grud-primary);
+  background: var(--docmate-primary);
 }
 
 .statusDot.draft {
-  background: var(--grud-text-secondary);
+  background: var(--docmate-text-secondary);
 }
 
 .statusText {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.75rem;
   font-weight: 500;
 }
 
 /* Card Styling */
 .card {
-  background: var(--grud-card-bg);
-  border: var(--grud-border);
+  background: var(--docmate-card-bg);
+  border: var(--docmate-border);
   border-radius: 20px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .cardSmall {
-  background: var(--grud-card-bg);
-  border: var(--grud-border);
+  background: var(--docmate-card-bg);
+  border: var(--docmate-border);
   border-radius: 16px;
-  box-shadow: var(--grud-card-shadow);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 /* Icon Highlight */
@@ -215,7 +215,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 16px;
   margin-bottom: 24px;
   font-size: 2rem;
@@ -232,35 +232,35 @@
   min-height: 48px;
   display: flex;
   align-items: center;
-  background: var(--grud-surface-alt);
-  color: var(--grud-text);
+  background: var(--docmate-surface-alt);
+  color: var(--docmate-text);
 }
 
 .tokenPlaceholder {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-style: italic;
 }
 
 .tokenHint {
   font-size: 0.75rem;
   padding-left: 4px;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .tokenCode {
   padding: 2px 4px;
   border-radius: 4px;
-  background: var(--grud-surface-alt);
-  color: var(--grud-text);
+  background: var(--docmate-surface-alt);
+  color: var(--docmate-text);
 }
 
 /* Icon Colors */
 .iconPrimary {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .iconSecondary {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .iconSuccess {
@@ -269,48 +269,48 @@
 
 /* Text */
 .textSecondary {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .textPrimary {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 /* Input Styling */
 .input :global([data-slot="input-wrapper"]) {
-  background: var(--grud-surface);
-  border-color: var(--grud-border-color);
+  background: var(--docmate-surface);
+  border-color: var(--docmate-border-color);
 }
 
 .input :global([data-slot="input-wrapper"]:hover) {
-  border-color: var(--grud-text-secondary);
+  border-color: var(--docmate-text-secondary);
 }
 
 .input :global([data-slot="input-wrapper"]:focus-within) {
-  border-color: var(--grud-primary);
+  border-color: var(--docmate-primary);
 }
 
 .input :global([data-slot="input"]) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .input :global([data-slot="label"]) {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 /* Select Styling */
 .select :global([data-slot="trigger"]) {
-  background: var(--grud-surface);
-  border-color: var(--grud-border-color);
+  background: var(--docmate-surface);
+  border-color: var(--docmate-border-color);
 }
 
 .select :global([data-slot="trigger"]:hover) {
-  border-color: var(--grud-text-secondary);
+  border-color: var(--docmate-text-secondary);
 }
 
 /* Button Styling */
 .buttonPrimary {
-  background: var(--grud-gradient) !important;
+  background: var(--docmate-gradient) !important;
   color: white !important;
   border: none !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -325,16 +325,16 @@
 
 /* Modal Styling */
 .modal :global([data-slot="base"]) {
-  background: var(--grud-surface);
-  border: var(--grud-border);
+  background: var(--docmate-surface);
+  border: var(--docmate-border);
 }
 
 .modal :global([data-slot="header"]) {
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .modal :global([data-slot="footer"]) {
-  border-top: 1px solid var(--grud-border-color);
+  border-top: 1px solid var(--docmate-border-color);
 }
 
 @keyframes pulse {

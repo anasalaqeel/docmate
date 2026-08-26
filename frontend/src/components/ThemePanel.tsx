@@ -102,7 +102,7 @@ export default function ThemePanel() {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--grud-primary)]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--docmate-primary)]"></div>
       </div>
     );
   }
@@ -111,16 +111,16 @@ export default function ThemePanel() {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="p-0">
           <Tabs 
             aria-label="Theme Mode" 
             variant="underlined"
             classNames={{
-              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-[var(--grud-border-color)] px-6",
-              cursor: "w-full bg-[var(--grud-primary)]",
+              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-[var(--docmate-border-color)] px-6",
+              cursor: "w-full bg-[var(--docmate-primary)]",
               tab: "max-w-fit px-0 h-14",
-              tabContent: "group-data-[selected=true]:text-[var(--grud-primary)] text-[var(--grud-text-secondary)]",
+              tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)] text-[var(--docmate-text-secondary)]",
             }}
           >
             <Tab
@@ -160,10 +160,10 @@ export default function ThemePanel() {
       </Card>
 
       {/* Typography Settings */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <PaintBrushIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <PaintBrushIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Typography</h3>
           </div>
 
@@ -175,10 +175,10 @@ export default function ThemePanel() {
       </Card>
 
       {/* Border Radius Settings */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <PaintBrushIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <PaintBrushIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Border Radius</h3>
           </div>
 

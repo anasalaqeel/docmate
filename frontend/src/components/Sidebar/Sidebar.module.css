@@ -1,8 +1,8 @@
 .sidebar {
   width: var(--sidebar-width);
   height: 100%;
-  background: var(--grud-surface);
-  border-right: var(--grud-border);
+  background: var(--docmate-surface);
+  border-right: var(--docmate-border);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
   padding: 0.75rem 1rem;
   border: none;
   background: transparent;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
   border-radius: 12px;
@@ -46,25 +46,25 @@
 
 /* Accessible focus: only show when using keyboard */
 .item:focus-visible {
-  box-shadow: 0 0 0 2px var(--grud-primary);
+  box-shadow: 0 0 0 2px var(--docmate-primary);
 }
 
 .item:hover {
-  background: rgba(var(--grud-primary-rgb), 0.08);
-  color: var(--grud-primary);
+  background: rgba(var(--docmate-primary-rgb), 0.08);
+  color: var(--docmate-primary);
   transform: translateX(4px);
 }
 
 .item[data-active="true"] {
-  background: var(--grud-surface);
-  color: var(--grud-primary);
+  background: var(--docmate-surface);
+  color: var(--docmate-primary);
   font-weight: 700;
   /* Use inset box-shadow instead of border to prevent layout shift */
   box-shadow: 
-    inset 0 0 0 1px rgba(var(--grud-primary-rgb), 0.2),
+    inset 0 0 0 1px rgba(var(--docmate-primary-rgb), 0.2),
     0 10px 25px -5px rgba(0, 0, 0, 0.05),
-    0 8px 10px -6px rgba(var(--grud-primary-rgb), 0.15),
-    0 0 15px rgba(var(--grud-primary-rgb), 0.05);
+    0 8px 10px -6px rgba(var(--docmate-primary-rgb), 0.15),
+    0 0 15px rgba(var(--docmate-primary-rgb), 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -76,16 +76,16 @@
   top: 15%;
   bottom: 15%;
   width: 4px;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   border-radius: 0 4px 4px 0;
 }
 
 :global(.dark) .item[data-active="true"] {
-  background: rgba(var(--grud-primary-rgb), 0.12);
+  background: rgba(var(--docmate-primary-rgb), 0.12);
   box-shadow: 
-    inset 0 0 0 1px rgba(var(--grud-primary-rgb), 0.25),
+    inset 0 0 0 1px rgba(var(--docmate-primary-rgb), 0.25),
     0 15px 35px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(var(--grud-primary-rgb), 0.15);
+    0 0 20px rgba(var(--docmate-primary-rgb), 0.15);
   backdrop-filter: blur(8px);
 }
 
@@ -101,13 +101,13 @@
 
 .item[data-active="true"] .icon svg {
   stroke: url(#sidebar-icon-gradient);
-  filter: drop-shadow(0 2px 8px rgba(var(--grud-primary-rgb), 0.4));
+  filter: drop-shadow(0 2px 8px rgba(var(--docmate-primary-rgb), 0.4));
   transform: scale(1.15);
 }
 
 .item:hover:not([data-active="true"]) .icon {
   transform: scale(1.1);
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .label {
@@ -119,7 +119,7 @@
 }
 
 .item[data-active="true"] .label {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 800;
 }
 
@@ -129,12 +129,12 @@
 }
 
 .inner::-webkit-scrollbar-thumb {
-  background: rgba(var(--grud-primary-rgb), 0.2);
+  background: rgba(var(--docmate-primary-rgb), 0.2);
   border-radius: 10px;
 }
 
 .inner::-webkit-scrollbar-thumb:hover {
-  background: rgba(var(--grud-primary-rgb), 0.4);
+  background: rgba(var(--docmate-primary-rgb), 0.4);
 }
 
 /* Mobile adjustments */

@@ -45,18 +45,18 @@ export function DeleteUserModal({ isOpen, onClose, onUserDeleted, user }: Delete
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="sm" placement="center">
-      <ModalContent style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}>
-        <ModalHeader className="text-[var(--grud-text)]">Confirm Delete</ModalHeader>
+      <ModalContent style={{ background: 'var(--docmate-surface)', border: '1px solid var(--docmate-border-color)' }}>
+        <ModalHeader className="text-[var(--docmate-text)]">Confirm Delete</ModalHeader>
         <ModalBody>
-          <p className="text-[var(--grud-text)]">Are you sure you want to delete "{user?.name}"?</p>
-          <p className="text-sm font-medium" style={{ color: 'var(--grud-error)' }}>This action cannot be undone.</p>
+          <p className="text-[var(--docmate-text)]">Are you sure you want to delete "{user?.name}"?</p>
+          <p className="text-sm font-medium" style={{ color: 'var(--docmate-error)' }}>This action cannot be undone.</p>
         </ModalBody>
         <ModalFooter>
-          <Button variant="light" onPress={handleClose} className="text-[var(--grud-text-secondary)]">
+          <Button variant="light" onPress={handleClose} className="text-[var(--docmate-text-secondary)]">
             Cancel
           </Button>
           <Button 
-            className="bg-[var(--grud-error)] text-white hover:opacity-90"
+            className="bg-[var(--docmate-error)] text-white hover:opacity-90"
             onPress={handleDelete} 
             isLoading={isLoading}
           >

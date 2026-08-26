@@ -121,7 +121,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
     return (
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)]">
+          <thead className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)]">
             <tr>
               <th className="px-4 py-2 text-left font-semibold">Name</th>
               <th className="px-4 py-2 text-left font-semibold">Type</th>
@@ -134,10 +134,10 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
               <tr key={index}>
                 <td className="px-4 py-2">
                   <code className="text-sm font-mono">{param.name}</code>
-                  {param.required && <span className="text-[var(--grud-error)] ml-1">*</span>}
+                  {param.required && <span className="text-[var(--docmate-error)] ml-1">*</span>}
                 </td>
                 <td className="px-4 py-2">
-                  <code className="text-xs bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] px-2 py-1 rounded">
+                  <code className="text-xs bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] px-2 py-1 rounded">
                     {param.schema?.type || param.type || 'string'}
                   </code>
                 </td>
@@ -146,7 +146,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                     {param.in}
                   </span>
                 </td>
-                <td className="px-4 py-2 text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)]">{param.description || '-'}</td>
+                <td className="px-4 py-2 text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)]">{param.description || '-'}</td>
               </tr>
             ))}
           </tbody>
@@ -160,19 +160,19 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
 
     if (schema.type === 'object' && schema.properties) {
       return (
-        <div className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] rounded p-4 space-y-2">
+        <div className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] rounded p-4 space-y-2">
           {Object.entries(schema.properties).map(([propName, propSchema]) => (
             <div key={propName} className="font-mono text-sm">
               <div className="flex items-start gap-2">
                 <span className="text-blue-600 dark:text-blue-400">"{propName}"</span>
-                <span className="text-[var(--grud-text-secondary)]">:</span>
+                <span className="text-[var(--docmate-text-secondary)]">:</span>
                 <span className="text-purple-600 dark:text-purple-400">
                   {propSchema.type || 'any'}
-                  {schema.required?.includes(propName) && <span className="text-[var(--grud-error)] ml-1">*</span>}
+                  {schema.required?.includes(propName) && <span className="text-[var(--docmate-error)] ml-1">*</span>}
                 </span>
               </div>
               {propSchema.description && (
-                <div className="text-[var(--grud-text-secondary)] text-xs ml-4 mt-1">// {propSchema.description}</div>
+                <div className="text-[var(--docmate-text-secondary)] text-xs ml-4 mt-1">// {propSchema.description}</div>
               )}
             </div>
           ))}
@@ -181,9 +181,9 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
     }
 
     return (
-      <div className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] rounded p-4">
+      <div className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] rounded p-4">
         <code className="text-sm">{schema.type || 'any'}</code>
-        {schema.description && <span className="text-[var(--grud-text-secondary)] ml-2 text-sm">// {schema.description}</span>}
+        {schema.description && <span className="text-[var(--docmate-text-secondary)] ml-2 text-sm">// {schema.description}</span>}
       </div>
     );
   };
@@ -244,27 +244,27 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
     ) : [];
 
     return (
-      <Card className="my-4 bg-white/80 dark:bg-[var(--grud-code-bg)]/80 backdrop-blur-sm border border-[color-mix(in_srgb,var(--grud-error)_30%,transparent)]/50 dark:border-red-900/50">
+      <Card className="my-4 bg-white/80 dark:bg-[var(--docmate-code-bg)]/80 backdrop-blur-sm border border-[color-mix(in_srgb,var(--docmate-error)_30%,transparent)]/50 dark:border-red-900/50">
         <CardBody className="py-8">
           <div className="space-y-4">
-            <p className="text-[var(--grud-error)] dark:text-[var(--grud-error)] font-semibold">
+            <p className="text-[var(--docmate-error)] dark:text-[var(--docmate-error)] font-semibold">
               ❌ Operation "{operationId}" not found in OpenAPI spec
             </p>
             {availableOps.length > 0 && (
               <div className="text-left">
-                <p className="text-sm font-semibold text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)] mb-2">
+                <p className="text-sm font-semibold text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)] mb-2">
                   Available operations:
                 </p>
-                <div className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] rounded p-3 max-h-60 overflow-y-auto">
+                <div className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] rounded p-3 max-h-60 overflow-y-auto">
                   {availableOps.map((op, idx) => (
-                    <div key={idx} className="text-xs font-mono mb-1 text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)]">
-                      <span className="text-[var(--grud-success)] dark:text-[var(--grud-success)]">{op.display}</span>
-                      <span className="text-[var(--grud-text-secondary)]"> → </span>
-                      <code className="bg-gray-200 dark:bg-[var(--grud-code-bg)] px-1 rounded">id: {op.operationId}</code>
+                    <div key={idx} className="text-xs font-mono mb-1 text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)]">
+                      <span className="text-[var(--docmate-success)] dark:text-[var(--docmate-success)]">{op.display}</span>
+                      <span className="text-[var(--docmate-text-secondary)]"> → </span>
+                      <code className="bg-gray-200 dark:bg-[var(--docmate-code-bg)] px-1 rounded">id: {op.operationId}</code>
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)] mt-2">
+                <p className="text-xs text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)] mt-2">
                   💡 Use one of these IDs in your operation-ref directive
                 </p>
               </div>
@@ -276,7 +276,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
   }
 
   return (
-    <Card className="my-4 bg-white/80 dark:bg-[var(--grud-code-bg)]/80 backdrop-blur-sm border border-[var(--grud-border-color)]/20 dark:border-[var(--grud-code-border)]/20 shadow-lg hover:shadow-xl transition-all duration-300">
+    <Card className="my-4 bg-white/80 dark:bg-[var(--docmate-code-bg)]/80 backdrop-blur-sm border border-[var(--docmate-border-color)]/20 dark:border-[var(--docmate-code-border)]/20 shadow-lg hover:shadow-xl transition-all duration-300">
       <CardBody>
         {/* Operation Header */}
         <div className="mb-4">
@@ -284,15 +284,15 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
             <Chip color={getMethodColor(method) as "default" | "primary" | "secondary" | "success" | "warning" | "danger"} size="md" variant="flat" className="font-semibold">
               {method}
             </Chip>
-            <code className="text-sm bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] px-3 py-1 rounded font-mono">
+            <code className="text-sm bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] px-3 py-1 rounded font-mono">
               {path}
             </code>
           </div>
-          <h3 className="text-xl font-semibold text-[var(--grud-text)] dark:text-[var(--grud-text)]">
+          <h3 className="text-xl font-semibold text-[var(--docmate-text)] dark:text-[var(--docmate-text)]">
             {operation.summary || `${method} ${path}`}
           </h3>
           {operation.description && (
-            <p className="text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)] mt-2">{operation.description}</p>
+            <p className="text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)] mt-2">{operation.description}</p>
           )}
         </div>
 
@@ -315,7 +315,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                 <div>
                   <h4 className="text-lg font-semibold mb-3">Request Body</h4>
                   {operation.requestBody.description && (
-                    <p className="text-sm text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)] mb-3">
+                    <p className="text-sm text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)] mb-3">
                       {operation.requestBody.description}
                     </p>
                   )}
@@ -323,7 +323,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                     Object.entries(operation.requestBody.content).map(([contentType, content]) => (
                       <div key={contentType} className="mb-4">
                         <div className="text-sm mb-2">
-                          Content-Type: <code className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] px-2 py-1 rounded">{contentType}</code>
+                          Content-Type: <code className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] px-2 py-1 rounded">{contentType}</code>
                         </div>
                         {content.schema && renderJsonSchema(content.schema)}
                       </div>
@@ -337,7 +337,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                   <h4 className="text-lg font-semibold mb-3">Responses</h4>
                   <div className="space-y-4">
                     {Object.entries(operation.responses).map(([status, response]) => (
-                      <div key={status} className="border border-[var(--grud-border-color)] dark:border-[var(--grud-code-border)] rounded-lg p-4">
+                      <div key={status} className="border border-[var(--docmate-border-color)] dark:border-[var(--docmate-code-border)] rounded-lg p-4">
                         <div className="flex items-center gap-3 mb-2">
                           <Chip
                             size="sm"
@@ -348,7 +348,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                           >
                             {status}
                           </Chip>
-                          <span className="text-sm text-[var(--grud-text-secondary)] dark:text-[var(--grud-text-secondary)]">
+                          <span className="text-sm text-[var(--docmate-text-secondary)] dark:text-[var(--docmate-text-secondary)]">
                             {response.description || 'No description'}
                           </span>
                         </div>
@@ -356,7 +356,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                           Object.entries(response.content).map(([contentType, content]) => (
                             <div key={contentType} className="mt-3">
                               <div className="text-sm mb-2">
-                                Content-Type: <code className="bg-[var(--grud-surface-alt)] dark:bg-[var(--grud-code-bg)] px-2 py-1 rounded text-xs">{contentType}</code>
+                                Content-Type: <code className="bg-[var(--docmate-surface-alt)] dark:bg-[var(--docmate-code-bg)] px-2 py-1 rounded text-xs">{contentType}</code>
                               </div>
                               {content.schema && renderJsonSchema(content.schema)}
                             </div>
@@ -450,9 +450,9 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                 <div>
                   <h4 className="text-lg font-semibold mb-4">Response</h4>
                   {testResponse.error ? (
-                    <div className="bg-[color-mix(in_srgb,var(--grud-error)_10%,transparent)] dark:bg-red-900/20 border border-[color-mix(in_srgb,var(--grud-error)_30%,transparent)] dark:border-red-800 rounded-lg p-4">
+                    <div className="bg-[color-mix(in_srgb,var(--docmate-error)_10%,transparent)] dark:bg-red-900/20 border border-[color-mix(in_srgb,var(--docmate-error)_30%,transparent)] dark:border-red-800 rounded-lg p-4">
                       <h5 className="font-medium text-red-800 dark:text-red-200 mb-2">Error</h5>
-                      <code className="text-sm text-[var(--grud-error)] dark:text-[var(--grud-error)]">{testResponse.error}</code>
+                      <code className="text-sm text-[var(--docmate-error)] dark:text-[var(--docmate-error)]">{testResponse.error}</code>
                     </div>
                   ) : (
                     <>

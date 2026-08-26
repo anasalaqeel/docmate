@@ -6,7 +6,7 @@
   padding: 16px 0;
   border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 8px;
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
 }
 
 .editHeader {
@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 16px 16px 16px;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
   margin-bottom: 16px;
 }
 
@@ -22,7 +22,7 @@
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .editActions {
@@ -70,21 +70,21 @@
 .endpoint {
   font-family: 'Courier New', monospace;
   font-size: 0.875rem;
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
   padding: 4px 8px;
   border-radius: 4px;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .operationTitle {
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 8px 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .operationDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
   line-height: 1.5;
 }
@@ -96,7 +96,7 @@
 }
 
 .operationDetails {
-  border-top: 1px solid var(--grud-border-color);
+  border-top: 1px solid var(--docmate-border-color);
   padding-top: 16px;
 }
 
@@ -105,12 +105,12 @@
 }
 
 .schemaDisplay {
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
   padding: 16px;
   border-radius: 6px;
   font-family: 'Courier New', monospace;
   font-size: 0.875rem;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   overflow-x: auto;
   margin: 0;
   white-space: pre-wrap;

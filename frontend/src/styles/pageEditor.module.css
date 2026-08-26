@@ -8,9 +8,9 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--grud-surface) !important;
-  border: 1px solid var(--grud-border-color) !important;
-  box-shadow: var(--grud-card-shadow) !important;
+  background: var(--docmate-surface) !important;
+  border: 1px solid var(--docmate-border-color) !important;
+  box-shadow: var(--docmate-card-shadow) !important;
 }
 
 .pageHeader {
@@ -18,19 +18,19 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .pageTitle {
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .pageSubtitle {
   font-size: 0.875rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 4px 0 0 0;
 }
 
@@ -83,7 +83,7 @@
 .contentDisplay {
   flex: 1;
   line-height: 1.6;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .contentDisplay p {
@@ -96,7 +96,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .operationsSection {
@@ -119,11 +119,11 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .emptyOperations p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
 }
 
@@ -140,17 +140,17 @@
 
 .operationName {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .operationEndpoint {
-  font-family: var(--grud-font-mono);
+  font-family: var(--docmate-font-mono);
   font-size: 0.8125rem;
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
   padding: 4px 10px;
   border-radius: 6px;
-  color: var(--grud-text-secondary);
-  border: 1px solid var(--grud-border-color);
+  color: var(--docmate-text-secondary);
+  border: 1px solid var(--docmate-border-color);
   margin-left: auto;
 }
 
@@ -162,22 +162,22 @@
 .contentHeading {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .contentBox {
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   border-radius: 8px;
   padding: 16px;
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
 }
 
 .contentText {
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .contentEmpty {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-style: italic;
 }
 
@@ -204,7 +204,7 @@
 }
 
 .buttonGradient {
-  background: var(--grud-gradient) !important;
+  background: var(--docmate-gradient) !important;
   color: white !important;
   border: none !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);

@@ -1,4 +1,4 @@
-# Grud Design System
+# Docmate Design System
 
 > Recorded from the shipped implementation (public docs view) via `/impeccable document`.
 > Previous "Technical Blueprint" spec described an identity that was never implemented;
@@ -10,7 +10,7 @@
 hierarchy and hairline borders, not decorative accents. No gradient text, no thick
 one-sided accent borders, no offset block shadows, no monospace-as-costume.
 
-**Runtime-token theming**: every color flows through `--grud-*` CSS custom properties
+**Runtime-token theming**: every color flows through `--docmate-*` CSS custom properties
 set by the admin theme system (`themeContext.tsx`) with fallbacks in
 `frontend/src/styles/theme.css`. No hard-coded palette colors in components.
 
@@ -25,24 +25,24 @@ admin branding):
 
 | Role | Token | Light fallback |
 |---|---|---|
-| Page background | `--grud-bg` | `#f8f7fb` |
-| Surface | `--grud-surface` | `#ffffff` |
-| Surface alt | `--grud-surface-alt` | `#f5f3fa` |
-| Text | `--grud-text` | `#1f1832` |
-| Text secondary | `--grud-text-secondary` | `#5d5573` |
-| Border | `--grud-border-color` | `rgba(30,20,50,0.1)` |
-| Primary / brand | `--grud-primary` | `#6d28d9` (refined violet) |
-| Secondary | `--grud-secondary` | `#4c1d95` |
-| Semantic | `--grud-success` / `--grud-warning` / `--grud-error` | `#12805c` / `#b45309` / `#b91c1c` |
+| Page background | `--docmate-bg` | `#f8f7fb` |
+| Surface | `--docmate-surface` | `#ffffff` |
+| Surface alt | `--docmate-surface-alt` | `#f5f3fa` |
+| Text | `--docmate-text` | `#1f1832` |
+| Text secondary | `--docmate-text-secondary` | `#5d5573` |
+| Border | `--docmate-border-color` | `rgba(30,20,50,0.1)` |
+| Primary / brand | `--docmate-primary` | `#6d28d9` (refined violet) |
+| Secondary | `--docmate-secondary` | `#4c1d95` |
+| Semantic | `--docmate-success` / `--docmate-warning` / `--docmate-error` | `#12805c` / `#b45309` / `#b91c1c` |
 
 The default (unbranded) palette is **Refined Violet**: violet primary on
 violet-tinted neutrals — premium developer-brand register. Dark mode uses a
 violet-tinted near-black (`#131022` family), not mechanically inverted slate.
 
-Code blocks are intentionally dark in both modes: `--grud-code-bg: #161b22`,
-`--grud-code-border: #30363d`, text `#e6edf3`, with the `github-dark` highlight theme.
+Code blocks are intentionally dark in both modes: `--docmate-code-bg: #161b22`,
+`--docmate-code-border: #30363d`, text `#e6edf3`, with the `github-dark` highlight theme.
 
-Tints derive via `color-mix(in srgb, var(--grud-primary) N%, transparent)` so custom
+Tints derive via `color-mix(in srgb, var(--docmate-primary) N%, transparent)` so custom
 branding flows through hover/active states automatically.
 
 ## Typography
@@ -100,7 +100,7 @@ current crumb `aria-current="page"`); prev/next cards with destination titles;
 "You've reached the end" closure note on the last page.
 
 ### Markdown content
-All renderer classes use `--grud-*` tokens (text, borders, table headers, inline
+All renderer classes use `--docmate-*` tokens (text, borders, table headers, inline
 code, blockquote with 2px primary left rule). Skip link to `<main id="docs-main">`.
 
 ## Interaction States

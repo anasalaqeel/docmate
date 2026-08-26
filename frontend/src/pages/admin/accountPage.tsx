@@ -120,15 +120,15 @@ const AccountPage = () => {
         <div className="flex items-center gap-3 mb-2">
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
-            style={{ background: "var(--grud-primary)" }}
+            style={{ background: "var(--docmate-primary)" }}
           >
             <UserIcon className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold" style={{ color: "var(--grud-text)" }}>
+            <h1 className="text-3xl font-bold" style={{ color: "var(--docmate-text)" }}>
               My Account
             </h1>
-            <p className="mt-1" style={{ color: "var(--grud-text-secondary)" }}>
+            <p className="mt-1" style={{ color: "var(--docmate-text-secondary)" }}>
               Manage your account settings and preferences
             </p>
           </div>
@@ -138,21 +138,21 @@ const AccountPage = () => {
       {/* Profile Information Card */}
       <Card
         style={{
-          background: "var(--grud-surface)",
+          background: "var(--docmate-surface)",
           borderRadius: "16px",
-          boxShadow: "var(--grud-card-shadow)",
+          boxShadow: "var(--docmate-card-shadow)",
         }}
       >
         <CardHeader className="flex gap-3 px-6 pb-4">
           <div
             className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: "rgba(var(--grud-primary-rgb), 0.1)" }}
+            style={{ background: "rgba(var(--docmate-primary-rgb), 0.1)" }}
           >
-            <UserIcon className="w-5 h-5" style={{ color: "var(--grud-primary)" }} />
+            <UserIcon className="w-5 h-5" style={{ color: "var(--docmate-primary)" }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold">Profile Information</h2>
-            <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+            <p className="text-sm" style={{ color: "var(--docmate-text-secondary)" }}>
               Your personal account details
             </p>
           </div>
@@ -164,7 +164,7 @@ const AccountPage = () => {
             <div className="space-y-2">
               <div
                 className="flex items-center gap-2 text-sm font-medium"
-                style={{ color: "var(--grud-text-secondary)" }}
+                style={{ color: "var(--docmate-text-secondary)" }}
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Full Name</span>
@@ -176,12 +176,12 @@ const AccountPage = () => {
             <div className="space-y-2">
               <div
                 className="flex items-center gap-2 text-sm font-medium"
-                style={{ color: "var(--grud-text-secondary)" }}
+                style={{ color: "var(--docmate-text-secondary)" }}
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Username</span>
               </div>
-              <p className="text-lg font-semibold pl-6" style={{ color: "var(--grud-primary)" }}>
+              <p className="text-lg font-semibold pl-6" style={{ color: "var(--docmate-primary)" }}>
                 @{user.username}
               </p>
             </div>
@@ -190,7 +190,7 @@ const AccountPage = () => {
             <div className="space-y-2">
               <div
                 className="flex items-center gap-2 text-sm font-medium"
-                style={{ color: "var(--grud-text-secondary)" }}
+                style={{ color: "var(--docmate-text-secondary)" }}
               >
                 <EnvelopeIcon className="w-4 h-4" />
                 <span>Email Address</span>
@@ -202,7 +202,7 @@ const AccountPage = () => {
             <div className="space-y-2 md:col-span-2">
               <div
                 className="flex items-center gap-2 text-sm font-medium"
-                style={{ color: "var(--grud-text-secondary)" }}
+                style={{ color: "var(--docmate-text-secondary)" }}
               >
                 <ShieldCheckIcon className="w-4 h-4" />
                 <span>Assigned Roles</span>
@@ -232,21 +232,21 @@ const AccountPage = () => {
       {/* Change Password Card */}
       <Card
         style={{
-          background: "var(--grud-surface)",
+          background: "var(--docmate-surface)",
           borderRadius: "16px",
-          boxShadow: "var(--grud-card-shadow)",
+          boxShadow: "var(--docmate-card-shadow)",
         }}
       >
         <CardHeader className="flex gap-3 px-6 pb-4">
           <div
             className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: "rgba(var(--grud-error-rgb), 0.1)" }}
+            style={{ background: "rgba(var(--docmate-error-rgb), 0.1)" }}
           >
-            <KeyIcon className="w-5 h-5" style={{ color: "var(--grud-error)" }} />
+            <KeyIcon className="w-5 h-5" style={{ color: "var(--docmate-error)" }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold">Change Password</h2>
-            <p className="text-sm" style={{ color: "var(--grud-text-secondary)" }}>
+            <p className="text-sm" style={{ color: "var(--docmate-text-secondary)" }}>
               Update your password to keep your account secure
             </p>
           </div>

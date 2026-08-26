@@ -343,7 +343,7 @@ const DocsEditorPage = () => {
             startContent={<span>📁</span>}
             textValue={item.title}
           >
-            <div className="flex items-center gap-2" style={{ paddingLeft: `${level * 12}px`, color: 'var(--grud-text)' }}>
+            <div className="flex items-center gap-2" style={{ paddingLeft: `${level * 12}px`, color: 'var(--docmate-text)' }}>
               <span>{item.title}</span>
             </div>
           </SelectItem>
@@ -406,14 +406,14 @@ const DocsEditorPage = () => {
             documentTitle={doc.title} 
             size="sm" 
             variant="flat" 
-            className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all" 
+            className="bg-[var(--docmate-surface-alt)] border-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)] hover:bg-[var(--docmate-border-color)] transition-all" 
           />
           <ImportButton
             documentId={doc.id}
             onImportSuccess={() => fetchDocumentation()}
             size="sm"
             variant="flat"
-            className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+            className="bg-[var(--docmate-surface-alt)] border-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)] hover:bg-[var(--docmate-border-color)] transition-all"
           />
           <Button
             onPress={() => openCreateModal()}
@@ -724,10 +724,10 @@ const DocsEditorPage = () => {
         backdrop="blur"
         placement="center"
         classNames={{
-          base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-          header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-          footer: "border-t border-[var(--grud-border-color)]",
-          closeButton: "hover:bg-[var(--grud-surface-alt)]"
+          base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+          header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+          footer: "border-t border-[var(--docmate-border-color)]",
+          closeButton: "hover:bg-[var(--docmate-surface-alt)]"
         }}
       >
         <ModalContent>
@@ -751,9 +751,9 @@ const DocsEditorPage = () => {
                     onChange={(e) => setNewItemData((prev) => ({ ...prev, title: e.target.value }))}
                     variant="bordered"
                     classNames={{
-                      inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                      input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                      label: "text-[var(--grud-text)]"
+                      inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                      input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                      label: "text-[var(--docmate-text)]"
                     }}
                   />
 
@@ -769,19 +769,19 @@ const DocsEditorPage = () => {
                         }}
                         variant="bordered"
                         classNames={{
-                          trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] bg-[var(--grud-surface-alt)]",
-                          value: "text-[var(--grud-text)]",
-                          label: "text-[var(--grud-text)]"
+                          trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] bg-[var(--docmate-surface-alt)]",
+                          value: "text-[var(--docmate-text)]",
+                          label: "text-[var(--docmate-text)]"
                         }}
                         popoverProps={{
                           classNames: {
-                            content: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)] shadow-xl p-0",
+                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
                           }
                         }}
                         listboxProps={{
                           itemClasses: {
-                            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--grud-surface-alt)] data-[selectable=true]:focus:bg-[var(--grud-surface-alt)]",
-                            title: "font-medium text-sm flex-1 text-[var(--grud-text)]",
+                            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
+                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
                           }
                         }}
                       >
@@ -827,19 +827,19 @@ const DocsEditorPage = () => {
                         }}
                         variant="bordered"
                         classNames={{
-                          trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] bg-[var(--grud-surface-alt)]",
-                          value: "text-[var(--grud-text)]",
-                          label: "text-[var(--grud-text)]"
+                          trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] bg-[var(--docmate-surface-alt)]",
+                          value: "text-[var(--docmate-text)]",
+                          label: "text-[var(--docmate-text)]"
                         }}
                         popoverProps={{
                           classNames: {
-                            content: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)] shadow-xl p-0",
+                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
                           }
                         }}
                         listboxProps={{
                           itemClasses: {
-                            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--grud-surface-alt)] data-[selectable=true]:focus:bg-[var(--grud-surface-alt)]",
-                            title: "font-medium text-sm flex-1 text-[var(--grud-text)]",
+                            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
+                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
                           }
                         }}
                       >

@@ -1,6 +1,6 @@
-# Grud Backend
+# Docmate Backend
 
-The API server for Grud, built with **Bun.js** and **Hono**.
+The API server for Docmate, built with **Bun.js** and **Hono**.
 
 ## Tech Stack
 -   **Runtime:** [Bun](https://bun.sh/)

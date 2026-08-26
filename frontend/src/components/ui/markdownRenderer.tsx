@@ -115,29 +115,29 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         components={{
-          p: (props: React.ComponentPropsWithoutRef<'p'>) => <p className="mb-4 leading-relaxed text-[var(--grud-text)]" {...props} />,
-          h1: (props: React.ComponentPropsWithoutRef<'h1'>) => <h1 className="text-3xl font-bold mb-6 mt-8 border-b pb-2 border-[var(--grud-border-color)] text-[var(--grud-text)]" {...props} />,
-          h2: (props: React.ComponentPropsWithoutRef<'h2'>) => <h2 className="text-2xl font-bold mb-4 mt-6 border-b pb-1 border-[var(--grud-border-color)] text-[var(--grud-text)]" {...props} />,
-          h3: (props: React.ComponentPropsWithoutRef<'h3'>) => <h3 className="text-xl font-bold mb-3 mt-4 text-[var(--grud-text)]" {...props} />,
+          p: (props: React.ComponentPropsWithoutRef<'p'>) => <p className="mb-4 leading-relaxed text-[var(--docmate-text)]" {...props} />,
+          h1: (props: React.ComponentPropsWithoutRef<'h1'>) => <h1 className="text-3xl font-bold mb-6 mt-8 border-b pb-2 border-[var(--docmate-border-color)] text-[var(--docmate-text)]" {...props} />,
+          h2: (props: React.ComponentPropsWithoutRef<'h2'>) => <h2 className="text-2xl font-bold mb-4 mt-6 border-b pb-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)]" {...props} />,
+          h3: (props: React.ComponentPropsWithoutRef<'h3'>) => <h3 className="text-xl font-bold mb-3 mt-4 text-[var(--docmate-text)]" {...props} />,
           ul: (props: React.ComponentPropsWithoutRef<'ul'>) => <ul className="list-disc list-inside mb-4 space-y-2" {...props} />,
           ol: (props: React.ComponentPropsWithoutRef<'ol'>) => <ol className="list-decimal list-inside mb-4 space-y-2" {...props} />,
           li: (props: React.ComponentPropsWithoutRef<'li'>) => <li className="ml-4" {...props} />,
           blockquote: (props: React.ComponentPropsWithoutRef<'blockquote'>) => (
-            <blockquote className="border-l-2 border-[color-mix(in_srgb,var(--grud-primary)_45%,transparent)] pl-4 py-2 my-4 italic bg-[var(--grud-surface-alt)] text-[var(--grud-text)]" {...props} />
+            <blockquote className="border-l-2 border-[color-mix(in_srgb,var(--docmate-primary)_45%,transparent)] pl-4 py-2 my-4 italic bg-[var(--docmate-surface-alt)] text-[var(--docmate-text)]" {...props} />
           ),
           table: (props: React.ComponentPropsWithoutRef<'table'>) => (
-            <div className="overflow-x-auto my-6 border rounded-lg border-[var(--grud-border-color)]">
-              <table className="min-w-full divide-y divide-[var(--grud-border-color)]" {...props} />
+            <div className="overflow-x-auto my-6 border rounded-lg border-[var(--docmate-border-color)]">
+              <table className="min-w-full divide-y divide-[var(--docmate-border-color)]" {...props} />
             </div>
           ),
-          thead: (props: React.ComponentPropsWithoutRef<'thead'>) => <thead className="bg-[var(--grud-surface-alt)]" {...props} />,
-          th: (props: React.ComponentPropsWithoutRef<'th'>) => <th className="px-4 py-2 text-left text-xs font-medium text-[var(--grud-text-secondary)] uppercase tracking-wider" {...props} />,
-          td: (props: React.ComponentPropsWithoutRef<'td'>) => <td className="px-4 py-2 whitespace-nowrap text-sm border-t border-[var(--grud-border-color)]" {...props} />,
+          thead: (props: React.ComponentPropsWithoutRef<'thead'>) => <thead className="bg-[var(--docmate-surface-alt)]" {...props} />,
+          th: (props: React.ComponentPropsWithoutRef<'th'>) => <th className="px-4 py-2 text-left text-xs font-medium text-[var(--docmate-text-secondary)] uppercase tracking-wider" {...props} />,
+          td: (props: React.ComponentPropsWithoutRef<'td'>) => <td className="px-4 py-2 whitespace-nowrap text-sm border-t border-[var(--docmate-border-color)]" {...props} />,
           a: ({ ...props }: React.ComponentPropsWithoutRef<'a'>) => {
             const isExternal = props.href?.startsWith("http");
             return (
               <a
-                className="text-[var(--grud-primary)] hover:opacity-80 underline transition-opacity font-medium"
+                className="text-[var(--docmate-primary)] hover:opacity-80 underline transition-opacity font-medium"
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 {...props}
@@ -158,7 +158,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
             if (!isBlock) {
               return (
                 <code
-                  className="bg-[var(--grud-surface-alt)] px-1.5 py-0.5 rounded text-sm font-mono text-[var(--grud-primary)]"
+                  className="bg-[var(--docmate-surface-alt)] px-1.5 py-0.5 rounded text-sm font-mono text-[var(--docmate-primary)]"
                   {...props}
                 >
                   {children}
@@ -190,7 +190,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
               <div className="relative group my-6">
                 <CopyButton text={codeText} />
                 <pre
-                  className={`bg-[var(--grud-code-bg)] text-[#e6edf3] rounded-xl overflow-x-auto p-4 border border-[var(--grud-code-border)] ${props.className || ""}`}
+                  className={`bg-[var(--docmate-code-bg)] text-[#e6edf3] rounded-xl overflow-x-auto p-4 border border-[var(--docmate-code-border)] ${props.className || ""}`}
                   {...props}
                 >
                   {children}
@@ -329,8 +329,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
           );
         } else if (idMatch) {
           parts.push(
-            <div key={`operation-ref-${index}`} className="my-4 p-4 border border-[var(--grud-border-color)] rounded bg-[var(--grud-surface-alt)]">
-              <p className="text-[var(--grud-text-secondary)] animate-pulse">Loading API operation…</p>
+            <div key={`operation-ref-${index}`} className="my-4 p-4 border border-[var(--docmate-border-color)] rounded bg-[var(--docmate-surface-alt)]">
+              <p className="text-[var(--docmate-text-secondary)] animate-pulse">Loading API operation…</p>
             </div>
           );
         }

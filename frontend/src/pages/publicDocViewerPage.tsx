@@ -200,14 +200,14 @@ const PublicDocViewerPage = () => {
         {loadError === "not-found" ? (
           <>
             <h2 className="text-2xl font-bold">Documentation not found</h2>
-            <p className="text-[var(--grud-text-secondary)]">
+            <p className="text-[var(--docmate-text-secondary)]">
               This documentation doesn’t exist or isn’t public.
             </p>
           </>
         ) : (
           <>
             <h2 className="text-2xl font-bold">Couldn’t load this documentation</h2>
-            <p className="text-[var(--grud-text-secondary)]">
+            <p className="text-[var(--docmate-text-secondary)]">
               The request failed — check your connection and try again.
             </p>
           </>
@@ -265,7 +265,7 @@ const PublicDocViewerPage = () => {
                       documentTitle={doc.title}
                       size="sm"
                       variant="flat"
-                      className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                      className="bg-[var(--docmate-surface-alt)] border-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)] hover:bg-[var(--docmate-border-color)] transition-all"
                     />
                   </div>
                   <h1
@@ -349,7 +349,7 @@ const PublicDocViewerPage = () => {
                   documentTitle={doc.title}
                   size="md"
                   variant="flat"
-                  className="bg-[var(--grud-surface-alt)] border-1 border-[var(--grud-border-color)] text-[var(--grud-text)] hover:bg-[var(--grud-border-color)] transition-all"
+                  className="bg-[var(--docmate-surface-alt)] border-1 border-[var(--docmate-border-color)] text-[var(--docmate-text)] hover:bg-[var(--docmate-border-color)] transition-all"
                 />
               </div>
               <p className={styles.welcomeText}>

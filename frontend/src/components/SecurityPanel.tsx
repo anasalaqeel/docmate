@@ -87,10 +87,10 @@ export default function SecurityPanel() {
   return (
     <div className="space-y-6">
       {/* User Registration */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <UserGroupIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <UserGroupIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">User Registration</h3>
           </div>
 
@@ -98,7 +98,7 @@ export default function SecurityPanel() {
             <Switch isSelected={registrationEnabled} onValueChange={updateRegistrationEnabled}>
               Enable User Registration
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Allow new users to register for an account
             </p>
 
@@ -109,7 +109,7 @@ export default function SecurityPanel() {
             >
               Require Email Verification
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Require users to verify their email address before accessing the system
             </p>
 
@@ -120,7 +120,7 @@ export default function SecurityPanel() {
             >
               Require Admin Approval
             </Switch>
-            <p className="text-sm mt-1" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-sm mt-1" style={{ color: 'var(--docmate-text-secondary)' }}>
               Require administrator approval for new user accounts
             </p>
 
@@ -134,16 +134,16 @@ export default function SecurityPanel() {
                   variant="bordered"
                   isDisabled={!registrationEnabled || loadingRoles}
                   classNames={{
-                    trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                    value: "text-[var(--grud-text)]",
-                    label: "text-[var(--grud-text)]"
+                    trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                    value: "text-[var(--docmate-text)]",
+                    label: "text-[var(--docmate-text)]"
                   }}
                 >
                   {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
                 </Select>
             ) : (
-              <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--grud-border-color)', background: 'var(--grud-surface-alt)' }}>
-                <p className="text-center" style={{ color: 'var(--grud-text-secondary)' }}>
+              <div className="p-4 border rounded-lg" style={{ borderColor: 'var(--docmate-border-color)', background: 'var(--docmate-surface-alt)' }}>
+                <p className="text-center" style={{ color: 'var(--docmate-text-secondary)' }}>
                   {loadingRoles ? "Loading roles..." : "No roles available. Please contact your administrator to set up user roles."}
                 </p>
               </div>
@@ -153,16 +153,16 @@ export default function SecurityPanel() {
       </Card>
 
       {/* Session Management */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <ClockIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <ClockIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Session Management</h3>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Session Timeout (minutes)</label>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Session Timeout (minutes)</label>
               <Input
                 type="number"
                 value={sessionTimeout?.toString() ?? ""}
@@ -173,15 +173,15 @@ export default function SecurityPanel() {
                 min={5}
                 max={1440}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  description: "text-[var(--grud-text-secondary)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  description: "text-[var(--docmate-text-secondary)]"
                 }}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Maximum Sessions Per User</label>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Maximum Sessions Per User</label>
               <Input
                 type="number"
                 value={maxSessionsPerUser?.toString() ?? ""}
@@ -192,9 +192,9 @@ export default function SecurityPanel() {
                 min={1}
                 max={10}
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  description: "text-[var(--grud-text-secondary)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  description: "text-[var(--docmate-text-secondary)]"
                 }}
               />
             </div>
@@ -210,10 +210,10 @@ export default function SecurityPanel() {
       </Card>
 
       {/* Security Recommendations */}
-      <Card className="bg-[var(--grud-surface)] border-[var(--grud-border-color)] border shadow-sm">
+      <Card className="bg-[var(--docmate-surface)] border-[var(--docmate-border-color)] border shadow-sm">
         <CardBody className="space-y-4 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <ShieldCheckIcon className="w-5 h-5" style={{ color: 'var(--grud-primary)' }} />
+            <ShieldCheckIcon className="w-5 h-5" style={{ color: 'var(--docmate-primary)' }} />
             <h3 className="text-lg font-semibold">Security Recommendations</h3>
           </div>
 
@@ -228,7 +228,7 @@ export default function SecurityPanel() {
               </Chip>
               <div>
                 <p className="text-sm font-medium">Email Verification</p>
-                <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>
+                <p className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>
                   {requireEmailVerification
                     ? "Email verification is enabled, helping prevent fake accounts."
                     : "Consider enabling email verification to reduce fake account creation."}
@@ -242,7 +242,7 @@ export default function SecurityPanel() {
               </Chip>
               <div>
                 <p className="text-sm font-medium">Admin Approval</p>
-                <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>
+                <p className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>
                   {adminApprovalRequired
                     ? "Admin approval is enabled for maximum control."
                     : "Enable admin approval for sensitive environments."}
@@ -264,7 +264,7 @@ export default function SecurityPanel() {
               </Chip>
               <div>
                 <p className="text-sm font-medium">Session Timeout</p>
-                <p className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>
+                <p className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>
                   {!sessionTimeout || (typeof sessionTimeout === "number" && sessionTimeout <= 120)
                     ? "Session timeout is properly configured for security."
                     : "Consider reducing session timeout for better security."}

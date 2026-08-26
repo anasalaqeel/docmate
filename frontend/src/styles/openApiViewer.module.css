@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   padding: 3rem 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .noSpec {
@@ -16,9 +16,9 @@
 }
 
 .emptyCard {
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .header {
@@ -27,19 +27,19 @@
   align-items: flex-start;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .headerInfo h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .headerInfo p {
   margin-bottom: 0.75rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .headerMeta {
@@ -57,7 +57,7 @@
 }
 
 .tabs :global([data-slot="cursor"]) {
-  background: var(--grud-gradient);
+  background: var(--docmate-gradient);
 }
 
 .tabs :global([data-slot="tab-list"]) {
@@ -79,15 +79,15 @@
 
 .pathCard {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--grud-surface);
-  border: 1px solid var(--grud-border-color);
-  box-shadow: var(--grud-card-shadow);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .pathCard:hover {
   transform: translateY(-2px);
-  border-color: var(--grud-primary);
-  box-shadow: var(--grud-card-shadow);
+  border-color: var(--docmate-primary);
+  box-shadow: var(--docmate-card-shadow);
 }
 
 .pathTitle {
@@ -96,14 +96,14 @@
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  color: var(--grud-text);
-  background-color: var(--grud-surface-alt);
+  color: var(--docmate-text);
+  background-color: var(--docmate-surface-alt);
 }
 
 .operation {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .operation:last-child {
@@ -126,13 +126,13 @@
 
 .operationSummary {
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .operationDescription {
   font-size: 0.875rem;
   margin-bottom: 0.75rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .operationDetails {
@@ -151,16 +151,16 @@
   gap: 0.75rem;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background-color: var(--grud-surface-alt);
-  border: 1px solid var(--grud-border-color);
+  background-color: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
 }
 
 .paramType {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   border-radius: 0.375rem;
-  color: var(--grud-text-secondary);
-  background-color: var(--grud-border-color);
+  color: var(--docmate-text-secondary);
+  background-color: var(--docmate-border-color);
 }
 
 .responses {
@@ -175,21 +175,21 @@
   padding: 0.75rem 1rem;
   margin: 0.25rem 0;
   transition: all 0.2s ease;
-  background-color: var(--grud-surface-alt);
-  color: var(--grud-text);
-  border: 1px solid var(--grud-border-color);
+  background-color: var(--docmate-surface-alt);
+  color: var(--docmate-text);
+  border: 1px solid var(--docmate-border-color);
 }
 
 .accordion:hover {
-  background-color: var(--grud-surface);
-  border-color: var(--grud-primary);
+  background-color: var(--docmate-surface);
+  border-color: var(--docmate-primary);
 }
 
 .response {
   padding: 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--grud-border-color);
-  background-color: var(--grud-surface);
+  border: 1px solid var(--docmate-border-color);
+  background-color: var(--docmate-surface);
 }
 
 .responseHeader {
@@ -214,8 +214,8 @@
 
 
 .schemaCard {
-  border: 1px solid var(--grud-border-color);
-  background-color: var(--grud-surface);
+  border: 1px solid var(--docmate-border-color);
+  background-color: var(--docmate-surface);
 }
 
 .servers {
@@ -227,8 +227,8 @@
 
 
 .serverCard {
-  border: 1px solid var(--grud-border-color);
-  background-color: var(--grud-surface);
+  border: 1px solid var(--docmate-border-color);
+  background-color: var(--docmate-surface);
 }
 
 .testInterface {
@@ -243,7 +243,7 @@
   gap: 0.75rem;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background-color: var(--grud-surface-alt);
+  background-color: var(--docmate-surface-alt);
 }
 
 .testInputs {
@@ -255,7 +255,7 @@
 .paramSection h5 {
   font-weight: 600;
   margin-bottom: 0.75rem;
-  color: var(--grud-text);
+  color: var(--docmate-text);
 }
 
 .paramSection {
@@ -316,7 +316,7 @@
 }
 
 .buttonGradient {
-  background: var(--grud-gradient) !important;
+  background: var(--docmate-gradient) !important;
   color: white !important;
   border: none !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -330,5 +330,5 @@
 }
 
 .errorBorder {
-  border-color: var(--grud-error) !important;
+  border-color: var(--docmate-error) !important;
 }

@@ -381,7 +381,7 @@ const SidebarManager = ({
     return (
       <Dropdown
         classNames={{
-          content: "min-w-[180px] p-2 shadow-xl border border-[var(--grud-border-color)] bg-[var(--grud-surface)]",
+          content: "min-w-[180px] p-2 shadow-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface)]",
         }}
       >
         <DropdownTrigger>
@@ -399,9 +399,9 @@ const SidebarManager = ({
         <DropdownMenu
           aria-label="Item actions"
           itemClasses={{
-            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--grud-surface-alt)]",
-            title: "font-medium text-sm flex-1 text-[var(--grud-text)]",
-            description: "text-xs text-[var(--grud-text-secondary)] flex-1",
+            base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)]",
+            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
+            description: "text-xs text-[var(--docmate-text-secondary)] flex-1",
           }}
           classNames={{
             base: "p-1"
@@ -409,15 +409,15 @@ const SidebarManager = ({
         >
           {actionItems.map((actionItem) => {
             const colorClasses = {
-              danger: "text-[var(--grud-error)]",
-              primary: "text-[var(--grud-primary)]",
-              success: "text-[var(--grud-success)]"
+              danger: "text-[var(--docmate-error)]",
+              primary: "text-[var(--docmate-primary)]",
+              success: "text-[var(--docmate-success)]"
             };
 
             const iconColorClasses = {
-              danger: "bg-[var(--grud-error)]/10 text-[var(--grud-error)]",
-              primary: "bg-[var(--grud-primary)]/10 text-[var(--grud-primary)]",
-              success: "bg-[var(--grud-success)]/10 text-[var(--grud-success)]"
+              danger: "bg-[var(--docmate-error)]/10 text-[var(--docmate-error)]",
+              primary: "bg-[var(--docmate-primary)]/10 text-[var(--docmate-primary)]",
+              success: "bg-[var(--docmate-success)]/10 text-[var(--docmate-success)]"
             };
 
             return (
@@ -448,24 +448,24 @@ const SidebarManager = ({
         {items.length === 0 ? (
           <div className={styles.empty}>
             <div className="relative mb-8">
-              <div className="absolute inset-0 blur-3xl opacity-30 bg-[var(--grud-gradient)] rounded-full scale-150"></div>
+              <div className="absolute inset-0 blur-3xl opacity-30 bg-[var(--docmate-gradient)] rounded-full scale-150"></div>
               <div className="relative">
                 <div className="text-8xl mb-4 animate-pulse">📚</div>
-                <div className="text-2xl font-light" style={{ color: 'var(--grud-text-secondary)', opacity: 0.4 }}>Start building</div>
+                <div className="text-2xl font-light" style={{ color: 'var(--docmate-text-secondary)', opacity: 0.4 }}>Start building</div>
               </div>
             </div>
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold" style={{ color: 'var(--grud-text)' }}>Create your first page</h3>
-              <p className="text-sm leading-relaxed max-w-[240px] mx-auto" style={{ color: 'var(--grud-text-secondary)' }}>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--docmate-text)' }}>Create your first page</h3>
+              <p className="text-sm leading-relaxed max-w-[240px] mx-auto" style={{ color: 'var(--docmate-text-secondary)' }}>
                 Organize your documentation with pages, folders, and dividers
               </p>
               <div className="flex flex-col gap-2 mt-6">
                 <div 
                   className="flex items-center gap-3 text-xs rounded-lg p-3"
-                  style={{ color: 'var(--grud-text-secondary)', background: 'var(--grud-surface-alt)', opacity: 0.8 }}
+                  style={{ color: 'var(--docmate-text-secondary)', background: 'var(--docmate-surface-alt)', opacity: 0.8 }}
                 >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--grud-primary), transparent 90%)' }}>
-                    <svg className="w-4 h-4" style={{ color: 'var(--grud-primary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--docmate-primary), transparent 90%)' }}>
+                    <svg className="w-4 h-4" style={{ color: 'var(--docmate-primary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                   </div>
@@ -473,10 +473,10 @@ const SidebarManager = ({
                 </div>
                 <div 
                   className="flex items-center gap-3 text-xs rounded-lg p-3"
-                  style={{ color: 'var(--grud-text-secondary)', background: 'var(--grud-surface-alt)', opacity: 0.8 }}
+                  style={{ color: 'var(--docmate-text-secondary)', background: 'var(--docmate-surface-alt)', opacity: 0.8 }}
                 >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--grud-secondary), transparent 90%)' }}>
-                    <svg className="w-4 h-4" style={{ color: 'var(--grud-secondary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--docmate-secondary), transparent 90%)' }}>
+                    <svg className="w-4 h-4" style={{ color: 'var(--docmate-secondary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                   </div>
@@ -494,9 +494,9 @@ const SidebarManager = ({
               selectedNodeId={selectedItem?.id ?? null}
               dragDropConfig={dragDropConfig}
               classNames={{
-                node: "data-[selected=false]:hover:bg-[var(--grud-surface-alt)] data-[selected=true]:bg-[var(--grud-surface-alt)] data-[selected=true]:border-[var(--grud-primary)]/30 border border-transparent transition-all duration-200",
-                nodeLabel: "group-data-[selected=true]:font-bold group-data-[selected=true]:text-[var(--grud-primary)] text-[var(--grud-text)]",
-                nodeIcon: "group-data-[selected=true]:text-[var(--grud-primary)]"
+                node: "data-[selected=false]:hover:bg-[var(--docmate-surface-alt)] data-[selected=true]:bg-[var(--docmate-surface-alt)] data-[selected=true]:border-[var(--docmate-primary)]/30 border border-transparent transition-all duration-200",
+                nodeLabel: "group-data-[selected=true]:font-bold group-data-[selected=true]:text-[var(--docmate-primary)] text-[var(--docmate-text)]",
+                nodeIcon: "group-data-[selected=true]:text-[var(--docmate-primary)]"
               }}
             />
           </div>
@@ -510,10 +510,10 @@ const SidebarManager = ({
         placement="center"
         backdrop="blur"
         classNames={{
-          base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-          header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-          footer: "border-t border-[var(--grud-border-color)]",
-          closeButton: "hover:bg-[var(--grud-surface-alt)]"
+          base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+          header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+          footer: "border-t border-[var(--docmate-border-color)]",
+          closeButton: "hover:bg-[var(--docmate-surface-alt)]"
         }}
       >
         <ModalContent>
@@ -536,7 +536,7 @@ const SidebarManager = ({
                       variant="bordered"
                       classNames={{
                         input: "text-sm font-medium",
-                        inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)] transition-colors"
+                        inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)] transition-colors"
                       }}
                       startContent={
                         <span className="text-lg">{modalState.formData.icon || (modalState.editingItem && getItemIcon(modalState.editingItem))}</span>
@@ -555,17 +555,17 @@ const SidebarManager = ({
                       }}
                       variant="bordered"
                       classNames={{
-                        trigger: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)] transition-colors"
+                        trigger: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)] transition-colors"
                       }}
                       popoverProps={{
                         classNames: {
-                          content: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)] shadow-xl p-0",
+                          content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
                         }
                       }}
                       listboxProps={{
                         itemClasses: {
-                          base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--grud-surface-alt)] data-[selectable=true]:focus:bg-[var(--grud-surface-alt)]",
-                          title: "font-medium text-sm flex-1 text-[var(--grud-text)]",
+                          base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
+                          title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
                         }
                       }}
                     >
@@ -589,7 +589,7 @@ const SidebarManager = ({
                       placeholder="e.g., 📝, 🎨, 🚀, 💡"
                       description="Add an emoji icon to personalize your item"
                       classNames={{
-                        inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus:border-[var(--grud-primary)] transition-colors"
+                        inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus:border-[var(--docmate-primary)] transition-colors"
                       }}
                     />
                   </div>
@@ -629,10 +629,10 @@ const SidebarManager = ({
         placement="center"
         backdrop="blur"
         classNames={{
-          base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-          header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-          footer: "border-t border-[var(--grud-border-color)]",
-          closeButton: "hover:bg-[var(--grud-surface-alt)]"
+          base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+          header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+          footer: "border-t border-[var(--docmate-border-color)]",
+          closeButton: "hover:bg-[var(--docmate-surface-alt)]"
         }}
       >
         <ModalContent>
@@ -640,46 +640,46 @@ const SidebarManager = ({
             <>
               <ModalHeader className="flex flex-col gap-1 pb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-full" style={{ background: 'color-mix(in srgb, var(--grud-warning), transparent 90%)' }}>
+                  <div className="p-2 rounded-full" style={{ background: 'color-mix(in srgb, var(--docmate-warning), transparent 90%)' }}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={2}
                       stroke="currentColor"
-                      style={{ color: 'var(--grud-warning)' }}
+                      style={{ color: 'var(--docmate-warning)' }}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold" style={{ color: 'var(--grud-text)' }}>Move to Trash</h3>
+                  <h3 className="text-lg font-semibold" style={{ color: 'var(--docmate-text)' }}>Move to Trash</h3>
                 </div>
               </ModalHeader>
               <ModalBody className="py-4">
                 <div className="flex flex-col gap-4">
                   <div 
                     className="flex flex-col gap-3 p-4 rounded-xl border"
-                    style={{ background: 'color-mix(in srgb, var(--grud-warning), transparent 95%)', borderColor: 'color-mix(in srgb, var(--grud-warning), transparent 80%)' }}
+                    style={{ background: 'color-mix(in srgb, var(--docmate-warning), transparent 95%)', borderColor: 'color-mix(in srgb, var(--docmate-warning), transparent 80%)' }}
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{modalState.itemToDelete && getItemIcon(modalState.itemToDelete)}</span>
                       <div>
-                        <p className="text-base font-semibold" style={{ color: 'var(--grud-warning)' }}>
+                        <p className="text-base font-semibold" style={{ color: 'var(--docmate-warning)' }}>
                           "{modalState.itemToDelete?.title}"
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: 'var(--grud-warning)' }}>
+                        <p className="text-xs mt-0.5" style={{ color: 'var(--docmate-warning)' }}>
                           Type: {modalState.itemToDelete?.type}
                         </p>
                       </div>
                     </div>
                     {modalState.itemToDelete?.children && modalState.itemToDelete.children.length > 0 && (
                       <div className="flex items-center gap-2 mt-2 pl-10">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--grud-warning), transparent 80%)' }}>
-                          <svg className="w-3 h-3" style={{ color: 'var(--grud-warning)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--docmate-warning), transparent 80%)' }}>
+                          <svg className="w-3 h-3" style={{ color: 'var(--docmate-warning)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                           </svg>
                         </div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--grud-warning)' }}>
+                        <p className="text-sm font-medium" style={{ color: 'var(--docmate-warning)' }}>
                           {modalState.itemToDelete.children.length} child item{modalState.itemToDelete.children.length > 1 ? "s" : ""} will also be moved to trash
                         </p>
                       </div>
@@ -687,16 +687,16 @@ const SidebarManager = ({
                   </div>
                   <div 
                     className="flex items-start gap-3 p-4 rounded-xl border"
-                    style={{ background: 'var(--grud-surface-alt)', borderColor: 'var(--grud-border-color)' }}
+                    style={{ background: 'var(--docmate-surface-alt)', borderColor: 'var(--docmate-border-color)' }}
                   >
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: 'color-mix(in srgb, var(--grud-primary), transparent 90%)' }}>
-                      <svg className="w-3 h-3" style={{ color: 'var(--grud-primary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: 'color-mix(in srgb, var(--docmate-primary), transparent 90%)' }}>
+                      <svg className="w-3 h-3" style={{ color: 'var(--docmate-primary)' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-medium mb-1" style={{ color: 'var(--grud-text)' }}>Item will be moved to trash</p>
-                      <p className="text-xs leading-relaxed" style={{ color: 'var(--grud-text-secondary)' }}>
+                      <p className="text-sm font-medium mb-1" style={{ color: 'var(--docmate-text)' }}>Item will be moved to trash</p>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--docmate-text-secondary)' }}>
                         This item will no longer be visible in your documentation or folder structure. You can restore it later from the Trash tab if needed.
                       </p>
                     </div>

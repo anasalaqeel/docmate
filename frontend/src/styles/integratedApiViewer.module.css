@@ -12,21 +12,21 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 .noSelection h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 1rem 0;
 }
 
 /* Page Header */
 .pageHeader {
   padding: 2rem;
-  border-bottom: 1px solid var(--grud-border-color);
-  background: rgba(var(--grud-bg-rgb), 0.8);
+  border-bottom: 1px solid var(--docmate-border-color);
+  background: rgba(var(--docmate-bg-rgb), 0.8);
   backdrop-filter: blur(8px);
 }
 
@@ -52,23 +52,23 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
-  color: var(--grud-text);
-  color: var(--grud-primary);
+  color: var(--docmate-text);
+  color: var(--docmate-primary);
   }
 
 .path {
   font-size: 1rem;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  background: var(--grud-surface-alt);
+  background: var(--docmate-surface-alt);
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  border-left: 1px solid var(--grud-border-color);
+  border-left: 1px solid var(--docmate-border-color);
 }
 
 .description {
   margin: 1rem 0 0 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   line-height: 1.6;
   font-size: 1.125rem;
 }
@@ -88,7 +88,7 @@
 }
 
 .tabCursor {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   }
 
 .tabContentWrapper {
@@ -104,24 +104,24 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 1.5rem 0;
-  color: var(--grud-text);
-  color: var(--grud-primary);
+  color: var(--docmate-text);
+  color: var(--docmate-primary);
   }
 
 .sectionDescription {
   margin: 0 0 1.5rem 0;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   line-height: 1.6;
 }
 
 /* Parameters Table */
 .parametersTable {
-  background: rgba(var(--grud-bg-rgb), 0.8);
+  background: rgba(var(--docmate-bg-rgb), 0.8);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(var(--grud-primary-rgb), 0.1);
+  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.1);
 }
 
 .table {
@@ -130,7 +130,7 @@
 }
 
 .table thead {
-  background: var(--grud-gradient-subtle);
+  background: var(--docmate-gradient-subtle);
 }
 
 .table th {
@@ -138,15 +138,15 @@
   text-align: left;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid rgba(var(--grud-primary-rgb), 0.2);
+  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
 }
 
 .table td {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--grud-border-color);
+  border-bottom: 1px solid var(--docmate-border-color);
   vertical-align: top;
 }
 
@@ -162,8 +162,8 @@
 
 .paramName code {
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  background: rgba(var(--grud-primary-rgb), 0.1);
-  color: var(--grud-primary);
+  background: rgba(var(--docmate-primary-rgb), 0.1);
+  color: var(--docmate-primary);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
@@ -171,7 +171,7 @@
 }
 
 .required {
-  color: var(--grud-error);
+  color: var(--docmate-error);
   font-weight: 600;
 }
 
@@ -182,8 +182,8 @@
 
 .paramIn {
   font-size: 0.75rem;
-  color: var(--grud-text-secondary);
-  background: var(--grud-surface-alt);
+  color: var(--docmate-text-secondary);
+  background: var(--docmate-surface-alt);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
@@ -192,8 +192,8 @@
 
 /* Schema Visualization */
 .schemaObject {
-  background: rgba(var(--grud-surface-alt-rgb), 0.8);
-  border: 1px solid rgba(var(--grud-primary-rgb), 0.2);
+  background: rgba(var(--docmate-surface-alt-rgb), 0.8);
+  border: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
   border-radius: 8px;
   padding: 1.5rem;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
@@ -219,7 +219,7 @@
 }
 
 .propertyName {
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   font-weight: 500;
 }
 
@@ -228,12 +228,12 @@
 }
 
 .propertyType {
-  color: var(--grud-secondary);
+  color: var(--docmate-secondary);
   font-weight: 500;
 }
 
 .propertyDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-size: 0.75rem;
   margin-left: 1rem;
   font-style: italic;
@@ -245,7 +245,7 @@
 }
 
 .schemaDescription {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   font-style: italic;
 }
 
@@ -263,12 +263,12 @@
 }
 
 .contentType {
-  background: rgba(var(--grud-bg-rgb), 0.8);
+  background: rgba(var(--docmate-bg-rgb), 0.8);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(var(--grud-primary-rgb), 0.05);
+  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.05);
 }
 
 .contentType h4 {
@@ -285,12 +285,12 @@
 }
 
 .responseItem {
-  background: rgba(var(--grud-bg-rgb), 0.8);
+  background: rgba(var(--docmate-bg-rgb), 0.8);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--grud-border-color);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(var(--grud-primary-rgb), 0.05);
+  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.05);
 }
 
 .responseHeader {
@@ -298,8 +298,8 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  background: var(--grud-gradient-subtle);
-  border-bottom: 1px solid rgba(var(--grud-primary-rgb), 0.1);
+  background: var(--docmate-gradient-subtle);
+  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.1);
 }
 
 .responseDescription {
@@ -336,7 +336,7 @@
   font-weight: 700;
   color: #374151;
   margin: 0 0 1rem 0;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   }
 
 .formSection {
@@ -354,9 +354,9 @@
 .formSection h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0 0 1rem 0;
-  border-bottom: 1px solid rgba(var(--grud-primary-rgb), 0.2);
+  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
   padding-bottom: 0.5rem;
 }
 
@@ -367,7 +367,7 @@
 
 .sendButton {
   align-self: flex-start;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   border: none;
 }
 
@@ -386,9 +386,9 @@
 .responseSection h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--grud-text);
+  color: var(--docmate-text);
   margin: 0 0 1rem 0;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   }
 
 .responseStatus {
@@ -412,8 +412,8 @@
 }
 
 .errorResponse {
-  background: rgba(var(--grud-error-rgb), 0.1);
-  border: 1px solid rgba(var(--grud-error-rgb), 0.2);
+  background: rgba(var(--docmate-error-rgb), 0.1);
+  border: 1px solid rgba(var(--docmate-error-rgb), 0.2);
   border-radius: 8px;
   padding: 1rem;
 }

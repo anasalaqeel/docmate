@@ -1199,8 +1199,8 @@ id: ${insertData.operationId}
             onSelectionChange={(key) => setActiveTab(key as string)}
             className="w-full"
             classNames={{
-              cursor: "bg-[var(--grud-primary,#667eea)]",
-              tabContent: "group-data-[selected=true]:text-[var(--grud-primary,#667eea)] font-medium"
+              cursor: "bg-[var(--docmate-primary,#667eea)]",
+              tabContent: "group-data-[selected=true]:text-[var(--docmate-primary,#667eea)] font-medium"
             }}
           >
             <Tab key="write" title="Write">

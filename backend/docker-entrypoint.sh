@@ -9,5 +9,5 @@ if [ "$SEED_DATABASE" = "true" ]; then
   bun run drizzle:seed
 fi
 
-echo "Starting Grud Backend..."
+echo "Starting Docmate Backend..."
 exec bun run start

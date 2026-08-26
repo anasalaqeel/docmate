@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xxd c:/Users/Anas/Desktop/grud/backend/docker-entrypoint.sh)",
+      "Bash(xxd c:/Users/Anas/Desktop/docmate/backend/docker-entrypoint.sh)",
       "Bash(npx tsc:*)",
       "Bash(curl -s http://localhost:8000/v1/health)",
       "WebSearch",

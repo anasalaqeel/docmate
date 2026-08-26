@@ -161,7 +161,7 @@ const UsersListPage = () => {
 
   return (
     <div className={`${styles.container} container mx-auto px-4`}>
-      <Card style={{ background: 'var(--grud-surface)', borderRadius: '16px', boxShadow: 'var(--grud-card-shadow)' }}>
+      <Card style={{ background: 'var(--docmate-surface)', borderRadius: '16px', boxShadow: 'var(--docmate-card-shadow)' }}>
         <PageHeader
           title="Users Management"
           subtitle="Manage system users and their roles"
@@ -258,7 +258,7 @@ const UsersListPage = () => {
         >
           <div
             className="p-6 rounded-lg max-w-md w-full mx-4 shadow-xl"
-            style={{ background: 'var(--grud-surface)', border: '1px solid var(--grud-border-color)' }}
+            style={{ background: 'var(--docmate-surface)', border: '1px solid var(--docmate-border-color)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold mb-4">User Details</h2>

@@ -14,11 +14,11 @@ web
 
 ## Product Purpose
 
-Grud is a self-hosted documentation platform that unifies traditional guides and interactive API documentation in a single interface. Success means teams can maintain comprehensive documentation without tool fragmentation, while developers get seamless integration guidance.
+Docmate is a self-hosted documentation platform that unifies traditional guides and interactive API documentation in a single interface. Success means teams can maintain comprehensive documentation without tool fragmentation, while developers get seamless integration guidance.
 
 ## Positioning
 
-The only platform that combines traditional documentation (guides, tutorials) with interactive API testing in one self-hosted solution. Unlike Swagger UI (API-only), GitBook (traditional-only), or SaaS platforms (hosted), Grud serves both content types with full data control.
+The only platform that combines traditional documentation (guides, tutorials) with interactive API testing in one self-hosted solution. Unlike Swagger UI (API-only), GitBook (traditional-only), or SaaS platforms (hosted), Docmate serves both content types with full data control.
 
 ## Operating Context
 
@@ -60,7 +60,7 @@ Complete visual rebrand is requested. The purple/blue gradient theme is being re
 
 ## Evidence on Hand
 
-- Real product name: "Grud" (pending rebrand consideration)
+- Real product name: "Docmate" (pending rebrand consideration)
 - Comprehensive feature set documented in README.md
 - Working codebase with admin and public documentation surfaces
 - Authentication system with role management

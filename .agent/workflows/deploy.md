@@ -1,10 +1,10 @@
 ---
-description: How to deploy Grud to a remote server via SSH
+description: How to deploy Docmate to a remote server via SSH
 ---
 
 # SSH Deployment Workflow
 
-This workflow guides you through deploying the Grud application to a remote Linux server using SSH
+This workflow guides you through deploying the Docmate application to a remote Linux server using SSH
 and Docker Compose.
 
 ## Prerequisites
@@ -43,7 +43,7 @@ If you prefer manual steps:
 1. **Copy files**:
 
    ```bash
-   rsync -avz --exclude 'node_modules' ./ user@ip:/opt/grud
+   rsync -avz --exclude 'node_modules' ./ user@ip:/opt/docmate
    ```
 
 2. **Login to server**:
@@ -54,7 +54,7 @@ If you prefer manual steps:
 
 3. **Start services**:
    ```bash
-   cd /opt/grud
+   cd /opt/docmate
    docker compose up -d
    ```
 

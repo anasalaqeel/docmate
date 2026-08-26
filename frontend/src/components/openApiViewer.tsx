@@ -285,8 +285,8 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
         <div className={styles.noSpec}>
           <Card className={styles.emptyCard}>
             <CardBody className="text-center p-8">
-              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--grud-text)' }}>No OpenAPI Specification</h3>
-              <p className="mb-6" style={{ color: 'var(--grud-text-secondary)' }}>Import an OpenAPI specification to document your API.</p>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--docmate-text)' }}>No OpenAPI Specification</h3>
+              <p className="mb-6" style={{ color: 'var(--docmate-text-secondary)' }}>Import an OpenAPI specification to document your API.</p>
               <div className="flex gap-4 justify-center">
                 <Button
                   onPress={() => setIsImportOpen(true)}
@@ -313,10 +313,10 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
             <h2>{typeof spec.info.title === 'string' ? spec.info.title : 'API Documentation'}</h2>
             {typeof spec.info.description === 'string' && <p>{spec.info.description}</p>}
             <div className={styles.headerMeta}>
-              <Chip size="sm" style={{ background: 'var(--grud-primary)', color: 'white' }}>
+              <Chip size="sm" style={{ background: 'var(--docmate-primary)', color: 'white' }}>
                 v{typeof spec.info.version === 'string' ? spec.info.version : '1.0.0'}
               </Chip>
-              <Chip size="sm" variant="bordered" style={{ color: 'var(--grud-text-secondary)', borderColor: 'var(--grud-border-color)' }}>
+              <Chip size="sm" variant="bordered" style={{ color: 'var(--docmate-text-secondary)', borderColor: 'var(--docmate-border-color)' }}>
                 OpenAPI {typeof spec.specVersion === 'string' ? spec.specVersion : '3.0.0'}
               </Chip>
             </div>
@@ -343,8 +343,8 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
         </div>
 
         <Tabs variant="underlined" className={styles.tabs} classNames={{
-          tabList: "border-b border-[var(--grud-border-color)] w-full",
-          tabContent: "group-data-[selected=true]:text-[var(--grud-primary)]"
+          tabList: "border-b border-[var(--docmate-border-color)] w-full",
+          tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)]"
         }}>
           <Tab key="paths" title="API Operations">
             <div className={styles.operations}>
@@ -509,17 +509,17 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
 
       {/* Import Modal */}
       <Modal isOpen={isImportOpen} onClose={() => setIsImportOpen(false)} size="3xl" classNames={{
-        base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-        header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-        footer: "border-t border-[var(--grud-border-color)]",
-        closeButton: "hover:bg-[var(--grud-surface-alt)]"
+        base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+        header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+        footer: "border-t border-[var(--docmate-border-color)]",
+        closeButton: "hover:bg-[var(--docmate-surface-alt)]"
       }}>
         <ModalContent>
           <ModalHeader>Import OpenAPI Specification</ModalHeader>
           <ModalBody>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--grud-text)' }}>Choose file or paste JSON/YAML</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Choose file or paste JSON/YAML</label>
                 <div className="flex gap-2 mb-4">
                   <Button
                     variant="bordered"
@@ -571,10 +571,10 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
 
       {/* Test Modal */}
       <Modal isOpen={isTestOpen} onClose={onTestClose} size="4xl" classNames={{
-        base: "bg-[var(--grud-surface)] border border-[var(--grud-border-color)]",
-        header: "border-b border-[var(--grud-border-color)] text-[var(--grud-text)]",
-        footer: "border-t border-[var(--grud-border-color)]",
-        closeButton: "hover:bg-[var(--grud-surface-alt)]"
+        base: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]",
+        header: "border-b border-[var(--docmate-border-color)] text-[var(--docmate-text)]",
+        footer: "border-t border-[var(--docmate-border-color)]",
+        closeButton: "hover:bg-[var(--docmate-surface-alt)]"
       }}>
         <ModalContent>
           <ModalHeader>Test API Operation</ModalHeader>
@@ -589,9 +589,9 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                 </div>
 
                 <Tabs variant="underlined" classNames={{
-                  tabList: "border-b border-[var(--grud-border-color)] w-full",
-                  cursor: "bg-[var(--grud-gradient)]",
-                  tabContent: "group-data-[selected=true]:text-[var(--grud-primary)]"
+                  tabList: "border-b border-[var(--docmate-border-color)] w-full",
+                  cursor: "bg-[var(--docmate-gradient)]",
+                  tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)]"
                 }}>
                   <Tab key="request" title="Request">
                     <div className={styles.testInputs}>
@@ -609,9 +609,9 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                                 isRequired={param.required}
                                 variant="bordered"
                                 classNames={{
-                                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                                  label: "text-[var(--grud-text)]"
+                                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                                  label: "text-[var(--docmate-text)]"
                                 }}
                                 onChange={(e) =>
                                   setTestData((prev) => ({
@@ -638,9 +638,9 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                                 isRequired={param.required}
                                 variant="bordered"
                                 classNames={{
-                                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                                  label: "text-[var(--grud-text)]"
+                                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                                  label: "text-[var(--docmate-text)]"
                                 }}
                                 onChange={(e) =>
                                   setTestData((prev) => ({
@@ -706,7 +706,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                         )}
                       </div>
                     ) : (
-                      <p style={{ color: 'var(--grud-text-secondary)' }}>Send a request to see the response</p>
+                      <p style={{ color: 'var(--docmate-text-secondary)' }}>Send a request to see the response</p>
                     )}
                   </Tab>
                 </Tabs>

@@ -90,9 +90,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 isRequired
                 variant="bordered"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  label: "text-[var(--grud-text)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  label: "text-[var(--docmate-text)]"
                 }}
               />
 
@@ -107,9 +107,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 minRows={3}
                 variant="bordered"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  label: "text-[var(--grud-text)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  label: "text-[var(--docmate-text)]"
                 }}
               />
 
@@ -124,9 +124,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 }}
                 variant="bordered"
                 classNames={{
-                  inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border(--grud-primary)! bg-[var(--grud-surface-alt)]",
-                  input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                  label: "text-[var(--grud-text)]"
+                  inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border(--docmate-primary)! bg-[var(--docmate-surface-alt)]",
+                  input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                  label: "text-[var(--docmate-text)]"
                 }}
               />
 
@@ -188,7 +188,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 <Divider className={`${styles.divider} my-8`} />
                 <div className={`${styles.apiSettings} space-y-6`}>
                   <h4 className={`flex items-center gap-2 font-semibold mb-6 ${styles.typeTitle}`}>
-                    <GlobeAltIcon className="w-5 h-5 text-[var(--grud-primary)]" />
+                    <GlobeAltIcon className="w-5 h-5 text-[var(--docmate-primary)]" />
                     API Settings
                   </h4>
                   <Input
@@ -203,13 +203,13 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                     description="The base URL for your API endpoints (used for testing)"
                     variant="bordered"
                     classNames={{
-                      inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                      input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                      label: "text-[var(--grud-text)]"
+                      inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                      input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                      label: "text-[var(--docmate-text)]"
                     }}
                     startContent={
                       <div className="pointer-events-none flex items-center">
-                        <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--grud-primary)]" />
+                        <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--docmate-primary)]" />
                       </div>
                     }
                   />
@@ -226,7 +226,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                   >
                     Show API endpoints in sidebar
                   </Switch>
-                  <p className="text-xs -mt-4 ml-7" style={{ color: 'var(--grud-text-secondary)' }}>
+                  <p className="text-xs -mt-4 ml-7" style={{ color: 'var(--docmate-text-secondary)' }}>
                     When enabled, displays a "🚀 API Endpoints" section in the public documentation sidebar
                   </p>
                 </div>
@@ -237,7 +237,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           <div className={styles.selectorBody}>
             <div className={styles.header}>
               <h3 className="text-lg font-semibold">Documentation Type</h3>
-              <p className="text-sm text-[var(--grud-text-secondary)]">Choose how you want to structure your documentation</p>
+              <p className="text-sm text-[var(--docmate-text-secondary)]">Choose how you want to structure your documentation</p>
             </div>
             <div className="mt-6">
               <RadioGroup value={formData.type} onValueChange={handleTypeChange} className={styles.radioGroup}>
@@ -278,7 +278,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                   <Divider className={styles.divider} />
                   <div className={styles.apiSettings}>
                     <h4 className={`flex items-center gap-2 font-semibold mb-4 ${styles.settingsTitle}`}>
-                      <GlobeAltIcon className="w-5 h-5 text-[var(--grud-primary)]" />
+                      <GlobeAltIcon className="w-5 h-5 text-[var(--docmate-primary)]" />
                       API Settings
                     </h4>
                     <Input
@@ -289,13 +289,13 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                       description="The base URL for your API endpoints (used for testing)"
                       variant="bordered"
                       classNames={{
-                        inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                        input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                        label: "text-[var(--grud-text)]"
+                        inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                        input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                        label: "text-[var(--docmate-text)]"
                       }}
                       startContent={
                         <div className="pointer-events-none flex items-center">
-                          <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--grud-primary)]" />
+                          <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--docmate-primary)]" />
                         </div>
                       }
                     />
@@ -319,9 +319,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           isRequired 
           variant="bordered"
           classNames={{
-            inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-            input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-            label: "text-[var(--grud-text)]"
+            inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+            input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+            label: "text-[var(--docmate-text)]"
           }}
         />
 
@@ -332,9 +332,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           minRows={3}
           variant="bordered"
           classNames={{
-            inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-            input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-            label: "text-[var(--grud-text)]"
+            inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+            input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+            label: "text-[var(--docmate-text)]"
           }}
         />
 
@@ -345,9 +345,9 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           placeholder="1.0.0"
           variant="bordered"
           classNames={{
-            inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-            input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-            label: "text-[var(--grud-text)]"
+            inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+            input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+            label: "text-[var(--docmate-text)]"
           }}
         />
         <Switch 
@@ -400,13 +400,13 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
               description="The base URL for your API endpoints (used for testing)"
               variant="bordered"
               classNames={{
-                inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-                input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
-                label: "text-[var(--grud-text)]"
+                inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+                input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
+                label: "text-[var(--docmate-text)]"
               }}
               startContent={
                 <div className="pointer-events-none flex items-center">
-                  <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--grud-primary)]" />
+                  <GlobeAltIcon className="w-4 h-4 opacity-40 text-[var(--docmate-primary)]" />
                 </div>
               }
             />
@@ -419,7 +419,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
             >
               Show API endpoints in sidebar
             </Switch>
-            <p className="text-xs -mt-2 ml-7" style={{ color: 'var(--grud-text-secondary)' }}>
+            <p className="text-xs -mt-2 ml-7" style={{ color: 'var(--docmate-text-secondary)' }}>
               When enabled, displays a "🚀 API Endpoints" section in the public documentation sidebar
             </p>
           </div>
@@ -452,7 +452,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
   return (
     <div className={styles.container}>
       <Card className={styles.editCard}>
-        <div className="p-6 border-b border-[var(--grud-border-color)]">
+        <div className="p-6 border-b border-[var(--docmate-border-color)]">
           <h3 className={styles.typeTitle}>Documentation Settings</h3>
         </div>
         <CardBody className="p-0">

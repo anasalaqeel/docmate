@@ -95,8 +95,8 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
         className="mb-4"
         classNames={{
           inputWrapper:
-            "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-          input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50",
+            "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+          input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
         }}
       />
 
@@ -105,9 +105,9 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
         {/* Status Filter */}
         <div
           className="flex items-center gap-2 px-4 py-2 rounded-lg"
-          style={{ background: "var(--grud-surface-alt)" }}
+          style={{ background: "var(--docmate-surface-alt)" }}
         >
-          <span className="text-sm font-medium" style={{ color: "var(--grud-text-secondary)" }}>
+          <span className="text-sm font-medium" style={{ color: "var(--docmate-text-secondary)" }}>
             Status:
           </span>
           <Dropdown>
@@ -117,17 +117,17 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
                 style={{
                   background:
                     filters.status === "active"
-                      ? "rgba(var(--grud-success-rgb), 0.1)"
+                      ? "rgba(var(--docmate-success-rgb), 0.1)"
                       : filters.status === "inactive"
-                        ? "rgba(var(--grud-error-rgb), 0.1)"
-                        : "var(--grud-surface)",
+                        ? "rgba(var(--docmate-error-rgb), 0.1)"
+                        : "var(--docmate-surface)",
                   color:
                     filters.status === "active"
-                      ? "var(--grud-success)"
+                      ? "var(--docmate-success)"
                       : filters.status === "inactive"
-                        ? "var(--grud-error)"
-                        : "var(--grud-text-secondary)",
-                  borderColor: filters.status ? "transparent" : "var(--grud-border-color)",
+                        ? "var(--docmate-error)"
+                        : "var(--docmate-text-secondary)",
+                  borderColor: filters.status ? "transparent" : "var(--docmate-border-color)",
                 }}
                 endContent={<FunnelIcon className="w-3 h-3 opacity-40" />}
               >
@@ -153,9 +153,9 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
         {/* Roles Filter */}
         <div
           className="flex items-center gap-2 px-4 py-2 rounded-lg"
-          style={{ background: "var(--grud-surface-alt)" }}
+          style={{ background: "var(--docmate-surface-alt)" }}
         >
-          <span className="text-sm font-medium" style={{ color: "var(--grud-text-secondary)" }}>
+          <span className="text-sm font-medium" style={{ color: "var(--docmate-text-secondary)" }}>
             Roles:
           </span>
           <Dropdown>
@@ -165,16 +165,16 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
                 style={{
                   background:
                     filters.roleIds && filters.roleIds.length > 0
-                      ? "rgba(var(--grud-primary-rgb), 0.1)"
-                      : "var(--grud-surface)",
+                      ? "rgba(var(--docmate-primary-rgb), 0.1)"
+                      : "var(--docmate-surface)",
                   color:
                     filters.roleIds && filters.roleIds.length > 0
-                      ? "var(--grud-primary)"
-                      : "var(--grud-text-secondary)",
+                      ? "var(--docmate-primary)"
+                      : "var(--docmate-text-secondary)",
                   borderColor:
                     filters.roleIds && filters.roleIds.length > 0
                       ? "transparent"
-                      : "var(--grud-border-color)",
+                      : "var(--docmate-border-color)",
                 }}
                 endContent={<FunnelIcon className="w-3 h-3 opacity-40" />}
               >
@@ -201,20 +201,20 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
         <div
           className="mt-4 flex items-center justify-between px-4 py-2 rounded-lg"
           style={{
-            background: "rgba(var(--grud-primary-rgb), 0.05)",
-            border: "1px solid rgba(var(--grud-primary-rgb), 0.1)",
+            background: "rgba(var(--docmate-primary-rgb), 0.05)",
+            border: "1px solid rgba(var(--docmate-primary-rgb), 0.1)",
           }}
         >
           <div className="flex items-center gap-2 text-sm">
-            <ShieldCheckIcon className="w-4 h-4 text-[var(--grud-primary)]" />
-            <span className="font-medium text-[var(--grud-primary)]">
+            <ShieldCheckIcon className="w-4 h-4 text-[var(--docmate-primary)]" />
+            <span className="font-medium text-[var(--docmate-primary)]">
               {activeFiltersCount} filter{activeFiltersCount > 1 ? "s" : ""} active
             </span>
           </div>
           <Button
             size="sm"
             variant="light"
-            style={{ color: "var(--grud-error)" }}
+            style={{ color: "var(--docmate-error)" }}
             onPress={resetFilters}
             startContent={<TrashIcon className="w-4 h-4" />}
           >

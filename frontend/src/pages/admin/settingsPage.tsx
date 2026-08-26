@@ -135,7 +135,7 @@ function SettingsPageContent() {
           actions={
             <>
               <Button
-                className="bg-[var(--grud-surface-alt)] text-[var(--grud-text)] shadow-sm hover:shadow-md transition-shadow"
+                className="bg-[var(--docmate-surface-alt)] text-[var(--docmate-text)] shadow-sm hover:shadow-md transition-shadow"
                 variant="flat"
                 startContent={<ArrowDownTrayIcon className="w-4 h-4" />}
                 onClick={handleExport}
@@ -164,8 +164,8 @@ function SettingsPageContent() {
             startContent={<CogIcon className="w-4 h-4 opacity-40" />}
             variant="bordered"
             classNames={{
-              inputWrapper: "border-[var(--grud-border-color)] hover:border-[var(--grud-text-secondary)] focus-within:border-[var(--grud-primary)]! bg-[var(--grud-surface-alt)]",
-              input: "text-[var(--grud-text)] placeholder:text-[var(--grud-text-secondary)]/50"
+              inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
+              input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50"
             }}
           />
         </CardBody>
@@ -178,10 +178,10 @@ function SettingsPageContent() {
             aria-label="Settings categories"
             variant="underlined"
             classNames={{
-              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-[var(--grud-border-color)] px-6",
-              cursor: "w-full bg-[var(--grud-primary)]",
+              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-[var(--docmate-border-color)] px-6",
+              cursor: "w-full bg-[var(--docmate-primary)]",
               tab: "max-w-fit px-0 h-14",
-              tabContent: "group-data-[selected=true]:text-[var(--grud-primary)] text-[var(--grud-text-secondary)]",
+              tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)] text-[var(--docmate-text-secondary)]",
             }}
           >
             {TABS.map((tab) => (
@@ -208,7 +208,7 @@ function SettingsPageContent() {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <h3 className="text-large font-semibold">Import Settings</h3>
-                <p className="text-small" style={{ color: 'var(--grud-text-secondary)' }}>
+                <p className="text-small" style={{ color: 'var(--docmate-text-secondary)' }}>
                   Upload a JSON file to import settings. This will override existing settings.
                 </p>
               </ModalHeader>
@@ -224,18 +224,18 @@ function SettingsPageContent() {
                         file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold
-                        file:bg-[rgba(var(--grud-primary-rgb),0.1)] file:text-[var(--grud-primary)]
-                        hover:file:bg-[rgba(var(--grud-primary-rgb),0.15)]"
-                       style={{ color: 'var(--grud-text-secondary)' }}
+                        file:bg-[rgba(var(--docmate-primary-rgb),0.1)] file:text-[var(--docmate-primary)]
+                        hover:file:bg-[rgba(var(--docmate-primary-rgb),0.15)]"
+                       style={{ color: 'var(--docmate-text-secondary)' }}
                     />
                   </div>
 
                   {importFile && (
                     <div className="space-y-2">
-                      <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+                      <p className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                         <strong>File:</strong> {importFile.name}
                       </p>
-                      <p className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+                      <p className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
                         <strong>Size:</strong> {(importFile.size / 1024).toFixed(2)} KB
                       </p>
                     </div>

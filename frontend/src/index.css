@@ -26,31 +26,31 @@
 
 :root {
   /* Bridge project theme to standalone Switch component */
-  --switch-clr-primary: var(--grud-primary);
-  --switch-bg-primary: var(--grud-gradient);
-  --switch-clr-secondary: var(--grud-secondary);
-  --switch-bg-secondary: var(--grud-gradient-subtle);
-  --switch-clr-success: var(--grud-success);
-  --switch-clr-warning: var(--grud-warning);
-  --switch-clr-danger: var(--grud-error);
-  --switch-clr-track: var(--grud-border-color);
+  --switch-clr-primary: var(--docmate-primary);
+  --switch-bg-primary: var(--docmate-gradient);
+  --switch-clr-secondary: var(--docmate-secondary);
+  --switch-bg-secondary: var(--docmate-gradient-subtle);
+  --switch-clr-success: var(--docmate-success);
+  --switch-clr-warning: var(--docmate-warning);
+  --switch-clr-danger: var(--docmate-error);
+  --switch-clr-track: var(--docmate-border-color);
   --switch-clr-track-dark: rgba(255, 255, 255, 0.1);
   --switch-clr-thumb: #ffffff;
-  --switch-clr-text: var(--grud-text);
+  --switch-clr-text: var(--docmate-text);
 }
 
 @theme {
   /* Font Categories (Standardized) */
-  --font-sans: var(--grud-font-sans, "Inter", system-ui, -apple-system, sans-serif);
-  --font-heading: var(--grud-font-heading, var(--font-sans));
-  --font-body: var(--grud-font-body, var(--font-sans));
+  --font-sans: var(--docmate-font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  --font-heading: var(--docmate-font-heading, var(--font-sans));
+  --font-body: var(--docmate-font-body, var(--font-sans));
 
   /* Documentation Display & Technical Fonts */
   --font-docs-display: "Outfit", var(--font-sans);
   --font-docs-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 
   /* Brand Colors (Standardized) */
-  --color-primary: var(--grud-primary, #667eea);
+  --color-primary: var(--docmate-primary, #667eea);
   --color-primary-50: color-mix(in srgb, var(--color-primary) 5%, white);
   --color-primary-100: color-mix(in srgb, var(--color-primary) 10%, white);
   --color-primary-200: color-mix(in srgb, var(--color-primary) 20%, white);
@@ -62,7 +62,7 @@
   --color-primary-800: color-mix(in srgb, var(--color-primary), black 30%);
   --color-primary-900: color-mix(in srgb, var(--color-primary), black 40%);
 
-  --color-secondary: var(--grud-secondary, #764ba2);
+  --color-secondary: var(--docmate-secondary, #764ba2);
   --color-secondary-50: color-mix(in srgb, var(--color-secondary) 5%, white);
   --color-secondary-100: color-mix(in srgb, var(--color-secondary) 10%, white);
   --color-secondary-200: color-mix(in srgb, var(--color-secondary) 20%, white);
@@ -75,29 +75,29 @@
   --color-secondary-900: color-mix(in srgb, var(--color-secondary), black 40%);
 
   /* Backgrounds & Surfaces (Standardized) */
-  --color-background: var(--grud-bg, #f8fafc);
-  --color-background-alt: var(--grud-bg-alt, #f1f5f9);
-  --color-content-bg: var(--grud-content-bg, var(--color-background));
-  --color-foreground: var(--grud-text, #1e293b);
-  --color-foreground-secondary: var(--grud-text-secondary, #64748b);
-  --color-border: var(--grud-border-color, rgba(0, 0, 0, 0.08));
-  --color-surface: var(--grud-surface, #ffffff);
-  --color-surface-alt: var(--grud-surface-alt, #f8fafc);
-  --color-card: var(--grud-card-bg, rgba(255, 255, 255, 0.9));
-  --color-nav: var(--grud-nav-bg, rgba(255, 255, 255, 0.95));
+  --color-background: var(--docmate-bg, #f8fafc);
+  --color-background-alt: var(--docmate-bg-alt, #f1f5f9);
+  --color-content-bg: var(--docmate-content-bg, var(--color-background));
+  --color-foreground: var(--docmate-text, #1e293b);
+  --color-foreground-secondary: var(--docmate-text-secondary, #64748b);
+  --color-border: var(--docmate-border-color, rgba(0, 0, 0, 0.08));
+  --color-surface: var(--docmate-surface, #ffffff);
+  --color-surface-alt: var(--docmate-surface-alt, #f8fafc);
+  --color-card: var(--docmate-card-bg, rgba(255, 255, 255, 0.9));
+  --color-nav: var(--docmate-nav-bg, rgba(255, 255, 255, 0.95));
   
   /* Semantic Colors */
-  --color-success: var(--grud-success, #10b981);
-  --color-warning: var(--grud-warning, #f59e0b);
-  --color-danger: var(--grud-error, #ef4444);
+  --color-success: var(--docmate-success, #10b981);
+  --color-warning: var(--docmate-warning, #f59e0b);
+  --color-danger: var(--docmate-error, #ef4444);
 
   /* Spacing */
   --spacing-18: 4.5rem;
   --spacing-88: 22rem;
 
   /* Shadows (Improved with variable colors) */
-  --shadow-glow: 0 0 20px rgba(var(--grud-primary-rgb, 109, 40, 217), 0.3);
-  --shadow-glow-lg: 0 0 40px rgba(var(--grud-primary-rgb, 109, 40, 217), 0.4);
+  --shadow-glow: 0 0 20px rgba(var(--docmate-primary-rgb, 109, 40, 217), 0.3);
+  --shadow-glow-lg: 0 0 40px rgba(var(--docmate-primary-rgb, 109, 40, 217), 0.4);
 
   /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
@@ -119,9 +119,9 @@
   }
 
   /* Border Radius Mapping (Standardized) */
-  --radius-sm: var(--grud-radius-sm, 0.25rem);
-  --radius-md: var(--grud-radius-md, 0.375rem);
-  --radius-lg: var(--grud-radius-lg, 0.5rem);
+  --radius-sm: var(--docmate-radius-sm, 0.25rem);
+  --radius-md: var(--docmate-radius-md, 0.375rem);
+  --radius-lg: var(--docmate-radius-lg, 0.5rem);
   --radius: var(--radius-md); 
 }
 
@@ -199,7 +199,7 @@ html,
 
 /* Focus Styles */
 .focus-visible:focus-visible {
-  outline: 2px solid var(--grud-primary);
+  outline: 2px solid var(--docmate-primary);
   outline-offset: 2px;
 }
 

@@ -2,8 +2,8 @@
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--grud-bg-gradient);
-  color: var(--grud-text);
+  background: var(--docmate-bg-gradient);
+  color: var(--docmate-text);
   overflow: hidden;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -14,9 +14,9 @@
 }
 
 .navbar {
-  background: var(--grud-nav-bg);
-  backdrop-filter: var(--grud-blur);
-  border-bottom: var(--grud-border);
+  background: var(--docmate-nav-bg);
+  backdrop-filter: var(--docmate-blur);
+  border-bottom: var(--docmate-border);
   z-index: 50;
   height: 64px;
 }
@@ -38,24 +38,26 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: block;
 }
 
 .brandTitle {
   font-size: 1.25rem;
   font-weight: 800;
   margin: 0;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
 }
 
 .adminBadge {
-    background: var(--grud-gradient-subtle);
-    border: 1px solid rgba(var(--grud-primary-rgb), 0.2);
+    background: var(--docmate-gradient-subtle);
+    border: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--grud-primary);
+    color: var(--docmate-primary);
 }
 
 .versionBadge {
@@ -63,20 +65,20 @@
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--grud-primary);
+  color: var(--docmate-primary);
   color: white;
 }
 
 .gradientButton {
-    background: var(--grud-gradient) !important;
+    background: var(--docmate-gradient) !important;
     color: white !important;
     font-weight: 600 !important;
-    box-shadow: 0 4px 12px rgba(var(--grud-primary-rgb), 0.2);
+    box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.2);
 }
 
 .sidebarToggle {
     margin-right: 12px;
-    color: var(--grud-text-secondary);
+    color: var(--docmate-text-secondary);
 }
 
 .layoutBody {
@@ -96,7 +98,7 @@
   flex: 1;
   overflow-y: auto;
   position: relative;
-  background: var(--grud-content-bg);
+  background: var(--docmate-content-bg);
   border-radius: 20px 0 0 0;
   margin-top: -1px; /* Overlap navbar border slightly for seamless join */
   box-shadow: -10px 0 20px rgba(0, 0, 0, 0.02);
@@ -110,8 +112,8 @@
 }
 
 .footer {
-  background: var(--grud-nav-bg);
-  border-top: var(--grud-border);
+  background: var(--docmate-nav-bg);
+  border-top: var(--docmate-border);
   padding: 1.5rem 0;
   z-index: 10;
 }
@@ -124,7 +126,7 @@
 }
 
 .footerContent p {
-  color: var(--grud-text-secondary);
+  color: var(--docmate-text-secondary);
   margin: 0;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -140,12 +142,12 @@
 }
 
 .main::-webkit-scrollbar-thumb {
-  background: rgba(var(--grud-primary-rgb), 0.1);
+  background: rgba(var(--docmate-primary-rgb), 0.1);
   border-radius: 10px;
 }
 
 .main::-webkit-scrollbar-thumb:hover {
-  background: rgba(var(--grud-primary-rgb), 0.2);
+  background: rgba(var(--docmate-primary-rgb), 0.2);
 }
 
 @media (max-width: 768px) {

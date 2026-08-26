@@ -1,9 +1,9 @@
 # Documentation Import Guide
 
-This guide explains how to prepare and organize existing documentation (e.g., from GitHub) so it can be imported seamlessly into Grud.
+This guide explains how to prepare and organize existing documentation (e.g., from GitHub) so it can be imported seamlessly into Docmate.
 
 ## Supported Formats
-Grud currently supports importing documentation via:
+Docmate currently supports importing documentation via:
 1. **Markdown ZIP Archives**: Best for multi-page, hierarchical guides.
 2. **JSON Data**: Best for direct backup/restore.
 
@@ -51,7 +51,7 @@ The default "Home" or "Overview" page. This content is displayed immediately whe
 #### `pages/` (Required)
 The container for your guide pages.
 * You can place standard `.md` files directly in `pages/`.
-* You can build multi-level nested folders. Grud parses folder names and generates nested parent directories/collapsibles in your frontend sidebar automatically.
+* You can build multi-level nested folders. Docmate parses folder names and generates nested parent directories/collapsibles in your frontend sidebar automatically.
 
 #### `openapi.json` (Optional)
 Include a standard Swagger/OpenAPI JSON specification at the root if your project incorporates programmatic API reference views.

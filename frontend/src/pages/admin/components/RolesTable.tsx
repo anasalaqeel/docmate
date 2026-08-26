@@ -74,20 +74,20 @@ export const RolesTable = ({
       case "name":
         return (
           <div className="py-1">
-            <div className="font-medium text-[var(--grud-text)]">{role.name}</div>
-            <div className="text-xs" style={{ color: 'var(--grud-text-secondary)' }}>ID: {role.id}</div>
+            <div className="font-medium text-[var(--docmate-text)]">{role.name}</div>
+            <div className="text-xs" style={{ color: 'var(--docmate-text-secondary)' }}>ID: {role.id}</div>
           </div>
         );
       case "permissions":
         return (
           <div className="max-w-xs py-1">
-            <p className="text-sm truncate text-[var(--grud-text)]">{getRolePermissionNames(role)}</p>
+            <p className="text-sm truncate text-[var(--docmate-text)]">{getRolePermissionNames(role)}</p>
             {role.rolePermissions && role.rolePermissions.length > 0 && (
               <Chip 
                 size="sm" 
                 variant="flat" 
                 className="mt-1"
-                style={{ background: 'rgba(var(--grud-primary-rgb), 0.1)', color: 'var(--grud-primary)' }}
+                style={{ background: 'rgba(var(--docmate-primary-rgb), 0.1)', color: 'var(--docmate-primary)' }}
               >
                 {role.rolePermissions.length} permissions
               </Chip>
@@ -99,14 +99,14 @@ export const RolesTable = ({
           <Chip 
             size="sm" 
             variant="flat"
-            style={{ background: 'var(--grud-surface-alt)', color: 'var(--grud-text-secondary)' }}
+            style={{ background: 'var(--docmate-surface-alt)', color: 'var(--docmate-text-secondary)' }}
           >
             {getRoleUserCount()} users
           </Chip>
         );
       case "createdAt":
         return (
-          <span className="text-sm text-[var(--grud-text-secondary)]">
+          <span className="text-sm text-[var(--docmate-text-secondary)]">
             {new Date(role.createdAt || "").toLocaleDateString()}
           </span>
         );
@@ -139,8 +139,8 @@ export const RolesTable = ({
                 </DropdownItem>
                 <DropdownItem
                   key="delete"
-                  startContent={<TrashIcon className="w-4 h-4 text-[var(--grud-error)]" />}
-                  className="text-[var(--grud-error)]"
+                  startContent={<TrashIcon className="w-4 h-4 text-[var(--docmate-error)]" />}
+                  className="text-[var(--docmate-error)]"
                   color="danger"
                   onPress={() => {
                     if (
@@ -166,13 +166,13 @@ export const RolesTable = ({
   const emptyContent = (
     <div 
       className="flex flex-col items-center justify-center py-12 px-4 rounded-lg border-2 border-dashed"
-      style={{ background: 'var(--grud-surface-alt)', borderColor: 'var(--grud-border-color)' }}
+      style={{ background: 'var(--docmate-surface-alt)', borderColor: 'var(--docmate-border-color)' }}
     >
-      <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(var(--grud-text-secondary-rgb, 100, 116, 139), 0.1)' }}>
+      <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(var(--docmate-text-secondary-rgb, 100, 116, 139), 0.1)' }}>
         <ShieldCheckIcon className="w-8 h-8 opacity-40" />
       </div>
-      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--grud-text)' }}>No roles found</h3>
-      <p className="text-center mb-6 max-w-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--docmate-text)' }}>No roles found</h3>
+      <p className="text-center mb-6 max-w-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
         Try adjusting your search terms or create your first role to get started with role management.
       </p>
     </div>
@@ -197,7 +197,7 @@ export const RolesTable = ({
 
       {totalPages > 1 && (
         <div className="flex justify-between items-center">
-          <div className="text-sm" style={{ color: 'var(--grud-text-secondary)' }}>
+          <div className="text-sm" style={{ color: 'var(--docmate-text-secondary)' }}>
             Showing {(currentPage - 1) * 10 + 1} to{" "}
             {Math.min(currentPage * 10, total)} of {total} roles
           </div>
