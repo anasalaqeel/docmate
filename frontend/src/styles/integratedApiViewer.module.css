@@ -26,8 +26,6 @@
 .pageHeader {
   padding: 2rem;
   border-bottom: 1px solid var(--docmate-border-color);
-  background: rgba(var(--docmate-bg-rgb), 0.8);
-  backdrop-filter: blur(8px);
 }
 
 .operationTitle {
@@ -53,24 +51,25 @@
   font-weight: 700;
   margin: 0 0 0.5rem 0;
   color: var(--docmate-text);
-  color: var(--docmate-primary);
-  }
+  letter-spacing: -0.02em;
+}
 
 .path {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   color: var(--docmate-text-secondary);
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-family: var(--font-docs-mono, "Monaco", "Menlo", monospace);
   background: var(--docmate-surface-alt);
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border-left: 1px solid var(--docmate-border-color);
+  border-radius: 8px;
+  border: 1px solid var(--docmate-border-color);
+  width: fit-content;
 }
 
 .description {
   margin: 1rem 0 0 0;
   color: var(--docmate-text-secondary);
   line-height: 1.6;
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
 }
 
 /* Content */
@@ -89,7 +88,18 @@
 
 .tabCursor {
   color: var(--docmate-primary);
-  }
+}
+
+.tabList {
+  width: fit-content;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--docmate-border-color);
+}
+
+.tab {
+  height: auto;
+  padding: 0.5rem 0.25rem;
+}
 
 .tabContentWrapper {
   flex: 1;
@@ -101,12 +111,12 @@
 }
 
 .section h3 {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   margin: 0 0 1.5rem 0;
   color: var(--docmate-text);
-  color: var(--docmate-primary);
-  }
+  letter-spacing: -0.015em;
+}
 
 .sectionDescription {
   margin: 0 0 1.5rem 0;
@@ -116,12 +126,11 @@
 
 /* Parameters Table */
 .parametersTable {
-  background: rgba(var(--docmate-bg-rgb), 0.8);
-  backdrop-filter: blur(8px);
+  background: var(--docmate-surface);
   border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.1);
+  box-shadow: 0 1px 2px var(--docmate-shadow-color);
 }
 
 .table {
@@ -130,22 +139,22 @@
 }
 
 .table thead {
-  background: var(--docmate-gradient-subtle);
+  background: var(--docmate-surface-alt);
 }
 
 .table th {
-  padding: 1rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--docmate-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .table td {
-  padding: 1rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   border-bottom: 1px solid var(--docmate-border-color);
   vertical-align: top;
 }
@@ -161,12 +170,12 @@
 }
 
 .paramName code {
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-  background: rgba(var(--docmate-primary-rgb), 0.1);
+  font-family: var(--font-docs-mono, "Monaco", "Menlo", monospace);
+  background: color-mix(in srgb, var(--docmate-primary) 10%, transparent);
   color: var(--docmate-primary);
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
+  border-radius: 5px;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
@@ -176,29 +185,29 @@
 }
 
 .paramType {
-  color: #805ad5 !important;
-  background: #faf5ff !important;
+  color: var(--docmate-secondary);
+  background: color-mix(in srgb, var(--docmate-secondary) 8%, transparent);
 }
 
 .paramIn {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--docmate-text-secondary);
   background: var(--docmate-surface-alt);
-  padding: 0.25rem 0.5rem;
+  padding: 0.1875rem 0.4375rem;
   border-radius: 4px;
   text-transform: uppercase;
-  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 /* Schema Visualization */
 .schemaObject {
-  background: rgba(var(--docmate-surface-alt-rgb), 0.8);
-  border: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
+  background: var(--docmate-surface-alt);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-family: var(--font-docs-mono, "Monaco", "Menlo", monospace);
   font-size: 0.875rem;
-  backdrop-filter: blur(8px);
 }
 
 .schemaContent {
@@ -224,7 +233,7 @@
 }
 
 .propertyColon {
-  color: #4a5568;
+  color: var(--docmate-text-secondary);
 }
 
 .propertyType {
@@ -240,7 +249,7 @@
 }
 
 .schemaSimple {
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-family: var(--font-docs-mono, "Monaco", "Menlo", monospace);
   font-size: 0.875rem;
 }
 
@@ -263,19 +272,19 @@
 }
 
 .contentType {
-  background: rgba(var(--docmate-bg-rgb), 0.8);
-  backdrop-filter: blur(8px);
+  background: var(--docmate-surface);
   border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.05);
 }
 
 .contentType h4 {
   margin: 0 0 1rem 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--docmate-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .responsesSection {
@@ -285,12 +294,10 @@
 }
 
 .responseItem {
-  background: rgba(var(--docmate-bg-rgb), 0.8);
-  backdrop-filter: blur(8px);
+  background: var(--docmate-surface);
   border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.05);
 }
 
 .responseHeader {
@@ -298,12 +305,12 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  background: var(--docmate-gradient-subtle);
-  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.1);
+  background: var(--docmate-surface-alt);
+  border-bottom: 1px solid var(--docmate-border-color);
 }
 
 .responseDescription {
-  color: #4a5568;
+  color: var(--docmate-text-secondary);
   font-size: 0.875rem;
 }
 
@@ -313,9 +320,11 @@
 
 .responseContentType h5 {
   margin: 0 0 1rem 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--docmate-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Try It Section */
@@ -332,23 +341,20 @@
 }
 
 .tryItForm h3 {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
-  color: #374151;
+  color: var(--docmate-text);
   margin: 0 0 1rem 0;
-  color: var(--docmate-primary);
-  }
+}
 
 .formSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.05);
 }
 
 .formSection h4 {
@@ -356,146 +362,69 @@
   font-weight: 600;
   color: var(--docmate-text-secondary);
   margin: 0 0 1rem 0;
-  border-bottom: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
+  border-bottom: 1px solid var(--docmate-border-color);
   padding-bottom: 0.5rem;
 }
 
 .requestBodyInput {
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  font-family: var(--font-docs-mono, "Monaco", "Menlo", monospace) !important;
   font-size: 0.875rem;
 }
 
 .sendButton {
   align-self: flex-start;
-  color: var(--docmate-primary);
-  border: none;
 }
 
 .responseSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--docmate-surface);
+  border: 1px solid var(--docmate-border-color);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.05);
 }
 
 .responseSection h3 {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--docmate-text);
   margin: 0 0 1rem 0;
-  color: var(--docmate-primary);
-  }
+}
 
 .responseStatus {
   margin-bottom: 1rem;
 }
 
 .responseBody h4 {
-  font-size: 1rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--docmate-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 0 0 1rem 0;
 }
 
 .responseCode {
   font-size: 0.875rem;
-  background: #1a202c !important;
-  color: #e2e8f0 !important;
+  background: var(--docmate-code-bg) !important;
+  color: #e6edf3 !important;
+  border: 1px solid var(--docmate-code-border);
   border-radius: 8px;
   max-height: 400px;
   overflow-y: auto;
 }
 
 .errorResponse {
-  background: rgba(var(--docmate-error-rgb), 0.1);
-  border: 1px solid rgba(var(--docmate-error-rgb), 0.2);
+  background: color-mix(in srgb, var(--docmate-error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--docmate-error) 25%, transparent);
   border-radius: 8px;
   padding: 1rem;
 }
 
 .errorResponse h4 {
   margin: 0 0 0.5rem 0;
-  color: #c53030;
-}
-
-/* Dark Mode */
-:global(.dark) .pageHeader {
-  background: rgba(30, 41, 59, 0.8);
-  border-bottom-color: #374151;
-}
-
-:global(.dark) .title {
-  color: #f9fafb;
-}
-
-:global(.dark) .path {
-  background: #374151;
-  color: #e2e8f0;
-  border-left-color: #4b5563;
-}
-
-:global(.dark) .description {
-  color: #9ca3af;
-}
-
-:global(.dark) .section h3 {
-  color: #f9fafb;
-}
-
-:global(.dark) .parametersTable,
-:global(.dark) .contentType,
-:global(.dark) .responseItem,
-:global(.dark) .formSection,
-:global(.dark) .responseSection {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-:global(.dark) .table thead {
-  background: rgba(15, 23, 42, 0.8);
-}
-
-:global(.dark) .table th {
-  color: #cbd5e0;
-  border-bottom-color: #374151;
-}
-
-:global(.dark) .table td {
-  border-bottom-color: #374151;
-}
-
-:global(.dark) .paramName code {
-  background: rgba(102, 126, 234, 0.2);
-  color: #a5bfff;
-}
-
-:global(.dark) .paramIn {
-  background: #374151;
-  color: #cbd5e0;
-}
-
-:global(.dark) .schemaObject {
-  background: rgba(15, 23, 42, 0.8);
-  border-color: #374151;
-}
-
-:global(.dark) .responseHeader {
-  background: rgba(15, 23, 42, 0.8);
-  border-bottom-color: #374151;
-}
-
-:global(.dark) .loading,
-:global(.dark) .noSelection {
-  color: #9ca3af;
-}
-
-:global(.dark) .noSelection h2 {
-  color: #f9fafb;
+  color: var(--docmate-error);
 }
 
 /* Responsive */

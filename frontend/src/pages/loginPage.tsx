@@ -4,6 +4,7 @@ import { Card, CardBody, Link, Divider } from "@heroui/react";
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import { useAuth } from "../hooks/useAuth";
+import { useBranding } from "../hooks/useBranding";
 import { ThemeToggle } from "../components/ui/themeToggle";
 import { EnhancedInput } from "../components/ui/enhancedInput";
 import { EnhancedButton } from "../components/ui/enhancedButton";
@@ -21,6 +22,7 @@ const LoginPage = () => {
   }>({});
 
   const { login, isAuthenticated, isLoading: authLoading, hasAnyRole } = useAuth();
+  const { organizationName, logo } = useBranding();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -90,9 +92,12 @@ const LoginPage = () => {
 
       <Card className={styles.loginCard}>
         <div className={styles.header}>
-          <div className={styles.logo}>📚</div>
+          <div className={styles.brandRow}>
+            <img src={logo} alt={`${organizationName} logo`} className={styles.logo} />
+            <span className={styles.brandName}>{organizationName}</span>
+          </div>
           <h1 className={styles.title}>Welcome Back</h1>
-          <p className={styles.subtitle}>Login to your admin dashboard</p>
+          <p className={styles.subtitle}>Login to your {organizationName} dashboard</p>
         </div>
 
         <CardBody>

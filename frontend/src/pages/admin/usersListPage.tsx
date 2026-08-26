@@ -15,7 +15,7 @@ import { EditUserModal } from "./components/EditUserModal";
 import { ManageRolesModal } from "./components/ManageRolesModal";
 import { ChangePasswordModal } from "./components/ChangePasswordModal";
 import { DeleteUserModal } from "./components/DeleteUserModal";
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 
 const UsersListPage = () => {

@@ -1,8 +1,9 @@
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams, Link } from "react-router";
 import type { SidebarItem, Documentation } from "../types/docs";
 import { TreeView, type TreeNode } from "../common/treeView/treeView";
 import { Sidebar } from "./Sidebar/Sidebar";
 import ApiEndpointsSidebar from "./ApiEndpointsSidebar";
+import { useBranding } from "../hooks/useBranding";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 interface DocSidebarProps {
@@ -40,6 +41,7 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const endpointId = searchParams.get("endpoint");
+  const { logo, organizationName } = useBranding();
 
   // Convert sidebar items to TreeView format
   const convertToTreeNodes = (items: SidebarItem[]): TreeNode[] => {
@@ -164,6 +166,10 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   return (
     <Sidebar collapsed={false} width={300}>
       <div className={styles.sidebarHeader}>
+        <Link to="/docs" className={styles.sidebarBrand}>
+          <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+          <span className={styles.sidebarBrandName}>{organizationName}</span>
+        </Link>
         <p className={styles.sidebarLabel}>Overview</p>
         <h3 className={styles.sidebarDocTitle} title={doc.title}>
           {doc.title}

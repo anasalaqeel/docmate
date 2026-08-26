@@ -79,8 +79,8 @@
   font-size: 1.125rem;
   font-family: 'Courier New', monospace;
   font-weight: 500;
-  color: #374151;
-  background-color: #f9fafb;
+  color: var(--docmate-code-border);
+  background-color: var(--docmate-text);
   padding: 0.75rem;
   border-radius: 0.25rem;
 }
@@ -140,7 +140,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem;
-  background-color: #f9fafb;
+  background-color: var(--docmate-text);
   border-radius: 0.5rem;
 }
 
@@ -229,7 +229,7 @@
   font-size: 1.125rem;
   font-family: 'Courier New', monospace;
   font-weight: 500;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 .servers {
@@ -261,22 +261,22 @@
 
 /* Dark mode styles */
 :global(.dark) .headerInfo h2 {
-  color: #f9fafb;
+  color: var(--docmate-text);
 }
 
 :global(.dark) .description {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .pathCard,
 :global(.dark) .schemaCard,
 :global(.dark) .serverCard {
-  border-color: #374151;
+  border-color: var(--docmate-code-border);
   background-color: #1f2937;
 }
 
 :global(.dark) .pathCard:hover {
-  border-color: #4b5563;
+  border-color: var(--docmate-code-border);
 }
 
 :global(.dark) .pathTitle,
@@ -286,11 +286,11 @@
 }
 
 :global(.dark) .operation:not(:last-child) {
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .operationSummary {
-  color: #f9fafb;
+  color: var(--docmate-text);
 }
 
 :global(.dark) .operationDescription,
@@ -298,7 +298,7 @@
 :global(.dark) .responseDescription,
 :global(.dark) .requestDescription,
 :global(.dark) .serverDescription {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .parameter {
@@ -306,7 +306,7 @@
 }
 
 :global(.dark) .paramType {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .schemaType {
@@ -320,7 +320,7 @@
 }
 
 :global(.dark) .loading {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 /* Try It Modal Styles */
@@ -369,7 +369,7 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
   border-bottom: var(--docmate-border);
   padding-bottom: 0.5rem;
 }
@@ -400,7 +400,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 .emptyResponse {
@@ -423,7 +423,7 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
   border-bottom: var(--docmate-border);
   padding-bottom: 0.5rem;
 }
@@ -434,7 +434,7 @@
 }
 
 :global(.dark) .tryItHeader {
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .paramSection h4,
@@ -442,9 +442,9 @@
 :global(.dark) .responseBody h4,
 :global(.dark) .codeExamples h4 {
   color: var(--docmate-text);
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .emptyResponse {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }

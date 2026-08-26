@@ -25,19 +25,20 @@ admin branding):
 
 | Role | Token | Light fallback |
 |---|---|---|
-| Page background | `--docmate-bg` | `#f8f7fb` |
+| Page background | `--docmate-bg` | `#f6f7f8` |
 | Surface | `--docmate-surface` | `#ffffff` |
-| Surface alt | `--docmate-surface-alt` | `#f5f3fa` |
-| Text | `--docmate-text` | `#1f1832` |
-| Text secondary | `--docmate-text-secondary` | `#5d5573` |
-| Border | `--docmate-border-color` | `rgba(30,20,50,0.1)` |
-| Primary / brand | `--docmate-primary` | `#6d28d9` (refined violet) |
-| Secondary | `--docmate-secondary` | `#4c1d95` |
-| Semantic | `--docmate-success` / `--docmate-warning` / `--docmate-error` | `#12805c` / `#b45309` / `#b91c1c` |
+| Surface alt | `--docmate-surface-alt` | `#f1f3f5` |
+| Text | `--docmate-text` | `#1a2029` |
+| Text secondary | `--docmate-text-secondary` | `#59616e` |
+| Border | `--docmate-border-color` | `rgba(15,23,42,0.1)` |
+| Primary / brand | `--docmate-primary` | `#0f766e` (teal) |
+| Secondary | `--docmate-secondary` | `#134e4a` |
+| Semantic | `--docmate-success` / `--docmate-warning` / `--docmate-error` | `#16a34a` / `#b45309` / `#b91c1c` |
 
-The default (unbranded) palette is **Refined Violet**: violet primary on
-violet-tinted neutrals — premium developer-brand register. Dark mode uses a
-violet-tinted near-black (`#131022` family), not mechanically inverted slate.
+The default (unbranded) palette is **Graphite + Teal**: deep teal `#0f766e` primary
+on cool graphite neutrals in light mode; mint teal `#2dd4bf` accent on charcoal
+(`#101014` family) in dark mode — one brand hue, tuned per background for contrast.
+Dark mode is composed, not mechanically inverted.
 
 Code blocks are intentionally dark in both modes: `--docmate-code-bg: #161b22`,
 `--docmate-code-border: #30363d`, text `#e6edf3`, with the `github-dark` highlight theme.

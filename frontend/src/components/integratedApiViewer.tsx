@@ -266,10 +266,11 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
           classNames={{
             base: styles.tabs,
             cursor: styles.tabCursor,
-            tabContent: "group-data-[selected=true]:text-[var(--docmate-text)]",
+            tabList: styles.tabList,
             tab: styles.tab,
+            tabContent: "group-data-[selected=true]:text-[var(--docmate-text)]",
           }}
-          variant="bordered"
+          variant="underlined"
         >
           <Tab key="overview" title="Overview">
             <div className={styles.tabContentWrapper}>

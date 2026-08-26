@@ -518,8 +518,8 @@
 }
 
 :global(.dark) .sidebarHeader {
-  background: #1a202c;
-  border-bottom-color: #4a5568;
+  background: var(--docmate-code-bg);
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .sidebarHeader h2 {
@@ -527,16 +527,16 @@
 }
 
 :global(.dark) .version {
-  background: #4a5568;
-  color: #e2e8f0;
+  background: var(--docmate-text-secondary);
+  color: var(--docmate-text);
 }
 
 :global(.dark) .tagTitle {
-  color: #cbd5e0;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .operationItem:hover {
-  background: #4a5568;
+  background: var(--docmate-text-secondary);
 }
 
 :global(.dark) .operationItem.active {
@@ -548,7 +548,7 @@
 }
 
 :global(.dark) .operationPath {
-  color: #cbd5e0;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .mainContent {
@@ -556,8 +556,8 @@
 }
 
 :global(.dark) .operationHeader {
-  background: #1a202c;
-  border-bottom-color: #4a5568;
+  background: var(--docmate-code-bg);
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .operationTitle h1 {
@@ -565,67 +565,67 @@
 }
 
 :global(.dark) .operationHeader .operationPath {
-  background: #4a5568;
-  color: #e2e8f0;
+  background: var(--docmate-text-secondary);
+  color: var(--docmate-text);
   border-left-color: #718096;
 }
 
 :global(.dark) .operationDescription {
-  color: #cbd5e0;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .section h3 {
   color: #f7fafc;
-  border-bottom-color: #4a5568;
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .parametersTable {
   background: #2d3748;
-  border-color: #4a5568;
+  border-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .table thead {
-  background: #1a202c;
+  background: var(--docmate-code-bg);
 }
 
 :global(.dark) .table th {
-  color: #cbd5e0;
-  border-bottom-color: #4a5568;
+  color: var(--docmate-text-secondary);
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .table td {
-  border-bottom-color: #4a5568;
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .paramName code {
-  background: #4a5568;
-  color: #e2e8f0;
+  background: var(--docmate-text-secondary);
+  color: var(--docmate-text);
 }
 
 :global(.dark) .paramIn {
-  background: #4a5568;
-  color: #cbd5e0;
+  background: var(--docmate-text-secondary);
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .schemaObject,
 :global(.dark) .contentTypeSection,
 :global(.dark) .responseSection {
-  background: #1a202c;
-  border-color: #4a5568;
+  background: var(--docmate-code-bg);
+  border-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .responseItem {
-  border-color: #4a5568;
+  border-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .responseHeader {
-  background: #1a202c;
-  border-bottom-color: #4a5568;
+  background: var(--docmate-code-bg);
+  border-bottom-color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .loading,
 :global(.dark) .noSpec {
-  color: #cbd5e0;
+  color: var(--docmate-text-secondary);
 }
 
 /* Responsive */

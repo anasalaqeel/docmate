@@ -4,7 +4,7 @@
 
 .editingContainer {
   padding: 16px 0;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid color-mix(in srgb, var(--docmate-primary) 20%, transparent);
   border-radius: 8px;
   background-color: var(--docmate-surface-alt);
 }

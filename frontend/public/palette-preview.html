@@ -75,6 +75,18 @@
       --bg: #f7f7f7; --surface: #ffffff; --border: rgba(0,0,0,.11); --text: #111111; --text2: #555555;
       --success: #0f766e; --error: #b91c1c; }
   .g .theme-title { background: #111111; }
+  /* Dark-mode variants — charcoal surfaces, accent differs */
+  .dm { --bg: #101014; --surface: #16171b; --border: rgba(255,255,255,.1); --text: #f2f2f5; --text2: #a0a3ad; }
+  .dm0 { --primary: #8b5cf6; --primary-08: rgba(139,92,246,.12); --primary-45: rgba(139,92,246,.5); --primary-40: rgba(139,92,246,.45); --success: #34d399; --error: #f87171; }
+  .dm0 .theme-title { background: #8b5cf6; }
+  .dm1 { --primary: #f59e0b; --primary-08: rgba(245,158,11,.12); --primary-45: rgba(245,158,11,.5); --primary-40: rgba(245,158,11,.45); --success: #34d399; --error: #f87171; }
+  .dm1 .theme-title { background: #b45309; }
+  .dm2 { --primary: #2dd4bf; --primary-08: rgba(45,212,191,.12); --primary-45: rgba(45,212,191,.5); --primary-40: rgba(45,212,191,.45); --success: #34d399; --error: #f87171; }
+  .dm2 .theme-title { background: #0d9488; }
+  .dm3 { --primary: #fb7185; --primary-08: rgba(251,113,133,.12); --primary-45: rgba(251,113,133,.5); --primary-40: rgba(251,113,133,.45); --success: #34d399; --error: #f87171; }
+  .dm3 .theme-title { background: #be123c; }
+  .dm4 { --primary: #c4b5fd; --primary-08: rgba(196,181,253,.1); --primary-45: rgba(196,181,253,.4); --primary-40: rgba(196,181,253,.38); --success: #34d399; --error: #f87171; }
+  .dm4 .theme-title { background: #6d28d9; }
 </style>
 </head>
 <body>
@@ -217,6 +229,88 @@
       </div>
       <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
       <div class="swatches"><div class="sw" style="background:#b91c1c"></div><div class="sw" style="background:#111"></div><div class="sw" style="background:#333"></div><div class="sw" style="background:#555"></div><div class="sw" style="background:#f7f7f7"></div><div class="sw" style="background:#0f766e"></div></div>
+    </div>
+  </div>
+  <h1 style="margin-top:64px">Dark Mode — Accent Candidates</h1>
+  <p class="sub">All on the same neutral charcoal surfaces (#101014 / #16171b). Only the accent changes.</p>
+
+  <div class="theme dm dm0">
+    <div class="theme-title">Current · Violet #8B5CF6 — what you have now (reads blue)</div>
+    <div class="canvas">
+      <div class="hero-title">Documentation</div>
+      <div class="hero-sub">API references, integration guides, and technical specifications.</div>
+      <div class="search"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="#a0a3ad" stroke-width="1.75"/><line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#a0a3ad" stroke-width="1.75" stroke-linecap="round"/></svg><span>Search documentation</span><span class="kbd">/</span></div>
+      <div class="chips"><span class="chip active">All</span><span class="chip">Guides</span><span class="chip">API</span><span class="chip">Mixed</span></div>
+      <div class="grid">
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><rect x="16" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M12 10v4" stroke="currentColor" stroke-width="1.75"/></svg></div><span class="ver">v2.1</span></div><h3>Payments API</h3><p>REST endpoints for charges, refunds, and disputes with interactive testing.</p><div class="card-foot"><b>Sarah Chen</b><span>Updated Aug 24</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 2h9l5 5v15H5V2z" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v1.4</span></div><h3>Integration Guide</h3><p>Step-by-step setup, authentication flows, and best practices.</p><div class="card-foot"><b>M. Ibrahim</b><span>Updated Aug 20</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 6v12H4V3z" stroke="currentColor" stroke-width="1.75"/><path d="M7 13h7M7 17h5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v3.0</span></div><h3>Platform Reference</h3><p>Guides plus the full API surface in one documentation set.</p><div class="card-foot"><b>Dev Team</b><span>Updated Aug 18</span></div></div>
+      </div>
+      <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
+    </div>
+  </div>
+
+  <div class="theme dm dm1">
+    <div class="theme-title">Option 1 · Amber #F59E0B — warm, Raycast-like premium dark</div>
+    <div class="canvas">
+      <div class="hero-title">Documentation</div>
+      <div class="hero-sub">API references, integration guides, and technical specifications.</div>
+      <div class="search"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="#a0a3ad" stroke-width="1.75"/><line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#a0a3ad" stroke-width="1.75" stroke-linecap="round"/></svg><span>Search documentation</span><span class="kbd">/</span></div>
+      <div class="chips"><span class="chip active">All</span><span class="chip">Guides</span><span class="chip">API</span><span class="chip">Mixed</span></div>
+      <div class="grid">
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><rect x="16" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M12 10v4" stroke="currentColor" stroke-width="1.75"/></svg></div><span class="ver">v2.1</span></div><h3>Payments API</h3><p>REST endpoints for charges, refunds, and disputes with interactive testing.</p><div class="card-foot"><b>Sarah Chen</b><span>Updated Aug 24</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 2h9l5 5v15H5V2z" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v1.4</span></div><h3>Integration Guide</h3><p>Step-by-step setup, authentication flows, and best practices.</p><div class="card-foot"><b>M. Ibrahim</b><span>Updated Aug 20</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 6v12H4V3z" stroke="currentColor" stroke-width="1.75"/><path d="M7 13h7M7 17h5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v3.0</span></div><h3>Platform Reference</h3><p>Guides plus the full API surface in one documentation set.</p><div class="card-foot"><b>Dev Team</b><span>Updated Aug 18</span></div></div>
+      </div>
+      <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
+    </div>
+  </div>
+
+  <div class="theme dm dm2">
+    <div class="theme-title">Option 2 · Teal #2DD4BF — fresh, technical, GitHub-dark adjacent</div>
+    <div class="canvas">
+      <div class="hero-title">Documentation</div>
+      <div class="hero-sub">API references, integration guides, and technical specifications.</div>
+      <div class="search"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="#a0a3ad" stroke-width="1.75"/><line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#a0a3ad" stroke-width="1.75" stroke-linecap="round"/></svg><span>Search documentation</span><span class="kbd">/</span></div>
+      <div class="chips"><span class="chip active">All</span><span class="chip">Guides</span><span class="chip">API</span><span class="chip">Mixed</span></div>
+      <div class="grid">
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><rect x="16" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M12 10v4" stroke="currentColor" stroke-width="1.75"/></svg></div><span class="ver">v2.1</span></div><h3>Payments API</h3><p>REST endpoints for charges, refunds, and disputes with interactive testing.</p><div class="card-foot"><b>Sarah Chen</b><span>Updated Aug 24</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 2h9l5 5v15H5V2z" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v1.4</span></div><h3>Integration Guide</h3><p>Step-by-step setup, authentication flows, and best practices.</p><div class="card-foot"><b>M. Ibrahim</b><span>Updated Aug 20</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 6v12H4V3z" stroke="currentColor" stroke-width="1.75"/><path d="M7 13h7M7 17h5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v3.0</span></div><h3>Platform Reference</h3><p>Guides plus the full API surface in one documentation set.</p><div class="card-foot"><b>Dev Team</b><span>Updated Aug 18</span></div></div>
+      </div>
+      <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
+    </div>
+  </div>
+
+  <div class="theme dm dm3">
+    <div class="theme-title">Option 3 · Rose #FB7185 — warm, distinctive, editorial</div>
+    <div class="canvas">
+      <div class="hero-title">Documentation</div>
+      <div class="hero-sub">API references, integration guides, and technical specifications.</div>
+      <div class="search"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="#a0a3ad" stroke-width="1.75"/><line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#a0a3ad" stroke-width="1.75" stroke-linecap="round"/></svg><span>Search documentation</span><span class="kbd">/</span></div>
+      <div class="chips"><span class="chip active">All</span><span class="chip">Guides</span><span class="chip">API</span><span class="chip">Mixed</span></div>
+      <div class="grid">
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><rect x="16" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M12 10v4" stroke="currentColor" stroke-width="1.75"/></svg></div><span class="ver">v2.1</span></div><h3>Payments API</h3><p>REST endpoints for charges, refunds, and disputes with interactive testing.</p><div class="card-foot"><b>Sarah Chen</b><span>Updated Aug 24</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 2h9l5 5v15H5V2z" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v1.4</span></div><h3>Integration Guide</h3><p>Step-by-step setup, authentication flows, and best practices.</p><div class="card-foot"><b>M. Ibrahim</b><span>Updated Aug 20</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 6v12H4V3z" stroke="currentColor" stroke-width="1.75"/><path d="M7 13h7M7 17h5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v3.0</span></div><h3>Platform Reference</h3><p>Guides plus the full API surface in one documentation set.</p><div class="card-foot"><b>Dev Team</b><span>Updated Aug 18</span></div></div>
+      </div>
+      <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
+    </div>
+  </div>
+
+  <div class="theme dm dm4">
+    <div class="theme-title">Option 4 · Soft Lavender #C4B5FD — brand hue, desaturated + lower dosage</div>
+    <div class="canvas">
+      <div class="hero-title">Documentation</div>
+      <div class="hero-sub">API references, integration guides, and technical specifications.</div>
+      <div class="search"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="#a0a3ad" stroke-width="1.75"/><line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#a0a3ad" stroke-width="1.75" stroke-linecap="round"/></svg><span>Search documentation</span><span class="kbd">/</span></div>
+      <div class="chips"><span class="chip active">All</span><span class="chip">Guides</span><span class="chip">API</span><span class="chip">Mixed</span></div>
+      <div class="grid">
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><rect x="16" y="8" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M12 10v4" stroke="currentColor" stroke-width="1.75"/></svg></div><span class="ver">v2.1</span></div><h3>Payments API</h3><p>REST endpoints for charges, refunds, and disputes with interactive testing.</p><div class="card-foot"><b>Sarah Chen</b><span>Updated Aug 24</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 2h9l5 5v15H5V2z" stroke="currentColor" stroke-width="1.75"/><path d="M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v1.4</span></div><h3>Integration Guide</h3><p>Step-by-step setup, authentication flows, and best practices.</p><div class="card-foot"><b>M. Ibrahim</b><span>Updated Aug 20</span></div></div>
+        <div class="card"><div class="card-head"><div class="icon-tile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 6v12H4V3z" stroke="currentColor" stroke-width="1.75"/><path d="M7 13h7M7 17h5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></div><span class="ver">v3.0</span></div><h3>Platform Reference</h3><p>Guides plus the full API surface in one documentation set.</p><div class="card-foot"><b>Dev Team</b><span>Updated Aug 18</span></div></div>
+      </div>
+      <div class="btn-row"><button class="btn primary">Try again</button><button class="btn ghost">Back to all docs</button><span class="method m-get">GET</span><span class="method m-post">POST</span><span class="method m-del">DELETE</span></div>
     </div>
   </div>
 </body>

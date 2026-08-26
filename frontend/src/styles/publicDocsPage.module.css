@@ -19,6 +19,27 @@
   text-align: center;
 }
 
+.heroBrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.heroLogo {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: block;
+}
+
+.heroOrgName {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--docmate-text);
+}
+
 .heroTitle {
   font-family: var(--font-docs-display);
   font-size: clamp(2.5rem, 5vw, 3.5rem);

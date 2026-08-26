@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router";
 import { getPublicDocs } from "../services/docsService";
 import { type Documentation } from "../types/docs";
 import { CardSkeleton } from "../components/ui/loadingSkeleton";
-import { useLayout } from "../contexts/layoutContext";
+import { useLayout } from "../hooks/useLayout";
+import { useBranding } from "../hooks/useBranding";
 import styles from "../styles/publicDocsPage.module.css";
 
 const SearchIcon = () => (
@@ -72,6 +73,7 @@ const transitionTo = (navigate: (to: string) => void, to: string) => {
 };
 
 const PublicDocsPage = () => {
+  const { organizationName, logo } = useBranding();
   const [docs, setDocs] = useState<Documentation[]>([]);
   const [filteredDocs, setFilteredDocs] = useState<Documentation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +108,7 @@ const PublicDocsPage = () => {
     });
 
     return () => resetLayoutData();
-  }, []);
+  }, [setLayoutData, resetLayoutData]);
 
   useEffect(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -155,6 +157,10 @@ const PublicDocsPage = () => {
   return (
     <div className={styles.main}>
       <section className={styles.hero}>
+        <div className={styles.heroBrand}>
+          <img src={logo} alt={`${organizationName} logo`} className={styles.heroLogo} />
+          <span className={styles.heroOrgName}>{organizationName}</span>
+        </div>
         <h1 className={styles.heroTitle}>Documentation</h1>
         <p className={styles.heroSubtitle}>
           API references, integration guides, and technical specifications —

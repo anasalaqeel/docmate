@@ -133,7 +133,7 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
-  color: #374151;
+  color: var(--docmate-code-border);
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--docmate-border-color);
 }
@@ -181,7 +181,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 /* Responses Section */
@@ -226,7 +226,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 /* Schema Visualization */
@@ -240,14 +240,14 @@
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 .schemaObject {
   border: var(--docmate-border);
   border-radius: 6px;
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--docmate-text);
 }
 
 .schemaType {
@@ -340,14 +340,14 @@
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: var(--docmate-code-border);
 }
 
 .exampleCode {
   font-size: 0.75rem;
   line-height: 1.5;
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--docmate-text);
 }
 
 /* Try It Modal */
@@ -365,46 +365,46 @@
 
 /* Dark mode */
 :global(.dark) .header {
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .headerInfo h1 {
-  color: #f9fafb;
+  color: var(--docmate-text);
 }
 
 :global(.dark) .description {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .operationCard {
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
   background: #1f2937;
 }
 
 :global(.dark) .operationCard:first-child {
-  border-top-color: #374151;
+  border-top-color: var(--docmate-code-border);
 }
 
 :global(.dark) .operationHeader {
   background: #111827;
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .operationSummary {
-  color: #f9fafb;
+  color: var(--docmate-text);
 }
 
 :global(.dark) .operationPath {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .operationDescription {
   background: #111827;
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .operationDescription p {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .parametersSection,
@@ -421,54 +421,54 @@
 }
 
 :global(.dark) .parameterGroup h4 {
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .contentType,
 :global(.dark) .responseItem {
-  border-color: #374151;
+  border-color: var(--docmate-code-border);
   background: #111827;
 }
 
 :global(.dark) .responseHeader {
   background: #0f172a;
-  border-bottom-color: #374151;
+  border-bottom-color: var(--docmate-code-border);
 }
 
 :global(.dark) .responseDescription {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .schemaObject {
-  border-color: #374151;
+  border-color: var(--docmate-code-border);
   background: #0f172a;
 }
 
 :global(.dark) .schemaProperty {
-  border-left-color: #374151;
+  border-left-color: var(--docmate-code-border);
 }
 
 :global(.dark) .propertyName {
-  color: #f9fafb;
+  color: var(--docmate-text);
 }
 
 :global(.dark) .propertyDescription,
 :global(.dark) .sectionDescription,
 :global(.dark) .schemaDescription {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 :global(.dark) .nestedSchema {
-  border-top-color: #374151;
+  border-top-color: var(--docmate-code-border);
 }
 
 :global(.dark) .exampleCode {
   background: #0f172a;
-  border-color: #374151;
+  border-color: var(--docmate-code-border);
 }
 
 :global(.dark) .loading {
-  color: #9ca3af;
+  color: var(--docmate-text-secondary);
 }
 
 /* Responsive */

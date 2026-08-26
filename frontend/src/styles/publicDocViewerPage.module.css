@@ -43,6 +43,32 @@
   flex-shrink: 0;
 }
 
+.sidebarBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.sidebarBrandLogo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sidebarBrandName {
+  font-family: var(--font-docs-display, var(--font-sans));
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--docmate-text);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .sidebarLabel {
   font-size: 0.8125rem;
   font-weight: 600;

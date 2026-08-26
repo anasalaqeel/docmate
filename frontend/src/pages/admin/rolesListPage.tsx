@@ -29,7 +29,7 @@ import styles from "../../styles/rolesListPage.module.css";
 import PageHeader from "../../components/PageHeader";
 import { RolesTable } from "./components/RolesTable";
 
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 
 const RolesListPage = () => {

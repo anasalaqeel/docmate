@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { changePassword } from "../../services/authService";
 import { parseZodErrors } from "../../utils/errorHandlers";
 
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 import { useEffect } from "react";
 

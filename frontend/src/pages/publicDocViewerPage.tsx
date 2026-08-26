@@ -10,7 +10,7 @@ import { useSidebarTree } from "../hooks/useSidebarTree";
 import DocSidebar from "../components/DocSidebar";
 import NavButton from "../components/NavButton";
 import ViewerAttachments from "../components/ViewerAttachments";
-import { useLayout } from "../contexts/layoutContext";
+import { useLayout } from "../hooks/useLayout";
 import ExportButton from "../components/ExportButton";
 import styles from "../styles/publicDocViewerPage.module.css";
 
@@ -116,7 +116,7 @@ const PublicDocViewerPage = () => {
     [getAllPages]
   );
 
-  // Load documentation — keyed on id and retryCount only, so page/endpoint
+  // Fetch the documentation — keyed on id and retryCount only, so page/endpoint
   // navigation reuses the already-loaded document instead of refetching.
   useEffect(() => {
     async function loadDoc() {
@@ -135,14 +135,6 @@ const PublicDocViewerPage = () => {
             const endpoints = await getApiEndpoints(response.data);
             setApiEndpoints(endpoints);
           }
-
-          // Auto-navigate to first page if nothing selected
-          if (!pageId && !endpointId) {
-            const firstPage = findFirstPage(response.data.sidebarItems || []);
-            if (firstPage?.page) {
-              navigate(`/docs/${id}/page/${firstPage.page.id}`, { replace: true });
-            }
-          }
         } else {
           setLoadError("not-found");
         }
@@ -155,10 +147,16 @@ const PublicDocViewerPage = () => {
     }
 
     loadDoc();
-
-    return () => resetLayoutData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, retryCount]);
+
+  // Auto-navigate to the first page when a doc loads with nothing selected
+  useEffect(() => {
+    if (!doc || !id || pageId || endpointId) return;
+    const firstPage = findFirstPage(doc.sidebarItems || []);
+    if (firstPage?.page) {
+      navigate(`/docs/${id}/page/${firstPage.page.id}`, { replace: true });
+    }
+  }, [doc, id, pageId, endpointId, navigate, findFirstPage]);
 
   useEffect(() => {
     if (doc) {

@@ -24,7 +24,7 @@ import {
 } from '@heroui/react';
 import { PlusIcon, EllipsisVerticalIcon, PencilIcon, GlobeAltIcon, TrashIcon, DocumentTextIcon, CodeBracketIcon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
 import { useNavigate, useSearchParams } from 'react-router';
-import { useLayout } from '../../contexts/layoutContext';
+import { useLayout } from '../../hooks/useLayout';
 import { AdminSidebar } from '../../components/Sidebar/AdminSidebar';
 import docsService from '../../services/docsService';
 import type { Documentation } from '../../services/docsService';

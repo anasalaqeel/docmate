@@ -40,10 +40,26 @@
   color: var(--docmate-primary);
   }
 
-.logo {
-  font-size: 3.5rem;
+.brandRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   margin-bottom: 1rem;
+}
+
+.logo {
+  width: 3rem;
+  height: 3rem;
+  display: block;
   filter: drop-shadow(0 4px 12px rgba(var(--docmate-primary-rgb), 0.3));
+}
+
+.brandName {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--docmate-primary);
 }
 
 .title {
@@ -149,7 +165,12 @@
   }
 
   .logo {
-    font-size: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .brandName {
+    font-size: 1.5rem;
   }
 
   .title {

@@ -16,8 +16,9 @@ import { Link, useNavigate } from "react-router";
 import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { ThemeToggle } from "./ui/themeToggle";
 import { EnhancedButton } from "./ui/enhancedButton";
-import { useLayout } from "../contexts/layoutContext";
+import { useLayout } from "../hooks/useLayout";
 import { useAuth } from "../hooks/useAuth";
+import { useBranding } from "../hooks/useBranding";
 import styles from "./AppLayout.module.css";
 
 interface AppLayoutProps {
@@ -33,6 +34,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     // setIsMobileMenuOpen 
   } = useLayout();
   const { user, logout } = useAuth();
+  const { logo } = useBranding();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -74,7 +76,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             )}
             <Link to="/docs" className={styles.brandLink}>
               <div className={styles.brandContent}>
-                <img src="/logo.svg" alt="Docmate logo" className={styles.logo} />
+                <img src={logo} alt="Logo" className={styles.logo} />
                 <h1 className={styles.brandTitle}>{layoutData.headerTitle}</h1>
                 {layoutData.navbarType === "admin" && (
                     <Chip size="sm" variant="flat" className={styles.adminBadge}>Admin</Chip>

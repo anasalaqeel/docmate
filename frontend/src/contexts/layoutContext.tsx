@@ -1,71 +1,31 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-
-interface LayoutData {
-  headerTitle: string;
-  headerVersion?: string;
-  showAdminButton: boolean;
-  backButton?: {
-    to: string;
-    label: string;
-  };
-  sidebar?: ReactNode;
-  navbarType: "public" | "admin";
-}
-
-interface LayoutContextType {
-  layoutData: LayoutData;
-  setLayoutData: (data: Partial<LayoutData>) => void;
-  resetLayoutData: () => void;
-  isSidebarCollapsed: boolean;
-  setIsSidebarCollapsed: (collapsed: boolean) => void;
-  isMobileMenuOpen: boolean;
-  setIsMobileMenuOpen: (open: boolean) => void;
-}
-
-const defaultLayoutData: LayoutData = {
-  headerTitle: "API Documentation",
-  headerVersion: undefined,
-  showAdminButton: true,
-  sidebar: undefined,
-  navbarType: "public",
-};
-
-const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
+import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { LayoutContext, defaultLayoutData } from "../types/layout";
 
 export const LayoutProvider = ({ children }: { children: ReactNode }) => {
-  const [layoutData, setInternalLayoutData] = useState<LayoutData>(defaultLayoutData);
+  const [layoutData, setInternalLayoutData] = useState(defaultLayoutData);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const setLayoutData = (data: Partial<LayoutData>) => {
+  const setLayoutData = useCallback((data: Partial<typeof defaultLayoutData>) => {
     setInternalLayoutData((prev) => ({ ...prev, ...data }));
-  };
+  }, []);
 
-  const resetLayoutData = () => {
+  const resetLayoutData = useCallback(() => {
     setInternalLayoutData(defaultLayoutData);
-  };
+  }, []);
 
-  return (
-    <LayoutContext.Provider 
-      value={{ 
-        layoutData, 
-        setLayoutData, 
-        resetLayoutData,
-        isSidebarCollapsed,
-        setIsSidebarCollapsed,
-        isMobileMenuOpen,
-        setIsMobileMenuOpen
-      }}
-    >
-      {children}
-    </LayoutContext.Provider>
+  const value = useMemo(
+    () => ({
+      layoutData,
+      setLayoutData,
+      resetLayoutData,
+      isSidebarCollapsed,
+      setIsSidebarCollapsed,
+      isMobileMenuOpen,
+      setIsMobileMenuOpen,
+    }),
+    [layoutData, setLayoutData, resetLayoutData, isSidebarCollapsed, isMobileMenuOpen]
   );
-};
 
-export const useLayout = () => {
-  const context = useContext(LayoutContext);
-  if (context === undefined) {
-    throw new Error("useLayout must be used within a LayoutProvider");
-  }
-  return context;
+  return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 };

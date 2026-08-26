@@ -44,14 +44,14 @@ const SecurityRequirementSchema = z.object({
 const SecuritySchema = z.array(SecurityRequirementSchema);
 
 // Parse and remove frontmatter from markdown content
-function parseFrontmatter(content: string): { frontmatter: Record<string, any>; content: string } {
+function parseFrontmatter(content: string): { frontmatter: Record<string, string>; content: string } {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
 
   if (match) {
     const frontmatterText = match[1];
     const markdownContent = match[2];
-    const frontmatter: Record<string, any> = {};
+    const frontmatter: Record<string, string> = {};
 
     const lines = frontmatterText.split('\n');
     for (const line of lines) {
@@ -148,11 +148,10 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
             <img className="max-w-full h-auto rounded-lg shadow-md my-6 mx-auto block" {...props} />
           ),
           code: ({
-            inline,
             className,
             children,
             ...props
-          }: any) => {
+          }: Omit<React.ComponentPropsWithoutRef<'code'>, 'children'> & { children?: React.ReactNode }) => {
             const isBlock = className?.includes("language-") || className?.includes("hljs");
 
             if (!isBlock) {
@@ -293,9 +292,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, pageId, do
         const tags = tagsMatch?.[1]?.trim().split(",").map((tag) => tag.trim()).filter(Boolean) || [];
         const deprecated = deprecatedMatch?.[1]?.trim() === "true";
 
-        let parameters = parametersMatch ? safeParseJSON(parametersMatch[1], z.array(ParameterSchema), []) : [];
-        let responses = responsesMatch ? safeParseJSON(responsesMatch[1], ResponseSchema, {}) : {};
-        let security = securityMatch ? safeParseJSON(securityMatch[1], SecuritySchema, []) : [];
+        const parameters = parametersMatch ? safeParseJSON(parametersMatch[1], z.array(ParameterSchema), []) : [];
+        const responses = responsesMatch ? safeParseJSON(responsesMatch[1], ResponseSchema, {}) : {};
+        const security = securityMatch ? safeParseJSON(securityMatch[1], SecuritySchema, []) : [];
 
         parts.push(
           <OpenApiOperationBlock

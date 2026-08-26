@@ -47,7 +47,7 @@ import ExportButton from "../../components/ExportButton";
 import ImportButton from "../../components/ImportButton";
 import styles from "../../styles/docsEditorPage.module.css";
 
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 
 const DocsEditorPage = () => {

@@ -63,21 +63,21 @@ export const defaultSettings: Record<string, {
   // Theme
   "theme.colors.primary": {
     type: "string",
-    defaultValue: "#6d28d9",
+    defaultValue: "#0f766e",
     category: "theme",
     isPublic: true,
     description: "Primary color for the theme"
   },
   "theme.colors.secondary": {
     type: "string",
-    defaultValue: "#4c1d95",
+    defaultValue: "#134e4a",
     category: "theme",
     isPublic: true,
     description: "Secondary color for the theme"
   },
   "theme.colors.success": {
     type: "string",
-    defaultValue: "#12805c",
+    defaultValue: "#16a34a",
     category: "theme",
     isPublic: true,
     description: "Success color for the theme"
@@ -98,14 +98,14 @@ export const defaultSettings: Record<string, {
   },
   "theme.colors.background": {
     type: "string",
-    defaultValue: "#f8f7fb",
+    defaultValue: "#f6f7f8",
     category: "theme",
     isPublic: true,
     description: "Background color for the theme"
   },
   "theme.colors.text": {
     type: "string",
-    defaultValue: "#1f1832",
+    defaultValue: "#1a2029",
     category: "theme",
     isPublic: true,
     description: "Text color for the theme"
@@ -126,14 +126,14 @@ export const defaultSettings: Record<string, {
   },
   "theme.dark.colors.primary": {
     type: "string",
-    defaultValue: "#8b5cf6",
+    defaultValue: "#2dd4bf",
     category: "theme",
     isPublic: true,
     description: "Primary color for the dark theme"
   },
   "theme.dark.colors.secondary": {
     type: "string",
-    defaultValue: "#a78bfa",
+    defaultValue: "#14b8a6",
     category: "theme",
     isPublic: true,
     description: "Secondary color for the dark theme"
@@ -161,14 +161,14 @@ export const defaultSettings: Record<string, {
   },
   "theme.dark.colors.background": {
     type: "string",
-    defaultValue: "#131022",
+    defaultValue: "#101014",
     category: "theme",
     isPublic: true,
     description: "Background color for the dark theme"
   },
   "theme.dark.colors.text": {
     type: "string",
-    defaultValue: "#f1eef9",
+    defaultValue: "#f2f2f5",
     category: "theme",
     isPublic: true,
     description: "Text color for the dark theme"

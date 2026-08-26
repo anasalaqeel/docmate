@@ -66,7 +66,7 @@ const TABS = [
 import styles from "../../styles/settingsPage.module.css";
 import PageHeader from "../../components/PageHeader";
 
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 import { useEffect } from "react";
 

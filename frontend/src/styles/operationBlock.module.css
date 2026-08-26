@@ -52,7 +52,7 @@
   background-color: #f3f4f6;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  color: #374151;
+  color: var(--docmate-text);
   font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', 'Roboto Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
@@ -68,12 +68,12 @@
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   .operationBlock {
-    border-color: #374151;
+    border-color: var(--docmate-code-border);
   }
 
   .operationHeader {
     background-color: #111827;
-    border-color: #374151;
+    border-color: var(--docmate-code-border);
   }
 
   .methodGet {

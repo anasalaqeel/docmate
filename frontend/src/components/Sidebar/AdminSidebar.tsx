@@ -7,7 +7,7 @@ import {
   Cog6ToothIcon 
 } from "@heroicons/react/24/outline";
 import { Sidebar, SidebarItem } from "./Sidebar";
-import { useLayout } from "../../contexts/layoutContext";
+import { useLayout } from "../../hooks/useLayout";
 
 export const AdminSidebar = () => {
   const navigate = useNavigate();
