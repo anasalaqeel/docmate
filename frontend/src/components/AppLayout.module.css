@@ -92,9 +92,11 @@
 }
 
 .shell {
+  --app-sidebar-width: 300px;
+  position: relative;
   flex: 1;
   display: flex;
-  height: calc(100% - 0px);
+  height: 100%;
   min-height: 0;
   overflow: hidden;
 }
@@ -109,8 +111,102 @@
 }
 
 .sidebarWrapper {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: var(--app-sidebar-width); /* explicit numeric width so hiding animates smoothly */
+  min-width: 0; /* constant: flex items default to min-width auto, which snaps expansion */
+  overflow: hidden; /* clip the fixed-width sidebar while the wrapper animates */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
+}
+
+/* Hidden: the sidebar retracts completely so content spans the full window */
+.sidebarWrapper[data-hidden="true"] {
+  width: 0;
+}
+
+/* Peek overlay: slides over the content on the compositor, layout untouched.
+   Keyframe animations guarantee the slide plays from the first frame on mount. */
+.sidebarPeekOverlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--app-sidebar-width);
+  z-index: 60;
+  transform: translateX(-100%);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.sidebarPeekOverlay[data-open="true"] {
+  animation: peekSlideIn 0.18s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+  pointer-events: auto;
+  box-shadow: 24px 0 48px rgba(0, 0, 0, 0.2);
+}
+
+.sidebarPeekOverlay[data-open="false"] {
+  animation: peekSlideOut 0.18s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+@keyframes peekSlideIn {
+  from {
+    transform: translateX(-100%);
+    visibility: visible;
+  }
+  to {
+    transform: translateX(0);
+    visibility: visible;
+  }
+}
+
+@keyframes peekSlideOut {
+  from {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  to {
+    transform: translateX(-100%);
+    visibility: hidden;
+  }
+}
+
+/* Left-edge reveal zone shown while the sidebar is hidden */
+.edgeReveal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  z-index: 55;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.edgeHandle {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 44px;
+  border: 1px solid var(--docmate-border-color);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  background: var(--docmate-surface);
+  color: var(--docmate-text-secondary);
+  box-shadow: 4px 2px 12px rgba(0, 0, 0, 0.08);
+  opacity: 0.75;
+  transition: opacity 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.edgeReveal:hover .edgeHandle {
+  opacity: 1;
+  color: var(--docmate-primary);
+  transform: translateY(-50%) translateX(2px);
 }
 
 .main {
@@ -178,4 +274,31 @@
     border-radius: 0;
     padding: 1rem; /* Smaller padding on mobile */
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebarWrapper,
+  .sidebarPeekOverlay,
+  .edgeHandle {
+    transition: none;
+  }
+
+  .sidebarPeekOverlay[data-open="true"],
+  .sidebarPeekOverlay[data-open="false"] {
+    animation: none;
+  }
+
+  .sidebarPeekOverlay[data-open="true"] {
+    transform: translateX(0);
+    visibility: visible;
+  }
+}
+
+.edgeReveal:focus-visible {
+  outline: none;
+}
+
+.edgeReveal:focus-visible .edgeHandle {
+  color: var(--docmate-primary);
+  box-shadow: 0 0 0 2px var(--docmate-primary), 4px 2px 12px rgba(0, 0, 0, 0.08);
 }

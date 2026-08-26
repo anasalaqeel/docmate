@@ -8,14 +8,12 @@ import {
   UserCircleIcon
 } from "@heroicons/react/24/outline";
 import { Sidebar, SidebarItem } from "./Sidebar";
-import { useLayout } from "../../hooks/useLayout";
 import { useBranding } from "../../hooks/useBranding";
 import styles from "./AdminSidebar.module.css";
 
 export const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isSidebarCollapsed } = useLayout();
   const { organizationName, logo } = useBranding();
 
   const sidebarItems = [
@@ -65,17 +63,17 @@ export const AdminSidebar = () => {
   };
 
   return (
-    <Sidebar collapsed={isSidebarCollapsed}>
+    <Sidebar>
       <Link
         to="/docs"
-        className={`${styles.brand} ${isSidebarCollapsed ? styles.brandCollapsed : ""}`}
+        className={styles.brand}
         aria-label={organizationName}
         title={organizationName}
       >
         <img src={logo} alt="" className={styles.brandLogo} />
-        {!isSidebarCollapsed && <span className={styles.brandName}>{organizationName}</span>}
+        <span className={styles.brandName}>{organizationName}</span>
       </Link>
-      {!isSidebarCollapsed && <span className={styles.adminLabel}>Admin Panel</span>}
+      <span className={styles.adminLabel}>Admin Panel</span>
       <nav style={{ padding: '0.5rem 0 1rem 0' }}>
         {sidebarItems.map((item) => (
           <SidebarItem
@@ -84,7 +82,6 @@ export const AdminSidebar = () => {
             label={item.label}
             isActive={isActiveRoute(item.path)}
             onClick={() => navigate(item.path)}
-            collapsed={isSidebarCollapsed}
             tooltip={item.label}
           />
         ))}

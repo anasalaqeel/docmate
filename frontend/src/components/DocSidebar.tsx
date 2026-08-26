@@ -4,7 +4,6 @@ import { TreeView, type TreeNode } from "../common/treeView/treeView";
 import { Sidebar } from "./Sidebar/Sidebar";
 import ApiEndpointsSidebar from "./ApiEndpointsSidebar";
 import { useBranding } from "../hooks/useBranding";
-import { useLayout } from "../hooks/useLayout";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 interface DocSidebarProps {
@@ -43,7 +42,6 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   const navigate = useNavigate();
   const endpointId = searchParams.get("endpoint");
   const { logo, organizationName } = useBranding();
-  const { isSidebarCollapsed } = useLayout();
 
   // Convert sidebar items to TreeView format
   const convertToTreeNodes = (items: SidebarItem[]): TreeNode[] => {
@@ -166,22 +164,16 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   };
 
   return (
-    <Sidebar collapsed={isSidebarCollapsed} width={300}>
-      <div className={`${styles.sidebarHeader} ${isSidebarCollapsed ? styles.sidebarHeaderCollapsed : ""}`}>
-        {isSidebarCollapsed ? (
-          <Link to="/docs" className={styles.sidebarBrand} aria-label={organizationName}>
-            <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
-          </Link>
-        ) : (
-          <Link to="/docs" className={styles.sidebarBrand}>
-            <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
-            <span className={styles.sidebarBrandName}>{organizationName}</span>
-          </Link>
-        )}
+    <Sidebar width={300}>
+      <div className={styles.sidebarHeader}>
+        <Link to="/docs" className={styles.sidebarBrand}>
+          <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+          <span className={styles.sidebarBrandName}>{organizationName}</span>
+        </Link>
       </div>
 
       <div className={styles.sidebarItems}>
-        {!isSidebarCollapsed && sidebarTree.length > 0 && (
+        {sidebarTree.length > 0 && (
           <p className={styles.sidebarSectionLabel}>Pages</p>
         )}
         {sidebarTree.length === 0 ? (

@@ -24,14 +24,14 @@ export const Sidebar = ({
   collapsedWidth = 80
 }: SidebarProps) => {
   return (
-    <aside 
+    <aside
       className={`${styles.sidebar} ${className}`}
       data-collapsed={collapsed}
       role="navigation"
       aria-label="Side navigation"
-      style={{ 
+      style={{
         "--sidebar-width": typeof width === "number" ? `${width}px` : width,
-        "--sidebar-collapsed-width": typeof collapsedWidth === "number" ? `${collapsedWidth}px` : collapsedWidth 
+        "--sidebar-collapsed-width": typeof collapsedWidth === "number" ? `${collapsedWidth}px` : collapsedWidth
       } as React.CSSProperties}
     >
       <div className={styles.inner}>

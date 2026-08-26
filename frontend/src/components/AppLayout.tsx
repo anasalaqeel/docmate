@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -12,7 +12,7 @@ import {
   Avatar,
 } from "@heroui/react";
 import { Link, useNavigate } from "react-router";
-import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon, ArrowTopRightOnSquareIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { ThemeToggle } from "./ui/themeToggle";
 import { EnhancedButton } from "./ui/enhancedButton";
 import { useLayout } from "../hooks/useLayout";
@@ -24,27 +24,114 @@ interface AppLayoutProps {
   children: ReactNode;
 }
 
+/* Peek overlay: slides in over the content with a transform (never affects layout).
+   Uses keyframe animations (not transitions) so the slide reliably plays on mount. */
+const SidebarPeekOverlay = ({
+  open,
+  onClose,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: ReactNode;
+}) => {
+  const [render, setRender] = useState(open);
+
+  useEffect(() => {
+    if (open) {
+      setRender(true);
+      return;
+    }
+    const t = setTimeout(() => setRender(false), 200);
+    return () => clearTimeout(t);
+  }, [open]);
+
+  if (!render) return null;
+
+  return (
+    <div
+      className={styles.sidebarPeekOverlay}
+      data-open={open ? "true" : "false"}
+      // While sliding out the overlay is no longer interactive
+      inert={!open ? true : undefined}
+      onMouseLeave={onClose}
+    >
+      {children}
+    </div>
+  );
+};
+
 export const AppLayout = ({ children }: AppLayoutProps) => {
-  const { 
-    layoutData, 
-    isSidebarCollapsed, 
+  const {
+    layoutData,
+    isSidebarCollapsed,
     setIsSidebarCollapsed,
-    // isMobileMenuOpen,
-    // setIsMobileMenuOpen 
+    isSidebarPeek,
+    setIsSidebarPeek,
   } = useLayout();
   const { user, logout } = useAuth();
   const { organizationName, logo } = useBranding();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);
+  const [overlayHold, setOverlayHold] = useState(false);
+  const overlayHoldTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const peekIntentTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (overlayHoldTimer.current) clearTimeout(overlayHoldTimer.current);
+      if (peekIntentTimer.current) clearTimeout(peekIntentTimer.current);
+    };
+  }, []);
+
+  // Escape closes a peeked sidebar
+  useEffect(() => {
+    if (!isSidebarPeek) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsSidebarPeek(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isSidebarPeek, setIsSidebarPeek]);
+
+  const releaseOverlayHold = () => {
+    if (overlayHoldTimer.current) {
+      clearTimeout(overlayHoldTimer.current);
+      overlayHoldTimer.current = null;
+    }
+    setOverlayHold(false);
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");
   };
+
+  // Pin/unpin via the hamburger. Pinning from a peek keeps the overlay open
+  // until the flow sidebar has finished expanding beneath it, then releases it.
+  const toggleSidebar = () => {
+    setIsSidebarPeek(false);
+    if (!isSidebarCollapsed) {
+      releaseOverlayHold();
+      setIsSidebarCollapsed(true);
+      return;
+    }
+    if (isSidebarPeek) {
+      releaseOverlayHold();
+      setOverlayHold(true);
+      overlayHoldTimer.current = setTimeout(() => {
+        overlayHoldTimer.current = null;
+        setOverlayHold(false);
+      }, 380);
+    }
+    setIsSidebarCollapsed(false);
+  };
+
+  const sidebarHidden = !!layoutData.sidebar && isSidebarCollapsed;
 
   return (
     <div className={`${styles.root} ${isMounted ? styles.mounted : ""}`}>
@@ -61,9 +148,58 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       {/* App shell: full-height sidebar on the left, navbar + content column on the right */}
       <div className={styles.shell}>
         {layoutData.sidebar && (
-          <div className={styles.sidebarWrapper}>
+          <div
+            className={styles.sidebarWrapper}
+            data-hidden={isSidebarCollapsed ? "true" : "false"}
+            // A hidden sidebar must not hold focus or screen-reader content
+            inert={isSidebarCollapsed ? true : undefined}
+          >
              {layoutData.sidebar}
           </div>
+        )}
+
+        {/* Peek overlay: the hidden sidebar slides over the content while hovered */}
+        {layoutData.sidebar && sidebarHidden && (
+          <SidebarPeekOverlay
+            open={isSidebarPeek || overlayHold}
+            onClose={() => setIsSidebarPeek(false)}
+          >
+            {layoutData.sidebar}
+          </SidebarPeekOverlay>
+        )}
+
+        {/* Left-edge reveal zone: pausing on it (or clicking) peeks the hidden sidebar open.
+            A short intent delay keeps pass-through mouse movement toward content from triggering it. */}
+        {sidebarHidden && !isSidebarPeek && (
+          <button
+            type="button"
+            className={styles.edgeReveal}
+            onMouseEnter={() => {
+              if (peekIntentTimer.current) clearTimeout(peekIntentTimer.current);
+              peekIntentTimer.current = setTimeout(() => {
+                peekIntentTimer.current = null;
+                setIsSidebarPeek(true);
+              }, 180);
+            }}
+            onMouseLeave={() => {
+              if (peekIntentTimer.current) {
+                clearTimeout(peekIntentTimer.current);
+                peekIntentTimer.current = null;
+              }
+            }}
+            onClick={() => {
+              if (peekIntentTimer.current) {
+                clearTimeout(peekIntentTimer.current);
+                peekIntentTimer.current = null;
+              }
+              setIsSidebarPeek(true);
+            }}
+            aria-label="Open navigation"
+          >
+            <span className={styles.edgeHandle} aria-hidden="true">
+              <ChevronRightIcon className="w-3.5 h-3.5" />
+            </span>
+          </button>
         )}
 
         <div className={styles.contentColumn}>
@@ -76,9 +212,9 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     <Button
                       isIconOnly
                       variant="light"
-                      onPress={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                      onPress={toggleSidebar}
                       className={styles.sidebarToggle}
-                      aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                      aria-label={isSidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
                     >
                       <Bars3Icon className="w-5 h-5" />
                     </Button>

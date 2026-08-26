@@ -14,6 +14,8 @@ export interface LayoutContextType {
   resetLayoutData: () => void;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
+  isSidebarPeek: boolean;
+  setIsSidebarPeek: (peek: boolean) => void;
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (open: boolean) => void;
 }
