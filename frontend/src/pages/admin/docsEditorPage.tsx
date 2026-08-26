@@ -64,14 +64,12 @@ const DocsEditorPage = () => {
   useEffect(() => {
     if (doc) {
       setLayoutData({
-        headerTitle: `Editor: ${doc.title}`,
         navbarType: "admin",
         sidebar: <AdminSidebar />,
         showAdminButton: false,
       });
     } else {
         setLayoutData({
-            headerTitle: "Editor",
             navbarType: "admin",
             sidebar: <AdminSidebar />,
             showAdminButton: false,

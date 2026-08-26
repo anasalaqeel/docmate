@@ -27,7 +27,6 @@ const AccountPage = () => {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "My Account",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,

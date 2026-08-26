@@ -1,13 +1,7 @@
 import { createContext } from "react";
 
 export interface LayoutData {
-  headerTitle: string;
-  headerVersion?: string;
   showAdminButton: boolean;
-  backButton?: {
-    to: string;
-    label: string;
-  };
   sidebar?: React.ReactNode;
   navbarType: "public" | "admin";
 }
@@ -23,8 +17,6 @@ export interface LayoutContextType {
 }
 
 export const defaultLayoutData: LayoutData = {
-  headerTitle: "API Documentation",
-  headerVersion: undefined,
   showAdminButton: true,
   sidebar: undefined,
   navbarType: "public",

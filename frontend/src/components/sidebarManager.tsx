@@ -18,6 +18,7 @@ import {
 import styles from "../styles/sidebarManager.module.css";
 import type { SidebarItem } from "../types/docs";
 import httpService from "../services/httpService";
+import { useBranding } from "../hooks/useBranding";
 import { TreeView, type TreeNode, type DragDropConfig, EmojiPickerInput } from "./ui";
 import { reorderSidebarItems, type ReorderItem } from "../services/docsService";
 
@@ -52,6 +53,7 @@ const SidebarManager = ({
   onUpdateItem,
   docId,
 }: SidebarManagerProps) => {
+  const { logo } = useBranding();
   const [modalState, setModalState] = useState<ModalState>({
     editingItem: null,
     itemToDelete: null,
@@ -450,7 +452,7 @@ const SidebarManager = ({
             <div className="relative mb-8">
               <div className="absolute inset-0 blur-3xl opacity-30 bg-[var(--docmate-gradient)] rounded-full scale-150"></div>
               <div className="relative">
-                <div className="text-8xl mb-4 animate-pulse">📚</div>
+                <img src={logo} alt="" className="w-16 h-16 mb-4 animate-pulse mx-auto" />
                 <div className="text-2xl font-light" style={{ color: 'var(--docmate-text-secondary)', opacity: 0.4 }}>Start building</div>
               </div>
             </div>

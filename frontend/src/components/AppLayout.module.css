@@ -50,30 +50,13 @@
   color: var(--docmate-primary);
 }
 
-.adminBadge {
-    background: var(--docmate-gradient-subtle);
-    border: 1px solid rgba(var(--docmate-primary-rgb), 0.2);
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--docmate-primary);
-}
 
 .versionBadge {
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--docmate-primary);
   color: white;
-}
-
-.gradientButton {
-    background: var(--docmate-gradient) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    box-shadow: 0 4px 12px rgba(var(--docmate-primary-rgb), 0.2);
 }
 
 .sidebarToggle {
@@ -81,11 +64,20 @@
     color: var(--docmate-text-secondary);
 }
 
-.layoutBody {
+.shell {
   flex: 1;
   display: flex;
-  height: calc(100% - 64px);
+  height: calc(100% - 0px);
   min-height: 0;
+  overflow: hidden;
+}
+
+.contentColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
 }
 

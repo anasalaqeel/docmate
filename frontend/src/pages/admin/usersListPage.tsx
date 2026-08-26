@@ -28,7 +28,6 @@ const UsersListPage = () => {
 
   useEffect(() => {
     setLayoutData({
-        headerTitle: "Users Management",
         navbarType: "admin",
         sidebar: <AdminSidebar />,
         showAdminButton: false,

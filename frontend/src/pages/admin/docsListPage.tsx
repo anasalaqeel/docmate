@@ -43,7 +43,6 @@ const DocsListPage = () => {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "Documentation Builder",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,

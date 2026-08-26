@@ -1,9 +1,10 @@
-import { useNavigate, useSearchParams, Link } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import type { SidebarItem, Documentation } from "../types/docs";
 import { TreeView, type TreeNode } from "../common/treeView/treeView";
 import { Sidebar } from "./Sidebar/Sidebar";
 import ApiEndpointsSidebar from "./ApiEndpointsSidebar";
 import { useBranding } from "../hooks/useBranding";
+import { useLayout } from "../hooks/useLayout";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 interface DocSidebarProps {
@@ -42,6 +43,7 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   const navigate = useNavigate();
   const endpointId = searchParams.get("endpoint");
   const { logo, organizationName } = useBranding();
+  const { isSidebarCollapsed } = useLayout();
 
   // Convert sidebar items to TreeView format
   const convertToTreeNodes = (items: SidebarItem[]): TreeNode[] => {
@@ -164,19 +166,32 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
   };
 
   return (
-    <Sidebar collapsed={false} width={300}>
-      <div className={styles.sidebarHeader}>
-        <Link to="/docs" className={styles.sidebarBrand}>
-          <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
-          <span className={styles.sidebarBrandName}>{organizationName}</span>
-        </Link>
-        <p className={styles.sidebarLabel}>Overview</p>
-        <h3 className={styles.sidebarDocTitle} title={doc.title}>
-          {doc.title}
-        </h3>
-        <p className={styles.docInfo}>
-          v{doc.version} · {doc.creator?.name || "Unknown"}
-        </p>
+    <Sidebar collapsed={isSidebarCollapsed} width={300}>
+      <div className={`${styles.sidebarHeader} ${isSidebarCollapsed ? styles.sidebarHeaderCollapsed : ""}`}>
+        {isSidebarCollapsed ? (
+          <Link to="/docs" className={styles.sidebarBrand} aria-label={organizationName}>
+            <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+          </Link>
+        ) : (
+          <Link to="/docs" className={styles.sidebarBrand}>
+            <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+            <span className={styles.sidebarBrandName}>{organizationName}</span>
+          </Link>
+        )}
+        {!isSidebarCollapsed && (
+          <>
+            <p className={styles.sidebarLabel}>Overview</p>
+            <div className={styles.docTitleRow}>
+              <h3 className={styles.sidebarDocTitle} title={doc.title}>
+                {doc.title}
+              </h3>
+              <span className={styles.docVersionBadge}>v{doc.version}</span>
+            </div>
+            <p className={styles.docInfo}>
+              {doc.creator?.name || "Unknown"}
+            </p>
+          </>
+        )}
       </div>
 
       <div className={styles.sidebarItems}>

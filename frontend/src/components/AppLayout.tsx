@@ -10,7 +10,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Avatar,
-  Chip,
 } from "@heroui/react";
 import { Link, useNavigate } from "react-router";
 import { UserCircleIcon, Bars3Icon, BookOpenIcon, Cog6ToothIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
@@ -34,7 +33,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     // setIsMobileMenuOpen 
   } = useLayout();
   const { user, logout } = useAuth();
-  const { logo } = useBranding();
+  const { organizationName, logo } = useBranding();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -59,55 +58,43 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         </defs>
       </svg>
 
-      {/* Navbar section */}
-      <header>
-        <Navbar className={styles.navbar} maxWidth="full">
-          <NavbarBrand>
-            {layoutData.sidebar && (
-              <Button 
-                isIconOnly 
-                variant="light" 
-                onPress={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
-                className={styles.sidebarToggle}
-                aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              >
-                <Bars3Icon className="w-5 h-5" />
-              </Button>
-            )}
-            <Link to="/docs" className={styles.brandLink}>
-              <div className={styles.brandContent}>
-                <img src={logo} alt="Logo" className={styles.logo} />
-                <h1 className={styles.brandTitle}>{layoutData.headerTitle}</h1>
-                {layoutData.navbarType === "admin" && (
-                    <Chip size="sm" variant="flat" className={styles.adminBadge}>Admin</Chip>
-                )}
-              </div>
-            </Link>
-          </NavbarBrand>
+      {/* App shell: full-height sidebar on the left, navbar + content column on the right */}
+      <div className={styles.shell}>
+        {layoutData.sidebar && (
+          <div className={styles.sidebarWrapper}>
+             {layoutData.sidebar}
+          </div>
+        )}
 
-          <NavbarContent justify="end">
-            {layoutData.headerVersion && (
-              <NavbarItem className="hidden sm:flex">
-                <div className={styles.versionBadge}>v{layoutData.headerVersion}</div>
-              </NavbarItem>
-            )}
-            
+        <div className={styles.contentColumn}>
+          {/* Navbar section (spans the content column only) */}
+          <header>
+            <Navbar className={styles.navbar} maxWidth="full">
+              <NavbarBrand>
+                {layoutData.sidebar ? (
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    onPress={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                    className={styles.sidebarToggle}
+                    aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                  >
+                    <Bars3Icon className="w-5 h-5" />
+                  </Button>
+                ) : (
+                  <Link to="/docs" className={styles.brandLink}>
+                    <div className={styles.brandContent}>
+                      <img src={logo} alt="Logo" className={styles.logo} />
+                      <span className={styles.brandTitle}>{organizationName}</span>
+                    </div>
+                  </Link>
+                )}
+              </NavbarBrand>
+
+              <NavbarContent justify="end">
             <NavbarItem>
               <ThemeToggle size="sm" />
             </NavbarItem>
-
-            {layoutData.backButton && (
-              <NavbarItem>
-                <Button
-                  as={Link}
-                  variant="flat"
-                  className={styles.gradientButton}
-                  to={layoutData.backButton.to}
-                >
-                  {layoutData.backButton.label}
-                </Button>
-              </NavbarItem>
-            )}
 
             {layoutData.showAdminButton && !user && (
               <NavbarItem>
@@ -192,25 +179,19 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         </Navbar>
       </header>
 
-      <div className={styles.layoutBody}>
-        {layoutData.sidebar && (
-          <div className={`${styles.sidebarWrapper} ${isSidebarCollapsed ? styles.collapsed : ""}`}>
-             {layoutData.sidebar}
-          </div>
-        )}
+          <main className={styles.main}>
+            {children}
+          </main>
 
-        <main className={styles.main}>
-          {children}
-        </main>
+          {!layoutData.sidebar && (
+            <footer className={styles.footer}>
+              <div className={styles.footerContent}>
+                <p>&copy; {new Date().getFullYear()} Docmate. Built with ❤️ for documentation enthusiasts.</p>
+              </div>
+            </footer>
+          )}
+        </div>
       </div>
-
-      {!layoutData.sidebar && (
-        <footer className={styles.footer}>
-          <div className={styles.footerContent}>
-            <p>&copy; {new Date().getFullYear()} Docmate. Built with ❤️ for documentation enthusiasts.</p>
-          </div>
-        </footer>
-      )}
     </div>
   );
 };

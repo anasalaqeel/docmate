@@ -161,10 +161,7 @@ const PublicDocViewerPage = () => {
   useEffect(() => {
     if (doc) {
       setLayoutData({
-        headerTitle: doc.title,
-        headerVersion: doc.version?.toString(),
         showAdminButton: false,
-        backButton: { to: "/docs", label: "← All Docs" },
         sidebar: (
             <DocSidebar
               doc={doc}

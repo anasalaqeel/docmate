@@ -79,7 +79,6 @@ function SettingsPageContent() {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "Settings",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,

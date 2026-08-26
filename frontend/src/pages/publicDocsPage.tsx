@@ -102,8 +102,6 @@ const PublicDocsPage = () => {
   useEffect(() => {
     fetchPublicDocs();
     setLayoutData({
-      headerTitle: "API Documentation",
-      headerVersion: undefined,
       showAdminButton: true
     });
 

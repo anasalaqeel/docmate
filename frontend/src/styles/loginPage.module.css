@@ -37,7 +37,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  color: var(--docmate-primary);
+  background: var(--docmate-gradient);
   }
 
 .brandRow {

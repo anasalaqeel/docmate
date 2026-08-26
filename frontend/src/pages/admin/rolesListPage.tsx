@@ -42,7 +42,6 @@ const RolesListPage = () => {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "Role Management",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,

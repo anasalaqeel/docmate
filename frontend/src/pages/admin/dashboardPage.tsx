@@ -42,7 +42,6 @@ const DashboardPage = () => {
 
   useEffect(() => {
     setLayoutData({
-      headerTitle: "Docmate Admin",
       navbarType: "admin",
       sidebar: <AdminSidebar />,
       showAdminButton: false,

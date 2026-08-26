@@ -1,18 +1,22 @@
-import { useNavigate, useLocation } from "react-router";
-import { 
-  HomeIcon, 
-  BookOpenIcon, 
-  UsersIcon, 
-  ShieldCheckIcon, 
-  Cog6ToothIcon 
+import { Link, useNavigate, useLocation } from "react-router";
+import {
+  HomeIcon,
+  BookOpenIcon,
+  UsersIcon,
+  ShieldCheckIcon,
+  Cog6ToothIcon,
+  UserCircleIcon
 } from "@heroicons/react/24/outline";
 import { Sidebar, SidebarItem } from "./Sidebar";
 import { useLayout } from "../../hooks/useLayout";
+import { useBranding } from "../../hooks/useBranding";
+import styles from "./AdminSidebar.module.css";
 
 export const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isSidebarCollapsed } = useLayout();
+  const { organizationName, logo } = useBranding();
 
   const sidebarItems = [
     {
@@ -45,6 +49,12 @@ export const AdminSidebar = () => {
       icon: Cog6ToothIcon,
       path: "/admin/settings",
     },
+    {
+      key: "account",
+      label: "Account",
+      icon: UserCircleIcon,
+      path: "/admin/account",
+    },
   ];
 
   const isActiveRoute = (path: string) => {
@@ -56,7 +66,17 @@ export const AdminSidebar = () => {
 
   return (
     <Sidebar collapsed={isSidebarCollapsed}>
-      <nav style={{ padding: '1rem 0' }}>
+      <Link
+        to="/docs"
+        className={`${styles.brand} ${isSidebarCollapsed ? styles.brandCollapsed : ""}`}
+        aria-label={organizationName}
+        title={organizationName}
+      >
+        <img src={logo} alt="" className={styles.brandLogo} />
+        {!isSidebarCollapsed && <span className={styles.brandName}>{organizationName}</span>}
+      </Link>
+      {!isSidebarCollapsed && <span className={styles.adminLabel}>Admin Panel</span>}
+      <nav style={{ padding: '0.5rem 0 1rem 0' }}>
         {sidebarItems.map((item) => (
           <SidebarItem
             key={item.key}
