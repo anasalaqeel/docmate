@@ -192,15 +192,11 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
         ) : (
           <>
             <TreeView
+              variant="quiet"
               data={convertToTreeNodes(sidebarTree)}
               onNodeClick={handleNodeClick}
               defaultExpandedIds={getExpandedNodeIds()}
               selectedNodeId={getSelectedNodeId()}
-              classNames={{
-                node: "group data-[selected=false]:hover:bg-[color-mix(in_srgb,var(--docmate-primary)_7%,transparent)] rounded-lg",
-                nodeLabel:
-                  "data-[selected=false]:text-foreground-secondary group-hover:text-foreground group-data-[selected=true]:font-semibold group-data-[selected=true]:text-[var(--docmate-primary)]",
-              }}
             />
 
             {doc.type !== "traditional" && doc.showApiEndpointsInSidebar !== false && (

@@ -52,6 +52,8 @@ export interface TreeViewProps<T extends TreeNode = TreeNode> {
   defaultExpandedIds?: (string | number)[];
   className?: string; // Root container class
   selectedNodeId?: string | number | null;
+  /** Visual variation: "default" (tinted hover/selection) or "quiet" (typography-forward reading nav) */
+  variant?: "default" | "quiet";
 
   // Customization - Styling
   classNames?: TreeViewClassNames;
@@ -347,6 +349,7 @@ export function TreeView<T extends TreeNode>({
   className = "",
   classNames,
   selectedNodeId,
+  variant = "default",
   renderItem,
   renderActions,
   expandIcon,
@@ -578,7 +581,10 @@ export function TreeView<T extends TreeNode>({
   }, [handlePointerMove, handlePointerUp]);
 
   return (
-    <div className={`${styles.container} ${className} ${classNames?.container || ''}`}>
+    <div
+      className={`${styles.container} ${variant === "quiet" ? styles.quiet : ""} ${className} ${classNames?.container || ''}`}
+      data-variant={variant}
+    >
       {data.map((node) => (
         <TreeNodeItem
           key={node.id}

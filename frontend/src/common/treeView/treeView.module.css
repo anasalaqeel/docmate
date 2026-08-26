@@ -2,6 +2,69 @@
   position: relative;
 }
 
+/* ============ "quiet" variation ============
+   Typography-forward reading navigation: no row backgrounds.
+   Hierarchy reads through indent + weight; state reads through color. */
+.quiet .node {
+  min-height: 28px;
+  border-radius: 6px;
+  color: var(--docmate-text-secondary);
+  transition: color 160ms;
+}
+
+.quiet .node:hover {
+  background: transparent;
+  color: var(--docmate-text);
+}
+
+.quiet .node:focus-visible {
+  box-shadow: none;
+  outline: 2px solid var(--docmate-primary);
+  outline-offset: -2px;
+}
+
+.quiet .label {
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.quiet .node[data-has-children="true"] .label {
+  font-weight: 600;
+  color: var(--docmate-text);
+}
+
+.quiet .node[data-selected="true"] {
+  background: transparent;
+  color: var(--docmate-primary);
+}
+
+.quiet .node[data-selected="true"] .label {
+  font-weight: 600;
+}
+
+/* Selection marker: a small dot on the row's trailing edge */
+.quiet .node[data-selected="true"]::after {
+  content: '';
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--docmate-primary);
+}
+
+.quiet .expandButton {
+  opacity: 0.35;
+  transition: opacity 160ms;
+}
+
+.quiet .node:hover .expandButton {
+  opacity: 1;
+}
+/* ============ end "quiet" variation ============ */
+
 .node {
   position: relative;
   display: flex;
