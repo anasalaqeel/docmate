@@ -60,3 +60,13 @@ export const strictRateLimit = createRateLimiter(
   3, // Limit each IP to 3 requests per hour
   'Too many sensitive requests from this IP, please try again after an hour'
 );
+
+// For SAML endpoints: not brute-forceable (signature-verified assertions,
+// server-generated redirects), so this only blunts DoS while leaving ample
+// headroom for NAT-shared offices. Each SSO login uses 2 requests
+// (redirect + IdP callback).
+export const samlRateLimit = createRateLimiter(
+  5 * 60 * 1000, // 5 minutes
+  30, // Limit each IP to 30 requests per windowMs (~15 SSO logins)
+  'Too many SAML requests from this IP, please try again after 5 minutes'
+);

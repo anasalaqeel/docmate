@@ -368,12 +368,106 @@ export const defaultSettings: Record<string, {
     isPublic: false,
     description: "Whether to enable user tracking"
   },
+
+  // Authentication (SSO / LDAP)
+  "authentication.saml.enabled": {
+    type: "boolean",
+    defaultValue: false,
+    category: "authentication",
+    isPublic: true,
+    description: "Whether SAML SSO login is enabled"
+  },
+  "authentication.saml.entityId": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "Service Provider (SP) entity ID for SAML"
+  },
+  "authentication.saml.idpMetadata": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "Identity Provider metadata XML for SAML"
+  },
+  "authentication.ldap.enabled": {
+    type: "boolean",
+    defaultValue: false,
+    category: "authentication",
+    isPublic: true,
+    description: "Whether LDAP/Active Directory login is enabled"
+  },
+  "authentication.ldap.url": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "LDAP server URL (e.g. ldaps://host:636)"
+  },
+  "authentication.ldap.bindDn": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "Distinguished name used to search for users"
+  },
+  "authentication.ldap.bindCredentials": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "Password for the LDAP bind DN"
+  },
+  "authentication.ldap.userSearchBase": {
+    type: "string",
+    defaultValue: "",
+    category: "authentication",
+    isPublic: false,
+    description: "Base DN to search for users"
+  },
+  "authentication.ldap.userSearchFilter": {
+    type: "string",
+    defaultValue: "(sAMAccountName={username})",
+    category: "authentication",
+    isPublic: false,
+    description: "LDAP filter used to find users; {username} is replaced with the login identifier"
+  },
+  "authentication.ldap.mailAttribute": {
+    type: "string",
+    defaultValue: "mail",
+    category: "authentication",
+    isPublic: false,
+    description: "LDAP attribute containing the user's email"
+  },
+  "authentication.ldap.nameAttribute": {
+    type: "string",
+    defaultValue: "displayName",
+    category: "authentication",
+    isPublic: false,
+    description: "LDAP attribute containing the user's display name"
+  },
+  "authentication.federated.autoProvision": {
+    type: "boolean",
+    defaultValue: true,
+    category: "authentication",
+    isPublic: false,
+    description: "Whether to automatically create local accounts for SSO/LDAP users on first login"
+  },
+  "authentication.federated.autoLink": {
+    type: "boolean",
+    defaultValue: true,
+    category: "authentication",
+    isPublic: false,
+    description:
+      "Whether SSO/LDAP logins may automatically link to an existing local account with the same email. Disable if self-registration is open and emails are not verified."
+  },
 };
 
 // Helper function to get category from key
 export function getSettingCategory(key: string): SettingCategory | null {
   const [category] = key.split(".");
-  const validCategories: SettingCategory[] = ["branding", "theme", "security", "general", "advanced"];
+  const validCategories: SettingCategory[] = ["branding", "theme", "security", "general", "advanced", "authentication"];
   if (validCategories.includes(category as SettingCategory)) {
     return category as SettingCategory;
   }
@@ -451,6 +545,7 @@ export const SETTING_CATEGORIES = {
   SECURITY: "security",
   GENERAL: "general",
   ADVANCED: "advanced",
+  AUTHENTICATION: "authentication",
 } as const;
 
 // Legacy helper functions for backward compatibility

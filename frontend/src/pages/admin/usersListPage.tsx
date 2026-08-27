@@ -267,6 +267,7 @@ const UsersListPage = () => {
               <p><strong>Phone:</strong> {viewUser.phone || "N/A"}</p>
               <p><strong>Status:</strong> {viewUser.status}</p>
               <p><strong>Roles:</strong> {viewUser.userRoles?.map(ur => ur.role.name).join(", ") || "None"}</p>
+              <p><strong>Auth Provider:</strong> {viewUser.userIdentities?.length ? viewUser.userIdentities.map(i => i.provider.toUpperCase()).join(", ") : "Local"}</p>
               <p><strong>Created:</strong> {new Date(viewUser.createdAt).toLocaleDateString()}</p>
             </div>
             <Button className="mt-4 w-full" onPress={() => setViewUser(null)}>Close</Button>

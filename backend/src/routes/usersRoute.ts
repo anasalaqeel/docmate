@@ -18,6 +18,12 @@ import {
 
 const router = new Hono();
 
+// Never expose password hashes in API responses (federated users have none)
+const stripPassword = <T extends { password?: string | null }>(user: T): Omit<T, "password"> => {
+  const { password: _password, ...safeUser } = user;
+  return safeUser;
+};
+
 // Get all users (admin only)
 router.get(
   "/",
@@ -59,6 +65,9 @@ router.get(
               role: true,
             },
           },
+          userIdentities: {
+            columns: { provider: true },
+          },
         },
         orderBy: [
           sortBy === "name"
@@ -97,7 +106,7 @@ router.get(
       return c.json({
         success: true,
         data: {
-          users: filteredUsers,
+          users: filteredUsers.map(stripPassword),
           total,
           page,
           limit,
@@ -128,6 +137,9 @@ router.get("/:id", authorize(["users:read"]), async (c) => {
             role: true,
           },
         },
+        userIdentities: {
+          columns: { provider: true },
+        },
       },
     });
 
@@ -137,7 +149,7 @@ router.get("/:id", authorize(["users:read"]), async (c) => {
 
     return c.json({
       success: true,
-      data: user,
+      data: stripPassword(user),
       message: "User retrieved successfully",
     });
   } catch (error) {
@@ -211,7 +223,7 @@ router.post(
 
       return c.json({
         success: true,
-        data: userWithRoles,
+        data: userWithRoles ? stripPassword(userWithRoles) : null,
         message: "User created successfully",
       });
     } catch (error) {
@@ -316,7 +328,7 @@ router.put(
 
       return c.json({
         success: true,
-        data: userWithRoles,
+        data: userWithRoles ? stripPassword(userWithRoles) : null,
         message: "User updated successfully",
       });
     } catch (error) {

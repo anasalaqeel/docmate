@@ -75,6 +75,21 @@ export const settingsSchemas = {
   "advanced.customJavaScript": z.string(),
   "advanced.enableAnalytics": z.boolean(),
   "advanced.enableTracking": z.boolean(),
+
+  // Authentication (SSO / LDAP) settings
+  "authentication.saml.enabled": z.boolean(),
+  "authentication.saml.entityId": z.string(),
+  "authentication.saml.idpMetadata": z.string(),
+  "authentication.ldap.enabled": z.boolean(),
+  "authentication.ldap.url": z.string(),
+  "authentication.ldap.bindDn": z.string(),
+  "authentication.ldap.bindCredentials": z.string(),
+  "authentication.ldap.userSearchBase": z.string(),
+  "authentication.ldap.userSearchFilter": z.string(),
+  "authentication.ldap.mailAttribute": z.string(),
+  "authentication.ldap.nameAttribute": z.string(),
+  "authentication.federated.autoProvision": z.boolean(),
+  "authentication.federated.autoLink": z.boolean(),
 } as const;
 
 // Validate a single setting

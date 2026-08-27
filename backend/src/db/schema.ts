@@ -18,7 +18,7 @@ export const users = pgTable("users", {
   name: varchar({ length: 255 }).notNull(),
   username: varchar({ length: 255 }).notNull().unique(),
   email: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({ length: 255 }).notNull(),
+  password: varchar({ length: 255 }), // null for federated (SSO/LDAP-only) users
   phone: varchar({ length: 20 }),
   status: varchar({ length: 20 }).default("active").notNull(), // active, inactive
   createdAt: timestamp().defaultNow().notNull(),
@@ -82,10 +82,34 @@ export type Permission = typeof permissions.$inferSelect;
 export type UserRole = typeof userRoles.$inferSelect;
 export type RolePermission = typeof rolePermissions.$inferSelect;
 
+// External identity links for federated auth (SAML / LDAP)
+export const userIdentities = pgTable(
+  "user_identities",
+  {
+    id: serial().primaryKey(),
+    userId: integer()
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    provider: varchar({ length: 20 }).notNull(), // 'saml' | 'ldap'
+    externalId: varchar({ length: 500 }).notNull(), // SAML NameID or LDAP DN/username
+    createdAt: timestamp().defaultNow().notNull(),
+  },
+  (table) => [unique("user_identities_provider_external_id").on(table.provider, table.externalId)],
+);
+export type UserIdentity = typeof userIdentities.$inferSelect;
+
+export const userIdentitiesRelations = relations(userIdentities, ({ one }) => ({
+  user: one(users, {
+    fields: [userIdentities.userId],
+    references: [users.id],
+  }),
+}));
+
 // Relations---------------------------------------------------------------
 export const usersRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   userRoles: many(userRoles),
+  userIdentities: many(userIdentities),
 }));
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({

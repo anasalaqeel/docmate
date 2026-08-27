@@ -1,14 +1,17 @@
 import { Hono } from "hono";
-import { sign, verify } from "hono/jwt";
-import { getCookie, setCookie, deleteCookie } from "hono/cookie";
+import { verify } from "hono/jwt";
+import { getCookie, deleteCookie } from "hono/cookie";
 import { ZodError } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { registerSchema, loginSchema } from "../schemas/auth";
 import { changePasswordSchema, type ChangePasswordRequest } from "../schemas/users";
 import { formatZodError } from "../utils/errors";
 import { cookieOptions } from "../utils/sessionAuth";
+import { issueSession } from "../utils/sessionIssue";
 import { authRateLimit } from "../middlewares/rateLimiter";
 import { authorize } from "../middlewares/authorize";
+import { isLdapEnabled, authenticateLdap } from "../services/ldapService";
+import { resolveFederatedUser } from "../services/federatedUserService";
 import config from "config";
 import db from "../db";
 import { users, sessions, roles, userRoles } from "../db/schema";
@@ -83,26 +86,7 @@ router.post("/register", authRateLimit, zValidator("json", registerSchema), asyn
       });
 
     // Create session for the new user
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 1);
-
-    const session = await db
-      .insert(sessions)
-      .values({
-        userId: user[0].id,
-        expiresAt: expirationDate,
-        userAgent: c.req.header("user-agent") || undefined,
-        ipAddress: c.req.header("x-forwarded-for") || (c.env as { ip?: string }).ip || undefined,
-      })
-      .returning();
-
-    const payload = {
-      sessionId: session[0].id,
-      exp: Math.floor(expirationDate.getTime() / 1000),
-    };
-
-    const sessionToken = await sign(payload, config.get("authTokenSecret")!);
-    setCookie(c, "sessionToken", sessionToken, cookieOptions);
+    await issueSession(c, user[0].id);
 
     return c.json({
       userId: user[0].id,
@@ -125,42 +109,25 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
     const user = await db.query.users
       .findFirst({
         where: or(eq(users.email, identifier), eq(users.username, identifier)),
-        columns: { id: true, password: true },
+        columns: { id: true, password: true, status: true },
       })
       .catch((error) => {
         console.error("Error finding user:", error);
         throw new Error("Error finding user");
       });
 
-    const isVerified = await Bun.password.verify(password, user?.password ?? "").catch((error) => {
-      console.error("Error verifying password:", error);
-      throw new Error("Error verifying password");
-    });
+    const isVerified = user?.password
+      ? await Bun.password.verify(password, user.password).catch((error) => {
+          console.error("Error verifying password:", error);
+          throw new Error("Error verifying password");
+        })
+      : false;
 
     if (user && isVerified) {
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 1); // 24 hours from now
-
-      const session = await db
-        .insert(sessions)
-        .values({
-          userId: user.id,
-          expiresAt: expirationDate,
-          userAgent: c.req.header("user-agent") || undefined,
-          ipAddress: c.req.header("x-forwarded-for") || (c.env as { ip?: string }).ip || undefined,
-        })
-        .returning()
-        .catch((error) => {
-          console.error("Error creating session:", error);
-          throw new Error("Error creating session");
-        });
-
-      const payload = {
-        sessionId: session[0].id,
-        exp: Math.floor(expirationDate.getTime() / 1000),
-      };
-      const sessionToken = await sign(payload, config.get("authTokenSecret")!);
-      setCookie(c, "sessionToken", sessionToken, cookieOptions);
+      if (user.status !== "active") {
+        return c.json({ message: "Account is disabled" }, 403);
+      }
+      await issueSession(c, user.id);
 
       // Fetch user with roles for the response
       const userWithRoles = await db.query.users.findFirst({
@@ -180,9 +147,46 @@ router.post("/login", authRateLimit, zValidator("json", loginSchema), async (c) 
         data: userWithRoles,
         message: "Login successful",
       });
-    } else {
-      return c.json({ message: "Invalid credentials" }, 401);
     }
+
+    // Fall back to LDAP/Active Directory if enabled
+    if (await isLdapEnabled()) {
+      try {
+        const ldapUser = await authenticateLdap(identifier, password);
+        if (ldapUser) {
+          const resolved = await resolveFederatedUser("ldap", ldapUser.dn, {
+            email: ldapUser.email,
+            name: ldapUser.name,
+          });
+          if (resolved.status === "denied") {
+            const messages: Record<string, string> = {
+              "missing-email":
+                "Your directory account has no email address. Ask your administrator to populate the mail attribute or fix the LDAP email attribute setting.",
+              "provisioning-disabled":
+                "No local account is linked to this identity and auto-provisioning is disabled",
+              "linking-disabled":
+                "Automatic account linking is disabled and no identity is linked to your account",
+              "account-disabled": "Account is disabled",
+            };
+            return c.json(
+              { message: messages[resolved.reason] ?? "Login denied" },
+              403,
+            );
+          }
+
+          await issueSession(c, resolved.user.id);
+          return c.json({
+            success: true,
+            data: { id: resolved.user.id, name: resolved.user.name, username: resolved.user.username, email: resolved.user.email },
+            message: "Login successful",
+          });
+        }
+      } catch (error) {
+        console.error("LDAP authentication error:", error);
+      }
+    }
+
+    return c.json({ message: "Invalid credentials" }, 401);
   } catch (error) {
     console.error("Error in /login route:", error);
     if (error instanceof ZodError) {
@@ -265,6 +269,14 @@ router.post(
 
       if (!user) {
         return c.json({ message: "User not found" }, 404);
+      }
+
+      // Federated (SSO/LDAP-only) users have no local password to change
+      if (!user.password) {
+        return c.json(
+          { message: "This account signs in with SSO/LDAP and has no local password" },
+          400,
+        );
       }
 
       // Verify current password

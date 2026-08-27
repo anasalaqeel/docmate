@@ -363,3 +363,96 @@ registerSetting({
   description: "Whether to enable user tracking",
   isPublic: false,
 });
+
+// Authentication (SSO / LDAP) Settings
+registerSetting({
+  key: "authentication.saml.enabled",
+  category: "authentication",
+  description: "Whether SAML SSO login is enabled",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "authentication.saml.entityId",
+  category: "authentication",
+  description: "Service Provider (SP) entity ID for SAML",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.saml.idpMetadata",
+  category: "authentication",
+  description: "Identity Provider metadata XML for SAML",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.enabled",
+  category: "authentication",
+  description: "Whether LDAP/Active Directory login is enabled",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "authentication.ldap.url",
+  category: "authentication",
+  description: "LDAP server URL (e.g. ldaps://host:636)",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.bindDn",
+  category: "authentication",
+  description: "Distinguished name used to search for users",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.bindCredentials",
+  category: "authentication",
+  description: "Password for the LDAP bind DN",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.userSearchBase",
+  category: "authentication",
+  description: "Base DN to search for users",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.userSearchFilter",
+  category: "authentication",
+  description: "LDAP filter used to find users; {username} is replaced with the login identifier",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.mailAttribute",
+  category: "authentication",
+  description: "LDAP attribute containing the user's email",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.ldap.nameAttribute",
+  category: "authentication",
+  description: "LDAP attribute containing the user's display name",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.federated.autoProvision",
+  category: "authentication",
+  description: "Whether to automatically create local accounts for SSO/LDAP users on first login",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "authentication.federated.autoLink",
+  category: "authentication",
+  description:
+    "Whether SSO/LDAP logins may automatically link to an existing local account with the same email. Disable if self-registration is open and emails are not verified.",
+  isPublic: false,
+});

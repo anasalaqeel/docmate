@@ -18,6 +18,7 @@ import {
   BuildingOfficeIcon,
   PaintBrushIcon,
   ShieldCheckIcon,
+  KeyIcon,
   CogIcon,
   AdjustmentsHorizontalIcon,
   ArrowDownTrayIcon,
@@ -27,6 +28,7 @@ import { settingsService } from "../../services/settingsService";
 import BrandingPanel from "../../components/BrandingPanel";
 import ThemePanel from "../../components/ThemePanel";
 import SecurityPanel from "../../components/SecurityPanel";
+import AuthenticationPanel from "../../components/AuthenticationPanel";
 import GeneralPanel from "../../components/GeneralPanel";
 import AdvancedPanel from "../../components/AdvancedPanel";
 
@@ -48,6 +50,12 @@ const TABS = [
     label: "Security",
     icon: <ShieldCheckIcon className="w-4 h-4" />,
     content: <SecurityPanel />,
+  },
+  {
+    id: "authentication",
+    label: "Authentication",
+    icon: <KeyIcon className="w-4 h-4" />,
+    content: <AuthenticationPanel />,
   },
   {
     id: "general",

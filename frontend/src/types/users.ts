@@ -9,6 +9,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   userRoles: UserRole[];
+  userIdentities?: { provider: string }[];
 }
 
 export interface UserRole {

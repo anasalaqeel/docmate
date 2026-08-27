@@ -5,6 +5,7 @@ import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/
 import { toast } from "sonner";
 import { useAuth } from "../hooks/useAuth";
 import { useBranding } from "../hooks/useBranding";
+import { settingsService } from "../services/settingsService";
 import { ThemeToggle } from "../components/ui/themeToggle";
 import { EnhancedInput } from "../components/ui/enhancedInput";
 import { EnhancedButton } from "../components/ui/enhancedButton";
@@ -27,6 +28,18 @@ const LoginPage = () => {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/admin";
+
+  const [samlEnabled, setSamlEnabled] = useState(false);
+
+  useEffect(() => {
+    settingsService
+      .getPublicSettings()
+      .then((settings) => {
+        const saml = settings.find((s) => s.key === "authentication.saml.enabled");
+        setSamlEnabled(Boolean(saml?.value));
+      })
+      .catch(() => {});
+  }, []);
 
   // Redirect authenticated users away from login page
   useEffect(() => {
@@ -157,6 +170,22 @@ const LoginPage = () => {
               Login
             </EnhancedButton>
           </form>
+
+          {samlEnabled && (
+            <>
+              <Divider className={styles.divider} />
+              <EnhancedButton
+                type="button"
+                variant="bordered"
+                className={styles.submitButton}
+                onClick={() => {
+                  window.location.href = "/v1/auth/saml/login";
+                }}
+              >
+                Sign in with SSO
+              </EnhancedButton>
+            </>
+          )}
 
           <Divider className={styles.divider} />
 

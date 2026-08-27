@@ -6,6 +6,9 @@
     "url": "DATABASE_URL"
   },
   "authTokenSecret": "AUTH_JWT_SECRET",
+  "ldap": {
+    "bindCredentials": "LDAP_BIND_CREDENTIALS"
+  },
   "seedAdmin": {
     "email": "SEED_ADMIN_EMAIL",
     "username": "SEED_ADMIN_USERNAME",

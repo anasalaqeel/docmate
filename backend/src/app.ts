@@ -5,6 +5,7 @@ import errorLogger from "./middlewares/errorLogger";
 import { productionErrorHandler } from "./middlewares/productionErrorHandler";
 import mainRoute from "./routes/mainRoute";
 import authRoute from "./routes/authRoute";
+import samlAuthRoute from "./routes/samlAuthRoute";
 import docsRoute from "./routes/docsRoute";
 import usersRoute from "./routes/usersRoute";
 import rolesRoute from "./routes/rolesRoute";
@@ -67,6 +68,7 @@ v1.route("/uploads", uploadsRoute);
 
 v1.route("/", mainRoute);
 v1.route("/auth", authRoute);
+v1.route("/auth/saml", samlAuthRoute);
 v1.route("/docs", docsRoute);
 v1.route("/users", usersRoute);
 v1.route("/roles", rolesRoute);

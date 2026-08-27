@@ -1,5 +1,11 @@
 // Backend types for settings validation
-export type SettingCategory = "branding" | "theme" | "security" | "general" | "advanced";
+export type SettingCategory =
+  | "branding"
+  | "theme"
+  | "security"
+  | "general"
+  | "advanced"
+  | "authentication";
 
 export interface SettingDefinition<T = unknown> {
   key: string;

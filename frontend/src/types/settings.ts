@@ -1,6 +1,6 @@
 // Settings system types
 
-export type SettingCategory = "branding" | "theme" | "security" | "general" | "advanced";
+export type SettingCategory = "branding" | "theme" | "security" | "general" | "advanced" | "authentication";
 export type SettingValue = string | number | boolean;
 export type UploadType = "logo" | "favicon" | "custom_asset";
 export type DocumentationType = "markdown" | "html" | "text";
