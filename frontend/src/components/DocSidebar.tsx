@@ -167,7 +167,9 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
     <Sidebar width={300}>
       <div className={styles.sidebarHeader}>
         <Link to="/docs" className={styles.sidebarBrand}>
-          <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+          {logo && (
+            <img src={logo} alt={`${organizationName} logo`} className={styles.sidebarBrandLogo} />
+          )}
           <span className={styles.sidebarBrandName}>{organizationName}</span>
         </Link>
       </div>

@@ -92,7 +92,11 @@ export function useBranding() {
   }, []);
 
   useEffect(() => {
-    applyFavicon(branding.favicon || BRANDING_DEFAULTS.favicon);
+    if (branding.favicon) {
+      applyFavicon(branding.favicon);
+    } else {
+      applyFavicon(BRANDING_DEFAULTS.favicon);
+    }
     document.title = branding.organizationName || "Docmate";
   }, [branding]);
 

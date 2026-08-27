@@ -232,7 +232,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                 ) : (
                   <Link to="/docs" className={styles.brandLink}>
                     <div className={styles.brandContent}>
-                      <img src={logo} alt="Logo" className={styles.logo} />
+                      {logo && <img src={logo} alt="Logo" className={styles.logo} />}
                       <span className={styles.brandTitle}>{organizationName}</span>
                     </div>
                   </Link>

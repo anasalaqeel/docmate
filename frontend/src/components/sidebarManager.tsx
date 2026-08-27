@@ -53,7 +53,7 @@ const SidebarManager = ({
   onUpdateItem,
   docId,
 }: SidebarManagerProps) => {
-  const { logo } = useBranding();
+  const { logo, organizationName } = useBranding();
   const [modalState, setModalState] = useState<ModalState>({
     editingItem: null,
     itemToDelete: null,
@@ -452,7 +452,16 @@ const SidebarManager = ({
             <div className="relative mb-8">
               <div className="absolute inset-0 blur-3xl opacity-30 bg-[var(--docmate-gradient)] rounded-full scale-150"></div>
               <div className="relative">
-                <img src={logo} alt="" className="w-16 h-16 mb-4 animate-pulse mx-auto" />
+                {logo ? (
+                  <img src={logo} alt="" className="w-16 h-16 mb-4 animate-pulse mx-auto" />
+                ) : (
+                  <div
+                    className="w-16 h-16 mb-4 mx-auto rounded-full animate-pulse flex items-center justify-center text-2xl font-semibold"
+                    style={{ background: 'var(--docmate-surface-alt)', color: 'var(--docmate-text-secondary)' }}
+                  >
+                    {(organizationName || "D").charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <div className="text-2xl font-light" style={{ color: 'var(--docmate-text-secondary)', opacity: 0.4 }}>Start building</div>
               </div>
             </div>

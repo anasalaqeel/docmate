@@ -156,7 +156,7 @@ const PublicDocsPage = () => {
     <div className={styles.main}>
       <section className={styles.hero}>
         <div className={styles.heroBrand}>
-          <img src={logo} alt={`${organizationName} logo`} className={styles.heroLogo} />
+          {logo && <img src={logo} alt={`${organizationName} logo`} className={styles.heroLogo} />}
           <span className={styles.heroOrgName}>{organizationName}</span>
         </div>
         <h1 className={styles.heroTitle}>Documentation</h1>

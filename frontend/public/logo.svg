@@ -1,19 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Docmate</title>
   <defs>
-    <linearGradient id="dm-g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8b5cf6"/>
-      <stop offset="1" stop-color="#4c1d95"/>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14b8a6" />
+      <stop offset="1" stop-color="#0f766e" />
     </linearGradient>
   </defs>
-  <!-- rounded document sheet -->
-  <path d="M14 6h22l14 14v34a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4Z" fill="url(#dm-g)"/>
-  <!-- folded corner -->
-  <path d="M36 6v10a4 4 0 0 0 4 4h10L36 6Z" fill="#c4b5fd"/>
-  <!-- doc lines -->
-  <rect x="17" y="34" width="22" height="3.5" rx="1.75" fill="#ede9fe" opacity="0.85"/>
-  <rect x="17" y="42" width="16" height="3.5" rx="1.75" fill="#ede9fe" opacity="0.6"/>
-  <!-- mate spark: speech-tail dot & ring -->
-  <circle cx="43" cy="24" r="7.5" fill="#ede9fe"/>
-  <circle cx="43" cy="24" r="3.5" fill="#4c1d95"/>
-  <path d="M48.5 29.5 53 36l-7.5-2.5 3-4Z" fill="#ede9fe"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#tile)" />
+  <path d="M24 16h12l8 8v20a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4Z" fill="#ffffff" />
+  <path d="M36 16v6a2 2 0 0 0 2 2h6" fill="#99f6e4" />
+  <path d="M24 32h16M24 38h16M24 44h10" stroke="#0f766e" stroke-width="3" stroke-linecap="round" />
 </svg>

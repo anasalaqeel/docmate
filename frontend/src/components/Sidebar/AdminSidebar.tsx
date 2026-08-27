@@ -70,7 +70,7 @@ export const AdminSidebar = () => {
         aria-label={organizationName}
         title={organizationName}
       >
-        <img src={logo} alt="" className={styles.brandLogo} />
+        {logo && <img src={logo} alt="" className={styles.brandLogo} />}
         <span className={styles.brandName}>{organizationName}</span>
       </Link>
       <span className={styles.adminLabel}>Admin Panel</span>

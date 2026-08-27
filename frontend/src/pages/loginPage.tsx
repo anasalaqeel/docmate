@@ -106,7 +106,7 @@ const LoginPage = () => {
       <Card className={styles.loginCard}>
         <div className={styles.header}>
           <div className={styles.brandRow}>
-            <img src={logo} alt={`${organizationName} logo`} className={styles.logo} />
+            {logo && <img src={logo} alt={`${organizationName} logo`} className={styles.logo} />}
             <span className={styles.brandName}>{organizationName}</span>
           </div>
           <h1 className={styles.title}>Welcome Back</h1>
