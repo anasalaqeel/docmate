@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TreeView } from "../../common/treeView/treeView";
-import type { TreeNode, DragDropConfig } from "../../common/treeView/treeView";
+import type { TreeNode, DragDropConfig, TreeConnectorStyle } from "../../common/treeView/treeView";
 
 // Sample data with different node types for testing D&D
 const sampleData: TreeNode[] = [
@@ -78,6 +78,8 @@ export const TreeViewDemo: React.FC = () => {
   const [data] = useState<TreeNode[]>(sampleData);
   const [selectedNodeId, setSelectedNodeId] = useState<string | number | null>("1");
   const [log, setLog] = useState<string[]>([]);
+  const [variant, setVariant] = useState<"default" | "quiet">("default");
+  const [connectorType, setConnectorType] = useState<"none" | TreeConnectorStyle>("solid");
 
   const addLog = (message: string) => {
     setLog((prev) => [...prev.slice(-4), `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -120,6 +122,35 @@ export const TreeViewDemo: React.FC = () => {
         </p>
       </div>
 
+      {/* Controls */}
+      <div className="flex flex-wrap gap-4 items-center mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Variant:</span>
+          <select
+            value={variant}
+            onChange={(e) => setVariant(e.target.value as "default" | "quiet")}
+            className="text-sm px-2 py-1 border rounded bg-transparent dark:border-gray-700"
+          >
+            <option value="default">Default</option>
+            <option value="quiet">Quiet</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Connectors:</span>
+          <select
+            value={connectorType}
+            onChange={(e) => setConnectorType(e.target.value as "none" | TreeConnectorStyle)}
+            className="text-sm px-2 py-1 border rounded bg-transparent dark:border-gray-700"
+          >
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+            <option value="none">None (Off)</option>
+          </select>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Tree View */}
         <div className="lg:col-span-2">
@@ -127,9 +158,13 @@ export const TreeViewDemo: React.FC = () => {
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">
               File Explorer
             </h2>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 bg-gray-50">
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 bg-gray-50 dark:bg-gray-900/40">
               <TreeView
                 data={data}
+                variant={variant}
+                showConnectors={connectorType !== "none"}
+                connectorStyle={connectorType !== "none" ? connectorType : "solid"}
+                defaultExpandedIds={["1", "1-1", "1-2", "2"]}
                 onNodeClick={handleNodeClick}
                 selectedNodeId={selectedNodeId}
                 dragDropConfig={dragDropConfig}

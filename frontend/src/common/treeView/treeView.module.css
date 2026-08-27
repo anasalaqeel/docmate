@@ -262,3 +262,66 @@
 .hidden {
   display: none;
 }
+
+/* ============ Tree Connectors ============ */
+.connectorContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.connectorLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--tree-connector-width, 1.5px);
+  border-left: var(--tree-connector-width, 1.5px) solid var(--tree-connector-color, color-mix(in srgb, currentColor 45%, transparent));
+}
+
+.connectorLine[data-style="dashed"] {
+  border-left-style: dashed;
+}
+
+.connectorLine[data-style="dotted"] {
+  border-left-style: dotted;
+}
+
+.connectorElbow {
+  position: absolute;
+  top: 0;
+  height: 50%;
+  border-left: var(--tree-connector-width, 1.5px) solid var(--tree-connector-color, color-mix(in srgb, currentColor 45%, transparent));
+  border-bottom: var(--tree-connector-width, 1.5px) solid var(--tree-connector-color, color-mix(in srgb, currentColor 45%, transparent));
+  border-bottom-left-radius: 8px;
+  box-sizing: border-box;
+}
+
+.connectorElbow[data-style="dashed"] {
+  border-left-style: dashed;
+  border-bottom-style: dashed;
+}
+
+.connectorElbow[data-style="dotted"] {
+  border-left-style: dotted;
+  border-bottom-style: dotted;
+}
+
+.connectorContinuation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--tree-connector-width, 1.5px);
+  border-left: var(--tree-connector-width, 1.5px) solid var(--tree-connector-color, color-mix(in srgb, currentColor 45%, transparent));
+}
+
+.connectorContinuation[data-style="dashed"] {
+  border-left-style: dashed;
+}
+
+.connectorContinuation[data-style="dotted"] {
+  border-left-style: dotted;
+}

@@ -193,6 +193,8 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
           <>
             <TreeView
               variant="quiet"
+              showConnectors={true}
+              connectorStyle="dotted"
               data={convertToTreeNodes(sidebarTree)}
               onNodeClick={handleNodeClick}
               defaultExpandedIds={getExpandedNodeIds()}

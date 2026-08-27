@@ -34,6 +34,8 @@ export interface TreeItemRenderProps<T extends TreeNode> {
   node: T; 
 }
 
+export type TreeConnectorStyle = "solid" | "dashed" | "dotted";
+
 export interface TreeViewClassNames {
   container?: string;
   list?: string;
@@ -44,6 +46,9 @@ export interface TreeViewClassNames {
   dragGhost?: string;
   dropIndicator?: string;
   rootNode?: string; 
+  connectorContainer?: string;
+  connectorLine?: string;
+  connectorElbow?: string;
 }
 
 export interface TreeViewProps<T extends TreeNode = TreeNode> {
@@ -54,6 +59,10 @@ export interface TreeViewProps<T extends TreeNode = TreeNode> {
   selectedNodeId?: string | number | null;
   /** Visual variation: "default" (tinted hover/selection) or "quiet" (typography-forward reading nav) */
   variant?: "default" | "quiet";
+  /** Whether to show hierarchical guide/connector lines */
+  showConnectors?: boolean;
+  /** Connector line style when showConnectors is enabled (defaults to "solid") */
+  connectorStyle?: TreeConnectorStyle;
 
   // Customization - Styling
   classNames?: TreeViewClassNames;
@@ -198,6 +207,9 @@ const DropIndicator = ({
 function TreeNodeItem<T extends TreeNode>({
   node,
   level,
+  isLastChild = false,
+  ancestorIsLast = [],
+  connectorStyle,
   expandedNodes,
   selectedNodeId,
   toggleNode,
@@ -213,6 +225,9 @@ function TreeNodeItem<T extends TreeNode>({
 }: {
   node: T;
   level: number;
+  isLastChild?: boolean;
+  ancestorIsLast?: boolean[];
+  connectorStyle?: TreeConnectorStyle | null;
   expandedNodes: Set<string | number>;
   selectedNodeId?: string | number | null;
   toggleNode: (id: string | number) => void;
@@ -259,6 +274,46 @@ function TreeNodeItem<T extends TreeNode>({
                     onNodeClick?.(node);
                 }}
             >
+                 {connectorStyle && level >= 1 && (
+                     <div 
+                         className={`${styles.connectorContainer} ${classNames?.connectorContainer || ''}`} 
+                         aria-hidden="true"
+                     >
+                         {/* Ancestor pass-through guide lines */}
+                         {ancestorIsLast?.map((isLast, idx) => {
+                             if (isLast) return null;
+                             return (
+                                 <div
+                                     key={idx}
+                                     className={`${styles.connectorLine} ${classNames?.connectorLine || ''}`}
+                                     data-style={connectorStyle}
+                                     style={{ left: `${idx * 20 + 18}px` }}
+                                 />
+                             );
+                         })}
+
+                         {/* Immediate parent connector elbow (rounded L-branch) */}
+                         <div
+                             className={`${styles.connectorElbow} ${classNames?.connectorElbow || ''}`}
+                             data-style={connectorStyle}
+                             style={{
+                                 left: `${(level - 1) * 20 + 18}px`,
+                                 width: hasChildren ? '12px' : '26px',
+                             }}
+                         />
+
+                         {/* Vertical continuation line if this node has subsequent siblings */}
+                         {!isLastChild && (
+                             <div
+                                 className={`${styles.connectorContinuation} ${classNames?.connectorLine || ''}`}
+                                 data-style={connectorStyle}
+                                 style={{
+                                     left: `${(level - 1) * 20 + 18}px`,
+                                 }}
+                             />
+                         )}
+                     </div>
+                 )}
                  {renderItem ? renderItem(renderProps) : (
                      <div className={`${styles.nodeContent} ${classNames?.nodeContent || ''}`}>
                         {/* Expand/Collapse Toggle */}
@@ -313,11 +368,14 @@ function TreeNodeItem<T extends TreeNode>({
                     aria-hidden={!isExpanded}
                 >
                     <div className={styles.accordionInner}>
-                         {(node.children as T[]).map(child => (
+                         {(node.children as T[]).map((child, index, arr) => (
                             <TreeNodeItem 
                                 key={child.id} 
                                 node={child} 
                                 level={level + 1}
+                                isLastChild={index === arr.length - 1}
+                                ancestorIsLast={level === 0 ? [] : [...(ancestorIsLast || []), isLastChild ?? false]}
+                                connectorStyle={connectorStyle}
                                 expandedNodes={expandedNodes} 
                                 selectedNodeId={selectedNodeId}
                                 toggleNode={toggleNode} 
@@ -350,6 +408,8 @@ export function TreeView<T extends TreeNode>({
   classNames,
   selectedNodeId,
   variant = "default",
+  showConnectors = false,
+  connectorStyle = "solid",
   renderItem,
   renderActions,
   expandIcon,
@@ -580,16 +640,23 @@ export function TreeView<T extends TreeNode>({
       };
   }, [handlePointerMove, handlePointerUp]);
 
+  const resolvedConnectorStyle: TreeConnectorStyle | null = showConnectors
+    ? connectorStyle
+    : null;
+
   return (
     <div
       className={`${styles.container} ${variant === "quiet" ? styles.quiet : ""} ${className} ${classNames?.container || ''}`}
       data-variant={variant}
     >
-      {data.map((node) => (
+      {data.map((node, index, arr) => (
         <TreeNodeItem
           key={node.id}
           node={node}
           level={0}
+          isLastChild={index === arr.length - 1}
+          ancestorIsLast={[]}
+          connectorStyle={resolvedConnectorStyle}
           expandedNodes={expandedNodes}
           selectedNodeId={selectedNodeId}
           toggleNode={toggleNode}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TreeView } from "../common/treeView/treeView";
-import type { TreeNode, DragDropConfig } from "../common/treeView/treeView";
-import { Card, CardBody, CardHeader } from "@heroui/react";
+import type { TreeNode, DragDropConfig, TreeConnectorStyle } from "../common/treeView/treeView";
+import { Card, CardBody, CardHeader, Button, ButtonGroup } from "@heroui/react";
 
 // Enhanced test data with metadata for drag/drop validation
 const testData: TreeNode[] = [
@@ -55,6 +55,8 @@ const testData: TreeNode[] = [
 const TestTreeViewPage: React.FC = () => {
   const [data, setData] = useState<TreeNode[]>(testData);
   const [logs, setLogs] = useState<string[]>([]);
+  const [variant, setVariant] = useState<"default" | "quiet">("default");
+  const [connectorType, setConnectorType] = useState<"none" | TreeConnectorStyle>("solid");
 
   const addLog = (message: string) => {
     console.log(message);
@@ -174,13 +176,68 @@ const TestTreeViewPage: React.FC = () => {
         {/* Tree View */}
         <div>
           <Card className="shadow-lg">
-            <CardHeader className="bg-blue-600 text-white">
+            <CardHeader className="bg-blue-600 text-white flex justify-between items-center">
               <h2 className="text-xl font-bold">Drag & Drop Tree</h2>
             </CardHeader>
-            <CardBody className="p-6">
+            <CardBody className="p-6 space-y-4">
+              {/* Variant and Connector Controls */}
+              <div className="flex flex-wrap gap-4 p-3 bg-default-50 rounded-lg border border-divider">
+                <div className="space-y-1">
+                  <div className="text-xs font-semibold text-default-600">Variant</div>
+                  <ButtonGroup size="sm" variant="flat">
+                    <Button
+                      color={variant === "default" ? "primary" : "default"}
+                      onClick={() => setVariant("default")}
+                    >
+                      Default
+                    </Button>
+                    <Button
+                      color={variant === "quiet" ? "primary" : "default"}
+                      onClick={() => setVariant("quiet")}
+                    >
+                      Quiet
+                    </Button>
+                  </ButtonGroup>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-xs font-semibold text-default-600">Connectors</div>
+                  <ButtonGroup size="sm" variant="flat">
+                    <Button
+                      color={connectorType === "none" ? "primary" : "default"}
+                      onClick={() => setConnectorType("none")}
+                    >
+                      None
+                    </Button>
+                    <Button
+                      color={connectorType === "solid" ? "primary" : "default"}
+                      onClick={() => setConnectorType("solid")}
+                    >
+                      Solid
+                    </Button>
+                    <Button
+                      color={connectorType === "dashed" ? "primary" : "default"}
+                      onClick={() => setConnectorType("dashed")}
+                    >
+                      Dashed
+                    </Button>
+                    <Button
+                      color={connectorType === "dotted" ? "primary" : "default"}
+                      onClick={() => setConnectorType("dotted")}
+                    >
+                      Dotted
+                    </Button>
+                  </ButtonGroup>
+                </div>
+              </div>
+
               <div className="border-2 border-divider rounded-lg p-4 bg-content1 dark:bg-content1">
                 <TreeView
                   data={data}
+                  variant={variant}
+                  showConnectors={connectorType !== "none"}
+                  connectorStyle={connectorType !== "none" ? connectorType : "solid"}
+                  defaultExpandedIds={["1", "1-1", "1-2", "2"]}
                   dragDropConfig={dragDropConfig}
                   className="min-h-[300px]"
                   classNames={{

@@ -7,5 +7,6 @@ export {
   type TreeItemRenderProps,
   type TreeViewProps,
   type TreeViewClassNames,
+  type TreeConnectorStyle,
 } from "../../common/treeView/treeView";
 export { default as TreeViewDemo } from "./TreeViewDemo";
