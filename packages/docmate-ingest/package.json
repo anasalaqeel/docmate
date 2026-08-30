@@ -4,7 +4,7 @@
   "description": "Sync a project's markdown docs folder into a Docmate documentation project",
   "license": "MIT",
   "bin": {
-    "docmate-ingest": "./bin/docmate-ingest.js"
+    "docmate-ingest": "bin/docmate-ingest.js"
   },
   "main": "./lib/ingest.js",
   "files": [
