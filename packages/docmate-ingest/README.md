@@ -1,6 +1,6 @@
 # docmate-ingest
 
-Puts your project's markdown docs into [Docmate](../../README.md). Run one command, your docs show up in Docmate.
+Puts your project's markdown docs into [Docmate](https://github.com/anasalaqeel/docmate). Run one command, your docs show up in Docmate.
 
 ## What this does
 
@@ -12,10 +12,12 @@ That's it. No copy-pasting, no manual uploading. It never touches git or clones 
 
 ## Step 1: Get a token
 
-1. Open Docmate in your browser.
-2. Open the documentation project you want to sync to.
-3. Turn on "Ingestion" in its settings.
-4. Copy the token it gives you. You'll need it in Step 3.
+Tokens are created in the **admin panel** (where you manage docs), not the public docs site (where readers browse them).
+
+1. Log in to Docmate and open the **admin panel**.
+2. Open the documentation project you want to sync to, and click **Edit**.
+3. Find the **External API Ingestion** section and turn on **Enable Ingestion**.
+4. Click **Generate** to create a token, then copy it. You'll need it in Step 3.
 
 ## Step 2: Name your files so they show up in the right order
 
