@@ -250,6 +250,86 @@ curl -X POST http://localhost:8000/v1/external-docs/ingest \
 
 ---
 
+## External Markdown Ingestion
+
+Sync a project's own `docs` folder into a Docmate documentation project from CI, a git hook, or any script — Docmate never clones your repository; your script reads the files and posts their contents.
+
+### Quick start: `docmate-ingest`
+
+The easiest way to use this is the [`docmate-ingest`](./packages/docmate-ingest/README.md) npm package, which handles walking your docs folder and building the request for you:
+
+```bash
+npx docmate-ingest --url https://docs.example.com --token <ingestion-token> --dir ./docs
+```
+
+The rest of this section documents the underlying HTTP contract directly, for other languages/tooling.
+
+### Setup
+
+Same as OpenAPI ingestion above: open the documentation project, enable **Ingestion**, and copy the **Ingestion Token**.
+
+### Endpoint
+
+```
+POST /v1/external-docs/ingest-markdown
+```
+
+### Authentication
+
+```
+Authorization: Bearer <ingestion-token>
+```
+
+### Request Body
+
+| Field         | Type                                  | Required | Description                                   |
+| ------------- | -------------------------------------- | -------- | ---------------------------------------------- |
+| `files`       | `{ path: string; content: string }[]` | Yes      | Every markdown file, with its path relative to your docs folder |
+| `version`     | `string`                              | No       | Override the documentation version             |
+| `isPublic`    | `boolean`                             | No       | Override the public visibility                 |
+
+Each ingest **replaces** the project's existing pages and folders with the files sent in that request — send your full docs folder every time, not just the files that changed.
+
+File names may carry a `N-` ordering prefix, same as [the ZIP import format](./docs/IMPORT_GUIDE.md) — e.g. `1-getting-started.md`, `2-api/1-authentication.md` — to control sidebar order; the prefix is stripped from the displayed title.
+
+### Example
+
+Given a repo with:
+
+```text
+docs/
+├── 1-getting-started.md
+└── 2-api/
+    └── 1-authentication.md
+```
+
+a CI step could POST:
+
+```bash
+curl -X POST http://localhost:8000/v1/external-docs/ingest-markdown \
+  -H "Authorization: Bearer your-ingestion-token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "version": "1.4.0",
+    "files": [
+      { "path": "1-getting-started.md", "content": "# Getting Started\n\n..." },
+      { "path": "2-api/1-authentication.md", "content": "# Authentication\n\n..." }
+    ]
+  }'
+```
+
+### Responses
+
+| Status | Description                                      |
+| ------ | ------------------------------------------------ |
+| `200`  | Documentation updated successfully                |
+| `400`  | Missing/empty `files`, or no markdown files found |
+| `401`  | Missing or invalid ingestion token               |
+| `403`  | Ingestion is disabled for this documentation     |
+| `500`  | Internal server error                            |
+
+---
+
 ## Publishing to Docker Hub
 
 When you're ready to publish images:

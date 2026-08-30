@@ -53,6 +53,21 @@ The container for your guide pages.
 * You can place standard `.md` files directly in `pages/`.
 * You can build multi-level nested folders. Docmate parses folder names and generates nested parent directories/collapsibles in your frontend sidebar automatically.
 
+##### Controlling sidebar order
+
+By default, pages and folders appear in the order Docmate happens to read them from the archive. To pin an exact order, prefix any file or folder name with a number and a hyphen:
+
+```text
+pages/
+├── 1-getting-started.md
+├── 2-authentication.md
+└── 3-advanced-usage/
+    ├── 1-setup.md
+    └── 2-troubleshooting.md
+```
+
+The number sets the sidebar position and is stripped from the title (`2-authentication.md` → "Authentication"). Numbers only need to sort correctly relative to their siblings — gaps like `1, 5, 10` are fine. Files without a prefix keep the default archive-order behavior. Docmate's own Markdown export (`GET /:id/export/markdown`) always writes numbered files, so an exported ZIP re-imports with the same order.
+
 #### `openapi.json` (Optional)
 Include a standard Swagger/OpenAPI JSON specification at the root if your project incorporates programmatic API reference views.
 

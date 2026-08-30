@@ -4,6 +4,8 @@ import db from "../db";
 import { documentations, sidebarItems, openApiSpecs, users } from "../db/schema";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import importService from "../services/import.service";
+import { buildSidebarFromMarkdownFiles } from "../utils/markdownSidebar";
 
 type Variables = {
   documentation: typeof documentations.$inferSelect;
@@ -20,7 +22,7 @@ const ingestionSchema = z.object({
 });
 
 // Middleware to check for the ingestion token
-externalDocs.use("/ingest", async (c, next) => {
+externalDocs.use("*", async (c, next) => {
   const authHeader = c.req.header("Authorization");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -107,6 +109,60 @@ externalDocs.post("/ingest", zValidator("json", ingestionSchema), async (c) => {
     return c.json({ success: true, docId, message: "Documentation updated successfully" });
   } catch (error) {
     console.error("Ingestion error:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+// Schema for markdown ingestion payload
+const markdownIngestionSchema = z.object({
+  files: z
+    .array(
+      z.object({
+        path: z.string().min(1),
+        content: z.string(),
+      })
+    )
+    .min(1),
+  version: z.string().optional(),
+  isPublic: z.boolean().optional(),
+});
+
+externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema), async (c) => {
+  try {
+    const body = c.req.valid("json");
+    const { files, version, isPublic } = body;
+    const doc = c.get("documentation"); // Set by middleware
+
+    const fileMap: Record<string, string> = {};
+    for (const file of files) {
+      fileMap[file.path] = file.content;
+    }
+
+    const parsedSidebarItems = buildSidebarFromMarkdownFiles(fileMap, "");
+
+    if (parsedSidebarItems.length === 0) {
+      return c.json({ error: "No markdown files found in payload" }, 400);
+    }
+
+    const createdItems = await importService.replaceSidebarContent(doc.id, parsedSidebarItems);
+
+    await db
+      .update(documentations)
+      .set({
+        version: version || doc.version,
+        updatedAt: new Date(),
+        isPublic: isPublic !== undefined ? isPublic : doc.isPublic,
+      })
+      .where(eq(documentations.id, doc.id));
+
+    return c.json({
+      success: true,
+      docId: doc.id,
+      createdItems,
+      message: "Documentation updated successfully",
+    });
+  } catch (error) {
+    console.error("Markdown ingestion error:", error);
     return c.json({ error: "Internal Server Error" }, 500);
   }
 });

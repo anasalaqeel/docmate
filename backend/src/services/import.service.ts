@@ -12,26 +12,15 @@ import {
   type OpenApiSpec,
 } from "../db/schema";
 import yauzl from "yauzl";
+import {
+  buildSidebarFromMarkdownFiles,
+  type ParsedPage,
+  type ParsedSidebarItem,
+} from "../utils/markdownSidebar";
 
 // Types for import data structures (matching export types)
-interface ImportPage {
-  title: string;
-  slug: string;
-  content: any;
-  metadata: any;
-  created_at?: string;
-  updated_at?: string;
-}
-
-interface ImportSidebarItem {
-  id: number;
-  title: string;
-  type: "folder" | "page" | "divider";
-  order: number;
-  icon?: string;
-  children: ImportSidebarItem[];
-  page?: ImportPage;
-}
+type ImportPage = ParsedPage;
+type ImportSidebarItem = ParsedSidebarItem;
 
 interface ImportDocument {
   title: string;
@@ -176,9 +165,6 @@ class ImportService {
           throw new Error("Document not found");
         }
 
-        // Clear existing content
-        await this.deleteDocumentContent(documentId);
-
         // Update document metadata
         const [updatedDoc] = await db
           .update(documentations)
@@ -216,10 +202,12 @@ class ImportService {
       }
 
       // Parse pages from markdown files
-      const sidebarItems = this.buildSidebarFromMarkdown(extractedFiles);
+      const sidebarItems = buildSidebarFromMarkdownFiles(extractedFiles);
 
-      // Import sidebar items and pages
-      const createdItems = await this.importSidebarItems(sidebarItems, document.id, null);
+      // Import sidebar items and pages (replacing existing content on update)
+      const createdItems = documentId
+        ? await this.replaceSidebarContent(document.id, sidebarItems)
+        : await this.importSidebarItems(sidebarItems, document.id, null);
 
       // Import OpenAPI spec if available
       if (extractedFiles["openapi.json"]) {
@@ -307,127 +295,6 @@ class ImportService {
   }
 
   /**
-   * Build sidebar structure from markdown files
-   */
-  private buildSidebarFromMarkdown(files: { [key: string]: Buffer }): ImportSidebarItem[] {
-    const rootSidebarItems: ImportSidebarItem[] = [];
-    const folderMap = new Map<string, ImportSidebarItem>();
-    let order = 0;
-
-    // Find all page files
-    const pageFiles = Object.keys(files).filter(
-      (filename) => filename.startsWith("pages/") && filename.endsWith(".md")
-    );
-
-    pageFiles.forEach((filename) => {
-      const content = files[filename].toString();
-      const relativePath = filename.replace("pages/", "").replace(".md", "");
-      const pathParts = relativePath.split("/");
-      const pageData = this.parseMarkdownFile(content);
-
-      let currentChildren = rootSidebarItems;
-      let currentPath = "";
-
-      // Build folder structure
-      for (let i = 0; i < pathParts.length - 1; i++) {
-        const folderName = pathParts[i];
-        currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
-
-        if (!folderMap.has(currentPath)) {
-          const folderItem: ImportSidebarItem = {
-            id: -1, // Temporary ID
-            title: folderName.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
-            type: "folder",
-            order: order++,
-            children: [],
-          };
-          folderMap.set(currentPath, folderItem);
-          currentChildren.push(folderItem);
-        }
-
-        currentChildren = folderMap.get(currentPath)!.children;
-      }
-
-      // Add page
-      const rawPageTitle = pathParts[pathParts.length - 1];
-      const pageTitle = rawPageTitle.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-      
-      const pageItem: ImportSidebarItem = {
-        id: -1, // Temporary ID
-        title: pageData.title || pageTitle,
-        type: "page",
-        order: order++,
-        children: [],
-        page: {
-          title: pageData.title || pageTitle,
-          slug: pageData.slug || rawPageTitle,
-          content: { description: content },
-          metadata: pageData.metadata,
-          created_at: pageData.created_at,
-          updated_at: pageData.updated_at,
-        },
-      };
-
-      currentChildren.push(pageItem);
-    });
-
-    return rootSidebarItems.sort((a, b) => a.order - b.order);
-  }
-
-  /**
-   * Parse markdown file frontmatter
-   */
-  private parseMarkdownFile(content: string): {
-    title?: string;
-    slug?: string;
-    metadata?: any;
-    created_at?: string;
-    updated_at?: string;
-  } {
-    const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-    const match = content.match(frontmatterRegex);
-
-    if (match) {
-      try {
-        const frontmatter = match[1];
-        const markdown = match[2];
-
-        // Parse YAML frontmatter (simple key-value pairs)
-        const frontmatterData: any = {};
-        frontmatter.split("\n").forEach((line) => {
-          const colonIndex = line.indexOf(":");
-          if (colonIndex > 0) {
-            const key = line.substring(0, colonIndex).trim();
-            let value = line.substring(colonIndex + 1).trim();
-
-            // Remove quotes if present
-            if (
-              (value.startsWith('"') && value.endsWith('"')) ||
-              (value.startsWith("'") && value.endsWith("'"))
-            ) {
-              value = value.slice(1, -1);
-            }
-
-            frontmatterData[key] = value;
-          }
-        });
-
-        return {
-          title: frontmatterData.title,
-          slug: frontmatterData.slug,
-          metadata: frontmatterData,
-          created_at: frontmatterData.created_at,
-          updated_at: frontmatterData.updated_at,
-        };
-      } catch (error) {
-        console.warn("Failed to parse frontmatter:", error);
-      }
-    }
-
-    return {};
-  }
-
-  /**
    * Import sidebar items recursively
    */
   private async importSidebarItems(
@@ -496,6 +363,18 @@ class ImportService {
         rawSpec: spec.rawSpec || spec,
       });
     }
+  }
+
+  /**
+   * Replaces all sidebar items and pages for a document with a new tree.
+   * Used by ZIP re-import and by the external markdown ingestion route.
+   */
+  async replaceSidebarContent(
+    documentationId: number,
+    items: ImportSidebarItem[]
+  ): Promise<number> {
+    await this.deleteDocumentContent(documentationId);
+    return this.importSidebarItems(items, documentationId, null);
   }
 
   /**

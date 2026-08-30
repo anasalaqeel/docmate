@@ -14,12 +14,16 @@ export function sanitizeInput(
 
   // Remove potentially harmful characters for parameters
   if (type === "param") {
-    sanitized = sanitized.replace(/[^a-zA-Z0-9._-]/g, "");
+    return sanitized.replace(/[^a-zA-Z0-9._-]/g, "");
   }
 
-  // For search, allow more characters but limit special ones
-  if (type === "search") {
-    sanitized = sanitized.replace(/<[^>]*>?/gm, ""); // Remove HTML tags
+  // "search" and "general" both hold arbitrary user text that gets stored/rendered,
+  // so both need HTML tags stripped to prevent stored XSS
+  sanitized = sanitized.replace(/<[^>]*>?/gm, "");
+
+  // Normalize email-shaped input so lookups/storage are case-insensitive
+  if (type === "general" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sanitized)) {
+    sanitized = sanitized.toLowerCase();
   }
 
   return sanitized;

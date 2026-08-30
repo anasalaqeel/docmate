@@ -15,6 +15,7 @@ import jsPDF from 'jspdf';
 import { marked } from 'marked';
 import archiver from 'archiver';
 import { Readable } from 'stream';
+import { orderedSegment } from '../utils/markdownSidebar';
 
 // Types for export data structures
 interface ExportPage {
@@ -212,21 +213,17 @@ class ExportService {
 
     // Generate markdown for each page
     const generatePageMarkdown = (items: ExportSidebarItem[], basePath: string = ''): void => {
-      items.forEach(item => {
+      items.forEach((item, index) => {
+        const position = index + 1;
         if (item.type === 'page' && item.page) {
-          // Use page title for filename instead of auto-generated slug
           const pageTitle = item.page.title || item.title || 'untitled-page';
-          const sanitizedTitle = pageTitle.toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
-            .replace(/\s+/g, '-') // Replace spaces with hyphens
-            .replace(/-+/g, '-') // Replace multiple hyphens with single
-            .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-
-          const pagePath = basePath ? `${basePath}/${sanitizedTitle}` : sanitizedTitle;
+          const fileSegment = orderedSegment(pageTitle, position);
+          const pagePath = basePath ? `${basePath}/${fileSegment}` : fileSegment;
           const content = this.generatePageMarkdown(item.page, document);
           files.push({ path: `pages/${pagePath}.md`, content });
         } else if (item.type === 'folder' && item.children.length > 0) {
-          const folderPath = basePath ? `${basePath}/${item.title.toLowerCase().replace(/\s+/g, '-')}` : item.title.toLowerCase().replace(/\s+/g, '-');
+          const folderSegment = orderedSegment(item.title, position);
+          const folderPath = basePath ? `${basePath}/${folderSegment}` : folderSegment;
           generatePageMarkdown(item.children, folderPath);
         }
       });

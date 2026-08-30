@@ -1,0 +1,20 @@
+{
+  "name": "docmate-ingest",
+  "version": "0.1.0",
+  "description": "Sync a project's markdown docs folder into a Docmate documentation project",
+  "license": "MIT",
+  "bin": {
+    "docmate-ingest": "./bin/docmate-ingest.js"
+  },
+  "main": "./lib/ingest.js",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
