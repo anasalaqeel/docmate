@@ -1,8 +1,14 @@
 {
   "name": "docmate-ingest",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sync a project's markdown docs folder into a Docmate documentation project",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anasalaqeel/grud.git",
+    "directory": "packages/docmate-ingest"
+  },
+  "homepage": "https://github.com/anasalaqeel/grud/tree/main/packages/docmate-ingest#readme",
   "bin": {
     "docmate-ingest": "bin/docmate-ingest.js"
   },
