@@ -239,10 +239,50 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                 )}
               </NavbarBrand>
 
+              {layoutData.onSearch && (
+                <NavbarContent justify="center" className="max-w-md w-full mx-2 hidden sm:flex">
+                  <NavbarItem className="w-full">
+                    <button
+                      type="button"
+                      onClick={layoutData.onSearch}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-1.5 text-xs rounded-lg border border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)] text-[var(--docmate-text-secondary)] hover:text-[var(--docmate-text)] hover:border-[var(--docmate-primary)] transition-colors cursor-pointer"
+                      aria-label="Search documentation (⌘K)"
+                    >
+                      <span className="flex items-center gap-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <span>Search documentation...</span>
+                      </span>
+                      <kbd className="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)]">
+                        ⌘K
+                      </kbd>
+                    </button>
+                  </NavbarItem>
+                </NavbarContent>
+              )}
+
               <NavbarContent justify="end">
-            <NavbarItem>
-              <ThemeToggle size="sm" />
-            </NavbarItem>
+                {layoutData.onSearch && (
+                  <NavbarItem className="sm:hidden">
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="light"
+                      onPress={layoutData.onSearch}
+                      aria-label="Search documentation"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      </svg>
+                    </Button>
+                  </NavbarItem>
+                )}
+                <NavbarItem>
+                  <ThemeToggle size="sm" />
+                </NavbarItem>
 
             {layoutData.showAdminButton && !user && (
               <NavbarItem>

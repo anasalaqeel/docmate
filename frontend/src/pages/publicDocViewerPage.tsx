@@ -12,6 +12,7 @@ import NavButton from "../components/NavButton";
 import ViewerAttachments from "../components/ViewerAttachments";
 import { useLayout } from "../hooks/useLayout";
 import ExportButton from "../components/ExportButton";
+import DocSearchModal from "../components/DocSearchModal";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 const PublicDocViewerPage = () => {
@@ -33,6 +34,31 @@ const PublicDocViewerPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<"not-found" | "network" | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Global shortcut to open doc search with Cmd+K / Ctrl+K or "/"
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+        return;
+      }
+
+      const target = e.target as HTMLElement;
+      const typing =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+      if (e.key === "/" && !typing && !isSearchOpen) {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isSearchOpen]);
 
   // Get sidebar tree
   const sidebarTree = useSidebarTree(doc?.sidebarItems);
@@ -164,6 +190,7 @@ const PublicDocViewerPage = () => {
         showAdminButton: false,
         navbarTitle: doc.title,
         navbarSubtitle: doc.version ? `v${doc.version}` : undefined,
+        onSearch: () => setIsSearchOpen(true),
         sidebar: (
             <DocSidebar
               doc={doc}
@@ -375,6 +402,14 @@ const PublicDocViewerPage = () => {
           )}
         </main>
       </div>
+
+      <DocSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        doc={doc}
+        sidebarTree={sidebarTree}
+        apiEndpoints={apiEndpoints}
+      />
     </div>
   );
 };

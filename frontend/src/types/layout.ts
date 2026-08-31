@@ -6,6 +6,7 @@ export interface LayoutData {
   navbarType: "public" | "admin";
   navbarTitle?: string;
   navbarSubtitle?: string;
+  onSearch?: () => void;
 }
 
 export interface LayoutContextType {
