@@ -156,8 +156,11 @@ export const deleteCrudOperation = async (operationId: number): Promise<ApiRespo
 };
 
 // Public documentation functions (no auth required)
-export const getPublicDocs = async (): Promise<ApiResponse<Documentation[]>> => {
-  return get<ApiResponse<Documentation[]>>('/docs/public');
+export const getPublicDocs = async (query?: string): Promise<ApiResponse<Documentation[]>> => {
+  const url = query
+    ? `/docs/public?q=${encodeURIComponent(query)}`
+    : "/docs/public";
+  return get<ApiResponse<Documentation[]>>(url);
 };
 
 export const getPublicDocById = async (id: number): Promise<ApiResponse<Documentation>> => {

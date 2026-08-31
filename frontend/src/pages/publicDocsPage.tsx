@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, type ReactNode } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, Link } from "react-router";
 import { getPublicDocs } from "../services/docsService";
 import { type Documentation } from "../types/docs";
 import { CardSkeleton } from "../components/ui/loadingSkeleton";
 import { useLayout } from "../hooks/useLayout";
 import { useBranding } from "../hooks/useBranding";
+import { useDebouncedSearch } from "../hooks/useDebouncedSearch";
 import styles from "../styles/publicDocsPage.module.css";
 
 const SearchIcon = () => (
@@ -43,18 +44,19 @@ const DocTypeIcon = ({ type }: { type?: string }) => {
   );
 };
 
-/* Highlight the matched search substring without breaking text flow */
-const highlight = (text: string, term: string): ReactNode => {
-  const t = term.trim();
-  if (!t) return text;
-  const idx = text.toLowerCase().indexOf(t.toLowerCase());
-  if (idx === -1) return text;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <mark className={styles.highlight}>{text.slice(idx, idx + t.length)}</mark>
-      {text.slice(idx + t.length)}
-    </>
+/** Highlight matching search text in strings */
+const highlight = (text: string, query: string) => {
+  if (!query.trim()) return text;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    regex.test(part) ? (
+      <mark key={i} className={styles.highlight}>
+        {part}
+      </mark>
+    ) : (
+      part
+    )
   );
 };
 
@@ -77,49 +79,58 @@ const PublicDocsPage = () => {
   const [docs, setDocs] = useState<Documentation[]>([]);
   const [filteredDocs, setFilteredDocs] = useState<Documentation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [typeFilter, setTypeFilter] = useState<"all" | "traditional" | "api" | "mixed">("all");
   const searchRef = useRef<HTMLInputElement>(null);
+  
+  // Follow the project code pattern for debounced searching
+  const [searchTerm, setSearchTerm] = useDebouncedSearch("", 200);
+
   const { setLayoutData, resetLayoutData } = useLayout();
   const navigate = useNavigate();
 
-  const fetchPublicDocs = async () => {
+  const fetchDocs = useCallback(async (query?: string) => {
     try {
-      setIsLoading(true);
-      const response = await getPublicDocs();
+      if (query && query.trim()) {
+        setIsSearching(true);
+      } else {
+        setIsLoading(true);
+      }
 
+      const response = await getPublicDocs(query);
       if (response.success && response.data) {
         setDocs(response.data);
-        setFilteredDocs(response.data);
       }
     } catch (error) {
       console.error("Failed to fetch public documentations:", error);
     } finally {
       setIsLoading(false);
+      setIsSearching(false);
     }
-  };
+  }, []);
 
+  // Initial load
   useEffect(() => {
-    fetchPublicDocs();
+    fetchDocs();
     setLayoutData({
-      showAdminButton: true
+      showAdminButton: true,
     });
 
     return () => resetLayoutData();
-  }, [setLayoutData, resetLayoutData]);
+  }, [fetchDocs, setLayoutData, resetLayoutData]);
 
+  // Fetch when debounced search term changes
   useEffect(() => {
-    const term = searchTerm.trim().toLowerCase();
+    fetchDocs(searchTerm);
+  }, [searchTerm, fetchDocs]);
+
+  // Filter by document type
+  useEffect(() => {
     const filtered = docs.filter((doc) => {
-      const matchesType = typeFilter === "all" || doc.type === typeFilter;
-      const matchesTerm =
-        term === "" ||
-        doc.title.toLowerCase().includes(term) ||
-        doc.description?.toLowerCase().includes(term);
-      return matchesType && matchesTerm;
+      return typeFilter === "all" || doc.type === typeFilter;
     });
     setFilteredDocs(filtered);
-  }, [searchTerm, typeFilter, docs]);
+  }, [typeFilter, docs]);
 
   // "/" focuses search from anywhere on the page
   useEffect(() => {
@@ -141,7 +152,10 @@ const PublicDocsPage = () => {
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
       setSearchTerm("");
-      searchRef.current?.blur();
+      if (searchRef.current) {
+        searchRef.current.value = "";
+        searchRef.current.blur();
+      }
     }
   };
 
@@ -173,8 +187,8 @@ const PublicDocsPage = () => {
             ref={searchRef}
             type="text"
             className={styles.searchInput}
-            placeholder="Search documentation"
-            value={searchTerm}
+            placeholder="Search documentation (topics, pages, endpoints)..."
+            defaultValue={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleSearchKeyDown}
             aria-label="Search documentation"
@@ -189,7 +203,7 @@ const PublicDocsPage = () => {
         </div>
       </section>
 
-      {isLoading ? (
+      {isLoading || isSearching ? (
         <div className={styles.docsGrid}>
           <CardSkeleton count={6} />
         </div>
@@ -222,8 +236,7 @@ const PublicDocsPage = () => {
                   <>
                     <h2>No documentation found</h2>
                     <p>
-                      No results for the current search and filters. Try a
-                      different term or clear them.
+                      No documents contain &ldquo;{searchTerm}&rdquo; for the selected filter.
                     </p>
                     <button
                       className={styles.emptyAction}
@@ -253,8 +266,6 @@ const PublicDocsPage = () => {
                     to={`/docs/${doc.id}`}
                     className={styles.cardLink}
                     onClick={(e) => {
-                      // Only intercept plain left-clicks so middle-click,
-                      // Cmd/Ctrl+Click (new tab) and Shift+Click keep working.
                       if (
                         e.button !== 0 ||
                         e.metaKey ||

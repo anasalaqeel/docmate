@@ -11,7 +11,7 @@ import {
   type Page,
   type OpenApiSpec,
 } from "../db/schema";
-import { eq, and, desc, isNull, isNotNull, inArray } from "drizzle-orm";
+import { eq, and, or, desc, isNull, isNotNull, inArray, ilike, sql } from "drizzle-orm";
 import {
   buildHierarchicalTree,
   detectCircularReferences,
@@ -24,9 +24,101 @@ import importService from "../services/import.service";
 
 const docsRoute = new Hono();
 
-// Get public documentations (no auth required)
+// Get public documentations (no auth required) - supports ?q= search across doc, pages, and specs
 docsRoute.get("/public", async (c) => {
   try {
+    const q = (c.req.query("q") || "").trim();
+
+    if (q) {
+      const searchTerm = `%${q}%`;
+      const lowerQ = q.toLowerCase();
+
+      // 1. Matching doc IDs from documentation title/description
+      const docMatches = await db.query.documentations.findMany({
+        columns: { id: true },
+        where: and(
+          eq(documentations.isPublic, true),
+          or(
+            ilike(documentations.title, searchTerm),
+            ilike(documentations.description, searchTerm)
+          )
+        )
+      });
+
+      // 2. Matching doc IDs from pages (title, slug, content)
+      const pageMatches = await db.query.pages.findMany({
+        columns: {},
+        where: or(
+          ilike(pages.slug, searchTerm),
+          sql`cast(${pages.content} as text) ILIKE ${searchTerm}`
+        ),
+        with: {
+          sidebarItem: {
+            columns: { documentationId: true },
+            with: { documentation: { columns: { isPublic: true } } }
+          }
+        }
+      });
+
+      const sidebarMatches = await db.query.sidebarItems.findMany({
+        columns: { documentationId: true },
+        where: and(
+          isNull(sidebarItems.deletedAt),
+          ilike(sidebarItems.title, searchTerm)
+        ),
+        with: { documentation: { columns: { isPublic: true } } }
+      });
+
+      // 3. Matching doc IDs from OpenAPI specs
+      const specMatches = await db.query.openApiSpecs.findMany({
+        columns: { documentationId: true, rawSpec: true },
+        with: { documentation: { columns: { isPublic: true } } }
+      });
+
+      const specDocIds: number[] = [];
+      for (const spec of specMatches) {
+        if (spec.documentation?.isPublic && spec.rawSpec && typeof spec.rawSpec === "object") {
+          const rawStr = JSON.stringify(spec.rawSpec).toLowerCase();
+          if (rawStr.includes(lowerQ)) {
+            specDocIds.push(spec.documentationId);
+          }
+        }
+      }
+
+      // Combine unique doc IDs
+      const allDocIds = Array.from(
+        new Set([
+          ...docMatches.map((d) => d.id),
+          ...pageMatches
+            .filter((p) => p.sidebarItem?.documentation?.isPublic)
+            .map((p) => p.sidebarItem!.documentationId),
+          ...sidebarMatches
+            .filter((s) => s.documentation?.isPublic)
+            .map((s) => s.documentationId),
+          ...specDocIds,
+        ])
+      );
+
+      if (allDocIds.length === 0) {
+        return c.json({ success: true, data: [] });
+      }
+
+      const docs = await db.query.documentations.findMany({
+        where: and(eq(documentations.isPublic, true), inArray(documentations.id, allDocIds)),
+        with: {
+          creator: {
+            columns: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: [desc(documentations.updatedAt)],
+      });
+
+      return c.json({ success: true, data: docs });
+    }
+
     const docs = await db.query.documentations.findMany({
       where: eq(documentations.isPublic, true),
       with: {
