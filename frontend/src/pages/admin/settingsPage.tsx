@@ -23,6 +23,7 @@ import {
   AdjustmentsHorizontalIcon,
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
+  SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { settingsService } from "../../services/settingsService";
 import BrandingPanel from "../../components/BrandingPanel";
@@ -31,6 +32,7 @@ import SecurityPanel from "../../components/SecurityPanel";
 import AuthenticationPanel from "../../components/AuthenticationPanel";
 import GeneralPanel from "../../components/GeneralPanel";
 import AdvancedPanel from "../../components/AdvancedPanel";
+import AiPanel from "../../components/AiPanel";
 
 const TABS = [
   {
@@ -56,6 +58,12 @@ const TABS = [
     label: "Authentication",
     icon: <KeyIcon className="w-4 h-4" />,
     content: <AuthenticationPanel />,
+  },
+  {
+    id: "ai",
+    label: "AI Assistant",
+    icon: <SparklesIcon className="w-4 h-4" />,
+    content: <AiPanel />,
   },
   {
     id: "general",

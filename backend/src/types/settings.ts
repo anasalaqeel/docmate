@@ -5,7 +5,8 @@ export type SettingCategory =
   | "security"
   | "general"
   | "advanced"
-  | "authentication";
+  | "authentication"
+  | "ai";
 
 export interface SettingDefinition<T = unknown> {
   key: string;

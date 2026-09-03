@@ -96,7 +96,9 @@ router.get(
       let filteredUsers = usersResult;
       if (roleIds && roleIds.length > 0) {
         filteredUsers = usersResult.filter((user) =>
-          user.userRoles.some((userRole) => roleIds.includes(userRole.roleId)),
+          user.userRoles.some(
+            (userRole) => userRole.roleId !== null && roleIds.includes(userRole.roleId),
+          ),
         );
       }
 

@@ -45,6 +45,7 @@ import { EmojiPickerInput } from "../../components/ui";
 import { useSidebarTree } from "../../hooks/useSidebarTree";
 import ExportButton from "../../components/ExportButton";
 import ImportButton from "../../components/ImportButton";
+import AskAiWidget from "../../components/AskAi/AskAiWidget";
 import styles from "../../styles/docsEditorPage.module.css";
 
 import { useLayout } from "../../hooks/useLayout";
@@ -886,6 +887,16 @@ const DocsEditorPage = () => {
           )}
         </ModalContent>
       </Modal>
+
+      {doc && (
+        <AskAiWidget
+          docId={doc.id}
+          pageId={selectedItem?.type === "page" ? selectedItem.page?.id : undefined}
+          docTitle={doc.title}
+          pageTitle={selectedItem?.type === "page" ? selectedItem.title : undefined}
+          variant="admin"
+        />
+      )}
     </div>
   );
 };

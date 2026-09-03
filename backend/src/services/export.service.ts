@@ -16,6 +16,7 @@ import { marked } from 'marked';
 import archiver from 'archiver';
 import { Readable } from 'stream';
 import { orderedSegment } from '../utils/markdownSidebar';
+import { contentToMarkdown } from '../utils/contentToMarkdown';
 
 // Types for export data structures
 interface ExportPage {
@@ -309,109 +310,8 @@ updated_at: "${page.updatedAt?.toISOString() || new Date().toISOString()}"
 
 `;
 
-    const content = page.content ? this.processContentToMarkdown(page.content) : '';
+    const content = page.content ? contentToMarkdown(page.content) : '';
     return frontmatter + content;
-  }
-
-  /**
-   * Convert rich content to markdown
-   */
-  private processContentToMarkdown(content: any): string {
-    if (typeof content === 'string') {
-      return content;
-    }
-
-    // Handle content object with description field (like in the logs)
-    if (content && typeof content === 'object') {
-      let result = '';
-
-      // If there's a description field, use it as the main content
-      if (content.description) {
-        result += this.processEmbeddedMarkdown(content.description);
-      }
-
-      // If there are blocks in an array, process them
-      if (content.blocks && Array.isArray(content.blocks) && content.blocks.length > 0) {
-        if (result) result += '\n\n'; // Add spacing if we already have description
-        result += content.blocks.map((block: any) => this.contentBlockToMarkdown(block)).join('\n\n');
-      }
-
-      // If it's a single block object (not an array of blocks)
-      if (!content.blocks || !Array.isArray(content.blocks)) {
-        const blockResult = this.contentBlockToMarkdown(content);
-        if (blockResult) {
-          if (result) result += '\n\n';
-          result += blockResult;
-        }
-      }
-
-      return result;
-    }
-
-    if (Array.isArray(content)) {
-      return content.map(block => this.contentBlockToMarkdown(block)).join('\n\n');
-    }
-
-    return '';
-  }
-
-  /**
-   * Process embedded markdown content (handles code blocks, etc.)
-   */
-  private processEmbeddedMarkdown(content: string): string {
-    if (!content || typeof content !== 'string') {
-      return '';
-    }
-
-    // The content appears to already be in proper markdown format
-    // with code blocks, headers, lists, etc. Just return it as-is.
-    return content;
-  }
-
-  /**
-   * Convert content block to markdown
-   */
-  private contentBlockToMarkdown(block: { [key: string]: any }): string {
-    if (!block || typeof block !== 'object') {
-      return '';
-    }
-
-    switch (block.type) {
-      case 'heading':
-        const level = '#'.repeat(block.level || 1);
-        return `${level} ${block.text || ''}`;
-
-      case 'paragraph':
-        return block.text || '';
-
-      case 'code':
-        const language = block.language || '';
-        const code = block.code || '';
-        return `\`\`\`${language}\n${code}\n\`\`\``;
-
-      case 'list':
-        if (block.ordered) {
-          return (block.items || []).map((item: any, index: number) => `${index + 1}. ${item}`).join('\n');
-        } else {
-          return (block.items || []).map((item: any) => `- ${item}`).join('\n');
-        }
-
-      case 'quote':
-        return `> ${block.text || ''}`;
-
-      case 'image':
-        const alt = block.alt || '';
-        const src = block.src || '';
-        return `![${alt}](${src})`;
-
-      case 'link':
-        const linkText = block.text || '';
-        const href = block.href || '';
-        return `[${linkText}](${href})`;
-
-      default:
-        return block.text || '';
-    }
   }
 
   /**
@@ -593,7 +493,7 @@ ${operation.description || ''}
           yPosition += lineHeight * 2;
 
           pdf.setFontSize(10);
-          const content = this.processContentToMarkdown(item.page.content);
+          const content = contentToMarkdown(item.page.content);
           if (content) {
             const plainText = content.replace(/[#*`]/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
             const splitContent = pdf.splitTextToSize(plainText, pdf.internal.pageSize.width - 2 * margin);

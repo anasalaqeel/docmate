@@ -13,6 +13,7 @@ import ViewerAttachments from "../components/ViewerAttachments";
 import { useLayout } from "../hooks/useLayout";
 import ExportButton from "../components/ExportButton";
 import DocSearchModal from "../components/DocSearchModal";
+import AskAiWidget from "../components/AskAi/AskAiWidget";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 const PublicDocViewerPage = () => {
@@ -410,6 +411,16 @@ const PublicDocViewerPage = () => {
         sidebarTree={sidebarTree}
         apiEndpoints={apiEndpoints}
       />
+
+      {doc && (
+        <AskAiWidget
+          docId={doc.id}
+          pageId={currentPage?.page?.id}
+          docTitle={doc.title}
+          pageTitle={currentPage?.title}
+          variant="public"
+        />
+      )}
     </div>
   );
 };

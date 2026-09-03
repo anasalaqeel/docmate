@@ -9,6 +9,9 @@
   "ldap": {
     "bindCredentials": "LDAP_BIND_CREDENTIALS"
   },
+  "ai": {
+    "apiKey": "AI_API_KEY"
+  },
   "seedAdmin": {
     "email": "SEED_ADMIN_EMAIL",
     "username": "SEED_ADMIN_USERNAME",

@@ -216,10 +216,11 @@ export function validateMove(
   // Prevent moving folder into its own descendant
   const isDescendant = (ancestorId: number, descendantId: number): boolean => {
     const itemMap = new Map(items.map(item => [item.id, item]));
-    let currentId: number | undefined = descendantId;
+    let currentId: number | null | undefined = descendantId;
     const visited = new Set<number>();
 
-    while (currentId !== undefined) {
+    // parentId is null at root items — that ends the walk
+    while (currentId != null) {
       if (currentId === ancestorId) return true;
       if (visited.has(currentId)) break; // Circular ref
       visited.add(currentId);

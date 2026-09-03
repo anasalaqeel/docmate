@@ -39,6 +39,47 @@ of both, all from a single, elegant interface.
 - **Auto-Generated OpenAPI Spec**: Access your API docs at `/v1/openapi.json`.
 - **Swagger UI**: Interactive API documentation available at `/swagger`.
 
+### AI Assistant (Ask AI)
+
+- **Ask AI chat on every documentation page**: Readers get a floating "Ask AI" button that opens a
+  streaming chat about the content they are reading.
+- **Document-aware answers**: The AI receives the current page plus the documentation outline, and
+  can look up any other page of that documentation on its own when a question needs it.
+- **Multi-provider**: Works with OpenAI (or any OpenAI-compatible endpoint such as Azure OpenAI,
+  OpenRouter, Ollama or LM Studio), Anthropic Claude, and Google Gemini.
+- **Safe by default**: Access control is enforced server-side (public docs for visitors,
+  `docs:read` for private ones), requests are rate-limited per IP, and answers render through the
+  same sanitized markdown pipeline as documentation content.
+
+#### Enabling Ask AI
+
+1. Open **Admin → Settings → AI Assistant**.
+2. Toggle **Enable the Ask AI assistant**, pick a provider, set a model (leave empty for the
+   provider default), and paste your API key if the provider requires one (not needed for local
+   endpoints like Ollama).
+3. Save. The "Ask AI" button appears on documentation pages immediately.
+
+Keep the API key out of the database by setting `AI_API_KEY` instead — the environment variable
+takes precedence over the admin settings value.
+
+For the `openai` provider, any OpenAI-compatible **Chat Completions** endpoint works via the
+*API Base URL* setting. Enter the server URL; the conventional `/v1` API path is appended
+automatically when missing (URLs that already end in `/v1` are used as-is):
+
+| Endpoint    | Base URL                        | Notes                                              |
+| ----------- | ------------------------------- | -------------------------------------------------- |
+| OpenAI      | *(leave empty)*                 | Defaults to `https://api.openai.com/v1`             |
+| Ollama      | `http://localhost:11434`        | Local models, no API key, data never leaves the host |
+| OpenRouter  | `https://openrouter.ai/api/v1`  | Many hosted models behind one key                   |
+| LM Studio   | `http://localhost:1234`         | Local models                                        |
+
+Use **Test connection** (Settings → AI Assistant) after saving: it probes the endpoint and tells
+you whether the configured model is actually available there.
+
+> Pick a model that supports **tool calling** — that is what allows the assistant to read other
+> pages of the documentation when answering. Models without tool support still answer from the
+> current page.
+
 ---
 
 ## Tech Stack
@@ -182,6 +223,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for g
 | `POSTGRES_PASSWORD` | Database password      | `password` |
 | `POSTGRES_DB`     | Database name            | `docmate`   |
 | `AUTH_JWT_SECRET` | JWT signing secret       | —        |
+| `AI_API_KEY`      | AI provider API key (overrides the admin settings value) | — |
 | `SEED_DATABASE`   | Seed DB on startup       | `false`  |
 | `FRONTEND_PORT`   | Host port for frontend   | `80`     |
 | `BACKEND_PORT`    | Host port for backend    | `8000`   |

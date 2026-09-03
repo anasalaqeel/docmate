@@ -456,3 +456,47 @@ registerSetting({
     "Whether SSO/LDAP logins may automatically link to an existing local account with the same email. Disable if self-registration is open and emails are not verified.",
   isPublic: false,
 });
+
+// AI Assistant Settings
+registerSetting({
+  key: "ai.enabled",
+  category: "ai",
+  description: "Whether the Ask AI assistant is available on documentation pages",
+  isPublic: true,
+});
+
+registerSetting({
+  key: "ai.provider",
+  category: "ai",
+  description: "AI provider: openai, anthropic, or google",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "ai.model",
+  category: "ai",
+  description: "Model identifier for the selected provider (e.g. gpt-4o-mini, claude-sonnet-4-5, gemini-2.0-flash)",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "ai.baseUrl",
+  category: "ai",
+  description: "Optional custom API base URL for the openai provider (OpenAI-compatible gateways, Ollama, etc.)",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "ai.apiKey",
+  category: "ai",
+  description: "API key for the AI provider (overridden by the AI_API_KEY environment variable when set)",
+  isPublic: false,
+});
+
+registerSetting({
+  key: "ai.maxOutputTokens",
+  category: "ai",
+  description: "Maximum number of tokens the AI may generate per answer",
+  isPublic: false,
+  transform: (value) => typeof value === "string" ? Number(value) : value,
+});

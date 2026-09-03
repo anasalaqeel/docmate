@@ -10,6 +10,7 @@ import {
   boolean,
   unique,
   check,
+  type AnyPgColumn,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
 
@@ -173,7 +174,7 @@ export const documentations = pgTable("documentations", {
     .notNull(),
 });
 
-export const sidebarItems: any = pgTable(
+export const sidebarItems = pgTable(
   "sidebar_items",
   {
     id: serial().primaryKey(),
@@ -182,7 +183,7 @@ export const sidebarItems: any = pgTable(
       .notNull(),
     title: varchar({ length: 255 }).notNull(),
     type: varchar({ length: 50 }).notNull(), // 'folder', 'page', 'divider'
-    parentId: integer().references(() => sidebarItems.id, { onDelete: "cascade" }),
+    parentId: integer().references((): AnyPgColumn => sidebarItems.id, { onDelete: "cascade" }),
     order: integer().notNull().default(0),
     icon: varchar({ length: 100 }),
     isExpanded: boolean().default(true),

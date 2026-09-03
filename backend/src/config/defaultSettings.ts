@@ -462,12 +462,56 @@ export const defaultSettings: Record<string, {
     description:
       "Whether SSO/LDAP logins may automatically link to an existing local account with the same email. Disable if self-registration is open and emails are not verified."
   },
+
+  // AI Assistant
+  "ai.enabled": {
+    type: "boolean",
+    defaultValue: false,
+    category: "ai",
+    isPublic: true,
+    description: "Whether the Ask AI assistant is available on documentation pages"
+  },
+  "ai.provider": {
+    type: "string",
+    defaultValue: "openai",
+    category: "ai",
+    isPublic: false,
+    description: "AI provider: openai, anthropic, or google"
+  },
+  "ai.model": {
+    type: "string",
+    defaultValue: "",
+    category: "ai",
+    isPublic: false,
+    description: "Model identifier for the selected provider (e.g. gpt-4o-mini, claude-sonnet-4-5, gemini-2.0-flash)"
+  },
+  "ai.baseUrl": {
+    type: "string",
+    defaultValue: "",
+    category: "ai",
+    isPublic: false,
+    description: "Optional custom API base URL for the openai provider (OpenAI-compatible gateways, Ollama, etc.)"
+  },
+  "ai.apiKey": {
+    type: "string",
+    defaultValue: "",
+    category: "ai",
+    isPublic: false,
+    description: "API key for the AI provider (overridden by the AI_API_KEY environment variable when set)"
+  },
+  "ai.maxOutputTokens": {
+    type: "number",
+    defaultValue: 1024,
+    category: "ai",
+    isPublic: false,
+    description: "Maximum number of tokens the AI may generate per answer"
+  }
 };
 
 // Helper function to get category from key
 export function getSettingCategory(key: string): SettingCategory | null {
   const [category] = key.split(".");
-  const validCategories: SettingCategory[] = ["branding", "theme", "security", "general", "advanced", "authentication"];
+  const validCategories: SettingCategory[] = ["branding", "theme", "security", "general", "advanced", "authentication", "ai"];
   if (validCategories.includes(category as SettingCategory)) {
     return category as SettingCategory;
   }

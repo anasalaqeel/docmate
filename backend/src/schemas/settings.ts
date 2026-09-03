@@ -90,6 +90,14 @@ export const settingsSchemas = {
   "authentication.ldap.nameAttribute": z.string(),
   "authentication.federated.autoProvision": z.boolean(),
   "authentication.federated.autoLink": z.boolean(),
+
+  // AI Assistant settings
+  "ai.enabled": z.boolean(),
+  "ai.provider": z.enum(["openai", "anthropic", "google"]),
+  "ai.model": z.string(),
+  "ai.baseUrl": urlSchema,
+  "ai.apiKey": z.string(),
+  "ai.maxOutputTokens": z.number().int().min(64).max(8192),
 } as const;
 
 // Validate a single setting

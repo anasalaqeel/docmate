@@ -14,7 +14,7 @@ export function createRateLimiter(windowMs: number, requestCount: number, messag
   return async (c: Context, next: Next) => {
     const key = c.req.header('x-forwarded-for') ||
                 c.req.header('x-real-ip') ||
-                (c.env as { ip?: string }).ip ||
+                (c.env as { ip?: string } | undefined)?.ip ||
                 'unknown';
 
     const now = Date.now();
@@ -69,4 +69,12 @@ export const samlRateLimit = createRateLimiter(
   5 * 60 * 1000, // 5 minutes
   30, // Limit each IP to 30 requests per windowMs (~15 SSO logins)
   'Too many SAML requests from this IP, please try again after 5 minutes'
+);
+
+// AI endpoints call a paid external provider per request, so keep a tighter
+// ceiling than general API traffic while still allowing a Q&A conversation.
+export const aiRateLimit = createRateLimiter(
+  60 * 1000, // 1 minute
+  10, // Limit each IP to 10 questions per minute
+  'Too many AI requests from this IP, please try again in a minute'
 );
