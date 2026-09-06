@@ -10,8 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import ChatMessageBubble from "./ChatMessageBubble";
-import { type UseChatHelpers } from "@ai-sdk/react";
-import { type UIMessage } from "ai";
+import type { UseAskAiReturn } from "./useAskAi";
 import styles from "./AskAi.module.css";
 
 interface AskAiPanelProps {
@@ -21,7 +20,7 @@ interface AskAiPanelProps {
   docTitle?: string;
   pageTitle?: string;
   variant: "public" | "admin";
-  chat: UseChatHelpers<UIMessage>;
+  chat: UseAskAiReturn;
 }
 
 const SUGGESTIONS = [
@@ -31,36 +30,25 @@ const SUGGESTIONS = [
   "What are the common errors or pitfalls?",
 ];
 
+const IS_TOUCH = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+const ENTER_LABEL = typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "Return" : "Enter";
+
 const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => {
   const [question, setQuestion] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const { messages, sendMessage, stop, status, error, clearError, setMessages, regenerate } = chat;
 
-  // Track timestamps safely in a ref without triggering renders
-  const timestampsRef = useRef<Record<string, Date>>({});
-  for (const m of messages) {
-    if (!timestampsRef.current[m.id]) {
-      timestampsRef.current[m.id] = new Date();
-    }
-  }
-
-  // Detect Mac vs Windows/Linux vs Touch device
-  const [platformInfo, setPlatformInfo] = useState<{ isTouch: boolean; enterLabel: string }>({
-    isTouch: false,
-    enterLabel: "Enter",
-  });
-
-  useEffect(() => {
-    const isTouch =
-      "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    const isMac =
-      /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-    setPlatformInfo({
-      isTouch,
-      enterLabel: isMac ? "Return" : "Enter",
-    });
-  }, []);
+  const {
+    messages,
+    phase,
+    isBusy,
+    error,
+    sendMessage,
+    stop,
+    regenerate,
+    clearMessages,
+    clearError,
+  } = chat;
 
   // Close on Escape
   useEffect(() => {
@@ -71,44 +59,14 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
 
-  // Keep the newest message in view while streaming
+  // Keep the newest message in view while streaming or thinking
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, status]);
-
-  const [activeError, setActiveError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (error) {
-      setActiveError(error.message || "Failed to get a response from the AI. Please try again.");
-    }
-  }, [error]);
-
-  const isBusy = (status === "submitted" || status === "streaming") && messages.length > 0;
-
-  const handleClearChat = () => {
-    if (isBusy) stop();
-    setActiveError(null);
-    clearError();
-    setMessages([]);
-  };
-
-  const handleRetry = () => {
-    setActiveError(null);
-    clearError();
-    regenerate();
-  };
-
-  const handleDismissError = () => {
-    setActiveError(null);
-    clearError();
-  };
+  }, [messages, phase]);
 
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isBusy) return;
-    setActiveError(null);
-    clearError();
     setQuestion("");
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -177,7 +135,7 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
               <button
                 type="button"
                 className={styles.iconButton}
-                onClick={handleClearChat}
+                onClick={clearMessages}
                 aria-label="Clear conversation"
                 title="Clear conversation"
               >
@@ -221,23 +179,19 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
               </div>
             </div>
           ) : (
-            messages.map((message: any) => (
-              <ChatMessageBubble
-                key={message.id}
-                message={message}
-                timestamp={timestampsRef.current[message.id]}
-              />
+            messages.map((message) => (
+              <ChatMessageBubble key={message.id} message={message} />
             ))
           )}
 
-          {/* Assistant is generating / thinking state */}
-          {isBusy && status === "submitted" && (
+          {/* Genuine Protocol States: Connecting vs Thinking */}
+          {(phase === "connecting" || phase === "thinking") && (
             <div className={styles.typingRow}>
               <div className={`${styles.avatar} ${styles.assistantAvatar}`}>
                 <SparklesIcon className={styles.avatarIcon} />
               </div>
               <div className={styles.typingIndicator}>
-                <span>Thinking</span>
+                <span>{phase === "connecting" ? "Connecting to AI…" : "Thinking…"}</span>
                 <div className={styles.typingDots}>
                   <div className={styles.typingDot} />
                   <div className={styles.typingDot} />
@@ -248,19 +202,19 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
           )}
 
           {/* Inline Error Card with Retry */}
-          {activeError && (
+          {error && (
             <div className={styles.errorCard} role="alert">
               <div className={styles.errorHeader}>
                 <ExclamationTriangleIcon className={styles.errorIcon} />
                 <span>Response failed</span>
               </div>
-              <p className={styles.errorText}>{activeError}</p>
+              <p className={styles.errorText}>{error}</p>
               <div className={styles.errorActions}>
                 {messages.length > 0 && (
                   <button
                     type="button"
                     className={styles.retryButton}
-                    onClick={handleRetry}
+                    onClick={regenerate}
                   >
                     <ArrowPathIcon className={styles.actionIcon} />
                     <span>Retry</span>
@@ -269,7 +223,7 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
                 <button
                   type="button"
                   className={styles.dismissButton}
-                  onClick={handleDismissError}
+                  onClick={clearError}
                 >
                   Dismiss
                 </button>
@@ -278,12 +232,12 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
           )}
 
           {/* Regenerate Action (when successful & idle) */}
-          {messages.length > 0 && !isBusy && !activeError && messages[messages.length - 1].role === "assistant" && (
+          {messages.length > 0 && phase === "idle" && !error && messages[messages.length - 1]?.role === "assistant" && (
             <div className={styles.regenerateRow}>
               <button
                 type="button"
                 className={styles.regenerateBtn}
-                onClick={() => regenerate()}
+                onClick={regenerate}
               >
                 <ArrowPathIcon className={styles.actionIcon} />
                 <span>Regenerate response</span>
@@ -310,16 +264,20 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
             />
             <div className={styles.composerToolbar}>
               <div className={styles.composerHint}>
-                {isBusy ? (
+                {phase === "connecting" ? (
+                  <span>Connecting to AI…</span>
+                ) : phase === "thinking" ? (
+                  <span>Thinking…</span>
+                ) : phase === "typing" ? (
                   <span>AI is typing…</span>
-                ) : !platformInfo.isTouch ? (
+                ) : !IS_TOUCH ? (
                   <>
-                    <kbd className={styles.hintKey}>{platformInfo.enterLabel}</kbd>
+                    <kbd className={styles.hintKey}>{ENTER_LABEL}</kbd>
                     <span className={styles.hintAction}>to send</span>
                     <span className={styles.hintSep}>·</span>
                     <kbd className={styles.hintKey}>Shift</kbd>
                     <span>+</span>
-                    <kbd className={styles.hintKey}>{platformInfo.enterLabel}</kbd>
+                    <kbd className={styles.hintKey}>{ENTER_LABEL}</kbd>
                     <span className={styles.hintAction}>new line</span>
                   </>
                 ) : null}
