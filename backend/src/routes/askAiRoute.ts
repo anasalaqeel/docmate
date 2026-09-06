@@ -8,7 +8,7 @@ import db from "../db";
 import { documentations } from "../db/schema";
 import { authorize } from "../middlewares/authorize";
 import { aiRateLimit } from "../middlewares/rateLimiter";
-import { isAskAiEnabled, streamAskAi, testAiConnection, AskAiError } from "../services/askAiService";
+import { isAskAiEnabled, streamAskAi, testAiConnection, listProviderModels, AskAiError } from "../services/askAiService";
 import { registerRoute } from "../utils/openApiGenerator";
 
 const askAiSchema = z.object({
@@ -127,6 +127,18 @@ askAiRoute.post("/ask/test", authorize(["settings:manage"]), async (c) => {
   }
 });
 
+// Fetches available models from the provider endpoint on demand
+askAiRoute.post("/ask/models", authorize(["settings:manage"]), async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({}));
+    const result = await listProviderModels(body);
+    return c.json({ success: true, data: result });
+  } catch (error) {
+    console.error("Ask AI list models failed:", error);
+    return c.json({ success: false, message: "Failed to list provider models" }, 500);
+  }
+});
+
 registerRoute("GET", "/docs/ask/status", undefined, {
   tags: ["Ask AI"],
   summary: "Ask AI status",
@@ -137,6 +149,12 @@ registerRoute("POST", "/docs/ask/test", undefined, {
   tags: ["Ask AI"],
   summary: "Test the AI provider connection",
   description: "Probes the configured OpenAI-compatible endpoint (GET /models) and reports whether the configured model exists (requires settings:manage)",
+});
+
+registerRoute("POST", "/docs/ask/models", undefined, {
+  tags: ["Ask AI"],
+  summary: "List provider models",
+  description: "Queries the provider endpoint for available model IDs (requires settings:manage)",
 });
 
 registerRoute("POST", "/docs/public/:id/ask", askAiSchema, {

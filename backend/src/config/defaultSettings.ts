@@ -476,7 +476,7 @@ export const defaultSettings: Record<string, {
     defaultValue: "openai",
     category: "ai",
     isPublic: false,
-    description: "AI provider: openai, anthropic, or google"
+    description: "AI provider: openai, anthropic, google, ollama, lmstudio, vllm, deepseek, groq, openrouter, mistral, perplexity, xai, together, fireworks, zai, or custom"
   },
   "ai.model": {
     type: "string",

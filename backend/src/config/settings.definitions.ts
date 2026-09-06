@@ -468,7 +468,7 @@ registerSetting({
 registerSetting({
   key: "ai.provider",
   category: "ai",
-  description: "AI provider: openai, anthropic, or google",
+  description: "AI provider: openai, anthropic, google, ollama, lmstudio, vllm, deepseek, groq, openrouter, mistral, perplexity, xai, together, fireworks, zai, or custom",
   isPublic: false,
 });
 

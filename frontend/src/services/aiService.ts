@@ -42,3 +42,27 @@ export async function testAskAiConnection(): Promise<AskAiConnectionTest> {
   }
   return response.data;
 }
+
+export interface FetchModelsParams {
+  provider?: string;
+  baseUrl?: string;
+  apiKey?: string;
+}
+
+export interface FetchModelsResponse {
+  ok: boolean;
+  models: string[];
+  error?: string;
+}
+
+/** Fetches available model IDs live from the provider endpoint. */
+export async function fetchProviderModels(params?: FetchModelsParams): Promise<FetchModelsResponse> {
+  const response = await post<{ success: boolean; data?: FetchModelsResponse; message?: string }>(
+    "/docs/ask/models",
+    params ?? {}
+  );
+  if (!response.success || !response.data) {
+    throw new Error(response.message || "Failed to fetch models");
+  }
+  return response.data;
+}

@@ -2,7 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "bun:test";
 import { MockLanguageModelV4, simulateReadableStream } from "ai/test";
 import db from "../db";
 import { users, documentations, sidebarItems, pages, systemSettings } from "../db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, like } from "drizzle-orm";
 import app from "../app";
 import { contentToMarkdown } from "../utils/contentToMarkdown";
 import { buildSystemPrompt, truncateContent, createGetPageContentTool, streamAskAi, normalizeBaseUrl } from "../services/askAiService";
@@ -41,8 +41,12 @@ describe("Ask AI", () => {
   let publicPage: any;
   let privatePage: any;
   let otherPage: any;
+  let originalAiSettings: Array<typeof systemSettings.$inferSelect> = [];
 
   beforeAll(async () => {
+    // Snapshot existing AI settings to avoid wiping user's real database configuration
+    originalAiSettings = await db.select().from(systemSettings).where(like(systemSettings.key, "ai.%"));
+
     const [usr] = await db
       .insert(users)
       .values({
@@ -114,10 +118,19 @@ describe("Ask AI", () => {
     for (const docId of [publicDoc, privateDoc, otherDoc].filter(Boolean).map((d) => d.id)) {
       await db.delete(documentations).where(eq(documentations.id, docId));
     }
-    // sidebarItems cascade with their documentation
-    await clearSetting("ai.enabled");
-    await clearSetting("ai.apiKey");
     if (testUser) await db.delete(users).where(eq(users.id, testUser.id));
+
+    // Restore original AI settings so user configuration in the database is never lost
+    await db.delete(systemSettings).where(like(systemSettings.key, "ai.%"));
+    for (const s of originalAiSettings) {
+      await db.insert(systemSettings).values({
+        key: s.key,
+        value: s.value,
+        category: s.category,
+        description: s.description,
+        isPublic: s.isPublic,
+      });
+    }
   });
 
   describe("contentToMarkdown", () => {
@@ -246,6 +259,11 @@ describe("Ask AI", () => {
 
     test("connection test endpoint requires settings:manage", async () => {
       const res = await app.request("/v1/docs/ask/test", { method: "POST" });
+      expect(res.status).toBe(401);
+    });
+
+    test("list models endpoint requires settings:manage", async () => {
+      const res = await app.request("/v1/docs/ask/models", { method: "POST" });
       expect(res.status).toBe(401);
     });
 
