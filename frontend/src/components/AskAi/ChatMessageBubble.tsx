@@ -1,6 +1,14 @@
 import { memo, useState } from "react";
 import { isToolUIPart, type DynamicToolUIPart, type ToolUIPart, type UIMessage } from "ai";
-import { UserIcon, SparklesIcon, DocumentDuplicateIcon, CheckIcon } from "@heroicons/react/24/outline";
+import {
+  UserIcon,
+  SparklesIcon,
+  DocumentDuplicateIcon,
+  CheckIcon,
+  BookOpenIcon,
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/outline";
 import MarkdownRenderer from "../ui/markdownRenderer";
 import styles from "./AskAi.module.css";
 
@@ -17,23 +25,42 @@ function getToolPageTitle(part: AnyToolPart): string | null {
 const ToolStatusChip = ({ part }: { part: AnyToolPart }) => {
   const pageTitle = getToolPageTitle(part);
   const outputError = (part.output as { error?: string } | undefined)?.error;
-  let label = "Reading documentation…";
+
   if (part.state === "input-streaming" || part.state === "input-available") {
-    label = pageTitle ? `Reading “${pageTitle}”…` : "Reading documentation…";
-  } else if (part.state === "output-available") {
-    label = pageTitle && !outputError ? `Read “${pageTitle}”` : "Checked the documentation";
-  } else if (part.state === "output-error") {
-    label = "Could not read that page";
+    return (
+      <span className={styles.toolChip}>
+        <BookOpenIcon className={styles.actionIcon} />
+        {pageTitle ? `Reading “${pageTitle}”…` : "Searching docs…"}
+      </span>
+    );
   }
-  return <span className={styles.toolChip}>{label}</span>;
+
+  if (part.state === "output-available") {
+    return (
+      <span className={styles.toolChip}>
+        <CheckCircleIcon className={styles.actionIcon} style={{ color: "var(--docmate-success)" }} />
+        {pageTitle && !outputError ? `Consulted “${pageTitle}”` : "Checked documentation"}
+      </span>
+    );
+  }
+
+  if (part.state === "output-error" || outputError) {
+    return (
+      <span className={styles.toolChip}>
+        <ExclamationCircleIcon className={styles.actionIcon} style={{ color: "var(--docmate-error)" }} />
+        Could not read page
+      </span>
+    );
+  }
+
+  return null;
 };
 
 interface ChatMessageBubbleProps {
   message: UIMessage;
-  timestamp: Date;
+  timestamp?: Date;
 }
 
-/** One chat message: user bubbles are plain text, assistant answers are markdown. */
 const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
   const [copied, setCopied] = useState(false);
 
@@ -47,23 +74,28 @@ const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const timeString = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const timeString = timestamp
+    ? timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    : undefined;
 
   if (message.role === "user") {
     const text = message.parts
       .filter((part) => part.type === "text")
       .map((part) => (part as { type: "text"; text: string }).text)
       .join("\n");
+
     return (
       <div className={styles.userRow}>
-        <div className={`${styles.avatar} ${styles.userAvatar}`}>
+        <div className={`${styles.avatar} ${styles.userAvatar}`} title="You">
           <UserIcon className={styles.avatarIcon} />
         </div>
         <div className={styles.userContent}>
           <div className={styles.userBubble}>{text}</div>
-          <div className={styles.messageFooter}>
-            <span className={styles.timestamp}>{timeString}</span>
-          </div>
+          {timeString && (
+            <div className={styles.messageFooter}>
+              <span className={styles.timestamp}>{timeString}</span>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -73,7 +105,7 @@ const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
 
   return (
     <div className={styles.assistantRow}>
-      <div className={`${styles.avatar} ${styles.assistantAvatar}`}>
+      <div className={`${styles.avatar} ${styles.assistantAvatar}`} title="Docmate AI">
         <SparklesIcon className={styles.avatarIcon} />
       </div>
       <div className={styles.assistantContent}>
@@ -82,14 +114,7 @@ const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
             if (part.type === "text") {
               const text = (part as { type: "text"; text: string }).text;
               if (!text) return null;
-              // docId is intentionally not passed: chat answers never need the
-              // authenticated OpenAPI fetch MarkdownRenderer would trigger.
-              return (
-                <MarkdownRenderer
-                  key={index}
-                  content={text}
-                />
-              );
+              return <MarkdownRenderer key={index} content={text} />;
             }
             if (isToolUIPart(part)) {
               return <ToolStatusChip key={index} part={part} />;
@@ -98,10 +123,26 @@ const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
           })}
         </div>
         <div className={styles.messageFooter}>
-          <button className={styles.copyButton} onClick={handleCopy} title="Copy message" aria-label="Copy message">
-            {copied ? <CheckIcon className={styles.actionIcon} /> : <DocumentDuplicateIcon className={styles.actionIcon} />}
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={handleCopy}
+            title={copied ? "Copied!" : "Copy message"}
+            aria-label="Copy message"
+          >
+            {copied ? (
+              <>
+                <CheckIcon className={styles.actionIcon} style={{ color: "var(--docmate-success)" }} />
+                <span>Copied</span>
+              </>
+            ) : (
+              <>
+                <DocumentDuplicateIcon className={styles.actionIcon} />
+                <span>Copy</span>
+              </>
+            )}
           </button>
-          <span className={styles.timestamp}>{timeString}</span>
+          {timeString && <span className={styles.timestamp}>{timeString}</span>}
         </div>
       </div>
     </div>

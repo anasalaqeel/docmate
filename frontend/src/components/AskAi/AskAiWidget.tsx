@@ -43,9 +43,10 @@ const AskAiWidget = ({ docId, pageId, docTitle, pageTitle, variant }: AskAiWidge
       <AnimatePresence>
         {!isOpen && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0.8, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 10 }}
+            transition={{ type: "spring", damping: 20, stiffness: 300 }}
             type="button"
             className={styles.fab}
             onClick={() => setIsOpen(true)}
@@ -53,6 +54,7 @@ const AskAiWidget = ({ docId, pageId, docTitle, pageTitle, variant }: AskAiWidge
             title="Ask AI"
           >
             <SparklesIcon className={styles.fabIcon} />
+            <span className={styles.fabLabel}>Ask AI</span>
           </motion.button>
         )}
       </AnimatePresence>
