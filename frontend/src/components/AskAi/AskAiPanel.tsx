@@ -7,18 +7,20 @@ import {
   StopIcon,
 } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import ChatMessageBubble from "./ChatMessageBubble";
-import { useAskAi } from "./useAskAi";
+import { type UseChatHelpers } from "@ai-sdk/react";
+import { type UIMessage } from "ai";
 import styles from "./AskAi.module.css";
 
 interface AskAiPanelProps {
-  open: boolean;
   onClose: () => void;
   docId: number;
   pageId?: number;
   docTitle?: string;
   pageTitle?: string;
   variant: "public" | "admin";
+  chat: UseChatHelpers<UIMessage>;
 }
 
 const SUGGESTIONS = [
@@ -27,36 +29,28 @@ const SUGGESTIONS = [
   "Where do I find…?",
 ];
 
-const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant }: AskAiPanelProps) => {
-  // Slide-out animation: keep mounted briefly after close (same pattern as
-  // AppLayout's SidebarPeekOverlay).
-  const [render, setRender] = useState(open);
+const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => {
   const [question, setQuestion] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const { messages, sendMessage, stop, status, error, clearError, setMessages } = useAskAi({
-    docId,
-    pageId,
-    variant,
-  });
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { messages, sendMessage, stop, status, error, clearError, setMessages, regenerate } = chat;
 
-  useEffect(() => {
-    if (open) {
-      setRender(true);
-      return;
+  const timestampsRef = useRef<Record<string, Date>>({});
+  
+  messages.forEach(m => {
+    if (!timestampsRef.current[m.id]) {
+      timestampsRef.current[m.id] = new Date();
     }
-    const t = setTimeout(() => setRender(false), 200);
-    return () => clearTimeout(t);
-  }, [open]);
+  });
 
   // Close on Escape
   useEffect(() => {
-    if (!open) return;
     const onKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open, onClose]);
+  }, [onClose]);
 
   // Keep the newest message in view while streaming
   useEffect(() => {
@@ -70,14 +64,15 @@ const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant
     }
   }, [error, clearError]);
 
-  if (!render) return null;
-
   const isBusy = status === "submitted" || status === "streaming";
 
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isBusy) return;
     setQuestion("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
     sendMessage({ text: trimmed });
   };
 
@@ -88,13 +83,21 @@ const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant
     }
   };
 
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setQuestion(e.target.value);
+    e.target.style.height = "auto";
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 128)}px`; // Max height 8rem (128px)
+  };
+
   const contextLabel = pageTitle ? `${docTitle ?? "Documentation"} · ${pageTitle}` : (docTitle ?? "Documentation");
 
   return (
-    <div
+    <motion.div
+      initial={{ x: "100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "100%" }}
+      transition={{ type: "spring", damping: 25, stiffness: 200 }}
       className={styles.panel}
-      data-open={open ? "true" : "false"}
-      inert={!open ? true : undefined}
       role="dialog"
       aria-label="Ask AI about this documentation"
     >
@@ -149,7 +152,14 @@ const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant
             </div>
           </div>
         ) : (
-          messages.map((message) => <ChatMessageBubble key={message.id} message={message} />)
+          messages.map((message: any) => <ChatMessageBubble key={message.id} message={message} timestamp={timestampsRef.current[message.id]} />)
+        )}
+        {messages.length > 0 && !isBusy && messages[messages.length - 1].role === "assistant" && (
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '0.5rem 0' }}>
+            <button className={styles.suggestionChip} onClick={() => regenerate()} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ArrowPathIcon className={styles.actionIcon} /> Regenerate response
+            </button>
+          </div>
         )}
         {isBusy && status === "submitted" && <div className={styles.typingIndicator}>Thinking…</div>}
         <div ref={messagesEndRef} />
@@ -157,9 +167,10 @@ const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant
 
       <div className={styles.composer}>
         <textarea
+          ref={textareaRef}
           className={styles.input}
           value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+          onChange={handleInput}
           onKeyDown={handleKeyDown}
           placeholder="Ask about this documentation…"
           rows={1}
@@ -182,7 +193,7 @@ const AskAiPanel = ({ open, onClose, docId, pageId, docTitle, pageTitle, variant
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

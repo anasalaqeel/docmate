@@ -1,5 +1,6 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { isToolUIPart, type DynamicToolUIPart, type ToolUIPart, type UIMessage } from "ai";
+import { UserIcon, SparklesIcon, DocumentDuplicateIcon, CheckIcon } from "@heroicons/react/24/outline";
 import MarkdownRenderer from "../ui/markdownRenderer";
 import styles from "./AskAi.module.css";
 
@@ -29,10 +30,25 @@ const ToolStatusChip = ({ part }: { part: AnyToolPart }) => {
 
 interface ChatMessageBubbleProps {
   message: UIMessage;
+  timestamp: Date;
 }
 
 /** One chat message: user bubbles are plain text, assistant answers are markdown. */
-const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
+const ChatMessageBubble = ({ message, timestamp }: ChatMessageBubbleProps) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const text = message.parts
+      .filter((part) => part.type === "text")
+      .map((part) => (part as { type: "text"; text: string }).text)
+      .join("\n");
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const timeString = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
   if (message.role === "user") {
     const text = message.parts
       .filter((part) => part.type === "text")
@@ -40,7 +56,15 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
       .join("\n");
     return (
       <div className={styles.userRow}>
-        <div className={styles.userBubble}>{text}</div>
+        <div className={`${styles.avatar} ${styles.userAvatar}`}>
+          <UserIcon className={styles.avatarIcon} />
+        </div>
+        <div className={styles.userContent}>
+          <div className={styles.userBubble}>{text}</div>
+          <div className={styles.messageFooter}>
+            <span className={styles.timestamp}>{timeString}</span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -49,25 +73,36 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
 
   return (
     <div className={styles.assistantRow}>
-      <div className={styles.assistantBubble}>
-        {message.parts.map((part, index) => {
-          if (part.type === "text") {
-            const text = (part as { type: "text"; text: string }).text;
-            if (!text) return null;
-            // docId is intentionally not passed: chat answers never need the
-            // authenticated OpenAPI fetch MarkdownRenderer would trigger.
-            return (
-              <MarkdownRenderer
-                key={index}
-                content={text}
-              />
-            );
-          }
-          if (isToolUIPart(part)) {
-            return <ToolStatusChip key={index} part={part} />;
-          }
-          return null;
-        })}
+      <div className={`${styles.avatar} ${styles.assistantAvatar}`}>
+        <SparklesIcon className={styles.avatarIcon} />
+      </div>
+      <div className={styles.assistantContent}>
+        <div className={styles.assistantBubble}>
+          {message.parts.map((part, index) => {
+            if (part.type === "text") {
+              const text = (part as { type: "text"; text: string }).text;
+              if (!text) return null;
+              // docId is intentionally not passed: chat answers never need the
+              // authenticated OpenAPI fetch MarkdownRenderer would trigger.
+              return (
+                <MarkdownRenderer
+                  key={index}
+                  content={text}
+                />
+              );
+            }
+            if (isToolUIPart(part)) {
+              return <ToolStatusChip key={index} part={part} />;
+            }
+            return null;
+          })}
+        </div>
+        <div className={styles.messageFooter}>
+          <button className={styles.copyButton} onClick={handleCopy} title="Copy message" aria-label="Copy message">
+            {copied ? <CheckIcon className={styles.actionIcon} /> : <DocumentDuplicateIcon className={styles.actionIcon} />}
+          </button>
+          <span className={styles.timestamp}>{timeString}</span>
+        </div>
       </div>
     </div>
   );

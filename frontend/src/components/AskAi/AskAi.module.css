@@ -47,30 +47,6 @@
   background: var(--docmate-surface);
   border-left: var(--docmate-border);
   box-shadow: -8px 0 32px var(--docmate-shadow-color);
-  animation: askAiSlideIn 0.2s ease-out;
-}
-
-.panel[data-open="false"] {
-  animation: askAiSlideOut 0.2s ease-in forwards;
-  pointer-events: none;
-}
-
-@keyframes askAiSlideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes askAiSlideOut {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
 }
 
 .header {
@@ -219,14 +195,57 @@
 
 .userRow {
   justify-content: flex-end;
+  gap: 0.75rem;
+  flex-direction: row-reverse;
 }
 
 .assistantRow {
   justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+.avatarIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.assistantAvatar {
+  background: var(--docmate-primary);
+  color: #ffffff;
+}
+.dark .assistantAvatar {
+  color: #0f172a;
+}
+.userAvatar {
+  background: var(--docmate-surface-alt);
+  color: var(--docmate-text-secondary);
+  border: var(--docmate-border);
+}
+
+.assistantContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: calc(100% - 2.75rem);
+}
+.userContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.375rem;
+  max-width: calc(100% - 2.75rem);
 }
 
 .userBubble {
-  max-width: 85%;
   padding: 0.625rem 0.875rem;
   border-radius: var(--docmate-radius-lg);
   background: var(--docmate-primary);
@@ -358,6 +377,42 @@
 .sendIcon {
   width: 1.125rem;
   height: 1.125rem;
+}
+
+.messageFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: var(--docmate-radius-sm);
+  background: transparent;
+  color: var(--docmate-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+  background: var(--docmate-surface);
+  color: var(--docmate-text);
+}
+
+.actionIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.timestamp {
+  font-size: 0.6875rem;
+  color: var(--docmate-text-secondary);
 }
 
 @media (max-width: 640px) {
