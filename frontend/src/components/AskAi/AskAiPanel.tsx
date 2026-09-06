@@ -5,6 +5,7 @@ import {
   ArrowPathIcon,
   PaperAirplaneIcon,
   StopIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -64,7 +65,12 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
     }
   }, [error, clearError]);
 
-  const isBusy = status === "submitted" || status === "streaming";
+  const isBusy = (status === "submitted" || status === "streaming") && messages.length > 0;
+
+  const handleClearChat = () => {
+    if (isBusy) stop();
+    setMessages([]);
+  };
 
   const send = (text: string) => {
     const trimmed = text.trim();
@@ -112,11 +118,11 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
         <button
           type="button"
           className={styles.iconButton}
-          onClick={() => setMessages([])}
+          onClick={handleClearChat}
           aria-label="Clear conversation"
           title="Clear conversation"
         >
-          <ArrowPathIcon className={styles.iconButtonIcon} />
+          <TrashIcon className={styles.iconButtonIcon} />
         </button>
         <button
           type="button"
