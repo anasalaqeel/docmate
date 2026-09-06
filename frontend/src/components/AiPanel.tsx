@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardBody, Input, Button, Select, SelectItem } from "@heroui/react";
 import { toast } from "sonner";
 import Switch from "./ui/Switch";
 import { SparklesIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useSetting } from "../hooks/useSettings";
 import { settingsService } from "../services/settingsService";
 import { testAskAiConnection, fetchProviderModels } from "../services/aiService";
 
@@ -148,30 +147,38 @@ const PROVIDERS: ProviderPreset[] = [
 ];
 
 export default function AiPanel() {
-  const { value: aiEnabled, update: updateAiEnabled } = useSetting({
-    key: "ai.enabled",
-    fallbackValue: false,
-  });
-  const { value: provider, update: updateProvider } = useSetting({
-    key: "ai.provider",
-    fallbackValue: "ollama",
-  });
-  const { value: model, update: updateModel } = useSetting({
-    key: "ai.model",
-    fallbackValue: "",
-  });
-  const { value: baseUrl, update: updateBaseUrl } = useSetting({
-    key: "ai.baseUrl",
-    fallbackValue: "",
-  });
-  const { value: apiKey, update: updateApiKey } = useSetting({
-    key: "ai.apiKey",
-    fallbackValue: "",
-  });
-  const { value: maxOutputTokens, update: updateMaxOutputTokens } = useSetting({
-    key: "ai.maxOutputTokens",
-    fallbackValue: 1024,
-  });
+  const [aiEnabled, setAiEnabled] = useState(false);
+  const [provider, setProvider] = useState("ollama");
+  const [model, setModel] = useState("");
+  const [baseUrl, setBaseUrl] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [tokensInput, setTokensInput] = useState("1024");
+  const [, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    settingsService
+      .getAllSettings()
+      .then((all) => {
+        if (cancelled) return;
+        const getVal = (k: string) => all.find((s) => s.key === k)?.value;
+        const savedEnabled = getVal("ai.enabled");
+        setAiEnabled(savedEnabled === true || savedEnabled === "true");
+        setProvider(typeof getVal("ai.provider") === "string" ? (getVal("ai.provider") as string) : "ollama");
+        setModel(typeof getVal("ai.model") === "string" ? (getVal("ai.model") as string) : "");
+        setBaseUrl(typeof getVal("ai.baseUrl") === "string" ? (getVal("ai.baseUrl") as string) : "");
+        setApiKey(typeof getVal("ai.apiKey") === "string" ? (getVal("ai.apiKey") as string) : "");
+        const savedTokens = getVal("ai.maxOutputTokens");
+        setTokensInput(typeof savedTokens === "number" && savedTokens > 0 ? String(savedTokens) : "1024");
+        setIsLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const [discoveredModels, setDiscoveredModels] = useState<string[]>([]);
   const [isManualModel, setIsManualModel] = useState(false);
@@ -183,7 +190,7 @@ export default function AiPanel() {
   };
 
   const activeProvider =
-    PROVIDERS.find((p) => p.key === (provider ?? "ollama")) ?? PROVIDERS[0];
+    PROVIDERS.find((p) => p.key === provider) ?? PROVIDERS[0];
 
   const [isTesting, setIsTesting] = useState(false);
   const [isFetchingModels, setIsFetchingModels] = useState(false);
@@ -192,8 +199,8 @@ export default function AiPanel() {
   const handleProviderSelect = (newKey: string) => {
     const preset = PROVIDERS.find((p) => p.key === newKey);
     if (!preset) return;
-    updateProvider(newKey);
-    updateBaseUrl(preset.defaultBaseUrl);
+    setProvider(newKey);
+    setBaseUrl(preset.defaultBaseUrl);
     setDiscoveredModels([]);
     setIsManualModel(false);
   };
@@ -202,9 +209,9 @@ export default function AiPanel() {
     setIsFetchingModels(true);
     try {
       const res = await fetchProviderModels({
-        provider: provider ?? "ollama",
-        baseUrl: baseUrl ?? "",
-        apiKey: apiKey ?? "",
+        provider: provider || "ollama",
+        baseUrl: baseUrl || "",
+        apiKey: apiKey || "",
       });
       if (!res.ok) {
         toast.error(res.error || "Could not fetch models");
@@ -215,7 +222,7 @@ export default function AiPanel() {
         toast.success(`Discovered ${res.models.length} models from ${activeProvider.label}`);
         setIsManualModel(false);
         if (!model || !res.models.includes(model)) {
-          updateModel(res.models[0]);
+          setModel(res.models[0]);
         }
       } else {
         toast.info("No models returned by the provider");
@@ -228,16 +235,21 @@ export default function AiPanel() {
   };
 
   const handleSave = async (showToast = true) => {
+    const parsedTokens = parseInt(tokensInput.trim() || "1024", 10);
+    if (isNaN(parsedTokens) || parsedTokens < 64 || parsedTokens > 8192) {
+      toast.error("Max output tokens must be a number between 64 and 8192");
+      return false;
+    }
+
     setIsSaving(true);
     try {
       const settings: Record<string, unknown> = {
         "ai.enabled": aiEnabled,
-        "ai.provider": provider ?? "ollama",
-        "ai.model": model ?? "",
-        "ai.baseUrl": baseUrl ?? "",
-        "ai.apiKey": apiKey ?? "",
-        "ai.maxOutputTokens":
-          typeof maxOutputTokens === "number" && maxOutputTokens > 0 ? maxOutputTokens : 1024,
+        "ai.provider": provider || "ollama",
+        "ai.model": model.trim(),
+        "ai.baseUrl": baseUrl.trim(),
+        "ai.apiKey": apiKey.trim(),
+        "ai.maxOutputTokens": parsedTokens,
       };
       const result = await settingsService.updateSettings(settings);
       if (!result.success) {
@@ -273,7 +285,7 @@ export default function AiPanel() {
       if (result.availableModels && result.availableModels.length > 0) {
         setDiscoveredModels(result.availableModels);
         if (!model || !result.availableModels.includes(model)) {
-          updateModel(result.availableModels[0]);
+          setModel(result.availableModels[0]);
         }
         setIsManualModel(false);
       }
@@ -302,7 +314,7 @@ export default function AiPanel() {
             <h3 className="text-lg font-semibold">AI Assistant (Ask AI)</h3>
           </div>
 
-          <Switch isSelected={aiEnabled} onValueChange={updateAiEnabled}>
+          <Switch isSelected={aiEnabled} onValueChange={setAiEnabled}>
             Enable the Ask AI assistant
           </Switch>
           <p className="text-sm mt-1" style={{ color: "var(--docmate-text-secondary)" }}>
@@ -367,7 +379,7 @@ export default function AiPanel() {
                   selectedKeys={model ? [model] : []}
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys)[0];
-                    if (typeof selected === "string") updateModel(selected);
+                    if (typeof selected === "string") setModel(selected);
                   }}
                   variant="bordered"
                   isDisabled={!aiEnabled}
@@ -400,8 +412,8 @@ export default function AiPanel() {
                   <Input
                     aria-label="Model"
                     placeholder="Enter model name or click Fetch"
-                    value={model ?? ""}
-                    onValueChange={updateModel}
+                    value={model}
+                    onValueChange={setModel}
                     variant="bordered"
                     isDisabled={!aiEnabled}
                     classNames={inputClassNames}
@@ -436,8 +448,8 @@ export default function AiPanel() {
             <Input
               label="API Base URL"
               placeholder={activeProvider.defaultBaseUrl || "http://localhost:11434"}
-              value={baseUrl ?? ""}
-              onValueChange={updateBaseUrl}
+              value={baseUrl}
+              onValueChange={setBaseUrl}
               variant="bordered"
               isDisabled={!aiEnabled}
               description="Server URL. The /v1 API path is added automatically when missing."
@@ -449,8 +461,8 @@ export default function AiPanel() {
             label={activeProvider.keyRequired ? "API Key" : "API Key (Optional)"}
             type="password"
             placeholder={activeProvider.keyRequired ? "••••••••" : "Not required for local AI"}
-            value={apiKey ?? ""}
-            onValueChange={updateApiKey}
+            value={apiKey}
+            onValueChange={setApiKey}
             variant="bordered"
             isDisabled={!aiEnabled}
             description={
@@ -464,15 +476,14 @@ export default function AiPanel() {
           <Input
             label="Max output tokens"
             type="number"
+            min={64}
+            max={8192}
             placeholder="1024"
-            value={String(maxOutputTokens ?? 1024)}
-            onValueChange={(value) => {
-              const parsed = Number(value);
-              updateMaxOutputTokens(Number.isFinite(parsed) && parsed > 0 ? parsed : 1024);
-            }}
+            value={tokensInput}
+            onValueChange={setTokensInput}
             variant="bordered"
             isDisabled={!aiEnabled}
-            description="Upper bound on the length of each AI answer"
+            description="Upper bound on the length of each AI answer (between 64 and 8192)"
             classNames={inputClassNames}
           />
 
