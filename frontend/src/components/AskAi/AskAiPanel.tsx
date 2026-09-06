@@ -6,8 +6,8 @@ import {
   PaperAirplaneIcon,
   TrashIcon,
   ChatBubbleBottomCenterTextIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
-import { toast } from "sonner";
 import { motion } from "framer-motion";
 import ChatMessageBubble from "./ChatMessageBubble";
 import { type UseChatHelpers } from "@ai-sdk/react";
@@ -76,23 +76,39 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, status]);
 
+  const [activeError, setActiveError] = useState<string | null>(null);
+
   useEffect(() => {
     if (error) {
-      toast.error(error.message || "The AI request failed. Please try again.");
-      clearError();
+      setActiveError(error.message || "Failed to get a response from the AI. Please try again.");
     }
-  }, [error, clearError]);
+  }, [error]);
 
   const isBusy = (status === "submitted" || status === "streaming") && messages.length > 0;
 
   const handleClearChat = () => {
     if (isBusy) stop();
+    setActiveError(null);
+    clearError();
     setMessages([]);
+  };
+
+  const handleRetry = () => {
+    setActiveError(null);
+    clearError();
+    regenerate();
+  };
+
+  const handleDismissError = () => {
+    setActiveError(null);
+    clearError();
   };
 
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isBusy) return;
+    setActiveError(null);
+    clearError();
     setQuestion("");
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -135,10 +151,10 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
       />
 
       <motion.div
-        initial={{ x: "100%", opacity: 0.9 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "100%", opacity: 0.9 }}
-        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
         className={styles.panel}
         role="dialog"
         aria-label="Ask AI about this documentation"
@@ -231,8 +247,38 @@ const AskAiPanel = ({ onClose, docTitle, pageTitle, chat }: AskAiPanelProps) => 
             </div>
           )}
 
-          {/* Regenerate Action */}
-          {messages.length > 0 && !isBusy && messages[messages.length - 1].role === "assistant" && (
+          {/* Inline Error Card with Retry */}
+          {activeError && (
+            <div className={styles.errorCard} role="alert">
+              <div className={styles.errorHeader}>
+                <ExclamationTriangleIcon className={styles.errorIcon} />
+                <span>Response failed</span>
+              </div>
+              <p className={styles.errorText}>{activeError}</p>
+              <div className={styles.errorActions}>
+                {messages.length > 0 && (
+                  <button
+                    type="button"
+                    className={styles.retryButton}
+                    onClick={handleRetry}
+                  >
+                    <ArrowPathIcon className={styles.actionIcon} />
+                    <span>Retry</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className={styles.dismissButton}
+                  onClick={handleDismissError}
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Regenerate Action (when successful & idle) */}
+          {messages.length > 0 && !isBusy && !activeError && messages[messages.length - 1].role === "assistant" && (
             <div className={styles.regenerateRow}>
               <button
                 type="button"

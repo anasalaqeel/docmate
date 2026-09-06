@@ -509,6 +509,86 @@
   background: var(--docmate-surface-alt);
 }
 
+/* Error Card */
+.errorCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--docmate-radius-lg);
+  background: color-mix(in srgb, var(--docmate-error) 8%, var(--docmate-surface));
+  border: 1px solid color-mix(in srgb, var(--docmate-error) 25%, transparent);
+  margin: 0.25rem 0;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--docmate-error);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.errorIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--docmate-text-secondary);
+}
+
+.errorActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.125rem;
+}
+
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.625rem;
+  border-radius: var(--docmate-radius-md);
+  border: 1px solid color-mix(in srgb, var(--docmate-error) 35%, transparent);
+  background: var(--docmate-surface);
+  color: var(--docmate-text);
+  font-size: 0.75rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.retryButton:hover {
+  background: color-mix(in srgb, var(--docmate-error) 12%, var(--docmate-surface));
+  border-color: var(--docmate-error);
+  color: var(--docmate-error);
+}
+
+.dismissButton {
+  padding: 0.3125rem 0.625rem;
+  border-radius: var(--docmate-radius-md);
+  border: none;
+  background: transparent;
+  color: var(--docmate-text-secondary);
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dismissButton:hover {
+  color: var(--docmate-text);
+  background: rgba(0, 0, 0, 0.04);
+}
+
 /* Modern Pill-Box Composer */
 .composerArea {
   padding: 0.875rem 1rem 1rem;
