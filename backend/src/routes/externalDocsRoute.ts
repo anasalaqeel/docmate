@@ -5,6 +5,7 @@ import { documentations, sidebarItems, openApiSpecs, users } from "../db/schema"
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import importService from "../services/import.service";
+import versionService from "../services/version.service";
 import { buildSidebarFromMarkdownFiles } from "../utils/markdownSidebar";
 
 type Variables = {
@@ -143,6 +144,10 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
     if (parsedSidebarItems.length === 0) {
       return c.json({ error: "No markdown files found in payload" }, 400);
     }
+
+    // replaceSidebarContent wipes all existing items, pages and specs —
+    // snapshot the current content first so the ingestion stays reversible.
+    await versionService.createIngestionBackup(doc.id);
 
     const createdItems = await importService.replaceSidebarContent(doc.id, parsedSidebarItems);
 

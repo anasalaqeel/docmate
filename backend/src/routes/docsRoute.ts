@@ -21,6 +21,7 @@ import {
 } from "../utils/treeBuilder";
 import exportService from "../services/export.service";
 import importService from "../services/import.service";
+import versionService, { VersionError } from "../services/version.service";
 
 const docsRoute = new Hono();
 
@@ -138,46 +139,60 @@ docsRoute.get("/public", async (c) => {
   }
 });
 
-// Get public documentation by ID with full structure
+// Get public documentation by ID with full structure.
+// Serves the stable default version snapshot when one is set (so readers are
+// insulated from in-progress edits), otherwise the live content as before.
+// The response additionally carries `versions` (for the reader dropdown),
+// `openApiSpec` and `viewedVersion`.
 docsRoute.get("/public/:id", async (c) => {
+  try {
+    const docId = parseInt(c.req.param("id"));
+    const data = await versionService.getPublicDocData(docId);
+    return c.json({ success: true, data });
+  } catch (error) {
+    if (error instanceof VersionError) {
+      return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+    }
+    console.error("Error fetching public documentation:", error);
+    return c.json({ success: false, message: "Failed to fetch documentation" }, 500);
+  }
+});
+
+// Version labels for the public reader dropdown (automatic backups excluded)
+docsRoute.get("/public/:id/versions", async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
 
     const doc = await db.query.documentations.findFirst({
       where: and(eq(documentations.id, docId), eq(documentations.isPublic, true)),
-      with: {
-        creator: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
-        sidebarItems: {
-          with: {
-            page: true,
-          },
-          orderBy: [sidebarItems.order],
-        },
-      },
+      columns: { id: true },
     });
-
     if (!doc) {
       return c.json({ success: false, message: "Documentation not found or not public" }, 404);
     }
 
-    // Build hierarchical tree from flat array (filters soft-deleted items)
-    const hierarchicalTree = buildHierarchicalTree(doc.sidebarItems, 10, true);
-
-    return c.json({
-      success: true,
-      data: {
-        ...doc,
-        sidebarItems: hierarchicalTree, // Return tree structure
-      },
-    });
+    const versions = await versionService.listVersions(docId, false);
+    return c.json({ success: true, data: versions });
   } catch (error) {
-    console.error("Error fetching public documentation:", error);
-    return c.json({ success: false, message: "Failed to fetch documentation" }, 500);
+    console.error("Error fetching public versions:", error);
+    return c.json({ success: false, message: "Failed to fetch versions" }, 500);
+  }
+});
+
+// Public doc payload for a specific version (or "next" for the live draft).
+// Same response shape as GET /public/:id.
+docsRoute.get("/public/:id/versions/:version", async (c) => {
+  try {
+    const docId = parseInt(c.req.param("id"));
+    const label = c.req.param("version");
+    const data = await versionService.getPublicDocData(docId, label);
+    return c.json({ success: true, data });
+  } catch (error) {
+    if (error instanceof VersionError) {
+      return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+    }
+    console.error("Error fetching public version:", error);
+    return c.json({ success: false, message: "Failed to fetch version" }, 500);
   }
 });
 
@@ -1123,6 +1138,134 @@ docsRoute.delete("/:id/openapi", authorize(["docs:update"]), async (c) => {
     return c.json({ success: false, message: "Failed to delete OpenAPI spec" }, 500);
   }
 });
+
+// Documentation Versions Routes
+
+// List versions of a documentation (metadata only; snapshot blobs excluded)
+docsRoute.get("/:id/versions", authorize(["docs:read"]), async (c) => {
+  try {
+    const docId = parseInt(c.req.param("id"));
+    const versions = await versionService.listVersions(docId, true);
+    return c.json({ success: true, data: versions });
+  } catch (error) {
+    console.error("Error fetching versions:", error);
+    return c.json({ success: false, message: "Failed to fetch versions" }, 500);
+  }
+});
+
+// Cut a new version: freeze the current live content into a snapshot
+docsRoute.post("/:id/versions", authorize(["docs:update"]), async (c) => {
+  try {
+    const docId = parseInt(c.req.param("id"));
+    const user = c.get("user");
+    const { version, changelog, isDefault } = await c.req.json();
+
+    if (!version || typeof version !== "string") {
+      return c.json({ success: false, message: "Version label is required" }, 400);
+    }
+
+    const created = await versionService.createVersion(docId, {
+      version,
+      changelog: typeof changelog === "string" ? changelog : null,
+      isDefault: isDefault === true,
+      createdBy: user?.id ?? null,
+    });
+
+    return c.json({ success: true, data: created }, 201);
+  } catch (error) {
+    if (error instanceof VersionError) {
+      return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+    }
+    console.error("Error creating version:", error);
+    return c.json({ success: false, message: "Failed to create version" }, 500);
+  }
+});
+
+// Update a version (changelog, default flag). The label is immutable — it
+// appears in reader URLs.
+docsRoute.patch("/:id/versions/:versionId", authorize(["docs:update"]), async (c) => {
+  try {
+    const docId = parseInt(c.req.param("id"));
+    const versionId = parseInt(c.req.param("versionId"));
+    const { changelog, isDefault } = await c.req.json();
+
+    if (changelog === undefined && isDefault === undefined) {
+      return c.json({ success: false, message: "No fields to update" }, 400);
+    }
+
+    if (isDefault !== undefined) {
+      await versionService.setDefault(docId, versionId, isDefault === true);
+    }
+
+    let updated = null;
+    if (changelog !== undefined) {
+      updated = await versionService.updateChangelog(
+        docId,
+        versionId,
+        typeof changelog === "string" ? changelog : null
+      );
+    } else {
+      const versions = await versionService.listVersions(docId, true);
+      updated = versions.find((v) => v.id === versionId) ?? null;
+    }
+
+    if (!updated) {
+      return c.json({ success: false, message: "Version not found" }, 404);
+    }
+
+    return c.json({ success: true, data: updated });
+  } catch (error) {
+    if (error instanceof VersionError) {
+      return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+    }
+    console.error("Error updating version:", error);
+    return c.json({ success: false, message: "Failed to update version" }, 500);
+  }
+});
+
+// Delete a version snapshot
+docsRoute.delete(
+  "/:id/versions/:versionId",
+  authorize(["docs:delete"]),
+  async (c) => {
+    try {
+      const docId = parseInt(c.req.param("id"));
+      const versionId = parseInt(c.req.param("versionId"));
+      await versionService.deleteVersion(docId, versionId);
+      return c.json({ success: true, message: "Version deleted successfully" });
+    } catch (error) {
+      if (error instanceof VersionError) {
+        return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+      }
+      console.error("Error deleting version:", error);
+      return c.json({ success: false, message: "Failed to delete version" }, 500);
+    }
+  }
+);
+
+// Fork a version back over the live content (restores it for editing)
+docsRoute.post(
+  "/:id/versions/:versionId/fork",
+  authorize(["docs:update"]),
+  async (c) => {
+    try {
+      const docId = parseInt(c.req.param("id"));
+      const versionId = parseInt(c.req.param("versionId"));
+      const result = await versionService.forkToLive(docId, versionId);
+      return c.json({
+        success: true,
+        message: `Version restored to live content (${result.restoredItems} items, ${result.restoredPages} pages)`,
+        data: result,
+      });
+    } catch (error) {
+      if (error instanceof VersionError) {
+        return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);
+      }
+      console.error("Error forking version:", error);
+      return c.json({ success: false, message: "Failed to restore version" }, 500);
+    }
+  }
+);
 
 // Export Routes
 

@@ -9,6 +9,7 @@ import {
   jsonb,
   boolean,
   unique,
+  uniqueIndex,
   check,
   type AnyPgColumn,
 } from "drizzle-orm/pg-core";
@@ -254,6 +255,36 @@ export type SidebarItem = typeof sidebarItems.$inferSelect;
 export type Page = typeof pages.$inferSelect;
 export type OpenApiSpec = typeof openApiSpecs.$inferSelect;
 
+// Immutable content snapshots of a documentation (sidebar tree + pages + OpenAPI spec),
+// cut from the live tables. One per documentation may be flagged as the stable default.
+export const documentationVersions = pgTable(
+  "documentation_versions",
+  {
+    id: serial().primaryKey(),
+    documentationId: integer()
+      .references(() => documentations.id, { onDelete: "cascade" })
+      .notNull(),
+    version: varchar({ length: 50 }).notNull(),
+    changelog: text(),
+    snapshot: jsonb().notNull(),
+    isDefault: boolean().default(false).notNull(),
+    isBackup: boolean().default(false).notNull(), // Automatic pre-ingestion backups
+    createdBy: integer().references(() => users.id),
+    createdAt: timestamp().defaultNow().notNull(),
+    updatedAt: timestamp()
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [
+    unique("documentation_versions_doc_version_unique").on(table.documentationId, table.version),
+    uniqueIndex("documentation_versions_one_default_per_doc")
+      .on(table.documentationId)
+      .where(sql`${table.isDefault} = true`),
+  ],
+);
+export type DocumentationVersion = typeof documentationVersions.$inferSelect;
+
 // Relations for documentation tables
 export const documentationsRelations = relations(documentations, ({ one, many }) => ({
   creator: one(users, {
@@ -262,7 +293,19 @@ export const documentationsRelations = relations(documentations, ({ one, many })
   }),
   sidebarItems: many(sidebarItems),
   openApiSpecs: many(openApiSpecs),
+  versions: many(documentationVersions),
   attachments: many(uploads),
+}));
+
+export const documentationVersionsRelations = relations(documentationVersions, ({ one }) => ({
+  documentation: one(documentations, {
+    fields: [documentationVersions.documentationId],
+    references: [documentations.id],
+  }),
+  creator: one(users, {
+    fields: [documentationVersions.createdBy],
+    references: [users.id],
+  }),
 }));
 
 // Type definitions for new schema fields

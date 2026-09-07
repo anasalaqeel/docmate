@@ -237,6 +237,9 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     </div>
                   </Link>
                 )}
+                {layoutData.navbarExtra && (
+                  <div className="ml-3 flex items-center shrink-0">{layoutData.navbarExtra}</div>
+                )}
               </NavbarBrand>
 
               {layoutData.onSearch && (

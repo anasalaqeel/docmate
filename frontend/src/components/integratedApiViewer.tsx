@@ -10,6 +10,8 @@ import { EnhancedInput } from './ui/enhancedInput';
 interface IntegratedApiViewerProps {
   documentation: Documentation;
   selectedEndpoint: string | null;
+  // Preloaded spec (versioned views serve the snapshot's spec instead of live)
+  spec?: OpenApiSpec | null;
 }
 
 interface OperationItem {
@@ -37,7 +39,7 @@ interface TestResponse {
   error?: string;
 }
 
-const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiViewerProps) => {
+const IntegratedApiViewer = ({ documentation, selectedEndpoint, spec: specOverride }: IntegratedApiViewerProps) => {
   const [spec, setSpec] = useState<OpenApiSpec | null>(null);
   const [loading, setLoading] = useState(true);
   const [operations, setOperations] = useState<OperationItem[]>([]);
@@ -71,6 +73,11 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
 
     try {
       setLoading(true);
+      if (specOverride) {
+        setSpec(specOverride);
+        parseOperations(specOverride);
+        return;
+      }
       const result = await getPublicOpenApiSpec(documentation.id);
       if (result.success && result.data) {
         setSpec(result.data);
@@ -81,7 +88,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
     } finally {
       setLoading(false);
     }
-  }, [documentation.id, parseOperations]);
+  }, [documentation.id, parseOperations, specOverride]);
 
   useEffect(() => {
     fetchOpenApiSpec();

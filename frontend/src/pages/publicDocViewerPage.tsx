@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate, useSearchParams, Link } from "react-router";
+import { useParams, useNavigate, useSearchParams, useLocation, Link } from "react-router";
 import { Button, Spinner } from "@heroui/react";
-import { getPublicDocById } from "../services/docsService";
+import { getPublicDocById, getPublicDocVersion } from "../services/docsService";
 import type { Documentation, SidebarItem } from "../services/docsService";
 import IntegratedApiViewer from "../components/integratedApiViewer";
 import { getApiEndpoints } from "../components/integratedApiViewerUtils";
 import MarkdownRenderer from "../components/ui/markdownRenderer";
+import { VersionSelector } from "../components/ui/versionSelector";
 import { useSidebarTree } from "../hooks/useSidebarTree";
 import DocSidebar from "../components/DocSidebar";
 import NavButton from "../components/NavButton";
@@ -17,9 +18,10 @@ import AskAiWidget from "../components/AskAi/AskAiWidget";
 import styles from "../styles/publicDocViewerPage.module.css";
 
 const PublicDocViewerPage = () => {
-  const { id, pageId } = useParams<{ id: string; pageId?: string }>();
+  const { id, pageId, version } = useParams<{ id: string; pageId?: string; version?: string }>();
   const [searchParams] = useSearchParams();
   const endpointId = searchParams.get("endpoint");
+  const location = useLocation();
   const { setLayoutData, resetLayoutData } = useLayout();
   const navigate = useNavigate();
   const [doc, setDoc] = useState<Documentation | null>(null);
@@ -94,6 +96,27 @@ const PublicDocViewerPage = () => {
     return null;
   }, []);
 
+  // Find a page by slug — used to keep the reader's place when switching versions
+  const findPageBySlug = useCallback((items: SidebarItem[], slug: string): SidebarItem | null => {
+    for (const item of items) {
+      if (item.type === "page" && item.page && item.page.slug === slug) {
+        return item;
+      }
+      if (item.children) {
+        const found = findPageBySlug(item.children, slug);
+        if (found) return found;
+      }
+    }
+    return null;
+  }, []);
+
+  // Version-aware URL helpers: all in-page links stay inside the version view
+  const docBasePath = version ? `/docs/${id}/v/${version}` : `/docs/${id}`;
+  const pageUrl = useCallback(
+    (targetPageId: number | string) => `${docBasePath}/page/${targetPageId}`,
+    [docBasePath]
+  );
+
   // Get all pages in order
   const getAllPages = useCallback((items: SidebarItem[]): SidebarItem[] => {
     const pages: SidebarItem[] = [];
@@ -143,8 +166,10 @@ const PublicDocViewerPage = () => {
     [getAllPages]
   );
 
-  // Fetch the documentation — keyed on id and retryCount only, so page/endpoint
-  // navigation reuses the already-loaded document instead of refetching.
+  // Fetch the documentation — keyed on id, version and retryCount only, so
+  // page/endpoint navigation reuses the already-loaded document. A version
+  // label (or "next") loads that snapshot; without one the plain URL resolves
+  // to the stable default version, or live content when no default is set.
   useEffect(() => {
     async function loadDoc() {
       if (!id) return;
@@ -152,14 +177,17 @@ const PublicDocViewerPage = () => {
       setIsLoading(true);
       setLoadError(null);
       try {
-        const response = await getPublicDocById(parseInt(id));
+        const response = version
+          ? await getPublicDocVersion(parseInt(id), version)
+          : await getPublicDocById(parseInt(id));
 
         if (response.success && response.data) {
           setDoc(response.data);
 
-          // Load API endpoints for API docs
+          // Load API endpoints for API docs; versioned responses carry the
+          // snapshot's spec so the sidebar matches the version being viewed
           if (response.data.type === "api" || response.data.type === "mixed") {
-            const endpoints = await getApiEndpoints(response.data);
+            const endpoints = await getApiEndpoints(response.data, response.data.openApiSpec);
             setApiEndpoints(endpoints);
           }
         } else {
@@ -174,23 +202,47 @@ const PublicDocViewerPage = () => {
     }
 
     loadDoc();
-  }, [id, retryCount]);
+  }, [id, version, retryCount]);
 
-  // Auto-navigate to the first page when a doc loads with nothing selected
+  // Auto-navigate to a page when a doc loads with nothing selected. If the
+  // reader just switched versions, prefer the page with the same slug so they
+  // keep their place.
   useEffect(() => {
     if (!doc || !id || pageId || endpointId) return;
-    const firstPage = findFirstPage(doc.sidebarItems || []);
-    if (firstPage?.page) {
-      navigate(`/docs/${id}/page/${firstPage.page.id}`, { replace: true });
+    const stateSlug = (location.state as { slug?: string } | null)?.slug;
+    const items = doc.sidebarItems || [];
+    const target = (stateSlug ? findPageBySlug(items, stateSlug) : null) ?? findFirstPage(items);
+    if (target?.page) {
+      navigate(pageUrl(target.page.id), { replace: true });
     }
-  }, [doc, id, pageId, endpointId, navigate, findFirstPage]);
+  }, [doc, id, pageId, endpointId, navigate, findFirstPage, findPageBySlug, pageUrl, location.state]);
+
+  // Version dropdown: switch view while preserving the current page by slug
+  const handleVersionChange = useCallback(
+    (target: string | null) => {
+      if (!id) return;
+      const base = target ? `/docs/${id}/v/${target}` : `/docs/${id}`;
+      const currentSlug = currentPage?.page?.slug;
+      navigate(base, currentSlug ? { state: { slug: currentSlug } } : undefined);
+    },
+    [id, navigate, currentPage]
+  );
 
   useEffect(() => {
     if (doc) {
       setLayoutData({
         showAdminButton: false,
         navbarTitle: doc.title,
-        navbarSubtitle: doc.version ? `v${doc.version}` : undefined,
+        // The version selector in the navbar is the single version indicator;
+        // a separate subtitle would duplicate it.
+        navbarExtra:
+          doc.versions && doc.versions.length > 0 ? (
+            <VersionSelector
+              versions={doc.versions}
+              current={version ?? null}
+              onSelect={handleVersionChange}
+            />
+          ) : undefined,
         onSearch: () => setIsSearchOpen(true),
         sidebar: (
             <DocSidebar
@@ -198,12 +250,13 @@ const PublicDocViewerPage = () => {
               sidebarTree={sidebarTree}
               apiEndpoints={apiEndpoints}
               pageId={pageId}
+              version={version}
             />
           ),
       });
     }
     return () => resetLayoutData();
-  }, [doc, sidebarTree, apiEndpoints, pageId, setLayoutData, resetLayoutData]);
+  }, [doc, sidebarTree, apiEndpoints, pageId, version, handleVersionChange, setLayoutData, resetLayoutData]);
 
   // Render loading state
   if (isLoading) {
@@ -263,6 +316,13 @@ const PublicDocViewerPage = () => {
     );
   }
 
+  // Version banners: old snapshots get a switch-to-stable notice, the "next"
+  // draft view gets a lighter note
+  const defaultVersion = doc.versions?.find((v) => v.isDefault);
+  const showOldVersionBanner =
+    !!version && version !== "next" && !!doc.viewedVersion && !doc.viewedVersion.isDefault;
+  const showDraftNote = version === "next";
+
   // Render main content
   return (
     <div className={styles.container}>
@@ -273,6 +333,40 @@ const PublicDocViewerPage = () => {
       <div className={styles.content}>
         {/* Main section */}
         <main id="docs-main" className={styles.main}>
+          {showOldVersionBanner && (
+            <div
+              className="mb-6 px-4 py-3 rounded-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)] text-sm flex flex-wrap items-center gap-x-2 gap-y-1"
+              role="note"
+            >
+              <span>
+                You’re viewing <strong>v{version}</strong>
+                {doc.viewedVersion?.changelog ? ` — ${doc.viewedVersion.changelog}` : ""}
+              </span>
+              <span className="text-[var(--docmate-text-secondary)]">
+                This content may be out of date.
+              </span>
+              <Button
+                as={Link}
+                to={`/docs/${doc.id}`}
+                size="sm"
+                variant="flat"
+                color="primary"
+                className="ml-auto"
+              >
+                {defaultVersion ? `Go to v${defaultVersion.version} (stable)` : "Go to latest"}
+              </Button>
+            </div>
+          )}
+          {showDraftNote && (
+            <div
+              className="mb-6 px-4 py-3 rounded-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)] text-sm text-[var(--docmate-text-secondary)]"
+              role="note"
+            >
+              You’re viewing the <strong>next (draft)</strong> version — the latest edits, not yet
+              cut as a stable release.
+            </div>
+          )}
+
           {/* Page content with title and breadcrumbs */}
           {pageId && currentPage && !endpointId && (
             <div className={styles.pageContent}>
@@ -281,7 +375,7 @@ const PublicDocViewerPage = () => {
                   <nav className={styles.breadcrumb} aria-label="Breadcrumb">
                     <Link to="/docs" className={styles.breadcrumbLink}>docs</Link>
                     <span className={styles.breadcrumbSep}>/</span>
-                    <Link to={`/docs/${doc.id}`} className={styles.breadcrumbLink}>{doc.title}</Link>
+                    <Link to={docBasePath} className={styles.breadcrumbLink}>{doc.title}</Link>
                     <span className={styles.breadcrumbSep}>/</span>
                     <span className={styles.breadcrumbCurrent} aria-current="page">{currentPage.title}</span>
                   </nav>
@@ -323,9 +417,7 @@ const PublicDocViewerPage = () => {
                   <div className={styles.navFooterContent}>
                     {findPreviousPage(sidebarTree, pageId) && (
                       <NavButton
-                        to={`/docs/${doc.id}/page/${
-                          findPreviousPage(sidebarTree, pageId)?.page?.id
-                        }`}
+                        to={pageUrl(findPreviousPage(sidebarTree, pageId)!.page!.id)}
                         direction="prev"
                         label="Previous"
                         title={findPreviousPage(sidebarTree, pageId)?.title || ""}
@@ -333,9 +425,7 @@ const PublicDocViewerPage = () => {
                     )}
                     {findNextPage(sidebarTree, pageId) && (
                       <NavButton
-                        to={`/docs/${doc.id}/page/${
-                          findNextPage(sidebarTree, pageId)?.page?.id
-                        }`}
+                        to={pageUrl(findNextPage(sidebarTree, pageId)!.page!.id)}
                         direction="next"
                         label="Next"
                         title={findNextPage(sidebarTree, pageId)?.title || ""}
@@ -355,7 +445,11 @@ const PublicDocViewerPage = () => {
           {/* API viewer */}
           {endpointId && (
             <div className={styles.apiViewerSection}>
-              <IntegratedApiViewer documentation={doc} selectedEndpoint={endpointId} />
+              <IntegratedApiViewer
+                documentation={doc}
+                selectedEndpoint={endpointId}
+                spec={doc.openApiSpec}
+              />
             </div>
           )}
 
@@ -410,6 +504,7 @@ const PublicDocViewerPage = () => {
         doc={doc}
         sidebarTree={sidebarTree}
         apiEndpoints={apiEndpoints}
+        version={version}
       />
 
       {doc && (

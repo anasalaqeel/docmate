@@ -18,6 +18,8 @@ interface DocSearchModalProps {
   doc: Documentation;
   sidebarTree: SidebarItem[];
   apiEndpoints?: ApiEndpointItem[];
+  // When set, search results navigate within the /docs/:id/v/:version view
+  version?: string;
 }
 
 export const DocSearchModal: React.FC<DocSearchModalProps> = ({
@@ -25,7 +27,8 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
   onClose,
   doc,
   sidebarTree,
-  apiEndpoints = [] }) => {
+  apiEndpoints = [],
+  version }) => {
   const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
@@ -80,10 +83,11 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
   }, [search, allPages, apiEndpoints]);
 
   const handleSelect = (item: (typeof results)[0]) => {
+    const base = version ? `/docs/${doc.id}/v/${version}` : `/docs/${doc.id}`;
     if (item.type === "page") {
-      navigate(`/docs/${doc.id}/page/${item.id}`);
+      navigate(`${base}/page/${item.id}`);
     } else {
-      navigate(`/docs/${doc.id}?endpoint=${encodeURIComponent(item.id)}`);
+      navigate(`${base}?endpoint=${encodeURIComponent(item.id)}`);
     }
     onClose();
   };

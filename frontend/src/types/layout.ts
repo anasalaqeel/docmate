@@ -6,6 +6,8 @@ export interface LayoutData {
   navbarType: "public" | "admin";
   navbarTitle?: string;
   navbarSubtitle?: string;
+  // Optional controls rendered next to the navbar title (e.g. version selector)
+  navbarExtra?: React.ReactNode;
   onSearch?: () => void;
 }
 

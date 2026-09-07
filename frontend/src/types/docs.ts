@@ -222,6 +222,22 @@ export interface Documentation {
   };
   sidebarItems?: SidebarItem[];
   openApiSpecs?: OpenApiSpec[];
+  // Versioning: present on public doc responses. `viewedVersion` is null when
+  // live content is served; `versions` feeds the reader's version dropdown.
+  viewedVersion?: DocVersionSummary | null;
+  openApiSpec?: OpenApiSpec | null;
+  versions?: DocVersionSummary[];
+}
+
+// Metadata of an immutable documentation version snapshot
+export interface DocVersionSummary {
+  id?: number;
+  version: string;
+  changelog?: string | null;
+  isDefault: boolean;
+  isBackup?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Attachment {

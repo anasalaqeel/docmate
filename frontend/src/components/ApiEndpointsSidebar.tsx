@@ -16,12 +16,15 @@ interface ApiEndpointsSidebarProps {
   doc: Documentation;
   apiEndpoints: ApiEndpoint[];
   selectedEndpointId?: string | null;
+  // When set, endpoint links stay inside the /docs/:id/v/:version view
+  version?: string;
 }
 
 const ApiEndpointsSidebar: React.FC<ApiEndpointsSidebarProps> = ({
   doc,
   apiEndpoints,
-  selectedEndpointId
+  selectedEndpointId,
+  version
 }) => {
   const [filter, setFilter] = useState("");
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
@@ -125,7 +128,7 @@ const ApiEndpointsSidebar: React.FC<ApiEndpointsSidebarProps> = ({
               return (
                 <Link
                   key={endpoint.id}
-                  to={`/docs/${doc.id}?endpoint=${endpoint.id}`}
+                  to={version ? `/docs/${doc.id}/v/${version}?endpoint=${endpoint.id}` : `/docs/${doc.id}?endpoint=${endpoint.id}`}
                   className={`${styles.endpointItem} ${isSelected ? styles.active : ''} ${endpoint.deprecated ? styles.deprecated : ''}`}
                 >
                   <div className={styles.methodWrapper}>

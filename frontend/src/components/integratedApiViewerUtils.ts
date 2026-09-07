@@ -1,11 +1,16 @@
-import type { Documentation } from "../types/docs";
+import type { Documentation, OpenApiSpec } from "../types/docs";
 import { getPublicOpenApiSpec } from "../services/docsService";
 
-// Export function to get API endpoints for sidebar
-export const getApiEndpoints = async (documentation: Documentation) => {
+// Export function to get API endpoints for sidebar. When a preloaded spec is
+// given (versioned views serve the snapshot's spec), no live fetch happens.
+export const getApiEndpoints = async (documentation: Documentation, specOverride?: OpenApiSpec | null) => {
   try {
-    const result = await getPublicOpenApiSpec(documentation.id!);
-    if (!result.success) return [];
+    let spec: OpenApiSpec | undefined = specOverride ?? undefined;
+    if (!spec) {
+      const result = await getPublicOpenApiSpec(documentation.id!);
+      if (!result.success) return [];
+      spec = result.data;
+    }
 
     const endpoints: Array<{
       id: string;
@@ -15,8 +20,8 @@ export const getApiEndpoints = async (documentation: Documentation) => {
       tag: string;
     }> = [];
 
-    if (result.data && result.data.paths) {
-      Object.entries(result.data.paths).forEach(([path, pathItem]) => {
+    if (spec && spec.paths) {
+      Object.entries(spec.paths).forEach(([path, pathItem]) => {
         Object.entries(pathItem).forEach(([method, operation]) => {
           endpoints.push({
             id: `${method}-${path}`,

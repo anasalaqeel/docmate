@@ -30,7 +30,8 @@ import {
   ArrowPathIcon,
   ClipboardDocumentIcon,
   ClipboardDocumentCheckIcon,
-  PaperClipIcon } from "@heroicons/react/24/outline";
+  PaperClipIcon,
+  ClockIcon } from "@heroicons/react/24/outline";
 import { getDocById, createSidebarItem, updateDoc } from "../../services/docsService";
 import SidebarManager from "../../components/sidebarManager";
 import PageEditor from "../../components/pageEditor";
@@ -38,6 +39,7 @@ import DocumentationTypeSelector from "../../components/documentationTypeSelecto
 import OpenApiViewer from "../../components/openApiViewer";
 import TrashManager from "../../components/trashManager";
 import AttachmentManager from "../../components/AttachmentManager";
+import VersionManager from "../../components/versionManager";
 import { EmojiPickerInput } from "../../components/ui";
 import { useSidebarTree } from "../../hooks/useSidebarTree";
 import ExportButton from "../../components/ExportButton";
@@ -657,6 +659,22 @@ const DocsEditorPage = () => {
                   </div>
                 </CardBody>
               </Card>
+            </Tab>
+
+            <Tab
+              key="versions"
+              title={
+                <div className="flex items-center gap-2">
+                  <ClockIcon className="w-4 h-4" />
+                  Versions
+                </div>
+              }
+            >
+              <VersionManager
+                docId={parseInt(id!)}
+                currentLabel={doc.version}
+                onContentChanged={() => fetchDocumentation(true)}
+              />
             </Tab>
 
             <Tab

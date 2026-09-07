@@ -17,6 +17,8 @@ interface DocSidebarProps {
     tag?: string;
   }>;
   pageId?: string;
+  // When set, in-sidebar links stay inside the /docs/:id/v/:version view
+  version?: string;
 }
 
 const FolderIcon = ({ open }: { open?: boolean }) => (
@@ -37,7 +39,7 @@ const FileIcon = () => (
   </svg>
 );
 
-const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps) => {
+const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId, version }: DocSidebarProps) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const endpointId = searchParams.get("endpoint");
@@ -159,7 +161,8 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
 
     const originalItem = findOriginalItem(sidebarTree, node.id);
     if (originalItem && originalItem.type === "page" && originalItem.page) {
-      navigate(`/docs/${doc.id}/page/${originalItem.page.id}`);
+      const base = version ? `/docs/${doc.id}/v/${version}` : `/docs/${doc.id}`;
+      navigate(`${base}/page/${originalItem.page.id}`);
     }
   };
 
@@ -208,6 +211,7 @@ const DocSidebar = ({ doc, sidebarTree, apiEndpoints, pageId }: DocSidebarProps)
                 doc={doc}
                 apiEndpoints={apiEndpoints}
                 selectedEndpointId={endpointId}
+                version={version}
               />
             )}
           </>

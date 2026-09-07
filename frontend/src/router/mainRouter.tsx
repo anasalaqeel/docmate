@@ -43,6 +43,10 @@ const RouterContent = () => {
                                     <Route path="/docs" element={<PublicDocsPage />} />
                                     <Route path="/docs/:id" element={<PublicDocViewerPage />} />
                                     <Route path="/docs/:id/page/:pageId" element={<PublicDocViewerPage />} />
+                                    {/* Versioned doc routes: /docs/:id/v/next shows the live draft,
+                                        /docs/:id/v/:version an immutable snapshot */}
+                                    <Route path="/docs/:id/v/:version" element={<PublicDocViewerPage />} />
+                                    <Route path="/docs/:id/v/:version/page/:pageId" element={<PublicDocViewerPage />} />
 
                                     {/* Admin Routes */}
                                     <Route

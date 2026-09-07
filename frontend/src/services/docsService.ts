@@ -1,8 +1,8 @@
 import { get, post, put, patch, del, getInstance } from './httpService';
-import type { JsonSchema, ApiExample, DocumentMetadata, PageContent, OpenApiSpec, CrudOperation, Documentation, SidebarItem } from '../types/docs';
+import type { JsonSchema, ApiExample, DocumentMetadata, PageContent, OpenApiSpec, CrudOperation, Documentation, SidebarItem, DocVersionSummary } from '../types/docs';
 import type { ApiResponse } from '../types/api';
 
-export type { Documentation, SidebarItem } from '../types/docs';
+export type { Documentation, SidebarItem, DocVersionSummary } from '../types/docs';
 
 export interface Page {
   id: number;
@@ -171,6 +171,60 @@ export const getPublicOpenApiSpec = async (docId: number): Promise<ApiResponse<O
   return get<ApiResponse<OpenApiSpec>>(`/docs/public/${docId}/openapi`);
 };
 
+// Documentation Versions functions
+export interface CreateVersionRequest {
+  version: string;
+  changelog?: string;
+  isDefault?: boolean;
+}
+
+export interface UpdateVersionRequest {
+  changelog?: string;
+  isDefault?: boolean;
+}
+
+export interface ForkVersionResult {
+  restoredItems: number;
+  restoredPages: number;
+}
+
+export const getDocVersions = async (docId: number): Promise<ApiResponse<DocVersionSummary[]>> => {
+  return get<ApiResponse<DocVersionSummary[]>>(`/docs/${docId}/versions`);
+};
+
+export const createDocVersion = async (
+  docId: number,
+  data: CreateVersionRequest
+): Promise<ApiResponse<DocVersionSummary>> => {
+  return post<ApiResponse<DocVersionSummary>>(`/docs/${docId}/versions`, data);
+};
+
+export const updateDocVersion = async (
+  docId: number,
+  versionId: number,
+  data: UpdateVersionRequest
+): Promise<ApiResponse<DocVersionSummary>> => {
+  return patch<ApiResponse<DocVersionSummary>>(`/docs/${docId}/versions/${versionId}`, data);
+};
+
+export const deleteDocVersion = async (docId: number, versionId: number): Promise<ApiResponse<null>> => {
+  return del<ApiResponse<null>>(`/docs/${docId}/versions/${versionId}`);
+};
+
+export const forkDocVersion = async (
+  docId: number,
+  versionId: number
+): Promise<ApiResponse<ForkVersionResult>> => {
+  return post<ApiResponse<ForkVersionResult>>(`/docs/${docId}/versions/${versionId}/fork`, {});
+};
+
+export const getPublicDocVersion = async (
+  id: number,
+  version: string
+): Promise<ApiResponse<Documentation>> => {
+  return get<ApiResponse<Documentation>>(`/docs/public/${id}/versions/${encodeURIComponent(version)}`);
+};
+
 // OpenAPI operations
 export const getOpenApiSpec = async (docId: number): Promise<ApiResponse<OpenApiSpec>> => {
   return get<ApiResponse<OpenApiSpec>>(`/docs/${docId}/openapi`);
@@ -212,11 +266,17 @@ const docsService = {
   deleteCrudOperation,
   getPublicDocs,
   getPublicDocById,
+  getPublicDocVersion,
   getPublicOpenApiSpec,
   getOpenApiSpec,
   importOpenApiSpec,
   exportOpenApiSpec,
   deleteOpenApiSpec,
+  getDocVersions,
+  createDocVersion,
+  updateDocVersion,
+  deleteDocVersion,
+  forkDocVersion,
 };
 
 export default docsService;
