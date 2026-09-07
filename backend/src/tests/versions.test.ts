@@ -399,6 +399,59 @@ describe("Documentation versions", () => {
     expect(publicList.data.every((v: any) => !v.isBackup)).toBe(true);
   });
 
+  test("ingestion publishes new versions, re-cuts corrections, and drafts leave versions untouched", async () => {
+    const push = (content: string, extra: Record<string, unknown> = {}) =>
+      app.request("/v1/external-docs/ingest-markdown", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${ingestionToken}` },
+        body: JSON.stringify({
+          files: [{ path: "1-intro.md", content }],
+          ...extra,
+        }),
+      });
+
+    // Release push: new label + default -> readers immediately get 3.0.0
+    const release = await push("# Intro\n\nRelease 3.0.0 content.", {
+      version: "3.0.0",
+      isDefault: true,
+      changelog: "CI release",
+    });
+    expect(release.status).toBe(200);
+    const releaseBody = await release.json();
+    expect(releaseBody.version).toMatchObject({ version: "3.0.0", isDefault: true });
+
+    const stable = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
+    expect(stable.data.viewedVersion.version).toBe("3.0.0");
+    const doc = await db.query.documentations.findFirst({
+      where: eq(documentations.id, testDoc.id),
+    });
+    expect(doc?.version).toBe("3.0.0");
+
+    // Correction push to the same label: re-cuts the snapshot in place —
+    // still a single 3.0.0 row, still the stable default
+    const correction = await push("# Intro\n\nRelease 3.0.0 corrected.", { version: "3.0.0" });
+    expect(correction.status).toBe(200);
+    const releases = (await versionService.listVersions(testDoc.id, false)).filter(
+      (v) => v.version === "3.0.0"
+    );
+    expect(releases.length).toBe(1);
+    expect(releases[0].isDefault).toBe(true);
+
+    const v3 = await (await app.request(`/v1/docs/public/${testDoc.id}/versions/3.0.0`)).json();
+    expect(JSON.stringify(v3.data.sidebarItems)).toContain("corrected");
+
+    // Draft-only push (no version): live content moves, versions do not
+    const before = await versionService.listVersions(testDoc.id, false);
+    await push("# Intro\n\nDraft ahead.");
+    const after = await versionService.listVersions(testDoc.id, false);
+    expect(after.length).toBe(before.length);
+
+    const next = await (await app.request(`/v1/docs/public/${testDoc.id}/versions/next`)).json();
+    expect(JSON.stringify(next.data.sidebarItems)).toContain("Draft ahead.");
+    const stableAfter = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
+    expect(JSON.stringify(stableAfter.data.sidebarItems)).toContain("Release 3.0.0 corrected.");
+  });
+
   test("deleting a version removes it and leaves no dangling default", async () => {
     const listRes = await app.request(`/v1/docs/${testDoc.id}/versions`, {
       method: "GET",

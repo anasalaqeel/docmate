@@ -157,6 +157,54 @@ class VersionService {
   }
 
   /**
+   * Publish the current live content under a label — the entry point for CI
+   * ingestion pushes. If the label already exists, its snapshot is re-cut
+   * from the freshly ingested content so correction pushes are idempotent;
+   * otherwise a new version is created. Pass isDefault to make it the stable
+   * version readers get.
+   */
+  async publishVersion(
+    documentationId: number,
+    label: string,
+    options: {
+      isDefault?: boolean;
+      changelog?: string | null;
+      createdBy?: number | null;
+    } = {}
+  ): Promise<VersionSummary> {
+    const existing = await db.query.documentationVersions.findFirst({
+      where: and(
+        eq(documentationVersions.documentationId, documentationId),
+        eq(documentationVersions.version, label),
+        eq(documentationVersions.isBackup, false)
+      ),
+    });
+
+    if (!existing) {
+      return this.createVersion(documentationId, {
+        version: label,
+        changelog: options.changelog ?? null,
+        isDefault: options.isDefault ?? false,
+        createdBy: options.createdBy ?? null,
+      });
+    }
+
+    const snapshot = await this.buildSnapshot(documentationId);
+    const changelog = options.changelog?.trim() || existing.changelog;
+    const [updated] = await db
+      .update(documentationVersions)
+      .set({ snapshot, changelog })
+      .where(eq(documentationVersions.id, existing.id))
+      .returning();
+
+    if (options.isDefault && !existing.isDefault) {
+      await this.setDefault(documentationId, existing.id, true);
+    }
+
+    return this.toSummary(updated);
+  }
+
+  /**
    * Version metadata for a documentation. The snapshot blob is never selected —
    * it can be large and is only needed when serving or forking.
    */

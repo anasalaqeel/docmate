@@ -1,6 +1,6 @@
 {
   "name": "docmate-ingest",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Sync a project's markdown docs folder into a Docmate documentation project",
   "license": "MIT",
   "repository": {

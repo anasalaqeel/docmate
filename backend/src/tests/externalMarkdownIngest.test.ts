@@ -76,6 +76,8 @@ describe("POST /v1/external-docs/ingest-markdown", () => {
     const body = await res.json();
     expect(body.success).toBe(true);
     expect(body.createdItems).toBe(2);
+    // `version` publishes the ingested content as a version snapshot
+    expect(body.version).toMatchObject({ version: "2.0.0", isDefault: false });
 
     const items = await db.query.sidebarItems.findMany({
       where: eq(sidebarItems.documentationId, testDoc.id),
@@ -83,10 +85,11 @@ describe("POST /v1/external-docs/ingest-markdown", () => {
     const sorted = items.sort((a, b) => a.order - b.order);
     expect(sorted.map((i) => i.title)).toEqual(["Getting Started", "Authentication"]);
 
+    // A published (non-default) version must not touch the doc's display label
     const updatedDoc = await db.query.documentations.findFirst({
       where: eq(documentations.id, testDoc.id),
     });
-    expect(updatedDoc?.version).toBe("2.0.0");
+    expect(updatedDoc?.version).toBe("1.0.0");
   });
 
   test("replaces previous content on a second ingest", async () => {

@@ -124,14 +124,18 @@ const markdownIngestionSchema = z.object({
       })
     )
     .min(1),
+  // When present, the ingested content is published under this label: a new
+  // label cuts a new version, an existing label re-cuts its snapshot
   version: z.string().optional(),
+  isDefault: z.boolean().optional(), // Mark the published version as stable
+  changelog: z.string().max(500).optional(),
   isPublic: z.boolean().optional(),
 });
 
 externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema), async (c) => {
   try {
     const body = c.req.valid("json");
-    const { files, version, isPublic } = body;
+    const { files, version, isDefault, changelog, isPublic } = body;
     const doc = c.get("documentation"); // Set by middleware
 
     const fileMap: Record<string, string> = {};
@@ -151,10 +155,18 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
 
     const createdItems = await importService.replaceSidebarContent(doc.id, parsedSidebarItems);
 
+    // Without `version` the push lands in the live draft only ("next") —
+    // what readers see at the stable URL is unaffected.
+    const published = version
+      ? await versionService.publishVersion(doc.id, version, {
+          isDefault: isDefault === true,
+          changelog: changelog ?? null,
+        })
+      : null;
+
     await db
       .update(documentations)
       .set({
-        version: version || doc.version,
         updatedAt: new Date(),
         isPublic: isPublic !== undefined ? isPublic : doc.isPublic,
       })
@@ -164,7 +176,12 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
       success: true,
       docId: doc.id,
       createdItems,
-      message: "Documentation updated successfully",
+      version: published
+        ? { id: published.id, version: published.version, isDefault: published.isDefault }
+        : null,
+      message: published
+        ? `Documentation ingested and published as version ${published.version}`
+        : "Documentation updated successfully",
     });
   } catch (error) {
     console.error("Markdown ingestion error:", error);

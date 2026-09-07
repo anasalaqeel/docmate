@@ -92,3 +92,39 @@ test("ingest throws when the docs directory has no markdown files", async () => 
 
   fs.rmSync(dir, { recursive: true, force: true });
 });
+
+test("ingest forwards version publishing options in the request body", async () => {
+  const dir = makeTempDocsDir();
+  let capturedBody;
+
+  const fakeFetch = async (url, init) => {
+    capturedBody = JSON.parse(init.body);
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        success: true,
+        docId: 42,
+        createdItems: 2,
+        version: { id: 7, version: "2.1.0", isDefault: true },
+      }),
+    };
+  };
+
+  const result = await ingest({
+    url: "https://docs.example.com",
+    token: "tok",
+    dir,
+    version: "2.1.0",
+    isDefault: true,
+    changelog: "New endpoints",
+    fetchImpl: fakeFetch,
+  });
+
+  assert.equal(capturedBody.version, "2.1.0");
+  assert.equal(capturedBody.isDefault, true);
+  assert.equal(capturedBody.changelog, "New endpoints");
+  assert.deepEqual(result.version, { id: 7, version: "2.1.0", isDefault: true });
+
+  fs.rmSync(dir, { recursive: true, force: true });
+});

@@ -41,12 +41,17 @@ function collectMarkdownFiles(dir, baseDir) {
  * @param {string} options.url - Docmate base URL, e.g. "https://docs.example.com"
  * @param {string} options.token - Ingestion token from the documentation's admin panel
  * @param {string} options.dir - Path to the docs folder to sync
- * @param {string} [options.version] - Override the documentation version
+ * @param {string} [options.version] - Publish the ingested content under this
+ *   version label: a new label cuts a new version, an existing label re-cuts
+ *   its snapshot (correction push). Omit to push into the live draft only.
+ * @param {boolean} [options.isDefault] - Mark the published version as the
+ *   stable version readers get (the "release" flag)
+ * @param {string} [options.changelog] - Short note stored with the version
  * @param {boolean} [options.isPublic] - Override the public visibility
  * @param {typeof fetch} [options.fetchImpl] - Injectable fetch, for testing
  */
 async function ingest(options) {
-  const { url, token, dir, version, isPublic } = options;
+  const { url, token, dir, version, isDefault, changelog, isPublic } = options;
   const fetchImpl = options.fetchImpl || fetch;
 
   if (!url) throw new Error("Missing required option: url");
@@ -61,6 +66,8 @@ async function ingest(options) {
 
   const body = { files };
   if (version !== undefined) body.version = version;
+  if (isDefault !== undefined) body.isDefault = isDefault;
+  if (changelog !== undefined) body.changelog = changelog;
   if (isPublic !== undefined) body.isPublic = isPublic;
 
   const endpoint = `${url.replace(/\/$/, "")}/v1/external-docs/ingest-markdown`;
