@@ -1,80 +1,64 @@
 import {
   Card,
   CardBody,
-  Input,
-  Button,
-  Textarea,
-} from "@heroui/react";
+  Button } from "@heroui/react";
 import Switch from "./ui/Switch";
 import { KeyIcon, ServerStackIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { useSetting } from "../hooks/useSettings";
 import { settingsService } from "../services/settingsService";
+import { EnhancedInput, EnhancedTextarea } from './ui/enhancedInput';
 
 
 export default function AuthenticationPanel() {
   // SAML settings
   const { value: samlEnabled, update: updateSamlEnabled } = useSetting({
     key: "authentication.saml.enabled",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: samlEntityId, update: updateSamlEntityId } = useSetting({
     key: "authentication.saml.entityId",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: idpMetadata, update: updateIdpMetadata } = useSetting({
     key: "authentication.saml.idpMetadata",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
 
   // LDAP settings
   const { value: ldapEnabled, update: updateLdapEnabled } = useSetting({
     key: "authentication.ldap.enabled",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: ldapUrl, update: updateLdapUrl } = useSetting({
     key: "authentication.ldap.url",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: ldapBindDn, update: updateLdapBindDn } = useSetting({
     key: "authentication.ldap.bindDn",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: ldapBindCredentials, update: updateLdapBindCredentials } = useSetting({
     key: "authentication.ldap.bindCredentials",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: ldapUserSearchBase, update: updateLdapUserSearchBase } = useSetting({
     key: "authentication.ldap.userSearchBase",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: ldapUserSearchFilter, update: updateLdapUserSearchFilter } = useSetting({
     key: "authentication.ldap.userSearchFilter",
-    fallbackValue: "(sAMAccountName={username})",
-  });
+    fallbackValue: "(sAMAccountName={username})" });
   const { value: ldapMailAttribute, update: updateLdapMailAttribute } = useSetting({
     key: "authentication.ldap.mailAttribute",
-    fallbackValue: "mail",
-  });
+    fallbackValue: "mail" });
   const { value: ldapNameAttribute, update: updateLdapNameAttribute } = useSetting({
     key: "authentication.ldap.nameAttribute",
-    fallbackValue: "displayName",
-  });
+    fallbackValue: "displayName" });
 
   // Federated provisioning
   const { value: autoProvision, update: updateAutoProvision } = useSetting({
     key: "authentication.federated.autoProvision",
-    fallbackValue: true,
-  });
+    fallbackValue: true });
   const { value: autoLink, update: updateAutoLink } = useSetting({
     key: "authentication.federated.autoLink",
-    fallbackValue: true,
-  });
+    fallbackValue: true });
 
   const inputClassNames = {
     inputWrapper:
       "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
-    input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
-  };
+    input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50" };
 
   const handleSave = async () => {
     const settings: Record<string, unknown> = {
@@ -90,8 +74,7 @@ export default function AuthenticationPanel() {
       "authentication.ldap.mailAttribute": ldapMailAttribute ?? "mail",
       "authentication.ldap.nameAttribute": ldapNameAttribute ?? "displayName",
       "authentication.federated.autoProvision": autoProvision,
-      "authentication.federated.autoLink": autoLink,
-    };
+      "authentication.federated.autoLink": autoLink };
     const result = await settingsService.updateSettings(settings);
     return result.success;
   };
@@ -114,7 +97,7 @@ export default function AuthenticationPanel() {
             your Identity Provider.
           </p>
 
-          <Input
+          <EnhancedInput
             label="SP Entity ID (optional)"
             placeholder="e.g. https://docs.example.com/v1/auth/saml/metadata"
             value={samlEntityId ?? ""}
@@ -125,7 +108,7 @@ export default function AuthenticationPanel() {
             classNames={inputClassNames}
           />
 
-          <Textarea
+          <EnhancedTextarea
             label="Identity Provider Metadata XML"
             placeholder="Paste the XML metadata from your IdP (Okta, Entra ID, Keycloak, ...)"
             value={idpMetadata ?? ""}
@@ -160,7 +143,7 @@ export default function AuthenticationPanel() {
             form. Local accounts always take priority.
           </p>
 
-          <Input
+          <EnhancedInput
             label="Server URL"
             placeholder="ldaps://ldap.example.com:636"
             value={ldapUrl ?? ""}
@@ -169,7 +152,7 @@ export default function AuthenticationPanel() {
             isDisabled={!ldapEnabled}
             classNames={inputClassNames}
           />
-          <Input
+          <EnhancedInput
             label="Bind DN"
             placeholder="cn=admin,dc=example,dc=com"
             value={ldapBindDn ?? ""}
@@ -178,7 +161,7 @@ export default function AuthenticationPanel() {
             isDisabled={!ldapEnabled}
             classNames={inputClassNames}
           />
-          <Input
+          <EnhancedInput
             label="Bind Password"
             type="password"
             placeholder="••••••••"
@@ -188,7 +171,7 @@ export default function AuthenticationPanel() {
             isDisabled={!ldapEnabled}
             classNames={inputClassNames}
           />
-          <Input
+          <EnhancedInput
             label="User Search Base"
             placeholder="ou=users,dc=example,dc=com"
             value={ldapUserSearchBase ?? ""}
@@ -197,7 +180,7 @@ export default function AuthenticationPanel() {
             isDisabled={!ldapEnabled}
             classNames={inputClassNames}
           />
-          <Input
+          <EnhancedInput
             label="User Search Filter"
             placeholder="(sAMAccountName={username})"
             value={ldapUserSearchFilter ?? ""}
@@ -208,7 +191,7 @@ export default function AuthenticationPanel() {
             classNames={inputClassNames}
           />
           <div className="grid grid-cols-2 gap-4">
-            <Input
+            <EnhancedInput
               label="Email Attribute"
               value={ldapMailAttribute ?? "mail"}
               onValueChange={updateLdapMailAttribute}
@@ -216,7 +199,7 @@ export default function AuthenticationPanel() {
               isDisabled={!ldapEnabled}
               classNames={inputClassNames}
             />
-            <Input
+            <EnhancedInput
               label="Display Name Attribute"
               value={ldapNameAttribute ?? "displayName"}
               onValueChange={updateLdapNameAttribute}

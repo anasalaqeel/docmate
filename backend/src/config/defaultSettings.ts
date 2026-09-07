@@ -505,6 +505,13 @@ export const defaultSettings: Record<string, {
     category: "ai",
     isPublic: false,
     description: "Maximum number of tokens the AI may generate per answer"
+  },
+  "ai.providerConfigs": {
+    type: "string",
+    defaultValue: "{}",
+    category: "ai",
+    isPublic: false,
+    description: "JSON string containing saved draft configurations for all providers"
   }
 };
 

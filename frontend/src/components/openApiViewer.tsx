@@ -1,3 +1,4 @@
+import { EnhancedInput } from './ui/enhancedInput';
 import { useState, useEffect, useCallback } from "react";
 import {
   Card,
@@ -12,14 +13,12 @@ import {
   AccordionItem,
   Code,
   Divider,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
-} from "@heroui/react";
+  useDisclosure } from "@heroui/react";
 import { load } from 'js-yaml';
 import EnhancedCodeEditor from "./ui/enhancedCodeEditor";
 import { PlayIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -246,8 +245,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
       });
     } catch (error) {
       setTestResult({
-        error: error instanceof Error ? error.message : "Unknown error occurred",
-      });
+        error: error instanceof Error ? error.message : "Unknown error occurred" });
     }
   };
 
@@ -602,7 +600,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                           {selectedOperation.operation.parameters
                             ?.filter((p) => p.in === "path")
                             .map((param) => (
-                              <Input
+                              <EnhancedInput
                                 key={param.name}
                                 label={param.name}
                                 description={param.description}
@@ -616,8 +614,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                                 onChange={(e) =>
                                   setTestData((prev) => ({
                                     ...prev,
-                                    pathParams: { ...(typeof prev.pathParams === 'object' ? prev.pathParams : {}), [param.name]: e.target.value },
-                                  }))
+                                    pathParams: { ...(typeof prev.pathParams === 'object' ? prev.pathParams : {}), [param.name]: e.target.value } }))
                                 }
                               />
                             ))}
@@ -631,7 +628,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                           {selectedOperation.operation.parameters
                             ?.filter((p) => p.in === "query")
                             .map((param) => (
-                              <Input
+                              <EnhancedInput
                                 key={param.name}
                                 label={param.name}
                                 description={param.description}
@@ -645,8 +642,7 @@ const OpenApiViewer = ({ documentation, onSpecUpdate }: OpenApiViewerProps) => {
                                 onChange={(e) =>
                                   setTestData((prev) => ({
                                     ...prev,
-                                    queryParams: { ...(typeof prev.queryParams === 'object' ? prev.queryParams : {}), [param.name]: e.target.value },
-                                  }))
+                                    queryParams: { ...(typeof prev.queryParams === 'object' ? prev.queryParams : {}), [param.name]: e.target.value } }))
                                 }
                               />
                             ))}

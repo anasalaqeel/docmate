@@ -6,17 +6,16 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Input,
   Select,
   SelectItem,
-  Chip,
-} from "@heroui/react";
+  Chip } from "@heroui/react";
 import { SparklesIcon, EyeIcon, EyeSlashIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "@heroui/react";
 import { toast } from "sonner";
 import { usersService } from "../../../services/usersService";
 import { parseZodErrors } from "../../../utils/errorHandlers";
 import type { User, Role } from "../../../types/users";
+import { EnhancedInput } from '../../../components/ui/enhancedInput';
 
 interface CreateUserModalProps {
   isOpen: boolean;
@@ -32,8 +31,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
     username: "",
     email: "",
     password: "",
-    phone: "",
-  });
+    phone: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -74,8 +72,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
       setIsLoading(true);
       const userData = {
         ...formData,
-        roleIds: Array.from(selectedKeys).map((id) => parseInt(id)),
-      };
+        roleIds: Array.from(selectedKeys).map((id) => parseInt(id)) };
       const newUser = await usersService.createUser(userData);
       toast.success("User created successfully!");
       onUserCreated(newUser);
@@ -102,8 +99,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
       username: "",
       email: "",
       password: "",
-      phone: "",
-    });
+      phone: "" });
     setErrors({});
     onClose();
   };
@@ -124,8 +120,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
       scrollBehavior="inside"
       classNames={{
         base: "max-h-[90vh]",
-        body: "max-h-[70vh] overflow-y-auto",
-      }}
+        body: "max-h-[70vh] overflow-y-auto" }}
     >
       <ModalContent
         style={{ background: "var(--docmate-surface)", border: "1px solid var(--docmate-border-color)" }}
@@ -134,7 +129,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
         <ModalBody>
           <form id="create-user-form" onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
+              <EnhancedInput
                 label="Full Name"
                 placeholder="Enter full name"
                 value={formData.name}
@@ -144,10 +139,9 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.name}
                 classNames={{
                   inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                  input: "text-[var(--docmate-text)]",
-                }}
+                  input: "text-[var(--docmate-text)]" }}
               />
-              <Input
+              <EnhancedInput
                 label="Email Address"
                 type="email"
                 placeholder="Enter email address"
@@ -158,13 +152,12 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.email}
                 classNames={{
                   inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                  input: "text-[var(--docmate-text)]",
-                }}
+                  input: "text-[var(--docmate-text)]" }}
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
+              <EnhancedInput
                 label="Password"
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Enter password"
@@ -177,8 +170,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 autoComplete="new-password"
                 classNames={{
                   inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                  input: "text-[var(--docmate-text)]",
-                }}
+                  input: "text-[var(--docmate-text)]" }}
                 endContent={
                   <div className="flex items-center gap-1">
                     <Tooltip content="Generate secure password">
@@ -203,7 +195,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                   </div>
                 }
               />
-              <Input
+              <EnhancedInput
                 label="Phone Number"
                 type="tel"
                 placeholder="Enter phone number"
@@ -213,8 +205,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 isInvalid={!!errors.phone}
                 classNames={{
                   inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                  input: "text-[var(--docmate-text)]",
-                }}
+                  input: "text-[var(--docmate-text)]" }}
               />
             </div>
 
@@ -223,8 +214,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                 base: "max-w-xs",
                 trigger:
                   "min-h-12 py-2 border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                value: "text-[var(--docmate-text)]",
-              }}
+                value: "text-[var(--docmate-text)]" }}
               isMultiline={true}
               label="Roles"
               placeholder="Select roles"
@@ -243,8 +233,7 @@ export function CreateUserModal({ isOpen, onClose, onUserCreated, roles }: Creat
                         variant="flat"
                         style={{
                           background: "rgba(var(--docmate-primary-rgb, 102, 126, 234), 0.1)",
-                          color: "var(--docmate-primary)",
-                        }}
+                          color: "var(--docmate-primary)" }}
                         startContent={<ShieldCheckIcon className="w-3 h-3" />}
                       >
                         {item.textValue}

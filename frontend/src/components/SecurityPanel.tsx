@@ -4,11 +4,9 @@ import {
   CardBody,
   Select,
   SelectItem,
-  Input,
   Button,
   Chip,
-  Alert,
-} from "@heroui/react";
+  Alert } from "@heroui/react";
 import Switch from "./ui/Switch";
 import { ShieldCheckIcon, UserGroupIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { useSetting } from "../hooks/useSettings";
@@ -16,35 +14,30 @@ import { usersService } from "../services/usersService";
 import { settingsService } from "../services/settingsService";
 import type { UserRole } from "../types/settings";
 import type { Role } from "../types/users";
+import { EnhancedInput } from './ui/enhancedInput';
 
 export default function SecurityPanel() {
   // Registration settings
   const { value: registrationEnabled, update: updateRegistrationEnabled } = useSetting({
     key: "security.registrationEnabled",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: requireEmailVerification, update: updateRequireEmailVerification } = useSetting({
     key: "security.requireEmailVerification",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: adminApprovalRequired, update: updateAdminApprovalRequired } = useSetting({
     key: "security.adminApprovalRequired",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: defaultUserRole, update: updateDefaultUserRole } = useSetting({
     key: "security.defaultUserRole",
-    fallbackValue: "user",
-  });
+    fallbackValue: "user" });
 
   // Session settings
   const { value: sessionTimeout, update: updateSessionTimeout } = useSetting({
     key: "security.sessionTimeout",
-    fallbackValue: 30,
-  });
+    fallbackValue: 30 });
   const { value: maxSessionsPerUser, update: updateMaxSessionsPerUser } = useSetting({
     key: "security.maxSessionsPerUser",
-    fallbackValue: 3,
-  });
+    fallbackValue: 3 });
 
   // Roles from backend
   const [roles, setRoles] = useState<Role[]>([]);
@@ -163,7 +156,7 @@ export default function SecurityPanel() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Session Timeout (minutes)</label>
-              <Input
+              <EnhancedInput
                 type="number"
                 value={sessionTimeout?.toString() ?? ""}
                 onChange={(e) => updateSessionTimeout(parseInt(e.target.value) || 30)}
@@ -182,7 +175,7 @@ export default function SecurityPanel() {
 
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Maximum Sessions Per User</label>
-              <Input
+              <EnhancedInput
                 type="number"
                 value={maxSessionsPerUser?.toString() ?? ""}
                 onChange={(e) => updateMaxSessionsPerUser(parseInt(e.target.value) || 3)}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardBody, CardHeader, Input, Button, Divider, Chip } from "@heroui/react";
+import { Card, CardBody, CardHeader, Button, Divider, Chip } from "@heroui/react";
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -7,8 +7,7 @@ import {
   UserIcon,
   EnvelopeIcon,
   ShieldCheckIcon,
-  KeyIcon,
-} from "@heroicons/react/24/outline";
+  KeyIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "@heroui/react";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "sonner";
@@ -18,6 +17,7 @@ import { parseZodErrors } from "../../utils/errorHandlers";
 import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
 import { useEffect } from "react";
+import { EnhancedInput } from '../../components/ui/enhancedInput';
 
 const AccountPage = () => {
   const { user } = useAuth();
@@ -29,16 +29,14 @@ const AccountPage = () => {
     setLayoutData({
       navbarType: "admin",
       sidebar: <AdminSidebar />,
-      showAdminButton: false,
-    });
+      showAdminButton: false });
     return () => resetLayoutData();
   }, [setLayoutData, resetLayoutData]);
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
-    confirmPassword: "",
-  });
+    confirmPassword: "" });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -80,8 +78,7 @@ const AccountPage = () => {
       const passwordData = {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
-        confirmPassword: passwordForm.confirmPassword,
-      };
+        confirmPassword: passwordForm.confirmPassword };
 
       await changePassword(passwordData);
 
@@ -89,8 +86,7 @@ const AccountPage = () => {
       setPasswordForm({
         currentPassword: "",
         newPassword: "",
-        confirmPassword: "",
-      });
+        confirmPassword: "" });
     } catch (error: unknown) {
       console.error("Password change error:", error);
 
@@ -139,8 +135,7 @@ const AccountPage = () => {
         style={{
           background: "var(--docmate-surface)",
           borderRadius: "16px",
-          boxShadow: "var(--docmate-card-shadow)",
-        }}
+          boxShadow: "var(--docmate-card-shadow)" }}
       >
         <CardHeader className="flex gap-3 px-6 pb-4">
           <div
@@ -233,8 +228,7 @@ const AccountPage = () => {
         style={{
           background: "var(--docmate-surface)",
           borderRadius: "16px",
-          boxShadow: "var(--docmate-card-shadow)",
-        }}
+          boxShadow: "var(--docmate-card-shadow)" }}
       >
         <CardHeader className="flex gap-3 px-6 pb-4">
           <div
@@ -255,7 +249,7 @@ const AccountPage = () => {
           <form onSubmit={handleChangePassword} className="space-y-5">
             {/* Current Password */}
             <div className="space-y-2">
-              <Input
+              <EnhancedInput
                 label="Current Password"
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Enter your current password"
@@ -269,8 +263,7 @@ const AccountPage = () => {
                 autoComplete="current-password"
                 size="lg"
                 classNames={{
-                  input: "text-base",
-                }}
+                  input: "text-base" }}
               />
             </div>
 
@@ -278,7 +271,7 @@ const AccountPage = () => {
 
             {/* New Password */}
             <div className="space-y-2">
-              <Input
+              <EnhancedInput
                 label="New Password"
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Enter new password"
@@ -291,8 +284,7 @@ const AccountPage = () => {
                 autoComplete="new-password"
                 size="lg"
                 classNames={{
-                  input: "text-base",
-                }}
+                  input: "text-base" }}
                 endContent={
                   <div className="flex items-center gap-1">
                     <Tooltip content="Generate secure password">
@@ -305,8 +297,7 @@ const AccountPage = () => {
                           setPasswordForm({
                             ...passwordForm,
                             newPassword,
-                            confirmPassword: newPassword,
-                          });
+                            confirmPassword: newPassword });
                           toast.success("Password generated!");
                         }}
                       >
@@ -334,7 +325,7 @@ const AccountPage = () => {
 
             {/* Confirm Password */}
             <div className="space-y-2">
-              <Input
+              <EnhancedInput
                 label="Confirm New Password"
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="Confirm new password"
@@ -343,8 +334,7 @@ const AccountPage = () => {
                   setPasswordForm({
                     ...passwordForm,
                     newPassword: passwordForm.newPassword,
-                    confirmPassword: e.target.value,
-                  })
+                    confirmPassword: e.target.value })
                 }
                 isRequired
                 errorMessage={errors.confirmPassword}
@@ -352,8 +342,7 @@ const AccountPage = () => {
                 autoComplete="new-password"
                 size="lg"
                 classNames={{
-                  input: "text-base",
-                }}
+                  input: "text-base" }}
               />
             </div>
 

@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, useImperativeHandle, forwardRef } from "react";
-import { Input, Select, SelectItem, Divider, Chip } from "@heroui/react";
+import { Select, SelectItem, Divider, Chip } from "@heroui/react";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { usersService } from "../services/usersService";
 import type { Role, CreateUserData } from "../types/users";
 import { toast } from "sonner";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface UserFormData {
   name: string;
@@ -50,8 +51,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
     email: "",
     password: "",
     phone: "",
-    roleIds: [],
-  });
+    roleIds: [] });
   const [errors, setErrors] = useState<UserFormErrors>({});
 
   // Load roles
@@ -78,8 +78,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
         email: user.email || "",
         password: "",
         phone: user.phone || "",
-        roleIds: user.userRoles?.map((ur) => ur.role.id) || [],
-      });
+        roleIds: user.userRoles?.map((ur) => ur.role.id) || [] });
     }
   }, [user]);
 
@@ -132,8 +131,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
           email: formData.email,
           password: formData.password,
           phone: formData.phone,
-          roleIds: formData.roleIds,
-        };
+          roleIds: formData.roleIds };
       },
       getUpdateData: () => {
         return {
@@ -142,11 +140,9 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
           email: formData.email,
           password: formData.password || undefined,
           phone: formData.phone,
-          roleIds: formData.roleIds,
-        };
+          roleIds: formData.roleIds };
       },
-      isFormValid: () => validateForm(),
-    }),
+      isFormValid: () => validateForm() }),
     [formData, validateForm]
   );
 
@@ -154,7 +150,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Input
+          <EnhancedInput
             label="Full Name"
             placeholder="Enter full name"
             value={formData.name}
@@ -165,7 +161,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
           />
         </div>
         <div>
-          <Input
+          <EnhancedInput
             label="Email Address"
             type="email"
             placeholder="Enter email address"
@@ -180,7 +176,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Input
+          <EnhancedInput
             label="Password"
             type="password"
             placeholder={isEditing ? "Leave blank to keep current password" : "Enter password"}
@@ -192,7 +188,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
           />
         </div>
         <div>
-          <Input
+          <EnhancedInput
             label="Phone Number"
             placeholder="Enter phone number (optional)"
             value={formData.phone || ""}
@@ -209,8 +205,7 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ user, isEditing = fal
         <Select
           classNames={{
             base: "max-w-xs",
-            trigger: "min-h-12 py-2",
-          }}
+            trigger: "min-h-12 py-2" }}
           isMultiline={true}
           label="Roles"
           placeholder="Select user roles"

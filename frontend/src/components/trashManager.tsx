@@ -9,17 +9,15 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
-  Chip,
-} from "@heroui/react";
+  Chip } from "@heroui/react";
 import { toast } from "sonner";
 import {
   getTrash,
   restoreFromTrash,
   permanentDelete,
-  type TrashItem,
-} from "../services/docsService";
+  type TrashItem } from "../services/docsService";
 import styles from "../styles/trashManager.module.css";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface TrashManagerProps {
   docId: number;
@@ -309,7 +307,7 @@ const TrashManager = ({ docId, onRestore }: TrashManagerProps) => {
               <p style={{ color: 'var(--docmate-text)' }}>
                 Type <strong>DELETE</strong> to confirm:
               </p>
-              <Input
+              <EnhancedInput
                 value={confirmText}
                 onChange={(e) => setConfirmText(e.target.value)}
                 placeholder="Type DELETE"

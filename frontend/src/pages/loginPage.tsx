@@ -139,19 +139,13 @@ const LoginPage = () => {
               endContent={
                 <button
                   type="button"
-                  className="focus:outline-none"
+                  className="focus:outline-none flex items-center h-full shrink-0 cursor-pointer text-[var(--docmate-text-secondary)]"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeSlashIcon
-                      className="w-4 h-4 pointer-events-none"
-                      style={{ color: "var(--docmate-text-secondary)" }}
-                    />
+                    <EyeSlashIcon className="w-4 h-4 pointer-events-none" />
                   ) : (
-                    <EyeIcon
-                      className="w-4 h-4 pointer-events-none"
-                      style={{ color: "var(--docmate-text-secondary)" }}
-                    />
+                    <EyeIcon className="w-4 h-4 pointer-events-none" />
                   )}
                 </button>
               }

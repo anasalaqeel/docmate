@@ -2,17 +2,15 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   Chip,
   Button,
-  Input,
   Code,
   Tabs,
   Tab,
-  Spinner,
-  Textarea,
-} from '@heroui/react';
+  Spinner } from '@heroui/react';
 import type { OpenApiSpec, Documentation, OpenApiOperation, JsonSchema } from '../types/docs';
 import { getPublicOpenApiSpec } from '../services/docsService';
 import styles from '../styles/stoplightStyleViewer.module.css';
 import { performApiTest } from '../utils/proxyRequest';
+import { EnhancedInput, EnhancedTextarea } from './ui/enhancedInput';
 
 interface StoplightStyleViewerProps {
   documentation: Documentation;
@@ -63,8 +61,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
             path,
             summary: operation.summary || `${method.toUpperCase()} ${path}`,
             operation,
-            tag,
-          });
+            tag });
         });
       });
     }
@@ -220,8 +217,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
         status: response.status,
         statusText: response.statusText,
         data: response.data,
-        error: response.error,
-      });
+        error: response.error });
     } catch (error) {
       setTestResponse({
         error: error instanceof Error ? error.message : 'Request failed'
@@ -395,7 +391,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
                         <div className={styles.formSection}>
                           <h4>Path Parameters</h4>
                           {selectedOperation.operation.parameters?.filter((p) => p.in === 'path').map((param) => (
-                            <Input
+                            <EnhancedInput
                               key={param.name}
                               label={param.name}
                               placeholder={param.description}
@@ -414,7 +410,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
                         <div className={styles.formSection}>
                           <h4>Query Parameters</h4>
                           {selectedOperation.operation.parameters?.filter((p) => p.in === 'query').map((param) => (
-                            <Input
+                            <EnhancedInput
                               key={param.name}
                               label={param.name}
                               placeholder={param.description}
@@ -432,7 +428,7 @@ const StoplightStyleViewer = ({ documentation }: StoplightStyleViewerProps) => {
                       {['POST', 'PUT', 'PATCH'].includes(selectedOperation.method) && (
                         <div className={styles.formSection}>
                           <h4>Request Body</h4>
-                          <Textarea
+                          <EnhancedTextarea
                             placeholder="Enter JSON request body"
                             minRows={8}
                             value={testRequest.body || ''}

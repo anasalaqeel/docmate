@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react";
-import { Modal, ModalContent, ModalBody, Input } from "@heroui/react";
+import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { useNavigate } from "react-router";
 import type { Documentation, SidebarItem } from "../types/docs";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface ApiEndpointItem {
   id: string;
@@ -24,8 +25,7 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
   onClose,
   doc,
   sidebarTree,
-  apiEndpoints = [],
-}) => {
+  apiEndpoints = [] }) => {
   const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
@@ -40,8 +40,7 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
           pages.push({
             id: item.page.id,
             title: item.title || item.page.slug,
-            breadcrumb: breadcrumbs.join(" / "),
-          });
+            breadcrumb: breadcrumbs.join(" / ") });
         }
         if (item.children) {
           traverse(item.children, [...breadcrumbs, item.title]);
@@ -111,13 +110,12 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
       classNames={{
         base: "bg-[var(--docmate-surface)] text-[var(--docmate-text)] border border-[var(--docmate-border-color)] shadow-2xl mt-16 max-h-[80vh]",
         backdrop: "bg-black/50 backdrop-blur-sm",
-        closeButton: "hover:bg-[var(--docmate-surface-alt)] active:bg-[var(--docmate-surface-alt)]",
-      }}
+        closeButton: "hover:bg-[var(--docmate-surface-alt)] active:bg-[var(--docmate-surface-alt)]" }}
     >
       <ModalContent>
         {() => (
           <ModalBody className="p-4 gap-3">
-            <Input
+            <EnhancedInput
               autoFocus
               placeholder="Search documentation..."
               value={search}
@@ -135,8 +133,7 @@ export const DocSearchModal: React.FC<DocSearchModalProps> = ({
               }
               classNames={{
                 inputWrapper: "border-[var(--docmate-border-color)] hover:border-[var(--docmate-primary)] focus-within:!border-[var(--docmate-primary)] bg-[var(--docmate-surface-alt)]",
-                input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]",
-              }}
+                input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]" }}
             />
 
             <div className="overflow-y-auto max-h-[55vh] space-y-1">

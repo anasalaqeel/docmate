@@ -7,15 +7,13 @@ import {
   Chip,
   Tabs,
   Tab,
-  Input,
   Select,
-  SelectItem,
-  Textarea
-} from '@heroui/react';
+  SelectItem } from '@heroui/react';
 import { PencilIcon, XMarkIcon, PlayIcon } from '@heroicons/react/24/outline';
 import type { JsonSchema } from '../../types/docs';
 import EnhancedCodeEditor from './enhancedCodeEditor';
 import { performApiTest } from '../../utils/proxyRequest';
+import { EnhancedInput, EnhancedTextarea } from './enhancedInput';
 
 // Type definitions for OpenAPI components
 interface Parameter {
@@ -270,7 +268,7 @@ const OpenApiOperationBlock = ({
               </Select>
             </div>
             <div className="md:col-span-3">
-              <Input
+              <EnhancedInput
                 label="Endpoint URL"
                 value={editedOperation.endpoint}
                 onChange={(e) => setEditedOperation({ ...editedOperation, endpoint: e.target.value })}
@@ -278,13 +276,13 @@ const OpenApiOperationBlock = ({
             </div>
           </div>
 
-          <Input
+          <EnhancedInput
             label="Summary"
             value={editedOperation.summary}
             onChange={(e) => setEditedOperation({ ...editedOperation, summary: e.target.value })}
           />
 
-          <Textarea
+          <EnhancedTextarea
             label="Description"
             value={editedOperation.description}
             onChange={(e) => setEditedOperation({ ...editedOperation, description: e.target.value })}
@@ -443,7 +441,7 @@ const OpenApiOperationBlock = ({
                   </h4>
                   <div className="space-y-4">
                     {operation.parameters?.map(param => (
-                      <Input
+                      <EnhancedInput
                         key={param.name}
                         label={param.name}
                         placeholder={`Enter ${param.name}`}

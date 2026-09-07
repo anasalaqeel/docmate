@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   Button,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
@@ -20,8 +19,7 @@ import {
   Breadcrumbs,
   BreadcrumbItem,
   Tabs,
-  Tab,
-} from "@heroui/react";
+  Tab } from "@heroui/react";
 import Switch from "../../components/ui/Switch";
 import {
   Cog6ToothIcon,
@@ -32,8 +30,7 @@ import {
   ArrowPathIcon,
   ClipboardDocumentIcon,
   ClipboardDocumentCheckIcon,
-  PaperClipIcon,
-} from "@heroicons/react/24/outline";
+  PaperClipIcon } from "@heroicons/react/24/outline";
 import { getDocById, createSidebarItem, updateDoc } from "../../services/docsService";
 import SidebarManager from "../../components/sidebarManager";
 import PageEditor from "../../components/pageEditor";
@@ -50,6 +47,7 @@ import styles from "../../styles/docsEditorPage.module.css";
 
 import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
+import { EnhancedInput } from '../../components/ui/enhancedInput';
 
 const DocsEditorPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -67,14 +65,12 @@ const DocsEditorPage = () => {
       setLayoutData({
         navbarType: "admin",
         sidebar: <AdminSidebar />,
-        showAdminButton: false,
-      });
+        showAdminButton: false });
     } else {
         setLayoutData({
             navbarType: "admin",
             sidebar: <AdminSidebar />,
-            showAdminButton: false,
-        });
+            showAdminButton: false });
     }
     return () => resetLayoutData();
   }, [doc, setLayoutData, resetLayoutData]);
@@ -90,8 +86,7 @@ const DocsEditorPage = () => {
     type: "page" as "folder" | "page" | "divider",
     parentId: null as number | null,
     parentName: null as string | null,
-    icon: "",
-  });
+    icon: "" });
   
   const fetchDocumentation = useCallback(async (silent = false) => {
     if (!id) return;
@@ -132,8 +127,7 @@ const DocsEditorPage = () => {
       documentationId: parseInt(id),
       order: doc?.sidebarItems?.length || 0,
       isExpanded: false,
-      createdAt: new Date().toISOString(),
-    };
+      createdAt: new Date().toISOString() };
 
     const newDocWithItem = (currentDoc: Documentation | null): Documentation | null => {
       if (!currentDoc || !currentDoc.sidebarItems) return currentDoc;
@@ -145,8 +139,7 @@ const DocsEditorPage = () => {
             if (item.id === optimisticItem.parentId) {
               return {
                 ...item,
-                children: [...(item.children || []), optimisticItem],
-              };
+                children: [...(item.children || []), optimisticItem] };
             }
             if (item.children) {
               return { ...item, children: addToParent(item.children) };
@@ -159,8 +152,7 @@ const DocsEditorPage = () => {
         // Add to root
         return {
           ...currentDoc,
-          sidebarItems: [...currentDoc.sidebarItems, optimisticItem],
-        };
+          sidebarItems: [...currentDoc.sidebarItems, optimisticItem] };
       }
     };
 
@@ -173,8 +165,7 @@ const DocsEditorPage = () => {
         ...newItemData,
         parentId: newItemData.parentId ?? undefined,
         title: newItemData.title.trim(),
-        order: doc?.sidebarItems?.length || 0,
-      });
+        order: doc?.sidebarItems?.length || 0 });
 
       if (response.success && response.data) {
         // Silently refresh from the server to ensure tree structural integrity
@@ -186,8 +177,7 @@ const DocsEditorPage = () => {
           type: "page",
           parentId: null,
           parentName: null,
-          icon: "",
-        });
+          icon: "" });
       }
     } catch (error) {
       console.error("Failed to create sidebar item:", error);
@@ -208,16 +198,14 @@ const DocsEditorPage = () => {
           if (item.id === selectedItem.id && item.page) {
             return {
               ...item,
-              page: updatedPage,
-            };
+              page: updatedPage };
           }
           return item;
         });
 
         return {
           ...prevDoc,
-          sidebarItems: updatedSidebarItems,
-        };
+          sidebarItems: updatedSidebarItems };
       });
 
       // Update the selectedItem as well
@@ -255,8 +243,7 @@ const DocsEditorPage = () => {
       type: "page",
       parentId: parentId || null,
       icon: "",
-      parentName: parentName || null,
-    });
+      parentName: parentName || null });
     onOpen();
   };
 
@@ -267,14 +254,12 @@ const DocsEditorPage = () => {
         .filter((item) => item.id !== deletedItemId)
         .map((item) => ({
           ...item,
-          children: item.children ? deleteItemRecursive(item.children) : undefined,
-        }));
+          children: item.children ? deleteItemRecursive(item.children) : undefined }));
     };
 
     const newDoc = doc ? {
       ...doc,
-      sidebarItems: deleteItemRecursive(doc.sidebarItems || []),
-    } : null;
+      sidebarItems: deleteItemRecursive(doc.sidebarItems || []) } : null;
 
     React.startTransition(() => {
       addOptimisticDoc(newDoc);
@@ -299,8 +284,7 @@ const DocsEditorPage = () => {
 
     const newDoc = doc ? {
       ...doc,
-      sidebarItems: updateItemRecursive(doc.sidebarItems || []),
-    } : null;
+      sidebarItems: updateItemRecursive(doc.sidebarItems || []) } : null;
 
     React.startTransition(() => {
       addOptimisticDoc(newDoc);
@@ -365,8 +349,7 @@ const DocsEditorPage = () => {
             <Breadcrumbs
               className="text-sm font-medium"
               itemClasses={{
-                separator: "opacity-40",
-              }}
+                separator: "opacity-40" }}
             >
               <BreadcrumbItem
                 onPress={() => navigate("/admin/docs")}
@@ -742,7 +725,7 @@ const DocsEditorPage = () => {
               </ModalHeader>
               <ModalBody className="py-6">
                 <div className="flex flex-col gap-6">
-                  <Input
+                  <EnhancedInput
                     label="Title"
                     labelPlacement="outside"
                     placeholder="Enter item title"
@@ -774,14 +757,12 @@ const DocsEditorPage = () => {
                         }}
                         popoverProps={{
                           classNames: {
-                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
-                          }
+                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0" }
                         }}
                         listboxProps={{
                           itemClasses: {
                             base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
-                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
-                          }
+                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]" }
                         }}
                       >
                       <SelectItem key="page" startContent={<span>📄</span>}>
@@ -821,8 +802,7 @@ const DocsEditorPage = () => {
                           setNewItemData((prev) => ({
                             ...prev,
                             parentId,
-                            parentName,
-                          }));
+                            parentName }));
                         }}
                         variant="bordered"
                         classNames={{
@@ -832,14 +812,12 @@ const DocsEditorPage = () => {
                         }}
                         popoverProps={{
                           classNames: {
-                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
-                          }
+                            content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0" }
                         }}
                         listboxProps={{
                           itemClasses: {
                             base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
-                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
-                          }
+                            title: "font-medium text-sm flex-1 text-[var(--docmate-text)]" }
                         }}
                       >
                       <SelectItem key="">Root Level</SelectItem>

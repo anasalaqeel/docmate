@@ -10,10 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
   Select,
-  SelectItem,
-} from "@heroui/react";
+  SelectItem } from "@heroui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { usersService } from "../../services/usersService";
@@ -22,8 +20,7 @@ import type {
   Permission,
   RoleListOptions,
   CreateRoleData,
-  UpdateRoleData,
-} from "../../types/users";
+  UpdateRoleData } from "../../types/users";
 import { toast } from "sonner";
 import styles from "../../styles/rolesListPage.module.css";
 import PageHeader from "../../components/PageHeader";
@@ -31,6 +28,7 @@ import { RolesTable } from "./components/RolesTable";
 
 import { useLayout } from "../../hooks/useLayout";
 import { AdminSidebar } from "../../components/Sidebar/AdminSidebar";
+import { EnhancedInput } from '../../components/ui/enhancedInput';
 
 const RolesListPage = () => {
   // Modal state
@@ -44,8 +42,7 @@ const RolesListPage = () => {
     setLayoutData({
       navbarType: "admin",
       sidebar: <AdminSidebar />,
-      showAdminButton: false,
-    });
+      showAdminButton: false });
     return () => resetLayoutData();
   }, [setLayoutData, resetLayoutData]);
 
@@ -70,8 +67,7 @@ const RolesListPage = () => {
     limit: 10,
     search: "",
     sortBy: "name",
-    sortOrder: "asc",
-  });
+    sortOrder: "asc" });
 
   // Use debounced search hook
   const [searchQuery, setSearchQuery] = useDebouncedSearch(filters.search || "", 350);
@@ -79,8 +75,7 @@ const RolesListPage = () => {
   // Form state
   const [formData, setFormData] = useState<CreateRoleData>({
     name: "",
-    permissionIds: [],
-  });
+    permissionIds: [] });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   // Update filters when debounced search changes
@@ -145,8 +140,7 @@ const RolesListPage = () => {
       ...prev,
       sortBy,
       sortOrder: prev.sortBy === sortBy ? (prev.sortOrder === "asc" ? "desc" : "asc") : "asc",
-      page: 1,
-    }));
+      page: 1 }));
   };
 
   const handlePageChange = (page: number) => {
@@ -183,8 +177,7 @@ const RolesListPage = () => {
         id: tempId,
         name: formData.name,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as Role;
+        updatedAt: new Date().toISOString() } as Role;
 
       addOptimisticRoles([...roles, optimisticRole]);
 
@@ -212,8 +205,7 @@ const RolesListPage = () => {
 
       const updateData: UpdateRoleData = {
         name: formData.name,
-        permissionIds: formData.permissionIds,
-      };
+        permissionIds: formData.permissionIds };
 
       // Optimistic update
       const updatedRoles = roles.map(role =>
@@ -221,8 +213,7 @@ const RolesListPage = () => {
           ? {
               ...role,
               name: formData.name,
-              updatedAt: new Date().toISOString(),
-            }
+              updatedAt: new Date().toISOString() }
           : role
       );
 
@@ -278,8 +269,7 @@ const RolesListPage = () => {
     } else if (role) {
       setFormData({
         name: role.name,
-        permissionIds: role.rolePermissions?.map((rp) => rp.permission.id) || [],
-      });
+        permissionIds: role.rolePermissions?.map((rp) => rp.permission.id) || [] });
     }
 
     onOpen();
@@ -318,7 +308,7 @@ const RolesListPage = () => {
         <CardBody>
           {/* Search Bar */}
           <div className="mb-6">
-            <Input
+            <EnhancedInput
               placeholder="Search roles by name..."
               defaultValue={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -360,8 +350,7 @@ const RolesListPage = () => {
         size="2xl"
         scrollBehavior="inside"
         classNames={{
-          header: "p-0",
-        }}
+          header: "p-0" }}
       >
         <ModalContent>
           {(onClose) => (
@@ -375,7 +364,7 @@ const RolesListPage = () => {
                 {(modalMode === "create" || modalMode === "edit") && (
                   <div className="space-y-4">
                     <div>
-                      <Input
+                      <EnhancedInput
                         label="Role Name"
                         placeholder="Enter role name"
                         value={formData.name}

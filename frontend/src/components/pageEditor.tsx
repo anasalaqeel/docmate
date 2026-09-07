@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import type { PageContent, CrudOperation, DocumentMetadata } from "../types/docs";
-import { Card, CardBody, CardHeader, Button, Textarea } from "@heroui/react";
+import { Card, CardBody, CardHeader, Button } from "@heroui/react";
 import { toast } from "sonner";
 import httpService from "../services/httpService";
 import RichDocumentEditor from "./ui/richDocumentEditor";
 import MarkdownRenderer from "./ui/markdownRenderer";
 import styles from "../styles/pageEditor.module.css";
+import { EnhancedTextarea } from './ui/enhancedInput';
 
 interface Page {
   id: number;
@@ -39,18 +40,14 @@ const PageEditor = ({ page, onSave, documentationType = "mixed", docId }: PageEd
       await httpService.put(`/docs/pages/${page.id}`, {
         content: {
           ...page.content,
-          description: content,
-        },
-      });
+          description: content } });
 
       // Optimistic update - update local state immediately
       const updatedPage: Page = {
         ...page,
         content: {
           ...page.content,
-          description: content,
-        },
-      };
+          description: content } };
 
       setIsEditing(false);
 
@@ -117,7 +114,7 @@ const PageEditor = ({ page, onSave, documentationType = "mixed", docId }: PageEd
                 ) : documentationType === "api" ? (
                   isEditing ? (
                     <div className="space-y-6">
-                      <Textarea
+                      <EnhancedTextarea
                         label="Page Description"
                         labelPlacement="outside"
                         placeholder="Enter page description..."

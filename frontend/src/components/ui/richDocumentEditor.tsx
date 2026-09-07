@@ -6,8 +6,6 @@ import {
   Button,
   Tabs,
   Tab,
-  Textarea,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
@@ -15,8 +13,7 @@ import {
   ModalFooter,
   useDisclosure,
   Select,
-  SelectItem,
-} from "@heroui/react";
+  SelectItem } from "@heroui/react";
 import Switch from "./Switch";
 import {
   EyeIcon,
@@ -29,10 +26,10 @@ import {
   ItalicIcon,
   CommandLineIcon,
   ArrowUturnLeftIcon,
-  ArrowUturnRightIcon,
-} from "@heroicons/react/24/outline";
+  ArrowUturnRightIcon } from "@heroicons/react/24/outline";
 import MarkdownRenderer from "./markdownRenderer";
 import httpService from "../../services/httpService";
+import { EnhancedInput, EnhancedTextarea } from './enhancedInput';
 
 interface RichDocumentEditorProps {
   value: string;
@@ -61,8 +58,7 @@ const RichDocumentEditor = ({
   title = "Documentation Content",
   embedded = false,
   pageId,
-  docId,
-}: RichDocumentEditorProps) => {
+  docId }: RichDocumentEditorProps) => {
   const [activeTab, setActiveTab] = useState("write");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -88,8 +84,7 @@ const RichDocumentEditor = ({
     operationTags: "",
     operationOpenApiId: "",
     operationMode: "simple", // 'simple' or 'openapi'
-    operationDeprecated: false,
-  });
+    operationDeprecated: false });
 
   const [operations, setOperations] = useState<Operation[]>([]);
 
@@ -312,8 +307,7 @@ const RichDocumentEditor = ({
                   path,
                   summary:
                     operation.summary || operation.operationId || `${method.toUpperCase()} ${path}`,
-                  tags: [],
-                });
+                  tags: [] });
               }
             });
           });
@@ -656,8 +650,7 @@ id: ${insertData.operationId}
       operationTags: "",
       operationOpenApiId: "",
       operationMode: "simple",
-      operationDeprecated: false,
-    });
+      operationDeprecated: false });
   }, [insertType, insertData, insertAtCursor, onClose]);
 
   const openInsertModal = (type: "code" | "image" | "link" | "table" | "operation") => {
@@ -807,7 +800,7 @@ id: ${insertData.operationId}
                   </Button>
                 </div>
               </div>
-              <Textarea
+              <EnhancedTextarea
                 ref={textareaRef}
                 value={value}
                 onChange={(e) => handleChange(e.target.value)}
@@ -888,7 +881,7 @@ id: ${insertData.operationId}
                     <SelectItem key="yaml">YAML</SelectItem>
                     <SelectItem key="plaintext">Plain Text</SelectItem>
                   </Select>
-                  <Textarea
+                  <EnhancedTextarea
                     label="Code"
                     placeholder="Enter your code here..."
                     value={insertData.code}
@@ -901,7 +894,7 @@ id: ${insertData.operationId}
 
               {insertType === "image" && (
                 <div className="space-y-4">
-                  <Input
+                  <EnhancedInput
                     label="Image URL"
                     placeholder="https://example.com/image.jpg"
                     value={insertData.imageUrl}
@@ -909,7 +902,7 @@ id: ${insertData.operationId}
                       setInsertData((prev) => ({ ...prev, imageUrl: e.target.value }))
                     }
                   />
-                  <Input
+                  <EnhancedInput
                     label="Alt Text"
                     placeholder="Description of the image"
                     value={insertData.imageAlt}
@@ -922,7 +915,7 @@ id: ${insertData.operationId}
 
               {insertType === "link" && (
                 <div className="space-y-4">
-                  <Input
+                  <EnhancedInput
                     label="Link Text"
                     placeholder="Click here"
                     value={insertData.linkText}
@@ -930,7 +923,7 @@ id: ${insertData.operationId}
                       setInsertData((prev) => ({ ...prev, linkText: e.target.value }))
                     }
                   />
-                  <Input
+                  <EnhancedInput
                     label="URL"
                     placeholder="https://example.com"
                     value={insertData.linkUrl}
@@ -944,28 +937,26 @@ id: ${insertData.operationId}
               {insertType === "table" && (
                 <div className="space-y-4">
                   <div className="flex gap-4">
-                    <Input
+                    <EnhancedInput
                       type="number"
                       label="Rows"
                       value={insertData.tableRows.toString()}
                       onChange={(e) =>
                         setInsertData((prev) => ({
                           ...prev,
-                          tableRows: parseInt(e.target.value) || 3,
-                        }))
+                          tableRows: parseInt(e.target.value) || 3 }))
                       }
                       min={2}
                       max={10}
                     />
-                    <Input
+                    <EnhancedInput
                       type="number"
                       label="Columns"
                       value={insertData.tableCols.toString()}
                       onChange={(e) =>
                         setInsertData((prev) => ({
                           ...prev,
-                          tableCols: parseInt(e.target.value) || 3,
-                        }))
+                          tableCols: parseInt(e.target.value) || 3 }))
                       }
                       min={2}
                       max={8}
@@ -1025,21 +1016,20 @@ id: ${insertData.operationId}
                           <SelectItem key="OPTIONS">OPTIONS</SelectItem>
                         </Select>
 
-                        <Input
+                        <EnhancedInput
                           label="Endpoint"
                           placeholder="/api/users/{id}"
                           value={insertData.operationEndpoint}
                           onChange={(e) =>
                             setInsertData((prev) => ({
                               ...prev,
-                              operationEndpoint: e.target.value,
-                            }))
+                              operationEndpoint: e.target.value }))
                           }
                           className="flex-1"
                         />
                       </div>
 
-                      <Input
+                      <EnhancedInput
                         label="Title"
                         placeholder="Get user by ID"
                         value={insertData.operationTitle}
@@ -1050,44 +1040,41 @@ id: ${insertData.operationId}
 
                       {insertData.operationMode === "openapi" && (
                         <>
-                          <Input
+                          <EnhancedInput
                             label="Operation ID (OpenAPI)"
                             placeholder="getUserById"
                             value={insertData.operationOpenApiId}
                             onChange={(e) =>
                               setInsertData((prev) => ({
                                 ...prev,
-                                operationOpenApiId: e.target.value,
-                              }))
+                                operationOpenApiId: e.target.value }))
                             }
                           />
 
-                          <Input
+                          <EnhancedInput
                             label="Summary"
                             placeholder="Retrieve a specific user by ID"
                             value={insertData.operationSummary}
                             onChange={(e) =>
                               setInsertData((prev) => ({
                                 ...prev,
-                                operationSummary: e.target.value,
-                              }))
+                                operationSummary: e.target.value }))
                             }
                           />
 
-                          <Textarea
+                          <EnhancedTextarea
                             label="Description"
                             placeholder="Detailed description of what this operation does..."
                             value={insertData.operationDescription}
                             onChange={(e) =>
                               setInsertData((prev) => ({
                                 ...prev,
-                                operationDescription: e.target.value,
-                              }))
+                                operationDescription: e.target.value }))
                             }
                             minRows={2}
                           />
 
-                          <Input
+                          <EnhancedInput
                             label="Tags (comma-separated)"
                             placeholder="users, authentication"
                             value={insertData.operationTags}
@@ -1282,7 +1269,7 @@ id: ${insertData.operationId}
                 </div>
 
                 {/* Editor */}
-                <Textarea
+                <EnhancedTextarea
                   ref={textareaRef}
                   value={value}
                   onChange={(e) => handleChange(e.target.value)}
@@ -1365,7 +1352,7 @@ id: ${insertData.operationId}
                   <SelectItem key="yaml">YAML</SelectItem>
                   <SelectItem key="plaintext">Plain Text</SelectItem>
                 </Select>
-                <Textarea
+                <EnhancedTextarea
                   label="Code"
                   placeholder="Enter your code here..."
                   value={insertData.code}
@@ -1378,13 +1365,13 @@ id: ${insertData.operationId}
 
             {insertType === "image" && (
               <div className="space-y-4">
-                <Input
+                <EnhancedInput
                   label="Image URL"
                   placeholder="https://example.com/image.jpg"
                   value={insertData.imageUrl}
                   onChange={(e) => setInsertData((prev) => ({ ...prev, imageUrl: e.target.value }))}
                 />
-                <Input
+                <EnhancedInput
                   label="Alt Text"
                   placeholder="Description of the image"
                   value={insertData.imageAlt}
@@ -1395,13 +1382,13 @@ id: ${insertData.operationId}
 
             {insertType === "link" && (
               <div className="space-y-4">
-                <Input
+                <EnhancedInput
                   label="Link Text"
                   placeholder="Click here"
                   value={insertData.linkText}
                   onChange={(e) => setInsertData((prev) => ({ ...prev, linkText: e.target.value }))}
                 />
-                <Input
+                <EnhancedInput
                   label="URL"
                   placeholder="https://example.com"
                   value={insertData.linkUrl}
@@ -1413,28 +1400,26 @@ id: ${insertData.operationId}
             {insertType === "table" && (
               <div className="space-y-4">
                 <div className="flex gap-4">
-                  <Input
+                  <EnhancedInput
                     type="number"
                     label="Rows"
                     value={insertData.tableRows.toString()}
                     onChange={(e) =>
                       setInsertData((prev) => ({
                         ...prev,
-                        tableRows: parseInt(e.target.value) || 3,
-                      }))
+                        tableRows: parseInt(e.target.value) || 3 }))
                     }
                     min={2}
                     max={10}
                   />
-                  <Input
+                  <EnhancedInput
                     type="number"
                     label="Columns"
                     value={insertData.tableCols.toString()}
                     onChange={(e) =>
                       setInsertData((prev) => ({
                         ...prev,
-                        tableCols: parseInt(e.target.value) || 3,
-                      }))
+                        tableCols: parseInt(e.target.value) || 3 }))
                     }
                     min={2}
                     max={8}

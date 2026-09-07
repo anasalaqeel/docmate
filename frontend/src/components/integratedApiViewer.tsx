@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Chip, Button, Input, Code, Tabs, Tab, Breadcrumbs, BreadcrumbItem } from "@heroui/react";
+import { Chip, Button, Code, Tabs, Tab, Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 import EnhancedCodeEditor from './ui/enhancedCodeEditor';
 import type { OpenApiSpec, Documentation, OpenApiOperation, JsonSchema } from "../types/docs";
 import { getPublicOpenApiSpec } from "../services/docsService";
 import styles from "../styles/integratedApiViewer.module.css";
 import { performApiTest } from "../utils/proxyRequest";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface IntegratedApiViewerProps {
   documentation: Documentation;
@@ -57,8 +58,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
             path,
             summary: operation.summary || `${method.toUpperCase()} ${path}`,
             operation,
-            tag,
-          });
+            tag });
         });
       });
     }
@@ -209,12 +209,10 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
         headers: response.headers,
         data: response.data,
         url: response.url,
-        error: response.error,
-      });
+        error: response.error });
     } catch (error) {
       setTestResponse({
-        error: error instanceof Error ? error.message : "Request failed",
-      });
+        error: error instanceof Error ? error.message : "Request failed" });
     } finally {
       setIsTestLoading(false);
     }
@@ -268,8 +266,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
             cursor: styles.tabCursor,
             tabList: styles.tabList,
             tab: styles.tab,
-            tabContent: "group-data-[selected=true]:text-[var(--docmate-text)]",
-          }}
+            tabContent: "group-data-[selected=true]:text-[var(--docmate-text)]" }}
           variant="underlined"
         >
           <Tab key="overview" title="Overview">
@@ -352,7 +349,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
                       {selectedOperation.operation.parameters
                         ?.filter((p) => p.in === "path")
                         .map((param) => (
-                          <Input
+                          <EnhancedInput
                             key={param.name}
                             label={param.name}
                             placeholder={param.description}
@@ -360,8 +357,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
                             onChange={(e) =>
                               setTestRequest((prev) => ({
                                 ...prev,
-                                pathParams: { ...prev.pathParams, [param.name]: e.target.value },
-                              }))
+                                pathParams: { ...prev.pathParams, [param.name]: e.target.value } }))
                             }
                           />
                         ))}
@@ -375,7 +371,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
                       {selectedOperation.operation.parameters
                         ?.filter((p) => p.in === "query")
                         .map((param) => (
-                          <Input
+                          <EnhancedInput
                             key={param.name}
                             label={param.name}
                             placeholder={param.description}
@@ -383,8 +379,7 @@ const IntegratedApiViewer = ({ documentation, selectedEndpoint }: IntegratedApiV
                             onChange={(e) =>
                               setTestRequest((prev) => ({
                                 ...prev,
-                                queryParams: { ...prev.queryParams, [param.name]: e.target.value },
-                              }))
+                                queryParams: { ...prev.queryParams, [param.name]: e.target.value } }))
                             }
                           />
                         ))}

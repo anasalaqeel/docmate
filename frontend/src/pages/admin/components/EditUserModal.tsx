@@ -5,14 +5,13 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  Input,
-} from "@heroui/react";
+  Button } from "@heroui/react";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import { usersService } from "../../../services/usersService";
 import { parseZodErrors } from "../../../utils/errorHandlers";
 import type { User } from "../../../types/users";
+import { EnhancedInput } from '../../../components/ui/enhancedInput';
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -26,8 +25,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
     name: "",
     username: "",
     email: "",
-    phone: "",
-  });
+    phone: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,8 +36,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
         name: user.name || "",
         username: user.username || "",
         email: user.email || "",
-        phone: user.phone || "",
-      });
+        phone: user.phone || "" });
     }
   }, [user, isOpen]);
 
@@ -56,8 +53,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
         name: formData.name,
         username: formData.username,
         email: formData.email,
-        phone: formData.phone || undefined,
-      });
+        phone: formData.phone || undefined });
       toast.success("User updated successfully!");
       onUserUpdated(updatedUser);
       handleClose();
@@ -105,7 +101,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
         </ModalHeader>
         <ModalBody>
           <form id="edit-user-form" onSubmit={handleSubmit} className="space-y-4">
-            <Input
+            <EnhancedInput
               label="Full Name"
               placeholder="Enter full name"
               value={formData.name}
@@ -116,10 +112,9 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                input: "text-[var(--docmate-text)]",
-              }}
+                input: "text-[var(--docmate-text)]" }}
             />
-            <Input
+            <EnhancedInput
               label="Username"
               placeholder="Enter username"
               value={formData.username}
@@ -130,10 +125,9 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                input: "text-[var(--docmate-text)]",
-              }}
+                input: "text-[var(--docmate-text)]" }}
             />
-            <Input
+            <EnhancedInput
               label="Email Address"
               type="email"
               placeholder="Enter email address"
@@ -145,10 +139,9 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                input: "text-[var(--docmate-text)]",
-              }}
+                input: "text-[var(--docmate-text)]" }}
             />
-            <Input
+            <EnhancedInput
               label="Phone Number"
               type="tel"
               placeholder="Enter phone number"
@@ -159,8 +152,7 @@ export function EditUserModal({ isOpen, onClose, onUserUpdated, user }: EditUser
               size="lg"
               classNames={{
                 inputWrapper: "border-[var(--docmate-border-color)] bg-[var(--docmate-surface-alt)]",
-                input: "text-[var(--docmate-text)]",
-              }}
+                input: "text-[var(--docmate-text)]" }}
             />
           </form>
         </ModalBody>

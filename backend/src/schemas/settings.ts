@@ -114,7 +114,8 @@ export const settingsSchemas = {
   "ai.model": z.string(),
   "ai.baseUrl": urlSchema,
   "ai.apiKey": z.string(),
-  "ai.maxOutputTokens": z.number().int().min(64).max(8192),
+  "ai.maxOutputTokens": z.number().int().min(64),
+  "ai.providerConfigs": z.string().optional(),
 } as const;
 
 // Validate a single setting

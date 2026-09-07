@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Card, CardBody, Textarea, Button, Alert, Spinner } from "@heroui/react";
+import { Card, CardBody, Button, Alert, Spinner } from "@heroui/react";
 import Switch from "./ui/Switch";
 import {
   AdjustmentsHorizontalIcon,
   CodeBracketIcon,
-  ChartBarIcon,
-} from "@heroicons/react/24/outline";
+  ChartBarIcon } from "@heroicons/react/24/outline";
 import { settingsService } from "../services/settingsService";
+import { EnhancedTextarea } from './ui/enhancedInput';
 
 export default function AdvancedPanel() {
   const [loading, setLoading] = useState(true);
@@ -52,8 +52,7 @@ export default function AdvancedPanel() {
         "advanced.customCSS": customCSS,
         "advanced.customJavaScript": customJS,
         "advanced.enableAnalytics": enableAnalytics,
-        "advanced.enableTracking": enableTracking,
-      };
+        "advanced.enableTracking": enableTracking };
 
       const result = await settingsService.updateSettings(settings);
       return result.success;
@@ -86,7 +85,7 @@ export default function AdvancedPanel() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Custom CSS</label>
-              <Textarea
+              <EnhancedTextarea
                 placeholder="Enter custom CSS code here..."
                 value={customCSS}
                 onChange={(e) => setCustomCSS(e.target.value)}
@@ -105,7 +104,7 @@ export default function AdvancedPanel() {
 
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Custom JavaScript</label>
-              <Textarea
+              <EnhancedTextarea
                 placeholder="Enter custom JavaScript code here..."
                 value={customJS}
                 onChange={(e) => setCustomJS(e.target.value)}

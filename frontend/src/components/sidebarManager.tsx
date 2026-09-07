@@ -11,16 +11,15 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
   Select,
-  SelectItem,
-} from "@heroui/react";
+  SelectItem } from "@heroui/react";
 import styles from "../styles/sidebarManager.module.css";
 import type { SidebarItem } from "../types/docs";
 import httpService from "../services/httpService";
 import { useBranding } from "../hooks/useBranding";
 import { TreeView, type TreeNode, type DragDropConfig, EmojiPickerInput } from "./ui";
 import { reorderSidebarItems, type ReorderItem } from "../services/docsService";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface SidebarManagerProps {
   items: SidebarItem[];
@@ -51,8 +50,7 @@ const SidebarManager = ({
   onRefresh,
   onDeleteItem,
   onUpdateItem,
-  docId,
-}: SidebarManagerProps) => {
+  docId }: SidebarManagerProps) => {
   const { logo, organizationName } = useBranding();
   const [modalState, setModalState] = useState<ModalState>({
     editingItem: null,
@@ -60,9 +58,7 @@ const SidebarManager = ({
     formData: {
       title: "",
       type: "page",
-      icon: "",
-    },
-  });
+      icon: "" } });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
@@ -74,8 +70,7 @@ const SidebarManager = ({
     const iconMap = {
       folder: "📁",
       page: "📄",
-      divider: "—",
-    };
+      divider: "—" };
 
     return iconMap[item.type] || "📄";
   }, []);
@@ -89,9 +84,7 @@ const SidebarManager = ({
     metadata: {
       type: item.type,
       page: item.page,
-      originalItem: item,
-    },
-  }), [getItemIcon]);
+      originalItem: item } }), [getItemIcon]);
 
   // Memoized tree data from props
   const treeDataFromProps = useMemo(() => items.map(convertToTreeNode), [items, convertToTreeNode]);
@@ -242,8 +235,7 @@ const SidebarManager = ({
     // All nodes can be dragged
     canBeDragged: () => true,
     // Handle node move
-    onNodeMove: handleNodeMove,
-  }), [handleNodeMove]);
+    onNodeMove: handleNodeMove }), [handleNodeMove]);
 
   // Action handlers
   const handleEditItem = useCallback((item: SidebarItem) => {
@@ -253,9 +245,7 @@ const SidebarManager = ({
       formData: {
         title: item.title,
         type: item.type,
-        icon: item.icon ?? "",
-      },
-    }));
+        icon: item.icon ?? "" } }));
     onOpen();
   }, [onOpen]);
 
@@ -294,8 +284,7 @@ const SidebarManager = ({
     const updates = {
       title: formData.title.trim(),
       type: formData.type,
-      icon: formData.icon || undefined,
-    };
+      icon: formData.icon || undefined };
 
     try {
       // Update local state immediately
@@ -348,8 +337,7 @@ const SidebarManager = ({
           </svg>
         ),
         color: "primary" as const,
-        onPress: () => handleEditItem(item),
-      },
+        onPress: () => handleEditItem(item) },
     ];
 
     if (item.type === "folder") {
@@ -363,8 +351,7 @@ const SidebarManager = ({
           </svg>
         ),
         color: "primary" as const,
-        onPress: () => onCreateItem(item.id),
-      });
+        onPress: () => onCreateItem(item.id) });
     }
 
     actionItems.push({
@@ -377,14 +364,12 @@ const SidebarManager = ({
         </svg>
       ),
       color: "primary" as const,
-      onPress: () => handleDeleteItem(item),
-    });
+      onPress: () => handleDeleteItem(item) });
 
     return (
       <Dropdown
         classNames={{
-          content: "min-w-[180px] p-2 shadow-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface)]",
-        }}
+          content: "min-w-[180px] p-2 shadow-xl border border-[var(--docmate-border-color)] bg-[var(--docmate-surface)]" }}
       >
         <DropdownTrigger>
           <Button
@@ -403,8 +388,7 @@ const SidebarManager = ({
           itemClasses={{
             base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)]",
             title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
-            description: "text-xs text-[var(--docmate-text-secondary)] flex-1",
-          }}
+            description: "text-xs text-[var(--docmate-text-secondary)] flex-1" }}
           classNames={{
             base: "p-1"
           }}
@@ -540,7 +524,7 @@ const SidebarManager = ({
                 <div className="flex flex-col gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Title</label>
-                    <Input
+                    <EnhancedInput
                       placeholder="Enter item title"
                       value={modalState.formData.title}
                       onChange={(e) => updateFormData({ title: e.target.value })}
@@ -570,14 +554,12 @@ const SidebarManager = ({
                       }}
                       popoverProps={{
                         classNames: {
-                          content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0",
-                        }
+                          content: "bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] shadow-xl p-0" }
                       }}
                       listboxProps={{
                         itemClasses: {
                           base: "rounded-lg transition-colors duration-200 min-h-[40px] gap-3 data-[hover=true]:bg-[var(--docmate-surface-alt)] data-[selectable=true]:focus:bg-[var(--docmate-surface-alt)]",
-                          title: "font-medium text-sm flex-1 text-[var(--docmate-text)]",
-                        }
+                          title: "font-medium text-sm flex-1 text-[var(--docmate-text)]" }
                       }}
                     >
                       <SelectItem key="page" startContent={<span className="text-lg">📄</span>}>

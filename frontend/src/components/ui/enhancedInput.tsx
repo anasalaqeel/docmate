@@ -1,32 +1,9 @@
-import { Input, Textarea } from '@heroui/react';
+import { Input, Textarea, type InputProps, type TextAreaProps } from '@heroui/react';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { forwardRef, type ReactNode } from 'react';
 import { css } from '@emotion/css';
 
-interface EnhancedInputProps {
-  // Base input props
-  type?: string;
-  label?: string;
-  placeholder?: string;
-  value?: string;
-  defaultValue?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  isDisabled?: boolean;
-  isRequired?: boolean;
-  isReadOnly?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'flat' | 'bordered' | 'underlined' | 'faded';
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'full';
-  className?: string;
-  classNames?: Record<string, string>;
-  startContent?: ReactNode;
-  endContent?: ReactNode;
-  description?: string;
-  autoComplete?: string;
-  
+export interface EnhancedInputProps extends InputProps {
   // Enhanced props
   error?: string;
   success?: boolean;
@@ -35,28 +12,7 @@ interface EnhancedInputProps {
   icon?: ReactNode;
 }
 
-interface EnhancedTextareaProps {
-  // Base textarea props
-  label?: string;
-  placeholder?: string;
-  value?: string;
-  defaultValue?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  isDisabled?: boolean;
-  isRequired?: boolean;
-  isReadOnly?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'flat' | 'bordered' | 'underlined' | 'faded';
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'full';
-  className?: string;
-  classNames?: Record<string, string>;
-  description?: string;
-  minRows?: number;
-  maxRows?: number;
-  
+export interface EnhancedTextareaProps extends TextAreaProps {
   // Enhanced props
   error?: string;
   success?: boolean;
@@ -66,6 +22,8 @@ interface EnhancedTextareaProps {
 
 export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(({
   error,
+  errorMessage,
+  isInvalid,
   success,
   successMessage,
   helpText,
@@ -76,24 +34,38 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(({
   classNames,
   ...props
 }, ref) => {
+  const actualError = error || (typeof errorMessage === 'string' ? errorMessage : undefined);
+  const actualIsInvalid = isInvalid || !!actualError;
+
   const getValidationState = (): "valid" | "invalid" | undefined => {
-    if (error) return 'invalid';
+    if (actualIsInvalid) return 'invalid';
     if (success) return 'valid';
-    return undefined;
+    return props.validationState as "valid" | "invalid" | undefined;
   };
 
   const getEndContent = () => {
-    if (error) {
-      return <ExclamationCircleIcon className={styles.errorIcon} />;
+    let validationIcon = null;
+    if (actualIsInvalid) {
+      validationIcon = <ExclamationCircleIcon className={styles.errorIcon} />;
+    } else if (success) {
+      validationIcon = <CheckCircleIcon className={styles.successIcon} />;
     }
-    if (success) {
-      return <CheckCircleIcon className={styles.successIcon} />;
+
+    if (validationIcon && endContent) {
+      return (
+        <div className="flex items-center gap-2">
+          {endContent}
+          {validationIcon}
+        </div>
+      );
     }
-    return endContent;
+
+    return validationIcon || endContent;
   };
 
   const getDescription = () => {
-    if (error) return error;
+    // If the caller uses native errorMessage instead of description, don't double render it in description
+    if (actualError && !errorMessage) return actualError;
     if (success && successMessage) return successMessage;
     if (helpText) return helpText;
     return description;
@@ -103,6 +75,8 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(({
     <Input
       ref={ref}
       {...props}
+      isInvalid={actualIsInvalid}
+      errorMessage={actualError || errorMessage}
       validationState={getValidationState()}
       startContent={icon || startContent}
       endContent={getEndContent()}
@@ -114,7 +88,7 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(({
         input: `${styles.input} ${classNames?.input || ''}`,
         inputWrapper: `${styles.inputWrapper} ${classNames?.inputWrapper || ''} ${
           success ? styles.inputWrapperSuccess : ''
-        } ${error ? styles.inputWrapperError : ''}`,
+        } ${actualIsInvalid ? styles.inputWrapperError : ''}`,
       }}
     />
   );
@@ -122,6 +96,8 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(({
 
 export const EnhancedTextarea = forwardRef<HTMLTextAreaElement, EnhancedTextareaProps>(({
   error,
+  errorMessage,
+  isInvalid,
   success,
   successMessage,
   helpText,
@@ -129,14 +105,17 @@ export const EnhancedTextarea = forwardRef<HTMLTextAreaElement, EnhancedTextarea
   classNames,
   ...props
 }, ref) => {
+  const actualError = error || (typeof errorMessage === 'string' ? errorMessage : undefined);
+  const actualIsInvalid = isInvalid || !!actualError;
+
   const getValidationState = (): "valid" | "invalid" | undefined => {
-    if (error) return 'invalid';
+    if (actualIsInvalid) return 'invalid';
     if (success) return 'valid';
-    return undefined;
+    return props.validationState as "valid" | "invalid" | undefined;
   };
 
   const getDescription = () => {
-    if (error) return error;
+    if (actualError && !errorMessage) return actualError;
     if (success && successMessage) return successMessage;
     if (helpText) return helpText;
     return description;
@@ -146,6 +125,8 @@ export const EnhancedTextarea = forwardRef<HTMLTextAreaElement, EnhancedTextarea
     <Textarea
       ref={ref}
       {...props}
+      isInvalid={actualIsInvalid}
+      errorMessage={actualError || errorMessage}
       validationState={getValidationState()}
       description={getDescription()}
       className={`${styles.enhancedTextarea} ${props.className || ''}`}
@@ -155,7 +136,7 @@ export const EnhancedTextarea = forwardRef<HTMLTextAreaElement, EnhancedTextarea
         input: `${styles.input} ${classNames?.input || ''}`,
         inputWrapper: `${styles.inputWrapper} ${classNames?.inputWrapper || ''} ${
           success ? styles.inputWrapperSuccess : ''
-        } ${error ? styles.inputWrapperError : ''}`,
+        } ${actualIsInvalid ? styles.inputWrapperError : ''}`,
       }}
     />
   );

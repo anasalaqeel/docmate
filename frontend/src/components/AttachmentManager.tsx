@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   Button,
-  Input,
   Chip,
   Tooltip,
   Modal,
@@ -12,8 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Skeleton,
-} from "@heroui/react";
+  Skeleton } from "@heroui/react";
 import {
   FileIcon,
   FileText,
@@ -24,11 +22,11 @@ import {
   Upload,
   Download,
   Paperclip,
-  X,
-} from "lucide-react";
+  X } from "lucide-react";
 import { toast } from "sonner";
 import attachmentsService from "../services/attachmentsService";
 import type { Attachment } from "../types/docs";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface AttachmentManagerProps {
   entityId: number;
@@ -41,8 +39,7 @@ const AttachmentManager = ({
   entityId,
   entityType,
   title = "Attachments",
-  description = "Manage file attachments for this resource.",
-}: AttachmentManagerProps) => {
+  description = "Manage file attachments for this resource." }: AttachmentManagerProps) => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -308,7 +305,7 @@ const AttachmentManager = ({
                   </div>
                 )}
 
-                <Input
+                <EnhancedInput
                   label="Common Description"
                   placeholder="What are these files for?"
                   value={fileDescription}
@@ -317,8 +314,7 @@ const AttachmentManager = ({
                   classNames={{
                     label: "text-[var(--docmate-text-alt)]",
                     input: "text-[var(--docmate-text)]",
-                    inputWrapper: "border-[var(--docmate-border-color)] focus-within:border-primary",
-                  }}
+                    inputWrapper: "border-[var(--docmate-border-color)] focus-within:border-primary" }}
                 />
               </ModalBody>
               <ModalFooter>

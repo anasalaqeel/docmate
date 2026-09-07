@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Card, CardBody, Input, Button, Select, SelectItem } from "@heroui/react";
+import { Card, CardBody, Button, Select, SelectItem } from "@heroui/react";
 import { toast } from "sonner";
 import Switch from "./ui/Switch";
-import { SparklesIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon, ArrowPathIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { settingsService } from "../services/settingsService";
 import { testAskAiConnection, fetchProviderModels } from "../services/aiService";
+import { EnhancedInput } from './ui/enhancedInput';
 
 interface EndpointPreset {
   label: string;
@@ -28,112 +29,98 @@ const PROVIDERS: ProviderPreset[] = [
     defaultBaseUrl: "http://localhost:11434",
     keyRequired: false,
     showBaseUrl: true,
-    hint: "Local AI on your machine. Ensure Ollama is running. No API key needed.",
-  },
+    hint: "Local AI on your machine. Ensure Ollama is running. No API key needed." },
   {
     key: "lmstudio",
     label: "LM Studio (Local)",
     defaultBaseUrl: "http://localhost:1234",
     keyRequired: false,
     showBaseUrl: true,
-    hint: "Local models running via LM Studio Local Server. No API key needed.",
-  },
+    hint: "Local models running via LM Studio Local Server. No API key needed." },
   {
     key: "vllm",
     label: "vLLM / LocalAI (Local)",
     defaultBaseUrl: "http://localhost:8000",
     keyRequired: false,
     showBaseUrl: true,
-    hint: "Self-hosted high-throughput inference engine on port 8000.",
-  },
+    hint: "Self-hosted high-throughput inference engine on port 8000." },
   {
     key: "openai",
     label: "OpenAI",
     defaultBaseUrl: "",
     keyRequired: true,
     showBaseUrl: false,
-    hint: "Official OpenAI models (GPT-4o, GPT-4o-mini).",
-  },
+    hint: "Official OpenAI models (GPT-4o, GPT-4o-mini)." },
   {
     key: "anthropic",
     label: "Anthropic Claude",
     defaultBaseUrl: "",
     keyRequired: true,
     showBaseUrl: false,
-    hint: "Official Anthropic models (Claude 3.5 Sonnet, Claude Sonnet 4.5).",
-  },
+    hint: "Official Anthropic models (Claude 3.5 Sonnet, Claude Sonnet 4.5)." },
   {
     key: "google",
     label: "Google Gemini",
     defaultBaseUrl: "",
     keyRequired: true,
     showBaseUrl: false,
-    hint: "Official Google Gemini models (Gemini 2.0 Flash, Gemini 1.5 Pro).",
-  },
+    hint: "Official Google Gemini models (Gemini 2.0 Flash, Gemini 1.5 Pro)." },
   {
     key: "deepseek",
     label: "DeepSeek",
     defaultBaseUrl: "https://api.deepseek.com",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "DeepSeek API (DeepSeek-V3, DeepSeek-R1). Fast and cost-effective.",
-  },
+    hint: "DeepSeek API (DeepSeek-V3, DeepSeek-R1). Fast and cost-effective." },
   {
     key: "groq",
     label: "Groq",
     defaultBaseUrl: "https://api.groq.com/openai/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Ultra-fast inference (Llama 3.3 70B, Mixtral). Requires Groq API key.",
-  },
+    hint: "Ultra-fast inference (Llama 3.3 70B, Mixtral). Requires Groq API key." },
   {
     key: "openrouter",
     label: "OpenRouter (300+ Models)",
     defaultBaseUrl: "https://openrouter.ai/api/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Unified gateway providing access to 300+ models from all providers via one key.",
-  },
+    hint: "Unified gateway providing access to 300+ models from all providers via one key." },
   {
     key: "mistral",
     label: "Mistral AI",
     defaultBaseUrl: "https://api.mistral.ai/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Mistral models (Mistral Large, Mistral Small, Codestral).",
-  },
+    hint: "Mistral models (Mistral Large, Mistral Small, Codestral)." },
   {
     key: "perplexity",
     label: "Perplexity",
     defaultBaseUrl: "https://api.perplexity.ai",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Perplexity online search models (Sonar, Sonar Pro).",
-  },
+    hint: "Perplexity online search models (Sonar, Sonar Pro)." },
   {
     key: "xai",
     label: "xAI (Grok)",
     defaultBaseUrl: "https://api.x.ai/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "xAI models (Grok 2). Requires xAI API key.",
-  },
+    hint: "xAI models (Grok 2). Requires xAI API key." },
   {
     key: "together",
     label: "Together AI",
     defaultBaseUrl: "https://api.together.xyz/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Fast cloud hosting for open-weights models.",
-  },
+    hint: "Fast cloud hosting for open-weights models." },
   {
     key: "fireworks",
     label: "Fireworks AI",
     defaultBaseUrl: "https://api.fireworks.ai/inference/v1",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Low-latency inference engine for leading models.",
-  },
+    hint: "Low-latency inference engine for leading models." },
   {
     key: "zai",
     label: "Z.ai (GLM / Zhipu)",
@@ -144,16 +131,14 @@ const PROVIDERS: ProviderPreset[] = [
     ],
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Z.ai GLM models (GLM-4 Flash, GLM-4 Plus). OpenAI-compatible endpoint.",
-  },
+    hint: "Z.ai GLM models (GLM-4 Flash, GLM-4 Plus). OpenAI-compatible endpoint." },
   {
     key: "custom",
     label: "Custom OpenAI-compatible",
     defaultBaseUrl: "",
     keyRequired: true,
     showBaseUrl: true,
-    hint: "Any other OpenAI-compatible gateway (Cerebras, SambaNova, Cloudflare, etc.).",
-  },
+    hint: "Any other OpenAI-compatible gateway (Cerebras, SambaNova, Cloudflare, etc.)." },
 ];
 
 export default function AiPanel() {
@@ -163,7 +148,9 @@ export default function AiPanel() {
   const [baseUrl, setBaseUrl] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [tokensInput, setTokensInput] = useState("1024");
+  const [showApiKey, setShowApiKey] = useState(false);
   const [, setIsLoading] = useState(true);
+  const [providerConfigs, setProviderConfigs] = useState<Record<string, { model: string, baseUrl: string, apiKey: string }>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -179,6 +166,10 @@ export default function AiPanel() {
         setBaseUrl(typeof getVal("ai.baseUrl") === "string" ? (getVal("ai.baseUrl") as string) : "");
         setApiKey(typeof getVal("ai.apiKey") === "string" ? (getVal("ai.apiKey") as string) : "");
         const savedTokens = getVal("ai.maxOutputTokens");
+        const confStr = getVal("ai.providerConfigs");
+        let parsedConf = {};
+        try { parsedConf = confStr ? JSON.parse(String(confStr)) : {}; } catch {}
+        setProviderConfigs(parsedConf);
         setTokensInput(typeof savedTokens === "number" && savedTokens > 0 ? String(savedTokens) : "1024");
         setIsLoading(false);
       })
@@ -196,8 +187,7 @@ export default function AiPanel() {
   const inputClassNames = {
     inputWrapper:
       "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
-    input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
-  };
+    input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50" };
 
   const activeProvider =
     PROVIDERS.find((p) => p.key === provider) ?? PROVIDERS[0];
@@ -209,8 +199,28 @@ export default function AiPanel() {
   const handleProviderSelect = (newKey: string) => {
     const preset = PROVIDERS.find((p) => p.key === newKey);
     if (!preset) return;
+    
+    setProviderConfigs(prev => ({
+      ...prev,
+      [provider]: { model, baseUrl, apiKey }
+    }));
+
     setProvider(newKey);
-    setBaseUrl(preset.defaultBaseUrl);
+    
+    setProviderConfigs(prev => {
+      const conf = prev[newKey];
+      if (conf) {
+        setModel(conf.model);
+        setBaseUrl(conf.baseUrl);
+        setApiKey(conf.apiKey);
+      } else {
+        setModel("");
+        setBaseUrl(preset.defaultBaseUrl);
+        setApiKey("");
+      }
+      return prev;
+    });
+
     setDiscoveredModels([]);
     setIsManualModel(false);
   };
@@ -221,8 +231,7 @@ export default function AiPanel() {
       const res = await fetchProviderModels({
         provider: provider || "ollama",
         baseUrl: baseUrl || "",
-        apiKey: apiKey || "",
-      });
+        apiKey: apiKey || "" });
       if (!res.ok) {
         toast.error(res.error || "Could not fetch models");
         return;
@@ -246,13 +255,19 @@ export default function AiPanel() {
 
   const handleSave = async (showToast = true) => {
     const parsedTokens = parseInt(tokensInput.trim() || "1024", 10);
-    if (isNaN(parsedTokens) || parsedTokens < 64 || parsedTokens > 8192) {
-      toast.error("Max output tokens must be a number between 64 and 8192");
+    if (isNaN(parsedTokens) || parsedTokens < 64) {
+      toast.error("Max output tokens must be a number of at least 64");
       return false;
     }
 
     setIsSaving(true);
     try {
+            const updatedConfigs = {
+        ...providerConfigs,
+        [provider || "ollama"]: { model: model.trim(), baseUrl: baseUrl.trim(), apiKey: apiKey.trim() }
+      };
+      setProviderConfigs(updatedConfigs);
+
       const settings: Record<string, unknown> = {
         "ai.enabled": aiEnabled,
         "ai.provider": provider || "ollama",
@@ -260,6 +275,7 @@ export default function AiPanel() {
         "ai.baseUrl": baseUrl.trim(),
         "ai.apiKey": apiKey.trim(),
         "ai.maxOutputTokens": parsedTokens,
+        "ai.providerConfigs": JSON.stringify(updatedConfigs)
       };
       const result = await settingsService.updateSettings(settings);
       if (!result.success) {
@@ -419,7 +435,7 @@ export default function AiPanel() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Input
+                  <EnhancedInput
                     aria-label="Model"
                     placeholder="Enter model name or click Fetch"
                     value={model}
@@ -476,7 +492,7 @@ export default function AiPanel() {
                   ))}
                 </Select>
               )}
-              <Input
+              <EnhancedInput
                 label="API Base URL"
                 placeholder={activeProvider.defaultBaseUrl || "http://localhost:11434"}
                 value={baseUrl}
@@ -489,9 +505,9 @@ export default function AiPanel() {
             </div>
           )}
 
-          <Input
+          <EnhancedInput
             label={activeProvider.keyRequired ? "API Key" : "API Key (Optional)"}
-            type="password"
+            type={showApiKey ? "text" : "password"}
             placeholder={activeProvider.keyRequired ? "••••••••" : "Not required for local AI"}
             value={apiKey}
             onValueChange={setApiKey}
@@ -503,19 +519,32 @@ export default function AiPanel() {
                 : "Leave empty for local Ollama / LM Studio instances."
             }
             classNames={inputClassNames}
+            endContent={
+              <button
+                type="button"
+                className="focus:outline-none flex items-center h-full shrink-0 cursor-pointer text-[var(--docmate-text-secondary)]"
+                onClick={() => setShowApiKey(!showApiKey)}
+                aria-label="Toggle password visibility"
+              >
+                {showApiKey ? (
+                  <EyeSlashIcon className="w-4 h-4" />
+                ) : (
+                  <EyeIcon className="w-4 h-4" />
+                )}
+              </button>
+            }
           />
 
-          <Input
+          <EnhancedInput
             label="Max output tokens"
             type="number"
             min={64}
-            max={8192}
             placeholder="1024"
             value={tokensInput}
             onValueChange={setTokensInput}
             variant="bordered"
             isDisabled={!aiEnabled}
-            description="Upper bound on the length of each AI answer (between 64 and 8192)"
+            description="Upper bound on the length of each AI answer (minimum 64)"
             classNames={inputClassNames}
           />
 

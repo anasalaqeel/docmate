@@ -3,45 +3,37 @@ import {
   CardBody,
   Select,
   SelectItem,
-  Input,
   Button,
-  Textarea,
-  Alert,
-} from "@heroui/react";
+  Alert } from "@heroui/react";
 import Switch from "./ui/Switch";
 import { CogIcon, DocumentTextIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { useSetting } from "../hooks/useSettings";
 import type { DocumentationType } from "../types/settings";
 import { settingsService } from "../services/settingsService";
+import { EnhancedInput, EnhancedTextarea } from './ui/enhancedInput';
 
 export default function GeneralPanel() {
   // Documentation settings
   const { value: defaultDocType, update: updateDefaultDocType } = useSetting({
     key: "general.defaultDocumentationType",
-    fallbackValue: "markdown",
-  });
+    fallbackValue: "markdown" });
   const { value: defaultDocPublic, update: updateDefaultDocPublic } = useSetting({
     key: "general.defaultDocumentationIsPublic",
-    fallbackValue: true,
-  });
+    fallbackValue: true });
   const { value: defaultShowApi, update: updateDefaultShowApi } = useSetting({
     key: "general.defaultShowApiEndpoints",
-    fallbackValue: true,
-  });
+    fallbackValue: true });
 
   // System settings
   const { value: autoSaveInterval, update: updateAutoSaveInterval } = useSetting({
     key: "general.autoSaveInterval",
-    fallbackValue: 30,
-  });
+    fallbackValue: 30 });
   const { value: maintenanceMode, update: updateMaintenanceMode } = useSetting({
     key: "general.maintenanceMode",
-    fallbackValue: false,
-  });
+    fallbackValue: false });
   const { value: maintenanceMessage, update: updateMaintenanceMessage } = useSetting({
     key: "general.maintenanceMessage",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
 
   const handleSave = async () => {
     const settings: Record<string, unknown> = {};
@@ -125,7 +117,7 @@ export default function GeneralPanel() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--docmate-text)' }}>Auto-save Interval (seconds)</label>
-              <Input
+              <EnhancedInput
                 type="number"
                 value={autoSaveInterval?.toString() ?? ""}
                 onChange={(e) => updateAutoSaveInterval(parseInt(e.target.value) || 30)}
@@ -161,7 +153,7 @@ export default function GeneralPanel() {
               Enable maintenance mode to temporarily disable access for non-admin users
             </p>
 
-            <Textarea
+            <EnhancedTextarea
               label="Maintenance Message"
               placeholder="Enter a message to display to users during maintenance"
               value={typeof maintenanceMessage === "string" ? maintenanceMessage : ""}

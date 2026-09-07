@@ -1,38 +1,32 @@
-import { Card, CardBody, Input, Button, Textarea, Image } from "@heroui/react";
+import { Card, CardBody, Button, Image } from "@heroui/react";
 import { BuildingOfficeIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useSetting } from "../hooks/useSettings";
 import { settingsService } from "../services/settingsService";
+import { EnhancedInput, EnhancedTextarea } from './ui/enhancedInput';
 
 export default function BrandingPanel() {
   // Individual setting hooks for reactive updates
   const { value: orgName, update: updateOrgName } = useSetting({
     key: "branding.organizationName",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: websiteUrl, update: updateWebsiteUrl } = useSetting({
     key: "branding.websiteUrl",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: contactEmail, update: updateContactEmail } = useSetting({
     key: "branding.contactEmail",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: description, update: updateDescription } = useSetting({
     key: "branding.description",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: logoLight, update: updateLogoLight } = useSetting({
     key: "branding.logoLight",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: logoDark, update: updateLogoDark } = useSetting({
     key: "branding.logoDark",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
   const { value: favicon, update: updateFavicon } = useSetting({
     key: "branding.favicon",
-    fallbackValue: "",
-  });
+    fallbackValue: "" });
 
   const handleSave = async () => {
     const settings: Record<string, unknown> = {};
@@ -82,7 +76,7 @@ export default function BrandingPanel() {
           </div>
 
           {/* Organization Name */}
-          <Input
+          <EnhancedInput
             label="Organization Name"
             placeholder="Enter your organization name"
             value={orgName ?? ""}
@@ -98,7 +92,7 @@ export default function BrandingPanel() {
           />
 
           {/* Website URL */}
-          <Input
+          <EnhancedInput
             label="Website URL"
             placeholder="https://your-website.com"
             value={websiteUrl ?? ""}
@@ -115,7 +109,7 @@ export default function BrandingPanel() {
           />
 
           {/* Contact Email */}
-          <Input
+          <EnhancedInput
             label="Contact Email"
             placeholder="contact@your-organization.com"
             value={contactEmail ?? ""}
@@ -132,7 +126,7 @@ export default function BrandingPanel() {
           />
 
           {/* Description */}
-          <Textarea
+          <EnhancedTextarea
             label="Description"
             placeholder="A short description of your organization"
             value={description ?? ""}

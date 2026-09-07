@@ -5,15 +5,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  Input,
-} from "@heroui/react";
+  Button } from "@heroui/react";
 import { KeyIcon, EyeIcon, EyeSlashIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "@heroui/react";
 import { toast } from "sonner";
 import { usersService } from "../../../services/usersService";
 import { parseZodErrors } from "../../../utils/errorHandlers";
 import type { User } from "../../../types/users";
+import { EnhancedInput } from '../../../components/ui/enhancedInput';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -24,8 +23,7 @@ interface ChangePasswordModalProps {
 export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordModalProps) {
   const [passwordForm, setPasswordForm] = useState({
     newPassword: "",
-    confirmPassword: "",
-  });
+    confirmPassword: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -68,8 +66,7 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
       setIsLoading(true);
       await usersService.adminResetUserPassword(user.id, {
         newPassword: passwordForm.newPassword,
-        confirmPassword: passwordForm.confirmPassword,
-      });
+        confirmPassword: passwordForm.confirmPassword });
       toast.success("Password changed successfully!");
       handleClose();
     } catch (error: unknown) {
@@ -111,7 +108,7 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
         </ModalHeader>
         <ModalBody>
           <form id="change-password-form" onSubmit={handleSubmit} className="space-y-4">
-            <Input
+            <EnhancedInput
               label="New Password"
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Enter new password"
@@ -156,7 +153,7 @@ export function ChangePasswordModal({ isOpen, onClose, user }: ChangePasswordMod
                 </div>
               }
             />
-            <Input
+            <EnhancedInput
               label="Confirm Password"
               type={isPasswordVisible ? "text" : "password"}
               placeholder="Confirm new password"

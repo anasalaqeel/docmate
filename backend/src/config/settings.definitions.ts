@@ -500,3 +500,10 @@ registerSetting({
   isPublic: false,
   transform: (value) => typeof value === "string" ? Number(value) : value,
 });
+
+registerSetting({
+  key: "ai.providerConfigs",
+  category: "ai",
+  description: "JSON string containing saved draft configurations for all providers",
+  isPublic: false,
+});

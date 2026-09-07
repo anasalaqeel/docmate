@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, type JSX } from 'react';
-import { Card, CardBody, Chip, Button, Input, Tabs, Tab, Divider } from '@heroui/react';
+import { Card, CardBody, Chip, Button, Tabs, Tab, Divider } from '@heroui/react';
 import EnhancedCodeEditor from './enhancedCodeEditor';
 import type { OpenApiSpec, OpenApiOperation, JsonSchema } from '../../types/docs';
 import { performApiTest } from '../../utils/proxyRequest';
+import { EnhancedInput } from './enhancedInput';
 
 interface EmbeddedOperationViewerProps {
   operationId: string; // OpenAPI operation ID like "GET_root" or "get-/"
@@ -218,12 +219,10 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
         headers: response.headers,
         data: response.data,
         url: response.url,
-        error: response.error,
-      });
+        error: response.error });
     } catch (error) {
       setTestResponse({
-        error: error instanceof Error ? error.message : 'Request failed',
-      });
+        error: error instanceof Error ? error.message : 'Request failed' });
     } finally {
       setIsTestLoading(false);
     }
@@ -238,8 +237,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
           const cleanPath = path.replace(/^\//, '').replace(/\//g, '_') || 'root';
           return {
             display: `${method.toUpperCase()} ${path}`,
-            operationId: op.operationId || `${method.toUpperCase()}_${cleanPath}`,
-          };
+            operationId: op.operationId || `${method.toUpperCase()}_${cleanPath}` };
         })
     ) : [];
 
@@ -383,7 +381,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                       {operation.parameters
                         ?.filter((p) => p.in === 'path')
                         .map((param) => (
-                          <Input
+                          <EnhancedInput
                             key={param.name}
                             label={param.name}
                             placeholder={param.description}
@@ -391,8 +389,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                             onChange={(e) =>
                               setTestRequest((prev) => ({
                                 ...prev,
-                                pathParams: { ...prev.pathParams, [param.name]: e.target.value },
-                              }))
+                                pathParams: { ...prev.pathParams, [param.name]: e.target.value } }))
                             }
                           />
                         ))}
@@ -408,7 +405,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                       {operation.parameters
                         ?.filter((p) => p.in === 'query')
                         .map((param) => (
-                          <Input
+                          <EnhancedInput
                             key={param.name}
                             label={param.name}
                             placeholder={param.description}
@@ -416,8 +413,7 @@ const EmbeddedOperationViewer = ({ operationId, spec, baseUrl }: EmbeddedOperati
                             onChange={(e) =>
                               setTestRequest((prev) => ({
                                 ...prev,
-                                queryParams: { ...prev.queryParams, [param.name]: e.target.value },
-                              }))
+                                queryParams: { ...prev.queryParams, [param.name]: e.target.value } }))
                             }
                           />
                         ))}

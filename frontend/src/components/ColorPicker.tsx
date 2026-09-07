@@ -1,6 +1,7 @@
 import React from "react";
-import { Input, Tooltip } from "@heroui/react";
+import { Tooltip } from "@heroui/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { EnhancedInput } from './ui/enhancedInput';
 
 // Simple hex color validation
 const isValidHexColor = (color: string): boolean => {
@@ -38,8 +39,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   isInvalid: externalInvalid,
   isDisabled,
   isAccentMode,
-  disabledMessage,
-}) => {
+  disabledMessage }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     onChange(newValue);
@@ -76,7 +76,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       </div>
       
       <div className="flex items-center gap-2">
-        <Input
+        <EnhancedInput
           value={value}
           onChange={handleInputChange}
           placeholder={placeholder}
@@ -90,8 +90,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           errorMessage={isInvalidFormat ? "Please enter a valid hex color (e.g., #ff5733 or #f53)" : error}
           classNames={{
             inputWrapper: (isDisabled && !isAccentMode) ? "bg-[var(--docmate-surface-alt)] border-dashed border-[var(--docmate-primary)]/30 cursor-default" : "",
-            input: (isDisabled && !isAccentMode) ? "cursor-default text-[var(--docmate-text-secondary)]" : "",
-          }}
+            input: (isDisabled && !isAccentMode) ? "cursor-default text-[var(--docmate-text-secondary)]" : "" }}
           startContent={
             <div
               className={`w-5 h-5 rounded-sm border border-default-300 relative overflow-hidden ${(isDisabled && !isAccentMode) ? "opacity-80" : ""}`}

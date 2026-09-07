@@ -1,13 +1,11 @@
 import {
-  Input,
-  Button,
-} from "@heroui/react";
+  Button } from "@heroui/react";
 import {
   MagnifyingGlassIcon,
   ShieldCheckIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
+  TrashIcon } from "@heroicons/react/24/outline";
 import type { RoleListOptions } from "../../../types/users";
+import { EnhancedInput } from '../../../components/ui/enhancedInput';
 
 interface RolesFiltersProps {
   filters: RoleListOptions;
@@ -20,8 +18,7 @@ export const RolesFilters = ({
   filters,
   onFiltersChange,
   activeFiltersCount,
-  onResetFilters,
-}: RolesFiltersProps) => {
+  onResetFilters }: RolesFiltersProps) => {
   const handleSearch = (search: string) => {
     onFiltersChange({ ...filters, search, page: 1 });
   };
@@ -30,7 +27,7 @@ export const RolesFilters = ({
 
   return (
     <div className="space-y-4 mb-6">
-      <Input
+      <EnhancedInput
         placeholder="Search roles..."
         value={filters.search || ""}
         onChange={(e) => handleSearch(e.target.value)}

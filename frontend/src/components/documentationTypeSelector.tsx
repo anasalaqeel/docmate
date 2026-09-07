@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Card, CardBody, RadioGroup, Radio, Input, Textarea, Button, Divider } from "@heroui/react";
+import { Card, CardBody, RadioGroup, Radio, Button, Divider } from "@heroui/react";
 import Switch from "./ui/Switch";
 import { DocumentTextIcon, CodeBracketIcon, PuzzlePieceIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import type { DocumentationType, Documentation } from "../types/docs";
 import styles from "../styles/documentationTypeSelector.module.css";
+import { EnhancedInput, EnhancedTextarea } from './ui/enhancedInput';
 
 interface DocumentationTypeSelectorProps {
   documentation: Documentation;
@@ -32,22 +33,19 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
       label: "Traditional Documentation",
       description: "Regular documentation with pages, content, and navigation",
       icon: DocumentTextIcon,
-      features: ["Rich text content", "Custom navigation", "Static pages", "Markdown support"],
-    },
+      features: ["Rich text content", "Custom navigation", "Static pages", "Markdown support"] },
     {
       value: "api" as DocumentationType,
       label: "API Documentation",
       description: "Pure API documentation with OpenAPI/Swagger specifications",
       icon: CodeBracketIcon,
-      features: ["OpenAPI 3.1 support", "Interactive API testing", "Schema validation", "Auto-generated docs"],
-    },
+      features: ["OpenAPI 3.1 support", "Interactive API testing", "Schema validation", "Auto-generated docs"] },
     {
       value: "mixed" as DocumentationType,
       label: "Mixed Documentation",
       description: "Combination of traditional docs and API specifications",
       icon: PuzzlePieceIcon,
-      features: ["Traditional pages", "API operations", "CRUD documentation", "Flexible structure"],
-    },
+      features: ["Traditional pages", "API operations", "CRUD documentation", "Flexible structure"] },
   ];
 
   const handleTypeChange = (value: string) => {
@@ -79,7 +77,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           <div className={styles.modalContent}>
             {/* Basic Information */}
             <div className="space-y-6 mb-8 mt-4">
-              <Input
+              <EnhancedInput
                 label="Title"
                 placeholder="Enter documentation title"
                 value={formData.title}
@@ -96,7 +94,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 }}
               />
 
-              <Textarea
+              <EnhancedTextarea
                 label="Description"
                 placeholder="Enter documentation description"
                 value={formData.description}
@@ -113,7 +111,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                 }}
               />
 
-              <Input
+              <EnhancedInput
                 label="Version"
                 placeholder="1.0.0"
                 value={formData.version}
@@ -191,7 +189,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                     <GlobeAltIcon className="w-5 h-5 text-[var(--docmate-primary)]" />
                     API Settings
                   </h4>
-                  <Input
+                  <EnhancedInput
                     label="Base URL"
                     placeholder="https://api.example.com/v1"
                     value={formData.baseUrl}
@@ -281,7 +279,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
                       <GlobeAltIcon className="w-5 h-5 text-[var(--docmate-primary)]" />
                       API Settings
                     </h4>
-                    <Input
+                    <EnhancedInput
                       label="Base URL"
                       placeholder="https://api.example.com/v1"
                       value={formData.baseUrl}
@@ -312,7 +310,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
   const contentBody = (
     <div className={isModal ? "p-0" : "p-6"}>
       <div className={styles.basicSettings}>
-        <Input 
+        <EnhancedInput 
           label="Title" 
           value={formData.title} 
           onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))} 
@@ -325,7 +323,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           }}
         />
 
-        <Textarea
+        <EnhancedTextarea
           label="Description"
           value={formData.description}
           onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
@@ -338,7 +336,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
           }}
         />
 
-        <Input
+        <EnhancedInput
           label="Version"
           value={formData.version}
           onChange={(e) => setFormData((prev) => ({ ...prev, version: e.target.value }))}
@@ -392,7 +390,7 @@ const DocumentationTypeSelector = ({ documentation, onUpdate, isEditing = false,
               <GlobeAltIcon className={styles.settingsIcon} />
               API Settings
             </h4>
-            <Input
+            <EnhancedInput
               label="Base URL"
               placeholder="https://api.example.com/v1"
               value={formData.baseUrl}

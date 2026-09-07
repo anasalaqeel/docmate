@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Input, Slider, Button } from "@heroui/react";
+import { Slider, Button } from "@heroui/react";
 import { PlusIcon, TrashIcon, CodeBracketIcon } from "@heroicons/react/24/outline";
+import { EnhancedInput } from './ui/enhancedInput';
 
 export interface GradientInputProps {
   label: string;
@@ -27,8 +28,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
   placeholder = "linear-gradient(...)",
   className = "",
   isDisabled,
-  disabledMessage,
-}) => {
+  disabledMessage }) => {
   const [internalMode, setInternalMode] = useState<'builder' | 'raw'>('builder');
   const [angle, setAngle] = useState(135);
   const [stops, setStops] = useState<GradientStop[]>([
@@ -196,7 +196,7 @@ const GradientInput: React.FC<GradientInputProps> = ({
       )}
 
       {internalMode === 'raw' ? (
-        <Input
+        <EnhancedInput
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}

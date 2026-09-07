@@ -1,6 +1,7 @@
-import { Input, Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { FaceSmileIcon } from "@heroicons/react/24/outline";
 import EmojiPicker from "emoji-picker-react";
+import { EnhancedInput } from './enhancedInput';
 
 interface EmojiPickerInputProps {
   label?: string;
@@ -36,14 +37,13 @@ const EmojiPickerInput = ({
   size = "md",
   isRequired = false,
   isInvalid = false,
-  errorMessage,
-}: EmojiPickerInputProps) => {
+  errorMessage }: EmojiPickerInputProps) => {
   const onEmojiClick = (emojiObject: any) => {
     onChange(emojiObject.emoji);
   };
 
   return (
-    <Input
+    <EnhancedInput
       label={label}
       labelPlacement={labelPlacement}
       placeholder={placeholder}
@@ -60,8 +60,7 @@ const EmojiPickerInput = ({
         input: `text-sm pr-12 text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50 ${classNames.input || ""}`,
         inputWrapper: `border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)] ${classNames.inputWrapper || ""}`,
         label: `text-[var(--docmate-text)] ${classNames.label || ""}`,
-        description: `text-[var(--docmate-text-secondary)] ${classNames.description || ""}`,
-      }}
+        description: `text-[var(--docmate-text-secondary)] ${classNames.description || ""}` }}
       endContent={
         <Popover placement="bottom-end" offset={10}>
           <PopoverTrigger>
@@ -79,8 +78,7 @@ const EmojiPickerInput = ({
             <EmojiPicker
               onEmojiClick={onEmojiClick}
               previewConfig={{
-                showPreview: false,
-              }}
+                showPreview: false }}
               searchPlaceholder="Search emojis..."
               height={350}
               width={320}

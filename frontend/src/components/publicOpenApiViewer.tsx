@@ -1,3 +1,4 @@
+import { EnhancedInput } from './ui/enhancedInput';
 import { useState, useEffect, useCallback } from 'react';
 import {
   Card,
@@ -11,7 +12,6 @@ import {
   AccordionItem,
   Code,
   Button,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
@@ -20,8 +20,7 @@ import {
   useDisclosure,
   Tooltip,
   Select,
-  SelectItem,
-} from '@heroui/react';
+  SelectItem } from '@heroui/react';
 import EnhancedCodeEditor from './ui/enhancedCodeEditor';
 import MarkdownRenderer from './ui/markdownRenderer';
 import type { OpenApiSpec, Documentation, OpenApiOperation } from '../types/docs';
@@ -516,7 +515,7 @@ print(response.json())`;
                         <div className={styles.paramSection}>
                           <h4>Path Parameters</h4>
                           {selectedOperation.operation.parameters?.filter((p) => p.in === 'path').map((param) => (
-                            <Input
+                            <EnhancedInput
                               key={param.name}
                               label={param.name}
                               description={param.description}
@@ -536,7 +535,7 @@ print(response.json())`;
                         <div className={styles.paramSection}>
                           <h4>Query Parameters</h4>
                           {selectedOperation.operation.parameters?.filter((p) => p.in === 'query').map((param) => (
-                            <Input
+                            <EnhancedInput
                               key={param.name}
                               label={param.name}
                               description={param.description}

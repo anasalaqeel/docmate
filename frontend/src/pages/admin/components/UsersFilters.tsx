@@ -1,21 +1,19 @@
 import { useEffect } from "react";
 import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
 import {
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Button,
-} from "@heroui/react";
+  Button } from "@heroui/react";
 import type { Key } from "react";
 import {
   MagnifyingGlassIcon,
   ShieldCheckIcon,
   TrashIcon,
-  FunnelIcon,
-} from "@heroicons/react/24/outline";
+  FunnelIcon } from "@heroicons/react/24/outline";
 import type { Role, UserListOptions } from "../../../types/users";
+import { EnhancedInput } from '../../../components/ui/enhancedInput';
 
 interface UsersFiltersProps {
   filters: UserListOptions;
@@ -76,8 +74,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
       sortBy: filters.sortBy || "createdAt",
       sortOrder: filters.sortOrder || "desc",
       roleIds: [],
-      status: undefined,
-    });
+      status: undefined });
   };
 
   const hasActiveFilters = activeFiltersCount > 0;
@@ -85,7 +82,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
   return (
     <div className="mb-6">
       {/* Search Bar - Full Width */}
-      <Input
+      <EnhancedInput
         placeholder="Search users by name, username, email, or phone..."
         onChange={handleSearchChange}
         startContent={<MagnifyingGlassIcon className="w-4 h-4 opacity-40" />}
@@ -96,8 +93,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
         classNames={{
           inputWrapper:
             "border-[var(--docmate-border-color)] hover:border-[var(--docmate-text-secondary)] focus-within:border-[var(--docmate-primary)]! bg-[var(--docmate-surface-alt)]",
-          input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50",
-        }}
+          input: "text-[var(--docmate-text)] placeholder:text-[var(--docmate-text-secondary)]/50" }}
       />
 
       {/* Filters Section - Improved Design */}
@@ -127,8 +123,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
                       : filters.status === "inactive"
                         ? "var(--docmate-error)"
                         : "var(--docmate-text-secondary)",
-                  borderColor: filters.status ? "transparent" : "var(--docmate-border-color)",
-                }}
+                  borderColor: filters.status ? "transparent" : "var(--docmate-border-color)" }}
                 endContent={<FunnelIcon className="w-3 h-3 opacity-40" />}
               >
                 {filters.status
@@ -174,8 +169,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
                   borderColor:
                     filters.roleIds && filters.roleIds.length > 0
                       ? "transparent"
-                      : "var(--docmate-border-color)",
-                }}
+                      : "var(--docmate-border-color)" }}
                 endContent={<FunnelIcon className="w-3 h-3 opacity-40" />}
               >
                 {filters.roleIds?.length || 0} Selected
@@ -202,8 +196,7 @@ export const UsersFilters = ({ filters, roles, onFiltersChange }: UsersFiltersPr
           className="mt-4 flex items-center justify-between px-4 py-2 rounded-lg"
           style={{
             background: "rgba(var(--docmate-primary-rgb), 0.05)",
-            border: "1px solid rgba(var(--docmate-primary-rgb), 0.1)",
-          }}
+            border: "1px solid rgba(var(--docmate-primary-rgb), 0.1)" }}
         >
           <div className="flex items-center gap-2 text-sm">
             <ShieldCheckIcon className="w-4 h-4 text-[var(--docmate-primary)]" />

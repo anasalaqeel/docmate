@@ -5,15 +5,13 @@ import {
   Tabs,
   Tab,
   Button,
-  Input,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Spinner,
-} from "@heroui/react";
+  Spinner } from "@heroui/react";
 import {
   BuildingOfficeIcon,
   PaintBrushIcon,
@@ -23,8 +21,7 @@ import {
   AdjustmentsHorizontalIcon,
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
+  SparklesIcon } from "@heroicons/react/24/outline";
 import { settingsService } from "../../services/settingsService";
 import BrandingPanel from "../../components/BrandingPanel";
 import ThemePanel from "../../components/ThemePanel";
@@ -33,50 +30,44 @@ import AuthenticationPanel from "../../components/AuthenticationPanel";
 import GeneralPanel from "../../components/GeneralPanel";
 import AdvancedPanel from "../../components/AdvancedPanel";
 import AiPanel from "../../components/AiPanel";
+import { EnhancedInput } from "../../components/ui/enhancedInput";
 
 const TABS = [
   {
     id: "branding",
     label: "Branding",
     icon: <BuildingOfficeIcon className="w-4 h-4" />,
-    content: <BrandingPanel />,
-  },
+    content: <BrandingPanel /> },
   {
     id: "theme",
     label: "Theme",
     icon: <PaintBrushIcon className="w-4 h-4" />,
-    content: <ThemePanel />,
-  },
+    content: <ThemePanel /> },
   {
     id: "security",
     label: "Security",
     icon: <ShieldCheckIcon className="w-4 h-4" />,
-    content: <SecurityPanel />,
-  },
+    content: <SecurityPanel /> },
   {
     id: "authentication",
     label: "Authentication",
     icon: <KeyIcon className="w-4 h-4" />,
-    content: <AuthenticationPanel />,
-  },
+    content: <AuthenticationPanel /> },
   {
     id: "ai",
     label: "AI Assistant",
     icon: <SparklesIcon className="w-4 h-4" />,
-    content: <AiPanel />,
-  },
+    content: <AiPanel /> },
   {
     id: "general",
     label: "General",
     icon: <CogIcon className="w-4 h-4" />,
-    content: <GeneralPanel />,
-  },
+    content: <GeneralPanel /> },
   {
     id: "advanced",
     label: "Advanced",
     icon: <AdjustmentsHorizontalIcon className="w-4 h-4" />,
-    content: <AdvancedPanel />,
-  },
+    content: <AdvancedPanel /> },
 ] as const;
 
 import styles from "../../styles/settingsPage.module.css";
@@ -97,8 +88,7 @@ function SettingsPageContent() {
     setLayoutData({
       navbarType: "admin",
       sidebar: <AdminSidebar />,
-      showAdminButton: false,
-    });
+      showAdminButton: false });
     return () => resetLayoutData();
   }, [setLayoutData, resetLayoutData]);
 
@@ -172,7 +162,7 @@ function SettingsPageContent() {
         />
 
         <CardBody className="p-6">
-          <Input
+          <EnhancedInput
             placeholder="Search settings..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -196,8 +186,7 @@ function SettingsPageContent() {
               tabList: "gap-6 w-full relative rounded-none p-0 border-b border-[var(--docmate-border-color)] px-6",
               cursor: "w-full bg-[var(--docmate-primary)]",
               tab: "max-w-fit px-0 h-14",
-              tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)] text-[var(--docmate-text-secondary)]",
-            }}
+              tabContent: "group-data-[selected=true]:text-[var(--docmate-primary)] text-[var(--docmate-text-secondary)]" }}
           >
             {TABS.map((tab) => (
               <Tab
