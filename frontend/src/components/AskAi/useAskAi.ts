@@ -124,60 +124,56 @@ export function useAskAi({ docId, pageId, variant }: UseAskAiOptions) {
           const lines = buffer.split("\n");
           buffer = lines.pop() ?? "";
 
+          let newTokens = "";
+
           for (const rawLine of lines) {
             const line = rawLine.trim();
             if (!line) continue;
 
-            if (line.startsWith("0:")) {
-              let token = "";
+            if (line.startsWith("data: ")) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === "[DONE]") break streamLoop;
+              
               try {
-                token = JSON.parse(line.slice(2));
-              } catch {
-                token = line.slice(2);
-              }
-              if (token) {
-                accumulatedText += token;
-                setPhase("typing");
-                setMessages((prev) =>
-                  prev.map((m) => (m.id === assistantId ? { ...m, content: accumulatedText } : m))
-                );
-              }
-            } else if (line.startsWith("data: ")) {
-              const dataContent = line.slice(6).trim();
-              if (dataContent === "[DONE]") {
-                break streamLoop;
-              }
-              let token = "";
-              try {
-                const parsed = JSON.parse(dataContent);
-                token =
+                const parsed = JSON.parse(dataStr);
+                newTokens +=
+                  (parsed.type === "text-delta" && typeof parsed.delta === "string" ? parsed.delta : "") ||
                   parsed.delta?.content ||
                   parsed.choices?.[0]?.delta?.content ||
                   parsed.content ||
                   "";
               } catch {
-                token = dataContent;
+                newTokens += dataStr;
               }
-              if (token) {
-                accumulatedText += token;
-                setPhase("typing");
-                setMessages((prev) =>
-                  prev.map((m) => (m.id === assistantId ? { ...m, content: accumulatedText } : m))
-                );
+            } else if (line.startsWith("0:")) {
+              try {
+                newTokens += JSON.parse(line.slice(2));
+              } catch {
+                newTokens += line.slice(2);
               }
+            } else if (line.startsWith("3:")) {
+              let errorMsg = "Generation failed";
+              try { errorMsg = JSON.parse(line.slice(2)); } catch { errorMsg = line.slice(2); }
+              throw new Error(errorMsg);
             } else if (line.startsWith("d:") || line.startsWith("e:")) {
               try {
                 const parsed = JSON.parse(line.slice(2));
                 if (parsed.finishReason === "error" || parsed.error) {
-                  setPhase("error");
-                  setError(parsed.error || "Generation stopped unexpectedly");
-                  setMessages((prev) => prev.filter((m) => !(m.id === assistantId && !m.content.trim())));
-                  return;
+                  throw new Error(parsed.error || "Generation stopped unexpectedly");
                 }
-              } catch {
-                // ignore
+              } catch (e) {
+                if (e instanceof SyntaxError) continue;
+                throw e; // Re-throw actual errors so the outer catch can handle them
               }
             }
+          }
+
+          if (newTokens) {
+            accumulatedText += newTokens;
+            setPhase("typing");
+            setMessages((prev) =>
+              prev.map((m) => (m.id === assistantId ? { ...m, content: accumulatedText } : m))
+            );
           }
         }
 

@@ -55,7 +55,9 @@ async function handleAsk(c: Context, docId: number, input: AskAiInput) {
         "Cache-Control": "no-cache, no-transform",
         "X-Accel-Buffering": "no",
       },
-      onError: () => "An error occurred while generating the answer.",
+      onError: (err) => {
+        return err instanceof Error ? err.message : String(err);
+      },
     });
   } catch (error) {
     if (error instanceof AskAiError) {
