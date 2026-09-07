@@ -6,10 +6,16 @@ import { SparklesIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import { settingsService } from "../services/settingsService";
 import { testAskAiConnection, fetchProviderModels } from "../services/aiService";
 
+interface EndpointPreset {
+  label: string;
+  url: string;
+}
+
 interface ProviderPreset {
   key: string;
   label: string;
   defaultBaseUrl: string;
+  endpoints?: EndpointPreset[];
   keyRequired: boolean;
   showBaseUrl: boolean;
   hint: string;
@@ -132,6 +138,10 @@ const PROVIDERS: ProviderPreset[] = [
     key: "zai",
     label: "Z.ai (GLM / Zhipu)",
     defaultBaseUrl: "https://api.z.ai/api/paas/v4",
+    endpoints: [
+      { label: "Pay-As-You-Go", url: "https://api.z.ai/api/paas/v4" },
+      { label: "Coding Plan (Subscription)", url: "https://api.z.ai/api/coding/paas/v4" },
+    ],
     keyRequired: true,
     showBaseUrl: true,
     hint: "Z.ai GLM models (GLM-4 Flash, GLM-4 Plus). OpenAI-compatible endpoint.",
@@ -445,16 +455,38 @@ export default function AiPanel() {
           </div>
 
           {activeProvider.showBaseUrl && (
-            <Input
-              label="API Base URL"
-              placeholder={activeProvider.defaultBaseUrl || "http://localhost:11434"}
-              value={baseUrl}
-              onValueChange={setBaseUrl}
-              variant="bordered"
-              isDisabled={!aiEnabled}
-              description="Server URL. The /v1 API path is added automatically when missing."
-              classNames={inputClassNames}
-            />
+            <div className="space-y-3">
+              {activeProvider.endpoints && activeProvider.endpoints.length > 0 && (
+                <Select
+                  label="Endpoint"
+                  placeholder="Select a predefined endpoint..."
+                  selectedKeys={activeProvider.endpoints.some((e) => e.url === baseUrl) ? [baseUrl] : []}
+                  onSelectionChange={(keys) => {
+                    const selected = Array.from(keys)[0];
+                    if (typeof selected === "string") setBaseUrl(selected);
+                  }}
+                  variant="bordered"
+                  isDisabled={!aiEnabled}
+                  description="Choose a predefined endpoint or enter a custom one below."
+                >
+                  {activeProvider.endpoints.map((ep) => (
+                    <SelectItem key={ep.url} textValue={ep.label}>
+                      {ep.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+              )}
+              <Input
+                label="API Base URL"
+                placeholder={activeProvider.defaultBaseUrl || "http://localhost:11434"}
+                value={baseUrl}
+                onValueChange={setBaseUrl}
+                variant="bordered"
+                isDisabled={!aiEnabled}
+                description="Server URL. The /v1 API path is added automatically when missing."
+                classNames={inputClassNames}
+              />
+            </div>
           )}
 
           <Input
