@@ -621,11 +621,11 @@ class VersionService {
   }
 
   /**
-   * Safety net for the destructive markdown ingestion (which wipes all sidebar
-   * items, pages and specs): snapshot the current content first, then prune so
-   * only the newest few backups are kept.
+   * Safety net before anything destructively replaces the live content
+   * (external ingestion, version restore): snapshot the current content
+   * first, then prune so only the newest few backups are kept.
    */
-  async createIngestionBackup(documentationId: number): Promise<VersionSummary | null> {
+  async createAutoBackup(documentationId: number): Promise<VersionSummary | null> {
     const itemCount = await db.query.sidebarItems.findMany({
       where: and(
         eq(sidebarItems.documentationId, documentationId),

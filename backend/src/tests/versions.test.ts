@@ -325,6 +325,10 @@ describe("Documentation versions", () => {
   });
 
   test("forking a version restores content with IDs preserved and attachments intact", async () => {
+    const backupsBefore = (await versionService.listVersions(testDoc.id, true)).filter(
+      (v) => v.isBackup
+    ).length;
+
     const listRes = await app.request(`/v1/docs/${testDoc.id}/versions`, {
       method: "GET",
       headers: { Cookie: cookie },
@@ -340,6 +344,12 @@ describe("Documentation versions", () => {
     const body = await fork.json();
     expect(body.success).toBe(true);
     expect(body.data.restoredItems).toBe(3);
+
+    // The overwritten draft was saved as an automatic backup
+    const backupsAfter = (await versionService.listVersions(testDoc.id, true)).filter(
+      (v) => v.isBackup
+    ).length;
+    expect(backupsAfter).toBe(backupsBefore + 1);
 
     // Live tree matches the snapshot: original content, Changelog gone
     const liveItems = await db.query.sidebarItems.findMany({
@@ -369,6 +379,13 @@ describe("Documentation versions", () => {
       .values({ sidebarItemId: newItem.id, slug: "after-fork", content: {} })
       .returning();
     expect(newPage.id).toBeGreaterThan(introPage.id);
+
+    // The admin editor payload carries the versions summary for its header
+    const adminDoc = await (
+      await app.request(`/v1/docs/${testDoc.id}`, { headers: { Cookie: cookie } })
+    ).json();
+    expect(Array.isArray(adminDoc.data.versions)).toBe(true);
+    expect(adminDoc.data.versions.some((v: any) => v.isDefault)).toBe(true);
   });
 
   test("markdown ingestion creates pruned backups excluded from the public list", async () => {

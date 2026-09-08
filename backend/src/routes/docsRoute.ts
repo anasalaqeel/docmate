@@ -352,6 +352,7 @@ docsRoute.get("/:id", authorize(["docs:read"]), async (c) => {
         ...doc,
         sidebarItems: hierarchicalTree, // Return tree structure
         sidebarItemsFlat: doc.sidebarItems, // Keep flat array for backward compatibility
+        versions: await versionService.listVersions(docId, false), // For the editor's version context
       },
     });
   } catch (error) {
@@ -1251,10 +1252,12 @@ docsRoute.post(
     try {
       const docId = parseInt(c.req.param("id"));
       const versionId = parseInt(c.req.param("versionId"));
+      // Fork overwrites the live draft — snapshot it first so nothing is lost
+      await versionService.createAutoBackup(docId);
       const result = await versionService.forkToLive(docId, versionId);
       return c.json({
         success: true,
-        message: `Version restored to live content (${result.restoredItems} items, ${result.restoredPages} pages)`,
+        message: `Version restored to live content (${result.restoredItems} items, ${result.restoredPages} pages). The previous draft was saved as an automatic backup.`,
         data: result,
       });
     } catch (error) {

@@ -233,7 +233,7 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
             forkModal.onOpen();
           }}
         >
-          Restore to live
+          Edit this version
         </Button>
         <Button
           size="sm"
@@ -274,8 +274,10 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
               <p className="text-sm text-[var(--docmate-text-secondary)]">
                 Cutting a version freezes the current content — structure, pages and API spec —
                 into an immutable snapshot. Flag one version as <strong>stable</strong> and readers
-                get it at the plain doc URL, while you keep editing the live draft. Restore copies
-                a snapshot back over the live content so it can be fixed and re-cut.
+                get it at the plain doc URL, while you keep editing the live draft. To change an
+                older version, use <strong>Edit this version</strong>: it copies the snapshot back
+                over the live draft (backing up your current draft first), you edit, then cut a
+                new version.
               </p>
             </div>
             <Button
@@ -314,8 +316,8 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
               <h3 className="text-lg font-semibold">Automatic backups</h3>
             </div>
             <p className="text-sm text-[var(--docmate-text-secondary)] mb-2">
-              Created automatically before external ingestion replaces the content. The newest five
-              are kept.
+              Created automatically before ingestion or a version restore replaces the content.
+              The newest five are kept.
             </p>
             {backups.map(renderVersionRow)}
           </CardBody>
@@ -418,15 +420,15 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
               <ModalHeader className="flex-col gap-1 pb-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <ExclamationTriangleIcon className="w-5 h-5 text-warning" />
-                  Restore v{forkTarget?.version} to live?
+                  Edit v{forkTarget?.version}?
                 </h3>
               </ModalHeader>
               <ModalBody>
                 <p className="text-sm">
-                  This <strong>overwrites the current live content</strong> (structure, pages and
-                  API spec) with the v{forkTarget?.version} snapshot. Pages that were added after
-                  this version was cut will be deleted, and the stable version readers see is not
-                  affected until you cut and flag a new one.
+                  This replaces the current live draft (structure, pages and API spec) with the v
+                  {forkTarget?.version} snapshot — your current draft is saved as an automatic
+                  backup first, and pages added after this version was cut are removed. The
+                  version readers see is not affected until you cut a new version when done.
                 </p>
               </ModalBody>
               <ModalFooter className="border-t border-divider pt-4">
@@ -434,7 +436,7 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
                   Cancel
                 </Button>
                 <Button color="warning" onPress={handleFork} isLoading={busyId === forkTarget?.id} className="font-medium">
-                  Overwrite live content
+                  Edit this version
                 </Button>
               </ModalFooter>
             </>

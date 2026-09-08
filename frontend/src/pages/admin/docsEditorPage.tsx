@@ -316,6 +316,9 @@ const DocsEditorPage = () => {
     );
   }
 
+  // The editor always edits the live draft; this is the version readers get
+  const stableVersion = doc.versions?.find((v) => v.isDefault);
+
   // Helper function to render folder options for parent selection
   const renderFolderOptions = (items: SidebarItem[], level = 0) => {
     const options: React.ReactElement[] = [];
@@ -383,8 +386,13 @@ const DocsEditorPage = () => {
             {doc.type || "mixed"}
           </Chip>
           <Chip variant="flat" size="sm" className="font-medium shadow-sm">
-            v{doc.version}
+            Next (draft)
           </Chip>
+          {stableVersion && (
+            <Chip color="success" variant="flat" size="sm" className="font-medium shadow-sm">
+              Stable v{stableVersion.version}
+            </Chip>
+          )}
           <ExportButton 
             documentId={doc.id!} 
             documentTitle={doc.title} 

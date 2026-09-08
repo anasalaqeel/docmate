@@ -151,7 +151,7 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
 
     // replaceSidebarContent wipes all existing items, pages and specs —
     // snapshot the current content first so the ingestion stays reversible.
-    await versionService.createIngestionBackup(doc.id);
+    await versionService.createAutoBackup(doc.id);
 
     const createdItems = await importService.replaceSidebarContent(doc.id, parsedSidebarItems);
 
