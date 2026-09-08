@@ -450,6 +450,12 @@ describe("Documentation versions", () => {
     expect(JSON.stringify(next.data.sidebarItems)).toContain("Draft ahead.");
     const stableAfter = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
     expect(JSON.stringify(stableAfter.data.sidebarItems)).toContain("Release 3.0.0 corrected.");
+
+    // Publish rejections surface as client errors, not 500s
+    const badLabel = await push("# Intro", { version: "has space" });
+    expect(badLabel.status).toBe(400);
+    const reserved = await push("# Intro", { version: "next" });
+    expect(reserved.status).toBe(400);
   });
 
   test("deleting a version removes it and leaves no dangling default", async () => {

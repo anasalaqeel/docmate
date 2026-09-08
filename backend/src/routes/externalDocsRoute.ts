@@ -5,7 +5,7 @@ import { documentations, sidebarItems, openApiSpecs, users } from "../db/schema"
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import importService from "../services/import.service";
-import versionService from "../services/version.service";
+import versionService, { VersionError } from "../services/version.service";
 import { buildSidebarFromMarkdownFiles } from "../utils/markdownSidebar";
 
 type Variables = {
@@ -184,6 +184,10 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
         : "Documentation updated successfully",
     });
   } catch (error) {
+    // Version publishing rejects bad labels etc. — surface those as client errors
+    if (error instanceof VersionError) {
+      return c.json({ error: error.message }, error.status as 400 | 404 | 409);
+    }
     console.error("Markdown ingestion error:", error);
     return c.json({ error: "Internal Server Error" }, 500);
   }

@@ -196,6 +196,10 @@ class VersionService {
       .set({ snapshot, changelog })
       .where(eq(documentationVersions.id, existing.id))
       .returning();
+    if (!updated) {
+      // The version was deleted between the lookup and the update
+      throw new VersionError("Version not found", 404);
+    }
 
     if (options.isDefault && !existing.isDefault) {
       await this.setDefault(documentationId, existing.id, true);
