@@ -41,11 +41,12 @@ function collectMarkdownFiles(dir, baseDir) {
  * @param {string} options.url - Docmate base URL, e.g. "https://docs.example.com"
  * @param {string} options.token - Ingestion token from the documentation's admin panel
  * @param {string} options.dir - Path to the docs folder to sync
- * @param {string} [options.version] - Publish the ingested content under this
- *   version label: a new label cuts a new version, an existing label re-cuts
- *   its snapshot (correction push). Omit to push into the live draft only.
+ * @param {string} [options.version] - Target a specific version: a new label
+ *   cuts a new version snapshot, an existing label re-cuts it. Omit to sync
+ *   the pushed content to the live draft and to the stable version (when one
+ *   exists), so corrections reach readers.
  * @param {boolean} [options.isDefault] - Mark the published version as the
- *   stable version readers get (the "release" flag)
+ *   stable version readers get (use with version to release a new version)
  * @param {string} [options.changelog] - Short note stored with the version
  * @param {boolean} [options.isPublic] - Override the public visibility
  * @param {typeof fetch} [options.fetchImpl] - Injectable fetch, for testing

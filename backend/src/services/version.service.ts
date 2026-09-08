@@ -189,23 +189,58 @@ class VersionService {
       });
     }
 
-    const snapshot = await this.buildSnapshot(documentationId);
-    const changelog = options.changelog?.trim() || existing.changelog;
-    const [updated] = await db
-      .update(documentationVersions)
-      .set({ snapshot, changelog })
-      .where(eq(documentationVersions.id, existing.id))
-      .returning();
-    if (!updated) {
-      // The version was deleted between the lookup and the update
-      throw new VersionError("Version not found", 404);
-    }
+    const updated = await this.recutFromLive(existing, options.changelog);
 
     if (options.isDefault && !existing.isDefault) {
       await this.setDefault(documentationId, existing.id, true);
     }
 
+    return updated;
+  }
+
+  /**
+   * Re-cut a version's snapshot from the current live content, optionally
+   * updating its changelog (an absent changelog keeps the existing one).
+   */
+  private async recutFromLive(
+    row: typeof documentationVersions.$inferSelect,
+    changelog?: string | null
+  ): Promise<VersionSummary> {
+    const snapshot = await this.buildSnapshot(row.documentationId);
+    const [updated] = await db
+      .update(documentationVersions)
+      .set({ snapshot, changelog: changelog?.trim() || row.changelog })
+      .where(eq(documentationVersions.id, row.id))
+      .returning();
+    if (!updated) {
+      // The version was deleted between the lookup and the update
+      throw new VersionError("Version not found", 404);
+    }
     return this.toSummary(updated);
+  }
+
+  /**
+   * Re-cut the stable (default) version's snapshot from the current live
+   * content — used by ingestion pushes without an explicit version, so a
+   * plain sync reaches readers of the stable version. Returns null when no
+   * default exists (readers are already on live content).
+   */
+  async applyToDefaultVersion(
+    documentationId: number,
+    changelog?: string | null
+  ): Promise<VersionSummary | null> {
+    const stable = await db.query.documentationVersions.findFirst({
+      where: and(
+        eq(documentationVersions.documentationId, documentationId),
+        eq(documentationVersions.isDefault, true),
+        eq(documentationVersions.isBackup, false)
+      ),
+    });
+    if (!stable) {
+      return null;
+    }
+
+    return this.recutFromLive(stable, changelog);
   }
 
   /**

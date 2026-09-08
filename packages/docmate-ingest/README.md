@@ -68,23 +68,25 @@ Replace:
 
 Run this every time your docs change. It always **replaces everything** in Docmate with what's in your folder — always point it at your whole docs folder, never just the changed file.
 
-## Publishing versions (CI releases)
+## Versioning (CI releases)
 
-By default a push only updates the **live draft** — readers of a stable version see nothing change. Three workflows:
+By default a push syncs **both** the live draft **and** the stable version readers see — so typo fixes and corrections go out immediately when you run it.
 
-**1. Draft push (work in progress)** — no version flags:
+**1. Sync (corrections to the current version)** — no version flags:
 
 ```bash
 npx docmate-ingest --dir ./docs
 ```
 
-**2. New release** — publish a new version and make it the stable one readers get:
+If a stable version exists (say 2.1.0), its snapshot is re-cut from the pushed content; readers get the fixes right away.
+
+**2. New release** — cut a new version and make it the stable one readers get:
 
 ```bash
-npx docmate-ingest --dir ./docs --version 2.1.0 --default --changelog "New endpoints"
+npx docmate-ingest --dir ./docs --version 2.2.0 --default --changelog "New endpoints"
 ```
 
-**3. Correction to an existing version** — push with a label that already exists; its snapshot is re-cut from the pushed content (idempotent, safe to re-run in CI):
+**3. Fix a specific version** — push with that version's label; only that snapshot is re-cut:
 
 ```bash
 npx docmate-ingest --dir ./docs --version 2.1.0 --changelog "Fixed typos"
@@ -113,7 +115,7 @@ Set `DOCMATE_URL` and `DOCMATE_TOKEN` as secrets in your repo settings first.
 | `--url` | `DOCMATE_URL` | Yes | Your Docmate site's address |
 | `--token` | `DOCMATE_TOKEN` | Yes | The token from Step 1 |
 | `--dir` | — | Yes | Folder with your `.md` files |
-| `--version` | — | No | Publish the pushed content under this version label (new label = new version, existing = re-cut) |
+| `--version` | — | No | Target a specific version (new label = new version, existing = re-cut); omit to sync the stable version readers see |
 | `--default` | — | No | Make the published version the stable one readers get |
 | `--changelog` | — | No | Short note stored with the published version |
 | `--public` | — | No | Makes the docs public |

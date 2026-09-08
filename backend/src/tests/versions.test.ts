@@ -440,20 +440,29 @@ describe("Documentation versions", () => {
     const v3 = await (await app.request(`/v1/docs/public/${testDoc.id}/versions/3.0.0`)).json();
     expect(JSON.stringify(v3.data.sidebarItems)).toContain("corrected");
 
-    // Draft-only push (no version): live content moves, versions do not
+    // Sync push (no version): the stable version is re-cut so corrections
+    // reach readers — no new version rows are created, and the changelog
+    // note lands on the stable version
     const before = await versionService.listVersions(testDoc.id, false);
-    await push("# Intro\n\nDraft ahead.");
+    const sync = await push("# Intro\n\nSynced correction.", { changelog: "Sync note" });
+    expect(sync.status).toBe(200);
+    const syncBody = await sync.json();
+    expect(syncBody.version).toMatchObject({ version: "3.0.0", isDefault: true });
     const after = await versionService.listVersions(testDoc.id, false);
     expect(after.length).toBe(before.length);
+    expect(after.find((v) => v.version === "3.0.0")?.changelog).toBe("Sync note");
 
     const next = await (await app.request(`/v1/docs/public/${testDoc.id}/versions/next`)).json();
-    expect(JSON.stringify(next.data.sidebarItems)).toContain("Draft ahead.");
+    expect(JSON.stringify(next.data.sidebarItems)).toContain("Synced correction.");
     const stableAfter = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
-    expect(JSON.stringify(stableAfter.data.sidebarItems)).toContain("Release 3.0.0 corrected.");
+    expect(stableAfter.data.viewedVersion.version).toBe("3.0.0");
+    expect(JSON.stringify(stableAfter.data.sidebarItems)).toContain("Synced correction.");
 
     // Publish rejections surface as client errors, not 500s
     const badLabel = await push("# Intro", { version: "has space" });
     expect(badLabel.status).toBe(400);
+    const emptyLabel = await push("# Intro", { version: "" });
+    expect(emptyLabel.status).toBe(400);
     const reserved = await push("# Intro", { version: "next" });
     expect(reserved.status).toBe(400);
   });

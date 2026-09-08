@@ -155,14 +155,17 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
 
     const createdItems = await importService.replaceSidebarContent(doc.id, parsedSidebarItems);
 
-    // Without `version` the push lands in the live draft only ("next") —
-    // what readers see at the stable URL is unaffected.
-    const published = version
-      ? await versionService.publishVersion(doc.id, version, {
-          isDefault: isDefault === true,
-          changelog: changelog ?? null,
-        })
-      : null;
+    // With `version` the push targets that specific label (presence check,
+    // not truthiness: an empty label must fail validation, not degrade to a
+    // sync). Without it, the push syncs the live draft and, when a stable
+    // version exists, re-cuts it so the correction reaches readers.
+    const published =
+      version !== undefined
+        ? await versionService.publishVersion(doc.id, version, {
+            isDefault: isDefault === true,
+            changelog: changelog ?? null,
+          })
+        : await versionService.applyToDefaultVersion(doc.id, changelog ?? null);
 
     await db
       .update(documentations)
@@ -180,7 +183,9 @@ externalDocs.post("/ingest-markdown", zValidator("json", markdownIngestionSchema
         ? { id: published.id, version: published.version, isDefault: published.isDefault }
         : null,
       message: published
-        ? `Documentation ingested and published as version ${published.version}`
+        ? version !== undefined
+          ? `Documentation ingested and published as version ${published.version}`
+          : `Documentation ingested and applied to stable version ${published.version}`
         : "Documentation updated successfully",
     });
   } catch (error) {
