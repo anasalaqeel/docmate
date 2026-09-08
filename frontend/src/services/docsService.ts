@@ -176,6 +176,8 @@ export interface CreateVersionRequest {
   version: string;
   changelog?: string;
   isDefault?: boolean;
+  /** Re-cut an existing label's snapshot instead of failing with 409 */
+  overwrite?: boolean;
 }
 
 export interface UpdateVersionRequest {

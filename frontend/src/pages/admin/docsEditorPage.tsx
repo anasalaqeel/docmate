@@ -409,6 +409,7 @@ const DocsEditorPage = () => {
           />
           <Button
             onPress={() => openCreateModal()}
+            isDisabled={!!doc.ingestionEnabled}
             className={`${styles.buttonPrimary} font-medium px-4`}
             startContent={
               <svg
@@ -435,6 +436,7 @@ const DocsEditorPage = () => {
               size="sm"
               isIconOnly
               onPress={() => openCreateModal()}
+              isDisabled={!!doc.ingestionEnabled}
               className={`${styles.buttonPrimary} rounded-xl`}
             >
               <svg
@@ -480,6 +482,7 @@ const DocsEditorPage = () => {
                 </div>
               }
             >
+              <div className="relative">
               {selectedItem ? (
                 selectedItem.type === "page" && selectedItem.page ? (
                   <PageEditor
@@ -562,6 +565,25 @@ const DocsEditorPage = () => {
                   </CardBody>
                 </Card>
               )}
+
+              {doc.ingestionEnabled && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl p-4 bg-[var(--docmate-surface)]/70 backdrop-blur-[1.5px]">
+                  <div
+                    className="max-w-md flex flex-col items-center gap-2 text-center bg-[var(--docmate-surface)] border border-[var(--docmate-border-color)] rounded-2xl px-6 py-5 shadow-lg"
+                    role="note"
+                  >
+                    <span className="text-2xl">🔒</span>
+                    <p className="font-semibold">
+                      Content is managed by external ingestion — manual editing is disabled.
+                    </p>
+                    <p className="text-sm text-[var(--docmate-text-secondary)]">
+                      Update docs via the ingestion API, or disable ingestion in Settings to edit
+                      here.
+                    </p>
+                  </div>
+                </div>
+              )}
+              </div>
             </Tab>
 
             {(doc.type === "api" || doc.type === "mixed") && (
@@ -681,6 +703,7 @@ const DocsEditorPage = () => {
               <VersionManager
                 docId={parseInt(id!)}
                 currentLabel={doc.version}
+                contentLocked={!!doc.ingestionEnabled}
                 onContentChanged={() => fetchDocumentation(true)}
               />
             </Tab>

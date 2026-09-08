@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, type Context, type Next } from "hono";
 import { authorize } from "../middlewares/authorize";
 import db from "../db";
 import {
@@ -24,6 +24,59 @@ import importService from "../services/import.service";
 import versionService, { VersionError } from "../services/version.service";
 
 const docsRoute = new Hono();
+
+// Content of an ingestion-managed documentation is owned by the external
+// source: manual content mutations are rejected so a later sync can't
+// silently clobber panel edits. Doc settings and version management stay
+// editable; disabling ingestion in Settings re-enables manual editing.
+const MUTATING_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
+
+const blockIngestionManagedContent = async (c: Context, next: Next) => {
+  if (!MUTATING_METHODS.has(c.req.method)) {
+    return next();
+  }
+
+  const reject = () =>
+    c.json(
+      {
+        success: false,
+        message:
+          "This documentation's content is managed by external ingestion. Disable ingestion in Settings to edit it manually.",
+      },
+      409
+    );
+
+  const docId = parseInt(c.req.param("id") ?? c.req.param("docId"));
+  if (Number.isInteger(docId)) {
+    const doc = await db.query.documentations.findFirst({
+      where: eq(documentations.id, docId),
+      columns: { ingestionEnabled: true },
+    });
+    return doc?.ingestionEnabled ? reject() : next();
+  }
+
+  // Page saves are addressed by pageId — resolve the owning documentation
+  const pageId = parseInt(c.req.param("pageId"));
+  if (Number.isInteger(pageId)) {
+    const [row] = await db
+      .select({ ingestionEnabled: documentations.ingestionEnabled })
+      .from(pages)
+      .innerJoin(sidebarItems, eq(pages.sidebarItemId, sidebarItems.id))
+      .innerJoin(documentations, eq(sidebarItems.documentationId, documentations.id))
+      .where(eq(pages.id, pageId))
+      .limit(1);
+    return row?.ingestionEnabled ? reject() : next();
+  }
+
+  return next();
+};
+
+docsRoute.use("/:id/sidebar-items/*", blockIngestionManagedContent);
+docsRoute.use("/:docId/sidebar-items/*", blockIngestionManagedContent);
+docsRoute.use("/:id/openapi", blockIngestionManagedContent);
+docsRoute.use("/:id/openapi/*", blockIngestionManagedContent);
+docsRoute.use("/:id/versions/:versionId/fork", blockIngestionManagedContent);
+docsRoute.use("/pages/:pageId", blockIngestionManagedContent);
 
 // Get public documentations (no auth required) - supports ?q= search across doc, pages, and specs
 docsRoute.get("/public", async (c) => {
@@ -1154,25 +1207,34 @@ docsRoute.get("/:id/versions", authorize(["docs:read"]), async (c) => {
   }
 });
 
-// Cut a new version: freeze the current live content into a snapshot
+// Cut a new version: freeze the current live content into a snapshot.
+// With overwrite=true an existing label is re-cut in place instead (publishing
+// a fix back into the same version); without it a duplicate label is a 409.
 docsRoute.post("/:id/versions", authorize(["docs:update"]), async (c) => {
   try {
     const docId = parseInt(c.req.param("id"));
     const user = c.get("user");
-    const { version, changelog, isDefault } = await c.req.json();
+    const { version, changelog, isDefault, overwrite } = await c.req.json();
 
     if (!version || typeof version !== "string") {
       return c.json({ success: false, message: "Version label is required" }, 400);
     }
 
-    const created = await versionService.createVersion(docId, {
-      version,
-      changelog: typeof changelog === "string" ? changelog : null,
-      isDefault: isDefault === true,
-      createdBy: user?.id ?? null,
-    });
+    const created =
+      overwrite === true
+        ? await versionService.publishVersion(docId, version, {
+            isDefault: isDefault === true,
+            changelog: typeof changelog === "string" ? changelog : null,
+            createdBy: user?.id ?? null,
+          })
+        : await versionService.createVersion(docId, {
+            version,
+            changelog: typeof changelog === "string" ? changelog : null,
+            isDefault: isDefault === true,
+            createdBy: user?.id ?? null,
+          });
 
-    return c.json({ success: true, data: created }, 201);
+    return c.json({ success: true, data: created }, overwrite === true ? 200 : 201);
   } catch (error) {
     if (error instanceof VersionError) {
       return c.json({ success: false, message: error.message }, error.status as 400 | 404 | 409);

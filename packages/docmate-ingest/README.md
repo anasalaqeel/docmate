@@ -19,6 +19,8 @@ Tokens are created in the **admin panel** (where you manage docs), not the publi
 3. Find the **External API Ingestion** section and turn on **Enable Ingestion**.
 4. Click **Generate** to create a token, then copy it. You'll need it in Step 3.
 
+While ingestion is enabled, the project's content is **read-only in the admin panel** — your repo's docs folder is the source of truth, so manual edits can't conflict with syncs. Version management (cutting versions, setting the stable one) stays available in the panel, and you can turn ingestion off any time to edit content by hand.
+
 ## Step 2: Name your files so they show up in the right order
 
 Put a number and a dash in front of each file/folder name. The number sets the order. The number is removed from the title you see in Docmate.

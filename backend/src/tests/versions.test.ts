@@ -12,6 +12,7 @@ import {
   rolePermissions,
   userRoles,
   documentations,
+  documentationVersions,
   sidebarItems,
   pages,
   uploads,
@@ -336,6 +337,13 @@ describe("Documentation versions", () => {
     const list = await listRes.json();
     const v1 = list.data.find((v: any) => v.version === "1.0.0");
 
+    // Fork is a manual content mutation — ingestion must be disabled for it
+    // (this also exercises the documented escape hatch)
+    await db
+      .update(documentations)
+      .set({ ingestionEnabled: false })
+      .where(eq(documentations.id, testDoc.id));
+
     const fork = await app.request(`/v1/docs/${testDoc.id}/versions/${v1.id}/fork`, {
       method: "POST",
       headers: { Cookie: cookie },
@@ -344,6 +352,12 @@ describe("Documentation versions", () => {
     const body = await fork.json();
     expect(body.success).toBe(true);
     expect(body.data.restoredItems).toBe(3);
+
+    // Re-enable ingestion for the ingestion tests that follow
+    await db
+      .update(documentations)
+      .set({ ingestionEnabled: true })
+      .where(eq(documentations.id, testDoc.id));
 
     // The overwritten draft was saved as an automatic backup
     const backupsAfter = (await versionService.listVersions(testDoc.id, true)).filter(
@@ -386,6 +400,37 @@ describe("Documentation versions", () => {
     ).json();
     expect(Array.isArray(adminDoc.data.versions)).toBe(true);
     expect(adminDoc.data.versions.some((v: any) => v.isDefault)).toBe(true);
+  });
+
+  test("cutting with overwrite re-cuts an existing version in place", async () => {
+    // 1.0.0 is the stable default at this point; live content includes the
+    // "After Fork" page added after it was cut
+    const duplicate = await app.request(`/v1/docs/${testDoc.id}/versions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ version: "1.0.0" }),
+    });
+    expect(duplicate.status).toBe(409);
+
+    const res = await app.request(`/v1/docs/${testDoc.id}/versions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ version: "1.0.0", changelog: "Hotfix re-cut", overwrite: true }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.data.version).toBe("1.0.0");
+    expect(body.data.changelog).toBe("Hotfix re-cut");
+    expect(body.data.isDefault).toBe(true); // default status preserved
+
+    const rows = (await versionService.listVersions(testDoc.id, true)).filter(
+      (v) => v.version === "1.0.0"
+    );
+    expect(rows.length).toBe(1);
+
+    // readers get the re-cut snapshot at the plain URL
+    const stable = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
+    expect(JSON.stringify(stable.data.sidebarItems)).toContain("After Fork");
   });
 
   test("markdown ingestion creates pruned backups excluded from the public list", async () => {
@@ -482,6 +527,102 @@ describe("Documentation versions", () => {
     expect(emptyLabel.status).toBe(400);
     const reserved = await push("# Intro", { version: "next" });
     expect(reserved.status).toBe(400);
+  });
+
+  test("manual admin edits replaced by a later ingestion survive in the automatic backup", async () => {
+    // State: stable 3.0.0, live = last synced content. An admin edits a page
+    // manually in the editor (a plain live-table write, same as PUT /pages).
+    const pageItem = (await db.query.sidebarItems.findMany({
+      where: eq(sidebarItems.documentationId, testDoc.id),
+    })).find((i) => i.type === "page");
+    const page = await db.query.pages.findFirst({
+      where: eq(pages.sidebarItemId, pageItem!.id),
+    });
+    await db
+      .update(pages)
+      .set({ content: { description: "# Manual admin edit" } })
+      .where(eq(pages.id, page!.id));
+
+    // Later, a fresh ingestion push arrives
+    const res = await app.request("/v1/external-docs/ingest-markdown", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${ingestionToken}` },
+      body: JSON.stringify({
+        files: [{ path: "1-intro.md", content: "# Intro\n\nIngest replaces manual edits." }],
+      }),
+    });
+    expect(res.status).toBe(200);
+
+    // The manual edit is gone from the live draft and from the stable version
+    const next = await (await app.request(`/v1/docs/public/${testDoc.id}/versions/next`)).json();
+    expect(JSON.stringify(next.data.sidebarItems)).toContain("Ingest replaces manual edits.");
+    expect(JSON.stringify(next.data.sidebarItems)).not.toContain("Manual admin edit");
+    const stable = await (await app.request(`/v1/docs/public/${testDoc.id}`)).json();
+    expect(JSON.stringify(stable.data.sidebarItems)).not.toContain("Manual admin edit");
+
+    // ...but the automatic backup taken just before the replace preserves it
+    const backups = (await versionService.listVersions(testDoc.id, true)).filter(
+      (v) => v.isBackup
+    );
+    const newest = await db.query.documentationVersions.findFirst({
+      where: eq(documentationVersions.id, backups[0].id),
+    });
+    expect(JSON.stringify(newest!.snapshot)).toContain("Manual admin edit");
+  });
+
+  test("ingestion-managed docs reject manual content mutations but allow version management", async () => {
+    // doc.ingestionEnabled is true here
+    const blockedItem = await app.request(`/v1/docs/${testDoc.id}/sidebar-items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ title: "Blocked Item", type: "page" }),
+    });
+    expect(blockedItem.status).toBe(409);
+    // Assert the guard's message, not just the status: the create route has its
+    // own 409 branch (duplicate name) that must not be mistaken for the guard
+    expect(((await blockedItem.json()) as any).message).toContain(
+      "managed by external ingestion"
+    );
+
+    const blockedSpec = await app.request(`/v1/docs/${testDoc.id}/openapi`, {
+      method: "DELETE",
+      headers: { Cookie: cookie },
+    });
+    expect(blockedSpec.status).toBe(409);
+
+    const item = await db.query.sidebarItems.findFirst({
+      where: eq(sidebarItems.documentationId, testDoc.id),
+      with: { page: true },
+    });
+    const blockedPage = await app.request(`/v1/docs/pages/${item!.page!.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ content: { description: "blocked" } }),
+    });
+    expect(blockedPage.status).toBe(409);
+
+    // Version management is not content editing — still allowed
+    const versions = await app.request(`/v1/docs/${testDoc.id}/versions`, {
+      method: "GET",
+      headers: { Cookie: cookie },
+    });
+    expect(versions.status).toBe(200);
+
+    // Disabling ingestion unlocks manual editing (the escape hatch)
+    await db
+      .update(documentations)
+      .set({ ingestionEnabled: false })
+      .where(eq(documentations.id, testDoc.id));
+    const allowedItem = await app.request(`/v1/docs/${testDoc.id}/sidebar-items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ title: "Manual Item", type: "page" }),
+    });
+    expect(allowedItem.status).toBe(201);
+    await db
+      .update(documentations)
+      .set({ ingestionEnabled: true })
+      .where(eq(documentations.id, testDoc.id));
   });
 
   test("deleting a version removes it and leaves no dangling default", async () => {

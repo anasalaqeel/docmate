@@ -37,13 +37,15 @@ interface VersionManagerProps {
   docId: number;
   /** The documentation's own version label; used to pre-fill the first cut */
   currentLabel?: string;
+  /** Ingestion-managed docs reject content mutations — hide "Edit this version" */
+  contentLocked?: boolean;
   /** Called after content-affecting operations (fork) so the editor refreshes */
   onContentChanged: () => void;
 }
 
 const LABEL_PATTERN = /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,49}$/;
 
-const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManagerProps) => {
+const VersionManager = ({ docId, currentLabel, contentLocked, onContentChanged }: VersionManagerProps) => {
   const [versions, setVersions] = useState<DocVersionSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -88,6 +90,9 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
   const backups = versions.filter((v) => v.isBackup);
   const labelInvalid =
     !newLabel.trim() || !LABEL_PATTERN.test(newLabel.trim()) || newLabel.trim().toLowerCase() === "next";
+  // When the label already exists, cutting re-cuts (overwrites) that snapshot
+  const labelExists =
+    !labelInvalid && releases.some((v) => v.version === newLabel.trim());
 
   const openCutModal = () => {
     // First cut pre-fills with the doc's own label (typically "1.0.0") so the
@@ -110,6 +115,7 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
         version: newLabel.trim(),
         changelog: newChangelog.trim() || undefined,
         isDefault: newIsDefault,
+        overwrite: labelExists || undefined,
       });
       if (response.success) {
         cutModal.onClose();
@@ -227,7 +233,8 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
           size="sm"
           variant="flat"
           startContent={<ArrowUturnLeftIcon className="w-4 h-4" />}
-          isDisabled={busyId === version.id}
+          isDisabled={busyId === version.id || contentLocked}
+          title={contentLocked ? "Disabled while ingestion manages this content" : undefined}
           onPress={() => {
             setForkTarget(version);
             forkModal.onOpen();
@@ -279,6 +286,13 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
                 over the live draft (backing up your current draft first), you edit, then cut a
                 new version.
               </p>
+              {contentLocked && (
+                <p className="text-sm text-[var(--docmate-text-secondary)]">
+                  Ingestion currently manages this content, so &quot;Edit this version&quot; is
+                  unavailable — push updated content with the ingestion API, or disable ingestion
+                  in Settings to edit manually.
+                </p>
+              )}
             </div>
             <Button
               color="primary"
@@ -372,6 +386,12 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
                       label: "text-[var(--docmate-text)]",
                     }}
                   />
+                  {labelExists && (
+                    <p className="text-sm text-warning">
+                      v{newLabel.trim()} already exists — cutting will replace its snapshot with
+                      the current content.
+                    </p>
+                  )}
                   <Switch
                     isSelected={newIsDefault}
                     onValueChange={setNewIsDefault}
@@ -398,7 +418,7 @@ const VersionManager = ({ docId, currentLabel, onContentChanged }: VersionManage
                   isLoading={isCreating}
                   className="font-medium"
                 >
-                  Cut version
+                  {labelExists ? `Overwrite v${newLabel.trim()}` : "Cut version"}
                 </Button>
               </ModalFooter>
             </>
