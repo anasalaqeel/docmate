@@ -58,6 +58,9 @@ jobs:
       PORT: 8000
       DATABASE_URL: postgres://postgres:password@localhost:5432/docmate_test
       AUTH_JWT_SECRET: ci-testing-jwt-secret-key-32-chars-long!
+      SEED_ADMIN_EMAIL: admin@example.com
+      SEED_ADMIN_USERNAME: admin
+      SEED_ADMIN_PASSWORD: AdminPassword123!
       APP_URL: http://localhost:8000
       CORS_ORIGINS: http://localhost:80
 
