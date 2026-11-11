@@ -1,6 +1,6 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { FaceSmileIcon } from "@heroicons/react/24/outline";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { type EmojiClickData, Theme } from "emoji-picker-react";
 import { EnhancedInput } from './enhancedInput';
 
 interface EmojiPickerInputProps {
@@ -38,7 +38,7 @@ const EmojiPickerInput = ({
   isRequired = false,
   isInvalid = false,
   errorMessage }: EmojiPickerInputProps) => {
-  const onEmojiClick = (emojiObject: any) => {
+  const onEmojiClick = (emojiObject: EmojiClickData) => {
     onChange(emojiObject.emoji);
   };
 
@@ -82,7 +82,7 @@ const EmojiPickerInput = ({
               searchPlaceholder="Search emojis..."
               height={350}
               width={320}
-              theme={document.documentElement.classList.contains('dark') ? 'dark' as any : 'light' as any}
+              theme={document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT}
             />
           </PopoverContent>
         </Popover>

@@ -188,7 +188,11 @@ export const RolesTable = ({
           renderCell={renderCell}
           sortBy={sortBy}
           sortOrder={sortOrder}
-          onSort={(key) => onSort(key as any)}
+          onSort={(key) => {
+            if (key === "name" || key === "createdAt") {
+              onSort(key);
+            }
+          }}
           isLoading={isLoading}
           emptyContent={emptyContent}
           ariaLabel="Roles table"

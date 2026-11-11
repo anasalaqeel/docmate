@@ -27,6 +27,14 @@ By participating in this project, you agree to abide by the [Code of Conduct](./
 -   **Frontend:** React 19, Vite, Tailwind CSS, HeroUI.
 -   **Backend:** Bun.js, Hono, Drizzle ORM, PostgreSQL.
 
+### Root Workspace Scripts
+```bash
+bun run dev              # Run both frontend & backend concurrently
+bun run test             # Run backend test suite
+bun run lint             # Run frontend ESLint checks
+bun run build            # Build frontend production bundle
+```
+
 ### Backend Scripts
 ```bash
 bun run dev              # Start dev server
@@ -40,6 +48,16 @@ bun run dev              # Start Vite dev server
 bun run build            # Build for production
 bun run lint             # Run ESLint
 ```
+
+## Continuous Integration & Releases
+
+- **CI Pipeline (`.github/workflows/ci.yml`)**: Automatically triggers on every push and pull request to `main`. It verifies:
+  1. Frontend ESLint checks & TypeScript production build.
+  2. Backend automated test suite with a live PostgreSQL service container.
+  3. Backend and Frontend Docker image build sanity.
+- **Releases (`.github/workflows/release.yml`)**:
+  - Automatically runs quality checks, creates a GitHub Release with auto-generated release notes/changelog, and builds & pushes Docker images to GitHub Container Registry (`ghcr.io`).
+  - Can be triggered by pushing a version tag (e.g., `git tag v1.0.0 && git push origin v1.0.0`) or manually via the GitHub Actions **Run workflow** button (specifying the version).
 
 ## Coding Standards
 -   Use Prettier for formatting.

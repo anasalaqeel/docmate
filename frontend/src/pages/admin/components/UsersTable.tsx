@@ -73,7 +73,7 @@ export const UsersTable = ({
   };
 
   const getUserRoleNames = (user: User): string[] => {
-    return user.userRoles?.map((ur: any) => ur.role.name) || [];
+    return user.userRoles?.map((ur) => ur.role.name) || [];
   };
 
   const getRoleStyle = (roleName: string): { bg: string; text: string } => {
@@ -274,7 +274,11 @@ export const UsersTable = ({
           renderCell={renderCell}
           sortBy={sortBy}
           sortOrder={sortOrder}
-          onSort={(key) => onSort(key as any)}
+          onSort={(key) => {
+            if (key === "name" || key === "email" || key === "createdAt") {
+              onSort(key);
+            }
+          }}
           isLoading={isLoading}
           emptyContent={emptyContent}
           ariaLabel="Users table"

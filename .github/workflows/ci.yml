@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (Lint & Build)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: bun install --frozen-lockfile
+
+      - name: Run ESLint
+        working-directory: ./frontend
+        run: bun run lint
+
+      - name: Run Typecheck & Build
+        working-directory: ./frontend
+        run: bun run build
+
+  backend:
+    name: Backend (Tests & Database)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: docmate_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      PORT: 8000
+      DATABASE_URL: postgres://postgres:password@localhost:5432/docmate_test
+      AUTH_JWT_SECRET: ci-testing-jwt-secret-key-32-chars-long!
+      APP_URL: http://localhost:8000
+      CORS_ORIGINS: http://localhost:80
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: bun install --frozen-lockfile
+
+      - name: Push Database Schema
+        working-directory: ./backend
+        run: bun run drizzle:push
+
+      - name: Seed Database
+        working-directory: ./backend
+        run: bun run drizzle:seed
+
+      - name: Run Backend Tests
+        working-directory: ./backend
+        run: bun test
+
+  docker:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: docmate-backend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Frontend Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false
+          tags: docmate-frontend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

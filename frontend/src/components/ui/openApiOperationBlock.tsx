@@ -61,7 +61,7 @@ interface OpenApiOperationBlockProps {
   summary?: string;
   description?: string;
   parameters?: Parameter[];
-  responses?: any;
+  responses?: OpenApiOperation['responses'];
   tags?: string[];
   operationId_openapi?: string;
   deprecated?: boolean;
@@ -199,7 +199,7 @@ const OpenApiOperationBlock = ({
     setIsEditing(false);
   };
 
-  const getMethodColor = (method: string) => {
+  const getMethodColor = (method: string): 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' => {
     switch (method.toUpperCase()) {
       case 'GET': return 'success';
       case 'POST': return 'primary';
@@ -303,7 +303,7 @@ const OpenApiOperationBlock = ({
         <div className="flex items-center justify-between p-4 bg-[var(--docmate-surface-alt)]/80 dark:bg-[var(--docmate-code-bg)]/80 border-b border-[var(--docmate-border-color)]/50 dark:border-[var(--docmate-code-border)]/50">
           <div className="flex items-center gap-3">
             <Chip 
-              color={getMethodColor(operation.method) as any} 
+              color={getMethodColor(operation.method)} 
               size="md" 
               variant="flat" 
               className="font-bold uppercase"

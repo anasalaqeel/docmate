@@ -81,7 +81,7 @@ const UsersListPage = () => {
         setTotal(0);
         setTotalPages(1);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Failed to fetch users:", error);
       setUsers([]);
       setTotal(0);
@@ -97,7 +97,8 @@ const UsersListPage = () => {
     try {
       const rolesData = await usersService.getAllRoles();
       setRoles(Array.isArray(rolesData) ? rolesData : []);
-    } catch (error: any) {
+    } catch (error) {
+      console.error("Failed to fetch roles:", error);
       setRoles([]);
       toast.error("Unable to load roles");
     }

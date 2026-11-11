@@ -42,16 +42,21 @@ export const THEME_DEFAULTS = {
 
 export type ThemeSettings = typeof THEME_DEFAULTS;
 
-export const getThemeFromSettings = (settings: any[]): ThemeSettings => {
-  const getVal = (key: string, fallback: any) => {
-    const s = settings.find((s) => s.key === key);
+export interface SettingItem {
+  key: string;
+  value?: unknown;
+}
+
+export const getThemeFromSettings = (settings: SettingItem[]): ThemeSettings => {
+  const getVal = <T>(key: string, fallback: T): T => {
+    const s = settings.find((item) => item.key === key);
     if (!s || s.value === undefined || s.value === null) return fallback;
     
     // Handle string booleans from backend if any
     if (typeof fallback === 'boolean') {
-      return s.value === 'true' || s.value === true;
+      return (s.value === 'true' || s.value === true) as unknown as T;
     }
-    return s.value;
+    return s.value as T;
   };
 
   return {

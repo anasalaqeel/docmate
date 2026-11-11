@@ -1,11 +1,19 @@
 {
   "name": "docmate",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "bun --parallel dev:backend dev:frontend",
     "dev:backend": "bun run --cwd backend dev",
     "dev:frontend": "bun run --cwd frontend dev",
     "db:push": "bun run --cwd backend drizzle:push",
-    "db:seed": "bun run --cwd backend drizzle:seed"
+    "db:seed": "bun run --cwd backend drizzle:seed",
+    "test:backend": "bun run --cwd backend test",
+    "test": "bun run test:backend",
+    "lint:frontend": "bun run --cwd frontend lint",
+    "lint": "bun run lint:frontend",
+    "build:frontend": "bun run --cwd frontend build",
+    "build": "bun run build:frontend",
+    "release": "bash scripts/release.sh"
   }
 }

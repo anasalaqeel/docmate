@@ -28,8 +28,14 @@ const ParameterSchema = z.object({
 const ResponseSchema = z.record(
   z.string(),
   z.object({
-    description: z.string(),
-    content: z.record(z.string(), z.unknown()).optional(),
+    description: z.string().optional(),
+    content: z.record(
+      z.string(),
+      z.object({
+        schema: z.record(z.string(), z.unknown()).optional(),
+        example: z.unknown().optional(),
+      })
+    ).optional(),
   })
 );
 

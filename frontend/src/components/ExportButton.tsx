@@ -82,7 +82,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
       const filename = `${sanitizedTitle}-export.${format === "markdown" ? "zip" : format}`;
 
       if (format === "json") {
-        const jsonData = await httpService.get<any>(exportUrl);
+        const jsonData = await httpService.get<unknown>(exportUrl);
         const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json" });
         downloadFile(blob, filename);
         toast.success("JSON data exported successfully!");

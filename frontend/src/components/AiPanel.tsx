@@ -168,7 +168,11 @@ export default function AiPanel() {
         const savedTokens = getVal("ai.maxOutputTokens");
         const confStr = getVal("ai.providerConfigs");
         let parsedConf = {};
-        try { parsedConf = confStr ? JSON.parse(String(confStr)) : {}; } catch {}
+        try {
+          parsedConf = confStr ? JSON.parse(String(confStr)) : {};
+        } catch (e) {
+          console.error("Failed to parse providerConfigs", e);
+        }
         setProviderConfigs(parsedConf);
         setTokensInput(typeof savedTokens === "number" && savedTokens > 0 ? String(savedTokens) : "1024");
         setIsLoading(false);

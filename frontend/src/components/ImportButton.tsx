@@ -4,10 +4,18 @@ import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { EnhancedButton } from "./ui/enhancedButton";
 import httpService from "../services/httpService";
+import type { Documentation } from "../types/docs";
+
+interface ImportResponseData {
+  createdItems?: number;
+  document?: Documentation;
+  data?: ImportResponseData;
+  [key: string]: unknown;
+}
 
 interface ImportButtonProps {
   documentId?: number;
-  onImportSuccess?: (document: Record<string, unknown> | any) => void;
+  onImportSuccess?: (document: Documentation) => void;
   size?: "sm" | "md" | "lg";
   variant?: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | "ghost";
   className?: string;
@@ -67,7 +75,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
         ? `/docs/${documentId}/import`
         : `/docs/import`;
 
-      const result = await httpService.uploadFile<any>(importUrl, file);
+      const result = await httpService.uploadFile<ImportResponseData>(importUrl, file);
       
       // The backend wraps the response data in a 'data' property
       const importData = result.data || result;

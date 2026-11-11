@@ -44,7 +44,7 @@ const TypographySettings: React.FC<TypographySettingsProps> = ({ data, onChange 
         
         if (key === "fontFamily") {
            // Cascade if matching or default
-           const updates: any = { fontFamily: newVal };
+           const updates: Partial<typeof THEME_DEFAULTS.typography> = { fontFamily: newVal };
            if (data.headingFont === data.fontFamily || !data.headingFont || data.headingFont === 'system-ui') {
              updates.headingFont = newVal;
            }

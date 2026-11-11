@@ -1,9 +1,10 @@
 {
   "name": "docmate-backend",
+  "version": "1.0.0",
   "scripts": {
     "start": "bun run index.ts",
     "dev": "bun run --watch index.ts",
-    "test": "bun run src/tests/run-tests.ts",
+    "test": "bun test",
     "test:security": "bun test src/tests/security.test.ts",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",
