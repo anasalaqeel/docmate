@@ -56,7 +56,7 @@ bun run lint             # Run ESLint
   2. Backend automated test suite with a live PostgreSQL service container.
   3. Backend and Frontend Docker image build sanity.
 - **Releases (`.github/workflows/release.yml`)**:
-  - Automatically runs quality checks, creates a GitHub Release with auto-generated release notes/changelog, and builds & pushes Docker images to GitHub Container Registry (`ghcr.io`).
+  - Automatically runs quality checks, creates a GitHub Release with auto-generated release notes/changelog, and builds & pushes Docker images to Docker Hub (`anasalaqeel/docmate-*`) and GitHub Container Registry (`ghcr.io`). Publishing to Docker Hub requires the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
   - Can be triggered by pushing a version tag (e.g., `git tag v1.0.0 && git push origin v1.0.0`) or manually via the GitHub Actions **Run workflow** button (specifying the version).
 
 ## Coding Standards

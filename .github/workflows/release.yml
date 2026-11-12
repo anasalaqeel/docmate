@@ -142,9 +142,7 @@ jobs:
 
       - name: Set Image Prefix & Metadata
         run: |
-          DOCKERHUB_USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
           OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          echo "DOCKERHUB_USER=${DOCKERHUB_USER:-$OWNER}" >> $GITHUB_ENV
           echo "GHCR_OWNER=ghcr.io/$OWNER" >> $GITHUB_ENV
           echo "TAG=${{ needs.create-release.outputs.release_tag }}" >> $GITHUB_ENV
           echo "IS_PRERELEASE=${{ needs.create-release.outputs.is_prerelease }}" >> $GITHUB_ENV
@@ -171,7 +169,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.DOCKERHUB_USER }}/docmate-backend
+            ${{ secrets.DOCKERHUB_USERNAME }}/docmate-backend
             ${{ env.GHCR_OWNER }}/docmate-backend
           tags: |
             type=raw,value=${{ env.TAG }}
@@ -195,7 +193,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.DOCKERHUB_USER }}/docmate-frontend
+            ${{ secrets.DOCKERHUB_USERNAME }}/docmate-frontend
             ${{ env.GHCR_OWNER }}/docmate-frontend
           tags: |
             type=raw,value=${{ env.TAG }}

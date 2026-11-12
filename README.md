@@ -131,53 +131,103 @@ Open `http://localhost:5173` in your browser.
 
 ---
 
-## Running with Docker (Recommended)
+## Quick Start with Docker
 
-The easiest way to get Docmate up and running is using Docker Compose.
+Docmate runs as three containers (frontend, backend, PostgreSQL). Choose how you want to get it.
 
-### Prerequisites
+**Requirement:** [Docker](https://docs.docker.com/get-docker/) with Docker Compose.
 
-- [Docker](https://docs.docker.com/get-docker/) with Docker Compose
-
-### 1. Set up Environment Variables
-
-Create a `.env` file (from a clone: `cp .env.example .env`, otherwise download it):
-
-```bash
-curl -o .env https://raw.githubusercontent.com/anasalaqeel/docmate/main/.env.example
-```
-
-Edit `.env` and set at minimum:
-- `POSTGRES_PASSWORD` — a strong database password
-- `AUTH_JWT_SECRET` — a secure random string for JWT signing
-- `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME`, `SEED_ADMIN_PASSWORD` — initial admin credentials
-
-### 2. Start the Containers
+### Option 1: Clone and build
 
 ```bash
 git clone https://github.com/anasalaqeel/docmate.git
 cd docmate
+cp .env.example .env    # then edit .env (see Configuration below)
 docker compose up -d
 ```
 
-The images are built from source on the first run.
+### Option 2: Use the Docker Hub images
 
-### 3. Access the Application
+No source code needed. Prebuilt images are published as
+[`anasalaqeel/docmate-backend`](https://hub.docker.com/r/anasalaqeel/docmate-backend) and
+[`anasalaqeel/docmate-frontend`](https://hub.docker.com/r/anasalaqeel/docmate-frontend).
 
-- **Frontend**: `http://localhost` (or your `FRONTEND_PORT`)
-- **Backend API**: `http://localhost/v1`
-- **Swagger UI**: `http://localhost/v1/docs`
+1. Download the example environment file and edit it (see Configuration below):
 
-> On the first run, the backend container automatically handles database schema synchronization.
-> To seed an initial admin user, set `SEED_DATABASE=true` in your `.env`.
+   ```bash
+   curl -o .env https://raw.githubusercontent.com/anasalaqeel/docmate/main/.env.example
+   ```
 
-### Custom Ports
+2. Save this as `docker-compose.yml` in the same folder:
 
-Set `FRONTEND_PORT` in your `.env` (default `80`). The backend is only reachable through the frontend's `/v1` proxy.
+   ```yaml
+   services:
+     database:
+       image: postgres:18-alpine
+       restart: unless-stopped
+       environment:
+         POSTGRES_USER: ${POSTGRES_USER:-postgres}
+         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+         POSTGRES_DB: ${POSTGRES_DB:-docmate}
+       volumes:
+         - docmate-db-data:/var/lib/postgresql/data
+       healthcheck:
+         test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+         interval: 5s
+         timeout: 5s
+         retries: 5
 
-### Custom API URL for Frontend
+     backend:
+       image: anasalaqeel/docmate-backend:latest
+       restart: unless-stopped
+       env_file: .env
+       environment:
+         - PORT=8000
+         - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-docmate}
+         - NODE_ENV=production
+       depends_on:
+         database:
+           condition: service_healthy
 
-To use a different backend URL when building:
+     frontend:
+       image: anasalaqeel/docmate-frontend:latest
+       restart: unless-stopped
+       ports:
+         - "${FRONTEND_PORT:-80}:80"
+       depends_on:
+         - backend
+
+   volumes:
+     docmate-db-data:
+   ```
+
+3. Start it:
+
+   ```bash
+   docker compose up -d
+   ```
+
+### Configuration
+
+Set at least these values in `.env`:
+
+| Variable | Description |
+| -------- | ----------- |
+| `POSTGRES_PASSWORD` | A strong database password |
+| `AUTH_JWT_SECRET` | A random secret used to sign JWTs |
+| `CORS_ORIGINS` | The URL you open the app at (default `http://localhost:3000`) |
+| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_USERNAME`, `SEED_ADMIN_PASSWORD` | Initial admin account |
+
+The full list of variables is in [Configuration Variables](#configuration-variables).
+
+### Open the app
+
+- **App:** `http://localhost:3000` (the `FRONTEND_PORT` set in `.env`)
+- **API:** `http://localhost:3000/v1`
+
+The database schema is synchronized automatically on first start. The admin account is created when `SEED_DATABASE=true` is set in `.env`.
+
+To use a different backend URL when building from source:
 
 ```bash
 docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
@@ -369,19 +419,6 @@ curl -X POST http://localhost:8000/v1/external-docs/ingest-markdown \
 | `401`  | Missing or invalid ingestion token               |
 | `403`  | Ingestion is disabled for this documentation     |
 | `500`  | Internal server error                            |
-
----
-
-## Publishing to Docker Hub
-
-Images are published automatically by the [Release workflow](.github/workflows/release.yml) when a `v*` tag is pushed:
-
-```bash
-git tag v1.0.2
-git push origin v1.0.2
-```
-
-It requires the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
 
 ---
 
