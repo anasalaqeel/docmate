@@ -16,7 +16,7 @@ services:
       retries: 5
 
   backend:
-    image: ${DOCMATE_BACKEND_IMAGE:-ghcr.io/anasalaqeel/docmate-backend:latest}
+    image: ${DOCMATE_BACKEND_IMAGE:-anasalaqeel/docmate-backend:latest}
     container_name: docmate-backend
     restart: unless-stopped
     env_file: .env
@@ -37,7 +37,7 @@ services:
       - ./backend-logs:/app/logs
 
   frontend:
-    image: ${DOCMATE_FRONTEND_IMAGE:-ghcr.io/anasalaqeel/docmate-frontend:latest}
+    image: ${DOCMATE_FRONTEND_IMAGE:-anasalaqeel/docmate-frontend:latest}
     container_name: docmate-frontend
     restart: unless-stopped
     ports:
