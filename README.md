@@ -141,10 +141,10 @@ The easiest way to get Docmate up and running is using Docker Compose.
 
 ### 1. Set up Environment Variables
 
-Copy the example environment file and update the values:
+Create a `.env` file (from a clone: `cp .env.example .env`, otherwise download it):
 
 ```bash
-cp .env.example .env
+curl -o .env https://raw.githubusercontent.com/anasalaqeel/docmate/main/.env.example
 ```
 
 Edit `.env` and set at minimum:
@@ -155,29 +155,29 @@ Edit `.env` and set at minimum:
 ### 2. Start the Containers
 
 ```bash
+git clone https://github.com/anasalaqeel/docmate.git
+cd docmate
 docker compose up -d
 ```
 
+The images are built from source on the first run.
+
 ### 3. Access the Application
 
-- **Frontend**: `http://localhost`
-- **Backend API**: `http://localhost:8000/v1`
-- **Swagger UI**: `http://localhost:8000/v1/docs`
+- **Frontend**: `http://localhost` (or your `FRONTEND_PORT`)
+- **Backend API**: `http://localhost/v1`
+- **Swagger UI**: `http://localhost/v1/docs`
 
 > On the first run, the backend container automatically handles database schema synchronization.
 > To seed an initial admin user, set `SEED_DATABASE=true` in your `.env`.
 
 ### Custom Ports
 
-By default, the frontend runs on port 80 and the backend on port 8000. You can change these:
-
-```bash
-FRONTEND_PORT=3000 BACKEND_PORT=9000 docker compose up -d
-```
+Set `FRONTEND_PORT` in your `.env` (default `80`). The backend is only reachable through the frontend's `/v1` proxy.
 
 ### Custom API URL for Frontend
 
-To use a different backend URL (e.g. for production):
+To use a different backend URL when building:
 
 ```bash
 docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
@@ -374,19 +374,14 @@ curl -X POST http://localhost:8000/v1/external-docs/ingest-markdown \
 
 ## Publishing to Docker Hub
 
-When you're ready to publish images:
+Images are published automatically by the [Release workflow](.github/workflows/release.yml) when a `v*` tag is pushed:
 
 ```bash
-# Build and tag
-docker compose build
-docker tag docmate-backend anasalaqeel/docmate-backend:latest
-docker tag docmate-frontend anasalaqeel/docmate-frontend:latest
-
-# Push
-docker login
-docker push anasalaqeel/docmate-backend:latest
-docker push anasalaqeel/docmate-frontend:latest
+git tag v1.0.2
+git push origin v1.0.2
 ```
+
+It requires the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
 
 ---
 
