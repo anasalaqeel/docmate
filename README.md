@@ -93,47 +93,9 @@ you whether the configured model is actually available there.
 
 ---
 
-## Getting Started
+## Quick Start with Docker (Recommended)
 
-### Prerequisites
-
-- [Bun](https://bun.sh/) (v1.0+)
-- [PostgreSQL](https://www.postgresql.org/) (v14+)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/docmate.git
-cd docmate
-```
-
-### 2. Setup Backend
-
-```bash
-cd backend
-cp .env.example .env  # Configure your database URL and secrets
-bun install
-bun run drizzle:push  # Push the schema to your database
-bun run dev
-```
-
-The API will be running at `http://localhost:8000`.
-
-### 3. Setup Frontend
-
-```bash
-cd ../frontend
-bun install
-bun run dev
-```
-
-Open `http://localhost:5173` in your browser.
-
----
-
-## Quick Start with Docker
-
-Docmate runs as three containers (frontend, backend, PostgreSQL). Choose how you want to get it.
+Docmate runs as three containers (frontend, backend, PostgreSQL). Choose how you want to get it:
 
 **Requirement:** [Docker](https://docs.docker.com/get-docker/) with Docker Compose.
 
@@ -232,6 +194,44 @@ To use a different backend URL when building from source:
 ```bash
 docker compose build --build-arg VITE_API_BASE_URL=https://api.yourdomain.com/v1
 ```
+
+---
+
+## Local Development (without Docker)
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (v1.0+)
+- [PostgreSQL](https://www.postgresql.org/) (v14+)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/anasalaqeel/docmate.git
+cd docmate
+```
+
+### 2. Setup Backend
+
+```bash
+cd backend
+cp .env.example .env  # Configure your database URL and secrets
+bun install
+bun run drizzle:push  # Push the schema to your database
+bun run dev
+```
+
+The API will run at `http://localhost:8000`.
+
+### 3. Setup Frontend
+
+```bash
+cd ../frontend
+bun install
+bun run dev
+```
+
+Open `http://localhost:5173` in your browser. Alternatively, run `bun run dev` from the repository root to start both concurrently.
 
 ---
 
