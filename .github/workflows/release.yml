@@ -25,6 +25,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write
 
 jobs:
   validate:
@@ -79,6 +80,10 @@ jobs:
           bun run drizzle:push
           bun run drizzle:seed
           bun test
+
+      - name: Validate docmate-ingest (Unit Tests)
+        working-directory: ./packages/docmate-ingest
+        run: node --test
 
   create-release:
     name: Create GitHub Release
@@ -210,3 +215,35 @@ jobs:
           labels: ${{ steps.meta-frontend.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  publish-npm:
+    name: Publish docmate-ingest to npm
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish to npm (Trusted Publishing / OIDC)
+        working-directory: ./packages/docmate-ingest
+        run: |
+          LOCAL_VERSION=$(node -p "require('./package.json').version")
+          REMOTE_VERSION=$(npm view docmate-ingest version 2>/dev/null || echo "")
+          echo "Local version: $LOCAL_VERSION"
+          echo "Latest published npm version: $REMOTE_VERSION"
+
+          if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+            echo "New version detected. Publishing docmate-ingest@$LOCAL_VERSION to npm..."
+            npm publish --provenance --access public
+          else
+            echo "Version $LOCAL_VERSION is already published on npm. Skipping publish."
+          fi

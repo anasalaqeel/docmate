@@ -118,3 +118,14 @@ jobs:
           tags: docmate-frontend:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  package-ingest:
+    name: Package Tests (docmate-ingest)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run docmate-ingest tests
+        working-directory: ./packages/docmate-ingest
+        run: node --test
