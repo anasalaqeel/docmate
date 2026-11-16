@@ -5,7 +5,9 @@ COPY package.json bun.lock bunfig.toml ./
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN chmod +x docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh \
+    && mkdir -p logs \
+    && chown bun:bun logs
 
 ENV NODE_ENV=production
 USER bun

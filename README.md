@@ -170,7 +170,7 @@ No source code needed. Prebuilt images are published as
          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
          POSTGRES_DB: ${POSTGRES_DB:-docmate}
        volumes:
-         - docmate-db-data:/var/lib/postgresql/data
+         - docmate-db-data:/var/lib/postgresql
        healthcheck:
          test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
          interval: 5s
